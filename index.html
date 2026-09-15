@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,6 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
 
-  <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-2">
@@ -25,7 +24,6 @@
   </header>
 
   <main class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Notification Paiement Réussi -->
     <div id="payment-alert" class="hidden mb-8 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center space-x-3">
       <i data-lucide="check-circle" class="w-6 h-6 shrink-0"></i>
       <div>
@@ -34,7 +32,6 @@
       </div>
     </div>
 
-    <!-- Hero Section -->
     <div class="text-center mb-8">
       <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
         Ne laissez plus personne surfacturer votre chantier au Sénégal.
@@ -44,14 +41,12 @@
       </p>
     </div>
 
-    <!-- Formulaire de Configuration -->
     <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl mb-8">
       <h2 class="text-lg font-bold text-white flex items-center space-x-2 mb-6">
         <i data-lucide="sliders" class="w-5 h-5 text-amber-500"></i>
         <span>Configuration du projet</span>
       </h2>
 
-      <!-- Surface -->
       <div class="mb-6">
         <div class="flex justify-between items-center mb-2">
           <label class="text-sm font-semibold text-slate-300">Emprise au sol du bâtiment</label>
@@ -60,7 +55,6 @@
         <input type="range" id="surface-input" min="50" max="600" value="150" step="5" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
       </div>
 
-      <!-- Type d'ouvrage -->
       <div class="mb-6">
         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit de l'ouvrage</label>
         <div class="grid grid-cols-3 gap-3">
@@ -70,7 +64,6 @@
         </div>
       </div>
 
-      <!-- Localisation -->
       <div class="mb-6">
         <label class="block text-sm font-semibold text-slate-300 mb-2">Zone du chantier</label>
         <select id="zone-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
@@ -86,10 +79,7 @@
       </button>
     </div>
 
-    <!-- Section Résultats -->
     <div id="results-section" class="hidden space-y-6">
-      
-      <!-- Teaser Gratuit -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
           <span class="text-xs font-semibold text-slate-400 block mb-1">Fourchette Budget Gros Œuvre</span>
@@ -108,10 +98,7 @@
         </div>
       </div>
 
-      <!-- Zone Verrouillée / Résultats Détaillés -->
       <div class="relative bg-slate-800/90 border border-slate-700 rounded-2xl p-6 overflow-hidden">
-        
-        <!-- Paywall Overlay -->
         <div id="paywall-overlay" class="absolute inset-0 bg-slate-900/85 backdrop-blur-md z-20 flex flex-col items-center justify-center p-6 text-center">
           <div class="bg-amber-500/10 border border-amber-500/30 w-12 h-12 rounded-full flex items-center justify-center mb-3 text-amber-400">
             <i data-lucide="lock" class="w-6 h-6"></i>
@@ -131,7 +118,6 @@
           </p>
         </div>
 
-        <!-- Tableau Détaillé -->
         <div class="flex justify-between items-center mb-4">
           <h3 class="font-bold text-white text-base">Quantités et Chiffrage Détaillé</h3>
           <button id="btn-download-pdf" class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 transition">
@@ -151,7 +137,6 @@
               </tr>
             </thead>
             <tbody id="table-body" class="divide-y divide-slate-700/50 font-mono">
-              <!-- Lignes insérées en JS -->
             </tbody>
             <tfoot class="border-t-2 border-slate-600 font-mono text-white text-sm">
               <tr>
@@ -162,7 +147,6 @@
           </table>
         </div>
 
-        <!-- Module B2B Apporteur d'Affaires -->
         <div class="mt-8 border-t border-slate-700 pt-6">
           <div class="bg-slate-900/80 border border-amber-500/20 rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
@@ -186,7 +170,6 @@
   </main>
 
   <script>
-    // 1. Fonctions de formatage strictes (ASCII pur sans slash)
     function cleanMoney(amount) {
       if (!amount || isNaN(amount)) return "0 FCFA";
       const num = Math.round(Number(amount));
@@ -199,7 +182,6 @@
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " " + unit;
     }
 
-    // 2. Variables d'état
     let currentLevel = 2;
     let computedData = null;
 
@@ -214,12 +196,10 @@
     const btnPayReal = document.getElementById('btn-pay-real');
     const paymentAlert = document.getElementById('payment-alert');
 
-    // Mise à jour slider
     surfaceInput.addEventListener('input', (e) => {
       surfaceVal.textContent = e.target.value + ' m²';
     });
 
-    // Sélection niveau
     levelButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         levelButtons.forEach(b => {
@@ -230,7 +210,6 @@
       });
     });
 
-    // 3. Calcul du Gros Œuvre
     function runCalculations() {
       const surface = parseFloat(surfaceInput.value);
       const stot = surface * currentLevel;
@@ -263,13 +242,10 @@
       const hourdisTotal = hourdis * 400;
 
       const mainOeuvre = Math.round(stot * 25000);
-
       const grandTotal = Math.round((cimentTotal + acierTotal + gravierTotal + sableTotal + agglosTotal + hourdisTotal + mainOeuvre) * zoneFactor);
 
       computedData = {
-        surface,
-        currentLevel,
-        stot,
+        surface, currentLevel, stot,
         zone: zoneSelect.options[zoneSelect.selectedIndex].text,
         cimentSacs, cimentTotal,
         fer12, fer10, fer8, fer6, acierKg, acierTotal,
@@ -277,8 +253,7 @@
         sableM3, sableTotal,
         agglos, agglosTotal,
         hourdis, hourdisTotal,
-        mainOeuvre,
-        grandTotal,
+        mainOeuvre, grandTotal,
         volumeBeton: Math.round(stot * 0.32),
         duree: currentLevel === 1 ? '2 à 3' : (currentLevel === 2 ? '4 à 5' : '6 à 7')
       };
@@ -308,7 +283,6 @@
 
       document.getElementById('total-global-cell').textContent = cleanMoney(computedData.grandTotal);
 
-      // Lien WhatsApp B2B
       const b2bMsg = encodeURIComponent(`Bonjour ChantierSur, je souhaite une cotation groupée pour mon chantier : ${computedData.cimentSacs} sacs de ciment, ${Math.round(computedData.acierKg/1000)}T d'acier HA, zone : ${computedData.zone}.`);
       document.getElementById('whatsapp-b2b-link').href = `https://wa.me/221770000000?text=${b2bMsg}`;
 
@@ -318,12 +292,10 @@
 
     btnCalculate.addEventListener('click', runCalculations);
 
-    // 4. Paiement Réel PayTech
     btnPayReal.addEventListener('click', async () => {
       btnPayReal.disabled = true;
       btnPayReal.innerHTML = 'Connexion à PayTech...';
 
-      // Sauvegarde état local
       localStorage.setItem('cs_pending_state', JSON.stringify({
         surface: surfaceInput.value,
         level: currentLevel,
@@ -344,20 +316,17 @@
         } else if (data.token) {
           window.location.href = 'https://paytech.sn/payment/checkout/' + data.token;
         } else {
-          alert('Erreur PayTech : ' + (data.message || "Impossible d'initialiser le paiement"));
+          alert('Erreur PayTech : ' + (data.message || 'Impossible d\'initialiser le paiement'));
           btnPayReal.disabled = false;
-          btnPayReal.innerHTML = '<i data-lucide="wallet" class="w-4 h-4"></i> <span>Payer 3 000 FCFA (Wave / OM)</span>';
-          lucide.createIcons();
+          btnPayReal.innerHTML = 'Payer 3 000 FCFA (Wave / OM)';
         }
       } catch (err) {
         alert('Erreur de connexion : ' + err.message);
         btnPayReal.disabled = false;
-        btnPayReal.innerHTML = '<i data-lucide="wallet" class="w-4 h-4"></i> <span>Payer 3 000 FCFA (Wave / OM)</span>';
-        lucide.createIcons();
+        btnPayReal.innerHTML = 'Payer 3 000 FCFA (Wave / OM)';
       }
     });
 
-    // 5. Déverrouillage après retour PayTech
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
 
@@ -365,7 +334,6 @@
       if (params.get('payment') === 'success') {
         paymentAlert.classList.remove('hidden');
 
-        // Récupérer données sauvegardées
         const saved = localStorage.getItem('cs_pending_state');
         if (saved) {
           const st = JSON.parse(saved);
@@ -389,7 +357,6 @@
       }
     });
 
-    // 6. Générateur PDF Strictement Sans Slash
     btnDownloadPdf.addEventListener('click', () => {
       if (!computedData) return;
       const { jsPDF } = window.jspdf;
