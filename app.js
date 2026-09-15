@@ -14,13 +14,18 @@ const PRIX = {
 
 let currentAuditData = null;
 
-const formatMoney = (amount) => {
-    return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(amount) + ' FCFA';
-};
+function formatFCFA(montant) {
+  if (isNaN(montant)) return '0 FCFA';
+  const arrondi = Math.round(Number(montant));
+  return arrondi.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " FCFA";
+}
 
-const formatNumber = (num) => {
-    return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 }).format(num);
-};
+function formatNombre(nombre, unite = '') {
+  if (isNaN(nombre)) return '0 ' + unite;
+  const arrondi = Math.round(Number(nombre));
+  const formatte = arrondi.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return unite ? `${formatte} ${unite}` : formatte;
+}
 
 // Logique de calcul
 const calculateAudit = (surface, type, location) => {
@@ -129,10 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const btnDemo = document.getElementById('btnDemo');
-    if(btnDemo) {
-        btnDemo.addEventListener('click', (e) => { e.preventDefault(); unlockPaywall(); });
-    }
+    // Retiré : btnDemo pour empêcher le contournement
 
     const btnPayLocal = document.getElementById('btnPayLocal');
     if(btnPayLocal) {
@@ -164,7 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const btnPayCard = document.getElementById('btnPayCard');
-    if(btnPayCard) btnPayCard.addEventListener('click', (e) => { e.preventDefault(); unlockPaywall(); });
+    if(btnPayCard) btnPayCard.addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        alert("Paiement par carte bientôt disponible."); 
+    });
 
     const btnPdf = document.getElementById('btnPdf');
     if(btnPdf) {
@@ -201,7 +206,7 @@ const runAudit = () => {
     const minTotal = currentAuditData.total * 0.95;
     const maxTotal = currentAuditData.total * 1.05;
 
-    document.getElementById('teaserCost').innerText = `Entre ${formatNumber(minTotal/1000000)} et ${formatNumber(maxTotal/1000000)} Millions FCFA`;
+    document.getElementById('teaserCost').innerText = `Entre ${formatNombre(minTotal/1000000)} et ${formatNombre(maxTotal/1000000)} Millions FCFA`;
     document.getElementById('teaserBeton').innerText = `~${Math.round(currentAuditData.betonM3)} m³`;
     document.getElementById('teaserDuration').innerText = `${currentAuditData.duree} mois`;
 
@@ -219,20 +224,20 @@ const populateBQE = () => {
     if(!tbody) return;
 
     const rows = [
-        { desc: "Ciment CPJ 42.5/35 (Sacs 50kg)", qty: `${formatNumber(d.ciment.sacs)} sacs`, pu: formatMoney(PRIX.ciment), total: d.ciment.cost },
-        { desc: "Acier HA FeE500 (12mm & 14mm)", qty: `${formatNumber(d.acier.f12)} kg`, pu: formatMoney(PRIX.acier), total: d.acier.f12 * PRIX.acier },
-        { desc: "Acier HA FeE500 (10mm)", qty: `${formatNumber(d.acier.f10)} kg`, pu: formatMoney(PRIX.acier), total: d.acier.f10 * PRIX.acier },
-        { desc: "Acier HA FeE500 (8mm & 6mm)", qty: `${formatNumber(d.acier.f8 + d.acier.f6)} kg`, pu: formatMoney(PRIX.acier), total: (d.acier.f8 + d.acier.f6) * PRIX.acier },
-        { desc: "Gravier Basalte (Diack)", qty: `${formatNumber(d.granulats.basalteM3)} m³`, pu: formatMoney(PRIX.basalte), total: d.granulats.basalteCost },
-        { desc: "Sable de Dune (Propre)", qty: `${formatNumber(d.granulats.sableM3)} m³`, pu: formatMoney(PRIX.sable), total: d.granulats.sableCost },
-        { desc: "Agglos creux 15x20x40", qty: `${formatNumber(d.maconnerie.aggloNb)} unités`, pu: formatMoney(PRIX.agglo), total: d.maconnerie.aggloCost },
+        { desc: "Ciment CPJ 42.5/35 (Sacs 50kg)", qty: formatNombre(d.ciment.sacs, "sacs"), pu: formatFCFA(PRIX.ciment), total: d.ciment.cost },
+        { desc: "Acier HA FeE500 (12mm & 14mm)", qty: formatNombre(d.acier.f12, "kg"), pu: formatFCFA(PRIX.acier), total: d.acier.f12 * PRIX.acier },
+        { desc: "Acier HA FeE500 (10mm)", qty: formatNombre(d.acier.f10, "kg"), pu: formatFCFA(PRIX.acier), total: d.acier.f10 * PRIX.acier },
+        { desc: "Acier HA FeE500 (8mm & 6mm)", qty: formatNombre(d.acier.f8 + d.acier.f6, "kg"), pu: formatFCFA(PRIX.acier), total: (d.acier.f8 + d.acier.f6) * PRIX.acier },
+        { desc: "Gravier Basalte (Diack)", qty: formatNombre(d.granulats.basalteM3, "m³"), pu: formatFCFA(PRIX.basalte), total: d.granulats.basalteCost },
+        { desc: "Sable de Dune (Propre)", qty: formatNombre(d.granulats.sableM3, "m³"), pu: formatFCFA(PRIX.sable), total: d.granulats.sableCost },
+        { desc: "Agglos creux 15x20x40", qty: formatNombre(d.maconnerie.aggloNb, "unités"), pu: formatFCFA(PRIX.agglo), total: d.maconnerie.aggloCost },
     ];
 
     if(d.maconnerie.hourdisNb > 0) {
-        rows.push({ desc: "Hourdis 16cm (Planchers)", qty: `${formatNumber(d.maconnerie.hourdisNb)} unités`, pu: formatMoney(PRIX.hourdis), total: d.maconnerie.hourdisCost });
+        rows.push({ desc: "Hourdis 16cm (Planchers)", qty: formatNombre(d.maconnerie.hourdisNb, "unités"), pu: formatFCFA(PRIX.hourdis), total: d.maconnerie.hourdisCost });
     }
 
-    rows.push({ desc: "Main d'Œuvre Tâcheron (Gros Œuvre)", qty: `${formatNumber(d.inputs.stot)} m²`, pu: formatMoney(PRIX.mo), total: d.mo.cost });
+    rows.push({ desc: "Main d'Œuvre Tâcheron (Gros Œuvre)", qty: formatNombre(d.inputs.stot, "m²"), pu: formatFCFA(PRIX.mo), total: d.mo.cost });
 
     if(d.transport.cost > 0) {
         rows.push({ desc: "Forfait Transport Région", qty: "-", pu: "-", total: d.transport.cost });
@@ -245,13 +250,13 @@ const populateBQE = () => {
                 <td class="p-3 border-b">${r.desc}</td>
                 <td class="p-3 border-b font-medium">${r.qty}</td>
                 <td class="p-3 border-b text-gray-500">${r.pu}</td>
-                <td class="p-3 border-b text-right font-semibold">${formatMoney(r.total)}</td>
+                <td class="p-3 border-b text-right font-semibold">${formatFCFA(r.total)}</td>
             </tr>
         `;
     });
 
     tbody.innerHTML = html;
-    document.getElementById('totalBqe').innerText = formatMoney(d.total);
+    document.getElementById('totalBqe').innerText = formatFCFA(d.total);
 };
 
 const unlockPaywall = () => {
@@ -326,22 +331,22 @@ const generatePDF = () => {
     
     // Table
     const tableData = [
-        ["Ciment CPJ 42.5/35", `${formatNumber(d.ciment.sacs)} sacs`, formatMoney(PRIX.ciment), formatMoney(d.ciment.cost)],
-        ["Acier HA FeE500 (12 & 14mm)", `${formatNumber(d.acier.f12)} kg`, formatMoney(PRIX.acier), formatMoney(d.acier.f12 * PRIX.acier)],
-        ["Acier HA FeE500 (10mm)", `${formatNumber(d.acier.f10)} kg`, formatMoney(PRIX.acier), formatMoney(d.acier.f10 * PRIX.acier)],
-        ["Acier HA FeE500 (8 & 6mm)", `${formatNumber(d.acier.f8 + d.acier.f6)} kg`, formatMoney(PRIX.acier), formatMoney((d.acier.f8 + d.acier.f6) * PRIX.acier)],
-        ["Gravier Basalte", `${formatNumber(d.granulats.basalteM3)} m³`, formatMoney(PRIX.basalte), formatMoney(d.granulats.basalteCost)],
-        ["Sable de Dune", `${formatNumber(d.granulats.sableM3)} m³`, formatMoney(PRIX.sable), formatMoney(d.granulats.sableCost)],
-        ["Agglos creux 15x20x40", `${formatNumber(d.maconnerie.aggloNb)} U`, formatMoney(PRIX.agglo), formatMoney(d.maconnerie.aggloCost)],
+        ["Ciment CPJ 42.5/35", formatNombre(d.ciment.sacs, "sacs"), formatFCFA(PRIX.ciment), formatFCFA(d.ciment.cost)],
+        ["Acier HA FeE500 (12 & 14mm)", formatNombre(d.acier.f12, "kg"), formatFCFA(PRIX.acier), formatFCFA(d.acier.f12 * PRIX.acier)],
+        ["Acier HA FeE500 (10mm)", formatNombre(d.acier.f10, "kg"), formatFCFA(PRIX.acier), formatFCFA(d.acier.f10 * PRIX.acier)],
+        ["Acier HA FeE500 (8 & 6mm)", formatNombre(d.acier.f8 + d.acier.f6, "kg"), formatFCFA(PRIX.acier), formatFCFA((d.acier.f8 + d.acier.f6) * PRIX.acier)],
+        ["Gravier Basalte", formatNombre(d.granulats.basalteM3, "m³"), formatFCFA(PRIX.basalte), formatFCFA(d.granulats.basalteCost)],
+        ["Sable de Dune", formatNombre(d.granulats.sableM3, "m³"), formatFCFA(PRIX.sable), formatFCFA(d.granulats.sableCost)],
+        ["Agglos creux 15x20x40", formatNombre(d.maconnerie.aggloNb, "U"), formatFCFA(PRIX.agglo), formatFCFA(d.maconnerie.aggloCost)],
     ];
     
     if(d.maconnerie.hourdisNb > 0) {
-        tableData.push(["Hourdis 16cm", `${formatNumber(d.maconnerie.hourdisNb)} U`, formatMoney(PRIX.hourdis), formatMoney(d.maconnerie.hourdisCost)]);
+        tableData.push(["Hourdis 16cm", formatNombre(d.maconnerie.hourdisNb, "U"), formatFCFA(PRIX.hourdis), formatFCFA(d.maconnerie.hourdisCost)]);
     }
     
-    tableData.push(["Main d'Œuvre Tâcheron", `${formatNumber(d.inputs.stot)} m²`, formatMoney(PRIX.mo), formatMoney(d.mo.cost)]);
+    tableData.push(["Main d'Œuvre Tâcheron", formatNombre(d.inputs.stot, "m²"), formatFCFA(PRIX.mo), formatFCFA(d.mo.cost)]);
     if(d.transport.cost > 0) {
-        tableData.push(["Forfait Transport", "-", "-", formatMoney(d.transport.cost)]);
+        tableData.push(["Forfait Transport", "-", "-", formatFCFA(d.transport.cost)]);
     }
     
     doc.autoTable({
@@ -350,7 +355,7 @@ const generatePDF = () => {
         body: tableData,
         theme: 'striped',
         headStyles: { fillColor: [15, 23, 42] }, // btp-dark
-        foot: [['', '', 'TOTAL ESTIMÉ', formatMoney(d.total)]],
+        foot: [['', '', 'TOTAL ESTIMÉ', formatFCFA(d.total)]],
         footStyles: { fillColor: [248, 250, 252], textColor: [217, 119, 6], fontStyle: 'bold' }
     });
     
