@@ -140,36 +140,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btnPayLocal) {
         btnPayLocal.addEventListener('click', async (e) => {
             e.preventDefault();
-            const originalText = btnPayLocal.innerHTML;
-            btnPayLocal.innerHTML = '<span class="loader"></span> <span>Patientez...</span>';
-            btnPayLocal.disabled = true;
-            try {
-                const res = await fetch('/.netlify/functions/paytech', {
-                    method: 'POST',
-                    body: JSON.stringify({ redirectUrl: window.location.href.split('?')[0] })
-                });
-                const data = await res.json();
-                if(data.success === 1 && data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert("Erreur lors de l'initialisation du paiement.");
-                    btnPayLocal.innerHTML = originalText;
-                    btnPayLocal.disabled = false;
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Erreur de connexion au serveur.");
-                btnPayLocal.innerHTML = originalText;
-                btnPayLocal.disabled = false;
-            }
+            await initiateRealPayment(btnPayLocal);
         });
     }
 
     const btnPayCard = document.getElementById('btnPayCard');
-    if(btnPayCard) btnPayCard.addEventListener('click', (e) => { 
-        e.preventDefault(); 
-        alert("Paiement par carte bientôt disponible."); 
-    });
+    if(btnPayCard) {
+        btnPayCard.addEventListener('click', async (e) => { 
+            e.preventDefault(); 
+            await initiateRealPayment(btnPayCard);
+        });
+    }
 
     const btnPdf = document.getElementById('btnPdf');
     if(btnPdf) {
@@ -184,8 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Vérifier si retour de paiement réussi
     const urlParams = new URLSearchParams(window.location.search);
     if(urlParams.get('payment') === 'success') {
-        alert("Paiement réussi ! Veuillez relancer l'audit pour voir les résultats complets.");
-        // Pour une version avancée, on pourrait stocker l'audit dans localStorage
+        const savedState = localStorage.getItem('chantiersur_pending_calc');
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            restoreAndCalculate(state);
+        }
+        unlockPaywall();
+        
+        // Nettoyer l'URL
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
 });
 
@@ -258,6 +246,70 @@ const populateBQE = () => {
     tbody.innerHTML = html;
     document.getElementById('totalBqe').innerText = formatFCFA(d.total);
 };
+
+const restoreAndCalculate = (state) => {
+    if(state.surface) {
+        const surfInput = document.getElementById('surfaceInput');
+        const surfRange = document.getElementById('surfaceRange');
+        if (surfInput) surfInput.value = state.surface;
+        if (surfRange) surfRange.value = state.surface;
+    }
+    if(state.type) {
+        const typeRadio = document.querySelector(`input[name="type"][value="${state.type}"]`);
+        if(typeRadio) typeRadio.checked = true;
+    }
+    if(state.zone) {
+        const loc = document.getElementById('location');
+        if (loc) loc.value = state.zone;
+    }
+    runAudit();
+};
+
+async function initiateRealPayment(btn) {
+    const originalText = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loader"></span> <span>Connexion à PayTech...</span>';
+    }
+
+    try {
+        const typeRadio = document.querySelector('input[name="type"]:checked');
+        const currentType = typeRadio ? typeRadio.value : 'R+1';
+        
+        const formState = {
+            surface: document.getElementById('surfaceInput')?.value || 150,
+            type: currentType,
+            zone: document.getElementById('location')?.value || 'dakar'
+        };
+        localStorage.setItem('chantiersur_pending_calc', JSON.stringify(formState));
+
+        const response = await fetch('/.netlify/functions/paytech', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ redirectUrl: window.location.href.split('?')[0] })
+        });
+
+        const res = await response.json();
+
+        if (res.redirect_url) {
+            window.location.href = res.redirect_url;
+        } else if (res.token) {
+            window.location.href = 'https://paytech.sn/payment/checkout/' + res.token;
+        } else {
+            alert("Erreur lors de la création de la session de paiement : " + (res.message || 'Vérifiez les clés PayTech'));
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+    } catch (error) {
+        alert("Impossible de joindre le service de paiement : " + error.message);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    }
+}
 
 const unlockPaywall = () => {
     const content = document.getElementById('detailedContent');
