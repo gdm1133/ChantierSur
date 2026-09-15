@@ -5,7 +5,7 @@ exports.handler = async (event) => {
 
   try {
     const data = JSON.parse(event.body || '{}');
-    const response = await fetch('https://paytech.sn/api/payment/request-payment', {
+    const response = await fetch('[https://paytech.sn/api/payment/request-payment](https://paytech.sn/api/payment/request-payment)', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -14,14 +14,14 @@ exports.handler = async (event) => {
         'API_SECRET': 'f9e59936d06cdc3e2c16c941d05bfdafa224b19ee17bc7b94e7540b7b39e34a3'
       },
       body: JSON.stringify({
-        item_name: 'Audit ChantierSur BQE Officiel',
+        item_name: 'Audit ChantierSur - Bordereau Officiel',
         item_price: 3000,
         currency: 'XOF',
         ref_command: 'CS-' + Date.now(),
-        command_name: 'Paiement Audit BQE ChantierSur',
+        command_name: 'Achat Bordereau Quantitatif ChantierSur',
         env: 'prod',
-        success_url: data.currentUrl + '?payment=success',
-        cancel_url: data.currentUrl + '?payment=cancelled'
+        success_url: data.currentUrl + (data.currentUrl.includes('?') ? '&' : '?') + 'payment=success',
+        cancel_url: data.currentUrl + (data.currentUrl.includes('?') ? '&' : '?') + 'payment=cancel'
       })
     });
 
@@ -31,10 +31,10 @@ exports.handler = async (event) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(result)
     };
-  } catch (error) {
+  } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: err.message })
     };
   }
 };
