@@ -1,11 +1,14 @@
+const fetch = require('node-fetch');
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    const data = JSON.parse(event.body || '{}');
-    const response = await fetch('[https://paytech.sn/api/payment/request-payment](https://paytech.sn/api/payment/request-payment)', {
+    const BASE_DOMAIN = 'https://11wisdom33.com';
+
+    const response = await fetch('https://paytech.sn/api/payment/request-payment', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -14,22 +17,23 @@ exports.handler = async (event) => {
         'API_SECRET': 'f9e59936d06cdc3e2c16c941d05bfdafa224b19ee17bc7b94e7540b7b39e34a3'
       },
       body: JSON.stringify({
-        item_name: 'Audit ChantierSur - Bordereau Officiel',
+        item_name: 'Audit BQE ChantierSur Officiel',
         item_price: 3000,
         currency: 'XOF',
         ref_command: 'CS-' + Date.now(),
-        command_name: 'Achat Bordereau Quantitatif ChantierSur',
+        command_name: 'Audit BQE Gros Oeuvre ChantierSur',
         env: 'prod',
-        success_url: data.currentUrl + (data.currentUrl.includes('?') ? '&' : '?') + 'payment=success',
-        cancel_url: data.currentUrl + (data.currentUrl.includes('?') ? '&' : '?') + 'payment=cancel'
+        ipn_url: `${BASE_DOMAIN}/.netlify/functions/paytech-ipn`,
+        success_url: `${BASE_DOMAIN}/?payment=success`,
+        cancel_url: `${BASE_DOMAIN}/?payment=cancel`
       })
     });
 
-    const result = await response.json();
+    const data = await response.json();
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(result)
+      body: JSON.stringify(data)
     };
   } catch (err) {
     return {
