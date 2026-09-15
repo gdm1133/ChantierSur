@@ -20,8 +20,8 @@ exports.handler = async (event) => {
         ref_command: 'CS-' + Date.now(),
         command_name: 'Paiement Audit BQE ChantierSur',
         env: 'prod',
-        success_url: data.redirectUrl + '?payment=success',
-        cancel_url: data.redirectUrl + '?payment=cancelled'
+        success_url: data.currentUrl + '?payment=success',
+        cancel_url: data.currentUrl + '?payment=cancelled'
       })
     });
 

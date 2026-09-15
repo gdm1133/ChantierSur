@@ -134,23 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Retiré : btnDemo pour empêcher le contournement
-
-    const btnPayLocal = document.getElementById('btnPayLocal');
-    if(btnPayLocal) {
-        btnPayLocal.addEventListener('click', async (e) => {
-            e.preventDefault();
-            await initiateRealPayment(btnPayLocal);
-        });
-    }
-
-    const btnPayCard = document.getElementById('btnPayCard');
-    if(btnPayCard) {
-        btnPayCard.addEventListener('click', async (e) => { 
-            e.preventDefault(); 
-            await initiateRealPayment(btnPayCard);
-        });
-    }
+    bindPaymentButton('btnPayLocal', 'Payer 3 000 FCFA (Wave / Orange Money)');
+    bindPaymentButton('btnPayCard', 'Payer 19 € (Carte Bancaire)');
 
     const btnPdf = document.getElementById('btnPdf');
     if(btnPdf) {
@@ -163,9 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Vérifier si retour de paiement réussi
-    const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('payment') === 'success') {
-        const savedState = localStorage.getItem('chantiersur_pending_calc');
+    if(window.location.search.includes('payment=success')) {
+        const savedState = localStorage.getItem('chantiersur_pending_order');
         if (savedState) {
             const state = JSON.parse(savedState);
             restoreAndCalculate(state);
@@ -265,49 +249,62 @@ const restoreAndCalculate = (state) => {
     runAudit();
 };
 
-async function initiateRealPayment(btn) {
-    const originalText = btn ? btn.innerHTML : '';
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="loader"></span> <span>Connexion à PayTech...</span>';
-    }
-
-    try {
-        const typeRadio = document.querySelector('input[name="type"]:checked');
-        const currentType = typeRadio ? typeRadio.value : 'R+1';
+function bindPaymentButton(btnId, defaultText) {
+    const payButton = document.getElementById(btnId);
+    
+    if (payButton) {
+        // Supprime tous les anciens écouteurs en clonant le bouton
+        const newPayButton = payButton.cloneNode(true);
+        payButton.parentNode.replaceChild(newPayButton, payButton);
         
-        const formState = {
-            surface: document.getElementById('surfaceInput')?.value || 150,
-            type: currentType,
-            zone: document.getElementById('location')?.value || 'dakar'
-        };
-        localStorage.setItem('chantiersur_pending_calc', JSON.stringify(formState));
+        newPayButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            newPayButton.disabled = true;
+            newPayButton.innerHTML = "Redirection vers le guichet de paiement...";
 
-        const response = await fetch('/.netlify/functions/paytech', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ redirectUrl: window.location.href.split('?')[0] })
-        });
+            // 1. Sauvegarde des données calculées dans le navigateur
+            const typeRadio = document.querySelector('input[name="type"]:checked');
+            const currentType = typeRadio ? typeRadio.value : 'R+1';
+            
+            const currentCalc = {
+                surface: document.getElementById('surfaceInput')?.value || 150,
+                type: currentType,
+                zone: document.getElementById('location')?.value || 'dakar'
+            };
+            localStorage.setItem('chantiersur_pending_order', JSON.stringify(currentCalc));
 
-        const res = await response.json();
+            // 2. Appel de la fonction Netlify PayTech
+            try {
+                const response = await fetch('/.netlify/functions/paytech', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        currentUrl: window.location.origin + window.location.pathname 
+                    })
+                });
 
-        if (res.redirect_url) {
-            window.location.href = res.redirect_url;
-        } else if (res.token) {
-            window.location.href = 'https://paytech.sn/payment/checkout/' + res.token;
-        } else {
-            alert("Erreur lors de la création de la session de paiement : " + (res.message || 'Vérifiez les clés PayTech'));
-            if (btn) {
-                btn.disabled = false;
-                btn.innerHTML = originalText;
+                if (!response.ok) {
+                    throw new Error(`Erreur serveur (${response.status}) : la fonction Netlify n'a pas répondu.`);
+                }
+
+                const data = await response.json();
+
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                } else if (data.token) {
+                    window.location.href = `https://paytech.sn/payment/checkout/${data.token}`;
+                } else {
+                    alert("Réponse inattendue de PayTech : " + JSON.stringify(data));
+                    newPayButton.disabled = false;
+                    newPayButton.innerHTML = defaultText;
+                }
+            } catch (err) {
+                alert("Échec du paiement : " + err.message + "\n\nNote : Sur un serveur local, la fonction Netlify ne tourne pas sans 'netlify dev'. Déployez sur Netlify pour tester le vrai paiement.");
+                newPayButton.disabled = false;
+                newPayButton.innerHTML = defaultText;
             }
-        }
-    } catch (error) {
-        alert("Impossible de joindre le service de paiement : " + error.message);
-        if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        }
+        });
     }
 }
 
