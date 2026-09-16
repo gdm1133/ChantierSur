@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 // Matrice tarifaire 4x3 officielle en FCFA
 const PRICING_MATRIX = {
   express: {
@@ -55,20 +53,24 @@ exports.handler = async (event) => {
       custom_field: JSON.stringify({ serviceType, levels, ...projectDetails })
     };
 
-    const response = await axios.post('https://paytech.sn/api/payment/request-payment', payload, {
+    const response = await fetch('https://paytech.sn/api/payment/request-payment', {
+      method: 'POST',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
-        API_KEY: process.env.PAYTECH_API_KEY,
-        API_SECRET: process.env.PAYTECH_API_SECRET
-      }
+        'API_KEY': process.env.PAYTECH_API_KEY,
+        'API_SECRET': process.env.PAYTECH_API_SECRET
+      },
+      body: JSON.stringify(payload)
     });
 
-    if (response.data && response.data.success === 1) {
+    const result = await response.json();
+
+    if (result && result.success === 1) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ redirect_url: response.data.redirect_url, amount })
+        body: JSON.stringify({ redirect_url: result.redirect_url })
       };
     } else {
       throw new Error(response.data.message || 'Erreur d’initialisation PayTech');
