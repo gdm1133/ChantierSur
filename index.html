@@ -51,6 +51,32 @@
             </p>
         </div>
 
+        <!-- Tabs Selection -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <button class="tab-btn active text-left bg-slate-800/90 border-2 border-amber-500 rounded-2xl p-4 transition shadow-lg" data-target="tab-estimation">
+                <div class="flex items-center space-x-2 mb-1">
+                    <div class="bg-amber-500/20 text-amber-500 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">1</div>
+                    <span class="font-bold text-white">Estimation Instantanée</span>
+                </div>
+                <p class="text-xs text-slate-400 pl-8">Calcul immédiat ciment, béton & fer BAEL</p>
+            </button>
+            <button class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition" data-target="tab-sans-plan">
+                <div class="flex items-center space-x-2 mb-1">
+                    <div class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">2</div>
+                    <span class="font-bold text-white">Je n'ai pas de plan</span>
+                </div>
+                <p class="text-xs text-slate-400 pl-8">Cadrage parcelle, distribution & pré-chiffrage</p>
+            </button>
+            <button class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition" data-target="tab-avec-plan">
+                <div class="flex items-center space-x-2 mb-1">
+                    <div class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">3</div>
+                    <span class="font-bold text-white">J'ai un plan d'architecte</span>
+                </div>
+                <p class="text-xs text-slate-400 pl-8">Contre-expertise & métré d'exécution précis</p>
+            </button>
+        </div>
+
+        <div id="tab-estimation" class="tab-content block">
         <!-- Formulaire de Configuration -->
         <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl mb-8">
             <h2 class="text-lg font-bold text-white flex items-center space-x-2 mb-6">
@@ -192,6 +218,28 @@
                     </table>
                 </div>
 
+                <!-- Récapitulatif Chronologique -->
+                <div id="chronological-breakdown" class="mt-8 border-t border-slate-700 pt-6 hidden">
+                    <h3 class="font-bold text-white text-base mb-4">Répartition Chronologique Estimée</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+                            <h4 class="text-amber-500 font-bold text-sm mb-2">1. Phase Fondations</h4>
+                            <p class="text-xs text-slate-400 mb-2">Semelles, longrines, béton de propreté.</p>
+                            <p class="text-xs font-mono text-slate-300" id="chrono-fondations">--</p>
+                        </div>
+                        <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+                            <h4 class="text-amber-500 font-bold text-sm mb-2">2. Phase Élévation</h4>
+                            <p class="text-xs text-slate-400 mb-2">Poteaux, chaînages, maçonnerie.</p>
+                            <p class="text-xs font-mono text-slate-300" id="chrono-elevation">--</p>
+                        </div>
+                        <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+                            <h4 class="text-amber-500 font-bold text-sm mb-2">3. Phase Plancher/Dalle</h4>
+                            <p class="text-xs text-slate-400 mb-2">Hourdis, dalle de compression, poutres.</p>
+                            <p class="text-xs font-mono text-slate-300" id="chrono-plancher">--</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Module B2B Apporteur d'Affaires -->
                 <div class="mt-8 border-t border-slate-700 pt-6">
                     <div
@@ -216,6 +264,97 @@
 
             </div>
         </div>
+        </div> <!-- End of tab-estimation -->
+
+        <!-- Tab 2: Sans Plan -->
+        <div id="tab-sans-plan" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl mb-8">
+                <h2 class="text-lg font-bold text-white flex items-center space-x-2 mb-6">
+                    <i data-lucide="file-edit" class="w-5 h-5 text-amber-500"></i>
+                    <span>Demande d'esquisse technique & pré-chiffrage</span>
+                </h2>
+                <form name="demande-esquisse" method="POST" data-netlify="true" class="space-y-4">
+                    <input type="hidden" name="form-name" value="demande-esquisse" />
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Surface du terrain et dimensions (ex: 150m² - 10x15m)</label>
+                        <input type="text" name="surface_dimensions" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Localisation du terrain</label>
+                        <select name="localisation" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <option value="Dakar (Almadies, etc)">Dakar et agglomération</option>
+                            <option value="Diamniadio">Diamniadio</option>
+                            <option value="Thies">Thiès</option>
+                            <option value="Mbour/Saly">Mbour / Saly</option>
+                            <option value="Autre">Autre région</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit envisagé</label>
+                        <select name="gabarit" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <option value="RDC">Villa plain-pied (RDC)</option>
+                            <option value="R+1">Villa R+1</option>
+                            <option value="R+2 et plus">Immeuble R+2 ou supérieur</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Besoins spécifiques (chambres, salon, piscine...)</label>
+                        <textarea name="besoins" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
+                            <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-2">Numéro WhatsApp</label>
+                            <input type="tel" name="whatsapp" placeholder="+221 ..." required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                        <span>Demander mon esquisse technique & pré-chiffrage</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab 3: Avec Plan -->
+        <div id="tab-avec-plan" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl mb-8">
+                <h2 class="text-lg font-bold text-white flex items-center space-x-2 mb-6">
+                    <i data-lucide="file-check" class="w-5 h-5 text-amber-500"></i>
+                    <span>Audit de devis & Métré d'exécution</span>
+                </h2>
+                <form name="audit-plans" method="POST" data-netlify="true" enctype="multipart/form-data" class="space-y-4">
+                    <input type="hidden" name="form-name" value="audit-plans" />
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Type de projet</label>
+                        <select name="type_projet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <option value="Villa">Villa individuelle</option>
+                            <option value="Immeuble">Immeuble de rapport</option>
+                            <option value="Renovation">Rénovation / Surélévation</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Téléverser vos plans (PDF, DWG, Images)</label>
+                        <input type="file" name="fichiers_plans" multiple required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Devis actuel de l'entrepreneur à auditer (Optionnel)</label>
+                        <input type="file" name="devis_entrepreneur" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
+                        <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <button type="submit" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        <span>Soumettre mes plans pour audit de devis</span>
+                    </button>
+                </form>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -233,6 +372,33 @@
         }
 
         // 2. Éléments du DOM
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => {
+                    b.classList.remove('border-amber-500', 'bg-slate-800/90');
+                    b.classList.add('border-transparent', 'bg-slate-800/60');
+                    const iconWrap = b.querySelector('div>div');
+                    iconWrap.classList.remove('bg-amber-500/20', 'text-amber-500');
+                    iconWrap.classList.add('bg-slate-700', 'text-slate-300');
+                });
+                btn.classList.add('border-amber-500', 'bg-slate-800/90');
+                btn.classList.remove('border-transparent', 'bg-slate-800/60');
+                const activeIconWrap = btn.querySelector('div>div');
+                activeIconWrap.classList.add('bg-amber-500/20', 'text-amber-500');
+                activeIconWrap.classList.remove('bg-slate-700', 'text-slate-300');
+
+                tabContents.forEach(c => {
+                    c.classList.remove('block');
+                    c.classList.add('hidden');
+                });
+                document.getElementById(btn.getAttribute('data-target')).classList.remove('hidden');
+                document.getElementById(btn.getAttribute('data-target')).classList.add('block');
+            });
+        });
+
         const surfaceInput = document.getElementById('surface-input');
         const surfaceVal = document.getElementById('surface-val');
         const levelSelect = document.getElementById('level-select');
@@ -366,6 +532,12 @@
       `;
 
             document.getElementById('total-global-cell').textContent = cleanMoney(computedData.grandTotal);
+
+            // Répartition Chronologique (Estimation simplifiée)
+            document.getElementById('chrono-fondations').textContent = `~${Math.round(computedData.cimentSacs * 0.25)} sacs ciment / ~${Math.round(computedData.acierKg * 0.30)} kg fer`;
+            document.getElementById('chrono-elevation').textContent = `~${Math.round(computedData.cimentSacs * 0.45)} sacs ciment / ~${Math.round(computedData.acierKg * 0.35)} kg fer`;
+            document.getElementById('chrono-plancher').textContent = `~${Math.round(computedData.cimentSacs * 0.30)} sacs ciment / ~${Math.round(computedData.acierKg * 0.35)} kg fer`;
+            document.getElementById('chronological-breakdown').classList.remove('hidden');
 
             // Email B2B
             const b2bMsg = encodeURIComponent(`Bonjour ChantierSur,\n\nJe souhaite une cotation groupée pour un projet ${computedData.levelLabel} (${computedData.stot}m² bâti) à ${computedData.zone} :\n- ${computedData.cimentSacs} sacs de ciment\n- ${Math.round(computedData.acierKg / 1000)}T d'acier HA.\n\nMerci.`);
