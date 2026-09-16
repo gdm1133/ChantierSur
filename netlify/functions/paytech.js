@@ -1,56 +1,83 @@
-﻿exports.handler = async (event) => {
+const axios = require('axios');
+
+// Matrice tarifaire 4x3 officielle en FCFA
+const PRICING_MATRIX = {
+  express: {
+    r1: 19500,   // RDC / R+1
+    r4: 39000,   // R+2 à R+4
+    r7: 75000,   // R+5 à R+7
+    r10: 140000  // R+8 à R+10
+  },
+  esquisse: {
+    r1: 49000,
+    r4: 99000,
+    r7: 190000,
+    r10: 340000
+  },
+  audit: {
+    r1: 79000,
+    r4: 165000,
+    r7: 320000,
+    r10: 590000
+  }
+};
+
+function resolvePrice(serviceType, levels) {
+  const service = PRICING_MATRIX[serviceType] || PRICING_MATRIX.express;
+  const nbLevels = parseInt(levels, 10) || 1;
+
+  if (nbLevels <= 2) return service.r1;
+  if (nbLevels <= 5) return service.r4;
+  if (nbLevels <= 8) return service.r7;
+  return service.r10;
+}
+
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return { statusCode: 405, body: JSON.stringify({ error: 'Méthode non autorisée' }) };
   }
 
   try {
-    const BASE_DOMAIN = 'https://chantiersur.com';
-    const requestData = JSON.parse(event.body || '{}');
-    const levels = parseInt(requestData.levels) || 2;
+    const { serviceType = 'express', levels = 1, projectDetails = {} } = JSON.parse(event.body);
+    const amount = resolvePrice(serviceType, levels);
+    const itemName = `ChantierSur — Pack ${serviceType.toUpperCase()} (${levels} Niveaux)`;
 
-    // Tarification dynamique par gabarit
-    let price = 9900;
-    let itemName = 'Audit BQE - Villa / RDC / R+1';
+    const payload = {
+      item_name: itemName,
+      item_price: amount,
+      currency: 'XOF',
+      ref_command: `CS-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      command_name: `Paiement Audit ChantierSur`,
+      env: process.env.PAYTECH_ENV || 'prod',
+      ipn_url: 'https://chantiersur.com/.netlify/functions/paytech-ipn',
+      success_url: 'https://chantiersur.com/?payment=success',
+      cancel_url: 'https://chantiersur.com/?payment=cancel',
+      custom_field: JSON.stringify({ serviceType, levels, ...projectDetails })
+    };
 
-    if (levels >= 3 && levels <= 5) {
-      price = 15000;
-      itemName = 'Audit BQE - Immeuble R+2 a R+4';
-    } else if (levels >= 6) {
-      price = 35000;
-      itemName = 'Audit BQE - Projet Grand Standing R+5 a R+10';
-    }
-
-    const response = await fetch('https://paytech.sn/api/payment/request-payment', {
-      method: 'POST',
+    const response = await axios.post('https://paytech.sn/api/payment/request-payment', payload, {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-        'API_KEY': 'b638e00ae381573deb1254894a7c06532d862751ef7cba57cd3a13d90c510e83',
-        'API_SECRET': 'f9e59936d06cdc3e2c16c941d05bfdafa224b19ee17bc7b94e7540b7b39e34a3'
-      },
-      body: JSON.stringify({
-        item_name: itemName,
-        item_price: price,
-        currency: 'XOF',
-        ref_command: 'CS-' + Date.now(),
-        command_name: itemName,
-        env: 'prod',
-        ipn_url: `${BASE_DOMAIN}/.netlify/functions/paytech-ipn`,
-        success_url: `${BASE_DOMAIN}/?payment=success`,
-        cancel_url: `${BASE_DOMAIN}/?payment=cancel`
-      })
+        API_KEY: process.env.PAYTECH_API_KEY,
+        API_SECRET: process.env.PAYTECH_API_SECRET
+      }
     });
 
-    const data = await response.json();
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    };
-  } catch (err) {
+    if (response.data && response.data.success === 1) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ redirect_url: response.data.redirect_url, amount })
+      };
+    } else {
+      throw new Error(response.data.message || 'Erreur d’initialisation PayTech');
+    }
+  } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: error.message })
     };
   }
 };

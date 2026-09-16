@@ -291,10 +291,11 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit envisagé</label>
-                        <select name="gabarit" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="RDC">Villa plain-pied (RDC)</option>
-                            <option value="R+1">Villa R+1</option>
-                            <option value="R+2 et plus">Immeuble R+2 ou supérieur</option>
+                        <select name="gabarit" id="gabarit-tab2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <option value="2">RDC ou R+1 (1 à 2 niveaux)</option>
+                            <option value="5">R+2 à R+4 (3 à 5 niveaux)</option>
+                            <option value="8">R+5 à R+7 (6 à 8 niveaux)</option>
+                            <option value="11">R+8 à R+10 (9 à 11 niveaux)</option>
                         </select>
                     </div>
                     <div>
@@ -311,9 +312,9 @@
                             <input type="tel" name="whatsapp" placeholder="+221 ..." required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                         </div>
                     </div>
-                    <button type="submit" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                    <button type="submit" id="btn-submit-tab2" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
                         <i data-lucide="send" class="w-5 h-5"></i>
-                        <span>Demander mon esquisse technique & pré-chiffrage</span>
+                        <span id="text-btn-tab2">Payer -- FCFA pour l'esquisse</span>
                     </button>
                 </form>
             </div>
@@ -329,11 +330,12 @@
                 <form name="audit-plans" method="POST" data-netlify="true" enctype="multipart/form-data" class="space-y-4">
                     <input type="hidden" name="form-name" value="audit-plans" />
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Type de projet</label>
-                        <select name="type_projet" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="Villa">Villa individuelle</option>
-                            <option value="Immeuble">Immeuble de rapport</option>
-                            <option value="Renovation">Rénovation / Surélévation</option>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit du projet</label>
+                        <select name="gabarit" id="gabarit-tab3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <option value="2">Villa / Petit immeuble (RDC ou R+1)</option>
+                            <option value="5">Immeuble moyen (R+2 à R+4)</option>
+                            <option value="8">Grand Immeuble (R+5 à R+7)</option>
+                            <option value="11">Tour résidentielle (R+8 à R+10)</option>
                         </select>
                     </div>
                     <div>
@@ -348,9 +350,9 @@
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
                         <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
-                    <button type="submit" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                    <button type="submit" id="btn-submit-tab3" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
                         <i data-lucide="shield-check" class="w-5 h-5"></i>
-                        <span>Soumettre mes plans pour audit de devis</span>
+                        <span id="text-btn-tab3">Payer -- FCFA pour l'audit</span>
                     </button>
                 </form>
             </div>
@@ -413,13 +415,118 @@
 
         let computedData = null;
 
+        const PRICING_MATRIX = {
+            express: { r1: 19500, r4: 39000, r7: 75000, r10: 140000 },
+            esquisse: { r1: 49000, r4: 99000, r7: 190000, r10: 340000 },
+            audit: { r1: 79000, r4: 165000, r7: 320000, r10: 590000 }
+        };
+
+        function getPrice(serviceType, levels) {
+            const service = PRICING_MATRIX[serviceType];
+            const nbLevels = parseInt(levels, 10) || 1;
+            if (nbLevels <= 2) return service.r1;
+            if (nbLevels <= 5) return service.r4;
+            if (nbLevels <= 8) return service.r7;
+            return service.r10;
+        }
+
         function updatePaymentButton() {
-            const levels = parseInt(levelSelect.value);
-            let price = 9900;
-            if (levels >= 3 && levels <= 5) price = 15000;
-            else if (levels >= 6) price = 35000;
-            btnPayReal.innerHTML = `<i data-lucide="wallet" class="w-4 h-4"></i> <span>Payer ${cleanMoney(price)} (Wave / OM)</span>`;
+            // Update Tab 1
+            const levels1 = parseInt(levelSelect.value);
+            const price1 = getPrice('express', levels1);
+            if (btnPayReal) {
+                btnPayReal.innerHTML = `<i data-lucide="wallet" class="w-4 h-4"></i> <span>Payer ${cleanMoney(price1)} (Wave / OM)</span>`;
+            }
+            
+            // Update Tab 2
+            const gabarit2 = document.getElementById('gabarit-tab2');
+            if (gabarit2) {
+                const levels2 = parseInt(gabarit2.value);
+                const price2 = getPrice('esquisse', levels2);
+                document.getElementById('text-btn-tab2').textContent = `Payer ${cleanMoney(price2)} pour l'esquisse`;
+            }
+            
+            // Update Tab 3
+            const gabarit3 = document.getElementById('gabarit-tab3');
+            if (gabarit3) {
+                const levels3 = parseInt(gabarit3.value);
+                const price3 = getPrice('audit', levels3);
+                document.getElementById('text-btn-tab3').textContent = `Payer ${cleanMoney(price3)} pour l'audit`;
+            }
+            
             if (window.lucide) lucide.createIcons();
+        }
+
+        if (document.getElementById('gabarit-tab2')) {
+            document.getElementById('gabarit-tab2').addEventListener('change', updatePaymentButton);
+        }
+        if (document.getElementById('gabarit-tab3')) {
+            document.getElementById('gabarit-tab3').addEventListener('change', updatePaymentButton);
+        }
+        
+        // Initialiser les boutons au chargement
+        updatePaymentButton();
+
+        async function handleFormSubmitAndPay(e, serviceType, formElement) {
+            e.preventDefault();
+            const btn = formElement.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = 'Enregistrement en cours...';
+
+            try {
+                // 1. Send data to Netlify Forms silently
+                const formData = new FormData(formElement);
+                await fetch('/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // 2. Fetch PayTech URL
+                let levels = 1;
+                if (serviceType === 'esquisse') levels = parseInt(document.getElementById('gabarit-tab2').value);
+                if (serviceType === 'audit') levels = parseInt(document.getElementById('gabarit-tab3').value);
+
+                btn.innerHTML = 'Connexion à PayTech...';
+                
+                const response = await fetch('/.netlify/functions/paytech', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        serviceType: serviceType, 
+                        levels: levels,
+                        projectDetails: {
+                            email: formData.get('email') || 'N/A',
+                            currentUrl: window.location.origin + window.location.pathname
+                        }
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success === 1 && data.token) {
+                    window.location.href = `https://paytech.sn/payment/checkout/${data.token}`;
+                } else {
+                    alert('Erreur lors de la génération du paiement : ' + JSON.stringify(data.errors || data));
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Erreur de connexion. Veuillez réessayer.');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+
+        const formTab2 = document.forms['demande-esquisse'];
+        if(formTab2) {
+            formTab2.addEventListener('submit', (e) => handleFormSubmitAndPay(e, 'esquisse', formTab2));
+        }
+
+        const formTab3 = document.forms['audit-plans'];
+        if(formTab3) {
+            formTab3.addEventListener('submit', (e) => handleFormSubmitAndPay(e, 'audit', formTab3));
         }
 
         // Mise à jour slider et sélecteur
