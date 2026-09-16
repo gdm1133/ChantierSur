@@ -70,10 +70,10 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ redirect_url: result.redirect_url })
+        body: JSON.stringify(result) // Renvoie tout (success, token, redirect_url)
       };
     } else {
-      throw new Error(response.data.message || 'Erreur d’initialisation PayTech');
+      throw new Error(result.message || 'Erreur d’initialisation PayTech');
     }
   } catch (error) {
     return {

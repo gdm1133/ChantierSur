@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="pdf-generator.js"></script>
 </head>
 
 <body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
@@ -53,23 +54,35 @@
 
         <!-- Tabs Selection -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <button class="tab-btn active text-left bg-slate-800/90 border-2 border-amber-500 rounded-2xl p-4 transition shadow-lg" data-target="tab-estimation">
+            <button
+                class="tab-btn active text-left bg-slate-800/90 border-2 border-amber-500 rounded-2xl p-4 transition shadow-lg"
+                data-target="tab-estimation">
                 <div class="flex items-center space-x-2 mb-1">
-                    <div class="bg-amber-500/20 text-amber-500 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">1</div>
+                    <div
+                        class="bg-amber-500/20 text-amber-500 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">
+                        1</div>
                     <span class="font-bold text-white">Estimation Instantanée</span>
                 </div>
                 <p class="text-xs text-slate-400 pl-8">Calcul immédiat ciment, béton & fer BAEL</p>
             </button>
-            <button class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition" data-target="tab-sans-plan">
+            <button
+                class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition"
+                data-target="tab-sans-plan">
                 <div class="flex items-center space-x-2 mb-1">
-                    <div class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">2</div>
+                    <div
+                        class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">
+                        2</div>
                     <span class="font-bold text-white">Je n'ai pas de plan</span>
                 </div>
                 <p class="text-xs text-slate-400 pl-8">Cadrage parcelle, distribution & pré-chiffrage</p>
             </button>
-            <button class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition" data-target="tab-avec-plan">
+            <button
+                class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition"
+                data-target="tab-avec-plan">
                 <div class="flex items-center space-x-2 mb-1">
-                    <div class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">3</div>
+                    <div
+                        class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">
+                        3</div>
                     <span class="font-bold text-white">J'ai un plan d'architecte</span>
                 </div>
                 <p class="text-xs text-slate-400 pl-8">Contre-expertise & métré d'exécution précis</p>
@@ -77,193 +90,195 @@
         </div>
 
         <div id="tab-estimation" class="tab-content block">
-        <!-- Formulaire de Configuration -->
-        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl mb-8">
-            <h2 class="text-lg font-bold text-white flex items-center space-x-2 mb-6">
-                <i data-lucide="sliders" class="w-5 h-5 text-amber-500"></i>
-                <span>Configuration du projet</span>
-            </h2>
+            <!-- Formulaire de Configuration -->
+            <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl mb-8">
+                <h2 class="text-lg font-bold text-white flex items-center space-x-2 mb-6">
+                    <i data-lucide="sliders" class="w-5 h-5 text-amber-500"></i>
+                    <span>Configuration du projet</span>
+                </h2>
 
-            <!-- Surface au sol -->
-            <div class="mb-6">
-                <div class="flex justify-between items-center mb-2">
-                    <label class="text-sm font-semibold text-slate-300">Emprise au sol du bâtiment</label>
-                    <span id="surface-val" class="text-amber-400 font-bold font-mono text-base">150 m²</span>
-                </div>
-                <input type="range" id="surface-input" min="50" max="1000" value="150" step="5"
-                    class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
-            </div>
-
-            <!-- Type d'ouvrage jusqu'à R+10 -->
-            <div class="mb-6">
-                <div class="flex justify-between items-center mb-2">
-                    <label class="text-sm font-semibold text-slate-300">Gabarit de l'ouvrage (Niveaux)</label>
-                    <span id="level-indicator"
-                        class="text-xs font-mono text-slate-400 bg-slate-900 border border-slate-700 px-2 py-0.5 rounded">R+1
-                        (2 Niveaux)</span>
-                </div>
-                <select id="level-select"
-                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 font-medium">
-                    <option value="1">Rez-de-chaussée simple (RDC)</option>
-                    <option value="2" selected>Immeuble R+1 (1 Étage sur dalle)</option>
-                    <option value="3">Immeuble R+2 (2 Étages sur dalle)</option>
-                    <option value="4">Immeuble R+3 (3 Étages - Résidence)</option>
-                    <option value="5">Immeuble R+4 (4 Étages)</option>
-                    <option value="6">Immeuble R+5 (5 Étages)</option>
-                    <option value="7">Immeuble R+6 (6 Étages)</option>
-                    <option value="8">Immeuble R+7 (7 Étages)</option>
-                    <option value="9">Immeuble R+8 (8 Étages)</option>
-                    <option value="10">Immeuble R+9 (9 Étages)</option>
-                    <option value="11">Immeuble R+10 (10 Étages - Tour résidentielle)</option>
-                </select>
-            </div>
-
-            <!-- Localisation -->
-            <div class="mb-6">
-                <label class="block text-sm font-semibold text-slate-300 mb-2">Zone du chantier</label>
-                <select id="zone-select"
-                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                    <option value="dakar">Dakar et Grande Banlieue (Rufisque, Diamniadio)</option>
-                    <option value="thies">Thiès, Mbour & Petite Côte</option>
-                    <option value="regions">Autres Régions (Acheminement matériaux inclus)</option>
-                </select>
-            </div>
-
-            <button id="btn-calculate"
-                class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center justify-center space-x-2 text-base">
-                <i data-lucide="calculator" class="w-5 h-5"></i>
-                <span>Lancer l'audit technique instantané</span>
-            </button>
-        </div>
-
-        <!-- Section Résultats -->
-        <div id="results-section" class="hidden space-y-6">
-
-            <!-- Teaser Gratuit -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1">Fourchette Budget Gros Œuvre</span>
-                    <p id="teaser-budget" class="text-xl font-black text-amber-400 font-mono">-- FCFA</p>
-                    <span class="text-xs text-slate-500 mt-1 block">Matériaux + Tâcheron</span>
-                </div>
-                <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1">Volume Béton Armé Requis</span>
-                    <p id="teaser-beton" class="text-xl font-bold text-white font-mono">-- m³</p>
-                    <span class="text-xs text-slate-500 mt-1 block">Structure porteuse globale</span>
-                </div>
-                <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1">Durée Prévisionnelle</span>
-                    <p id="teaser-duree" class="text-xl font-bold text-white">-- mois</p>
-                    <span class="text-xs text-slate-500 mt-1 block">Coulage et maçonnerie brute</span>
-                </div>
-            </div>
-
-            <!-- Zone Verrouillée / Résultats Détaillés -->
-            <div class="relative bg-slate-800/90 border border-slate-700 rounded-2xl p-6 overflow-hidden">
-
-                <!-- Paywall Overlay -->
-                <div id="paywall-overlay"
-                    class="absolute inset-0 bg-slate-900/85 backdrop-blur-md z-20 flex flex-col items-center justify-center p-6 text-center">
-                    <div
-                        class="bg-amber-500/10 border border-amber-500/30 w-12 h-12 rounded-full flex items-center justify-center mb-3 text-amber-400">
-                        <i data-lucide="lock" class="w-6 h-6"></i>
+                <!-- Surface au sol -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-semibold text-slate-300">Emprise au sol du bâtiment</label>
+                        <span id="surface-val" class="text-amber-400 font-bold font-mono text-base">150 m²</span>
                     </div>
-                    <h3 class="text-xl font-extrabold text-white mb-2">Débloquez le Bordereau d'Achat Complet (BQE)</h3>
-                    <p class="text-slate-300 text-sm max-w-md mb-6">
-                        Accédez à la ventilation exacte des fers par diamètre (6 à 16mm), aux volumes de ciment par
-                        phase et téléchargez votre audit officiel en PDF.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
-                        <button id="btn-pay-real"
-                            class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 px-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-sm">
-                            <i data-lucide="wallet" class="w-4 h-4"></i>
-                            <span>Payer 9 900 FCFA (Wave / OM)</span>
+                    <input type="range" id="surface-input" min="50" max="1000" value="150" step="5"
+                        class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                </div>
+
+                <!-- Type d'ouvrage jusqu'à R+10 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-semibold text-slate-300">Gabarit de l'ouvrage (Niveaux)</label>
+                        <span id="level-indicator"
+                            class="text-xs font-mono text-slate-400 bg-slate-900 border border-slate-700 px-2 py-0.5 rounded">R+1
+                            (2 Niveaux)</span>
+                    </div>
+                    <select id="level-select"
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 font-medium">
+                        <option value="1">Rez-de-chaussée simple (RDC)</option>
+                        <option value="2" selected>Immeuble R+1 (1 Étage sur dalle)</option>
+                        <option value="3">Immeuble R+2 (2 Étages sur dalle)</option>
+                        <option value="4">Immeuble R+3 (3 Étages - Résidence)</option>
+                        <option value="5">Immeuble R+4 (4 Étages)</option>
+                        <option value="6">Immeuble R+5 (5 Étages)</option>
+                        <option value="7">Immeuble R+6 (6 Étages)</option>
+                        <option value="8">Immeuble R+7 (7 Étages)</option>
+                        <option value="9">Immeuble R+8 (8 Étages)</option>
+                        <option value="10">Immeuble R+9 (9 Étages)</option>
+                        <option value="11">Immeuble R+10 (10 Étages - Tour résidentielle)</option>
+                    </select>
+                </div>
+
+                <!-- Localisation -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">Zone du chantier</label>
+                    <select id="zone-select"
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <option value="dakar">Dakar et Grande Banlieue (Rufisque, Diamniadio)</option>
+                        <option value="thies">Thiès, Mbour & Petite Côte</option>
+                        <option value="regions">Autres Régions (Acheminement matériaux inclus)</option>
+                    </select>
+                </div>
+
+                <button id="btn-calculate"
+                    class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center justify-center space-x-2 text-base">
+                    <i data-lucide="calculator" class="w-5 h-5"></i>
+                    <span>Lancer l'audit technique instantané</span>
+                </button>
+            </div>
+
+            <!-- Section Résultats -->
+            <div id="results-section" class="hidden space-y-6">
+
+                <!-- Teaser Gratuit -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
+                        <span class="text-xs font-semibold text-slate-400 block mb-1">Fourchette Budget Gros
+                            Œuvre</span>
+                        <p id="teaser-budget" class="text-xl font-black text-amber-400 font-mono">-- FCFA</p>
+                        <span class="text-xs text-slate-500 mt-1 block">Matériaux + Tâcheron</span>
+                    </div>
+                    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
+                        <span class="text-xs font-semibold text-slate-400 block mb-1">Volume Béton Armé Requis</span>
+                        <p id="teaser-beton" class="text-xl font-bold text-white font-mono">-- m³</p>
+                        <span class="text-xs text-slate-500 mt-1 block">Structure porteuse globale</span>
+                    </div>
+                    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5">
+                        <span class="text-xs font-semibold text-slate-400 block mb-1">Durée Prévisionnelle</span>
+                        <p id="teaser-duree" class="text-xl font-bold text-white">-- mois</p>
+                        <span class="text-xs text-slate-500 mt-1 block">Coulage et maçonnerie brute</span>
+                    </div>
+                </div>
+
+                <!-- Zone Verrouillée / Résultats Détaillés -->
+                <div class="relative bg-slate-800/90 border border-slate-700 rounded-2xl p-6 overflow-hidden">
+
+                    <!-- Paywall Overlay -->
+                    <div id="paywall-overlay"
+                        class="absolute inset-0 bg-slate-900/85 backdrop-blur-md z-20 flex flex-col items-center justify-center p-6 text-center">
+                        <div
+                            class="bg-amber-500/10 border border-amber-500/30 w-12 h-12 rounded-full flex items-center justify-center mb-3 text-amber-400">
+                            <i data-lucide="lock" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-white mb-2">Débloquez le Bordereau d'Achat Complet (BQE)
+                        </h3>
+                        <p class="text-slate-300 text-sm max-w-md mb-6">
+                            Accédez à la ventilation exacte des fers par diamètre (6 à 16mm), aux volumes de ciment par
+                            phase et téléchargez votre audit officiel en PDF.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
+                            <button id="btn-pay-real"
+                                class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 px-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-sm">
+                                <i data-lucide="wallet" class="w-4 h-4"></i>
+                                <span>Payer 9 900 FCFA (Wave / OM)</span>
+                            </button>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-3 flex items-center gap-1">
+                            <i data-lucide="shield" class="w-3.5 h-3.5"></i> Paiement instantané sécurisé par PayTech
+                        </p>
+                    </div>
+
+                    <!-- Tableau Détaillé -->
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-white text-base">Quantités et Chiffrage Détaillé</h3>
+                        <button id="btn-download-pdf"
+                            class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 transition">
+                            <i data-lucide="file-down" class="w-4 h-4"></i>
+                            <span>Télécharger mon rapport BQE (PDF)</span>
                         </button>
                     </div>
-                    <p class="text-xs text-slate-500 mt-3 flex items-center gap-1">
-                        <i data-lucide="shield" class="w-3.5 h-3.5"></i> Paiement instantané sécurisé par PayTech
-                    </p>
-                </div>
 
-                <!-- Tableau Détaillé -->
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-white text-base">Quantités et Chiffrage Détaillé</h3>
-                    <button id="btn-download-pdf"
-                        class="hidden bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 transition">
-                        <i data-lucide="file-down" class="w-4 h-4"></i>
-                        <span>Télécharger mon rapport BQE (PDF)</span>
-                    </button>
-                </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-900/60 uppercase text-slate-400 border-b border-slate-700">
+                                <tr>
+                                    <th class="py-3 px-3">Désignation</th>
+                                    <th class="py-3 px-3">Quantité</th>
+                                    <th class="py-3 px-3 text-right">P.U. Moyen</th>
+                                    <th class="py-3 px-3 text-right">Total Estimé</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-slate-700/50 font-mono">
+                                <!-- Lignes insérées dynamiquement -->
+                            </tbody>
+                            <tfoot class="border-t-2 border-slate-600 font-mono text-white text-sm">
+                                <tr>
+                                    <td colspan="3" class="py-3 px-3 font-sans font-bold">TOTAL ESTIMÉ GROS ŒUVRE :</td>
+                                    <td id="total-global-cell" class="py-3 px-3 text-right font-black text-amber-400">--
+                                        FCFA</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-900/60 uppercase text-slate-400 border-b border-slate-700">
-                            <tr>
-                                <th class="py-3 px-3">Désignation</th>
-                                <th class="py-3 px-3">Quantité</th>
-                                <th class="py-3 px-3 text-right">P.U. Moyen</th>
-                                <th class="py-3 px-3 text-right">Total Estimé</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="divide-y divide-slate-700/50 font-mono">
-                            <!-- Lignes insérées dynamiquement -->
-                        </tbody>
-                        <tfoot class="border-t-2 border-slate-600 font-mono text-white text-sm">
-                            <tr>
-                                <td colspan="3" class="py-3 px-3 font-sans font-bold">TOTAL ESTIMÉ GROS ŒUVRE :</td>
-                                <td id="total-global-cell" class="py-3 px-3 text-right font-black text-amber-400">--
-                                    FCFA</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-
-                <!-- Récapitulatif Chronologique -->
-                <div id="chronological-breakdown" class="mt-8 border-t border-slate-700 pt-6 hidden">
-                    <h3 class="font-bold text-white text-base mb-4">Répartition Chronologique Estimée</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
-                            <h4 class="text-amber-500 font-bold text-sm mb-2">1. Phase Fondations</h4>
-                            <p class="text-xs text-slate-400 mb-2">Semelles, longrines, béton de propreté.</p>
-                            <p class="text-xs font-mono text-slate-300" id="chrono-fondations">--</p>
-                        </div>
-                        <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
-                            <h4 class="text-amber-500 font-bold text-sm mb-2">2. Phase Élévation</h4>
-                            <p class="text-xs text-slate-400 mb-2">Poteaux, chaînages, maçonnerie.</p>
-                            <p class="text-xs font-mono text-slate-300" id="chrono-elevation">--</p>
-                        </div>
-                        <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
-                            <h4 class="text-amber-500 font-bold text-sm mb-2">3. Phase Plancher/Dalle</h4>
-                            <p class="text-xs text-slate-400 mb-2">Hourdis, dalle de compression, poutres.</p>
-                            <p class="text-xs font-mono text-slate-300" id="chrono-plancher">--</p>
+                    <!-- Récapitulatif Chronologique -->
+                    <div id="chronological-breakdown" class="mt-8 border-t border-slate-700 pt-6 hidden">
+                        <h3 class="font-bold text-white text-base mb-4">Répartition Chronologique Estimée</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+                                <h4 class="text-amber-500 font-bold text-sm mb-2">1. Phase Fondations</h4>
+                                <p class="text-xs text-slate-400 mb-2">Semelles, longrines, béton de propreté.</p>
+                                <p class="text-xs font-mono text-slate-300" id="chrono-fondations">--</p>
+                            </div>
+                            <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+                                <h4 class="text-amber-500 font-bold text-sm mb-2">2. Phase Élévation</h4>
+                                <p class="text-xs text-slate-400 mb-2">Poteaux, chaînages, maçonnerie.</p>
+                                <p class="text-xs font-mono text-slate-300" id="chrono-elevation">--</p>
+                            </div>
+                            <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+                                <h4 class="text-amber-500 font-bold text-sm mb-2">3. Phase Plancher/Dalle</h4>
+                                <p class="text-xs text-slate-400 mb-2">Hourdis, dalle de compression, poutres.</p>
+                                <p class="text-xs font-mono text-slate-300" id="chrono-plancher">--</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Module B2B Apporteur d'Affaires -->
-                <div class="mt-8 border-t border-slate-700 pt-6">
-                    <div
-                        class="bg-slate-900/80 border border-amber-500/20 rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div>
-                            <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                                <i data-lucide="badge-percent" class="w-4 h-4 text-amber-500"></i>
-                                Achetez vos matériaux aux tarifs de gros négociés
-                            </h4>
-                            <p class="text-xs text-slate-400 mt-1 max-w-lg">
-                                Évitez les marges des revendeurs. Transmettez ce bordereau à nos dépôts partenaires
-                                agréés à Dakar pour recevoir une cotation groupée directe.
-                            </p>
+                    <!-- Module B2B Apporteur d'Affaires -->
+                    <div class="mt-8 border-t border-slate-700 pt-6">
+                        <div
+                            class="bg-slate-900/80 border border-amber-500/20 rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                                    <i data-lucide="badge-percent" class="w-4 h-4 text-amber-500"></i>
+                                    Achetez vos matériaux aux tarifs de gros négociés
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1 max-w-lg">
+                                    Évitez les marges des revendeurs. Transmettez ce bordereau à nos dépôts partenaires
+                                    agréés à Dakar pour recevoir une cotation groupée directe.
+                                </p>
+                            </div>
+                            <a id="email-b2b-link" target="_blank" href="#"
+                                class="shrink-0 bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 transition">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                <span>Contactez-nous par e-mail</span>
+                            </a>
                         </div>
-                        <a id="email-b2b-link" target="_blank" href="#"
-                            class="shrink-0 bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 transition">
-                            <i data-lucide="mail" class="w-4 h-4"></i>
-                            <span>Contactez-nous par e-mail</span>
-                        </a>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
         </div> <!-- End of tab-estimation -->
 
         <!-- Tab 2: Sans Plan -->
@@ -276,12 +291,15 @@
                 <form name="demande-esquisse" method="POST" data-netlify="true" class="space-y-4">
                     <input type="hidden" name="form-name" value="demande-esquisse" />
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Surface du terrain et dimensions (ex: 150m² - 10x15m)</label>
-                        <input type="text" name="surface_dimensions" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Surface du terrain et dimensions
+                            (ex: 150m² - 10x15m)</label>
+                        <input type="text" name="surface_dimensions" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Localisation du terrain</label>
-                        <select name="localisation" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <select name="localisation"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                             <option value="Dakar (Almadies, etc)">Dakar et agglomération</option>
                             <option value="Diamniadio">Diamniadio</option>
                             <option value="Thies">Thiès</option>
@@ -291,7 +309,8 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit envisagé</label>
-                        <select name="gabarit" id="gabarit-tab2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <select name="gabarit" id="gabarit-tab2"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                             <option value="2">RDC ou R+1 (1 à 2 niveaux)</option>
                             <option value="5">R+2 à R+4 (3 à 5 niveaux)</option>
                             <option value="8">R+5 à R+7 (6 à 8 niveaux)</option>
@@ -299,20 +318,25 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Besoins spécifiques (chambres, salon, piscine...)</label>
-                        <textarea name="besoins" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Besoins spécifiques (chambres,
+                            salon, piscine...)</label>
+                        <textarea name="besoins" rows="3" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
-                            <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <input type="email" name="email" required
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-300 mb-2">Numéro WhatsApp</label>
-                            <input type="tel" name="whatsapp" placeholder="+221 ..." required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <input type="tel" name="whatsapp" placeholder="+221 ..." required
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                         </div>
                     </div>
-                    <button type="submit" id="btn-submit-tab2" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                    <button type="submit" id="btn-submit-tab2"
+                        class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
                         <i data-lucide="send" class="w-5 h-5"></i>
                         <span id="text-btn-tab2">Payer -- FCFA pour l'esquisse</span>
                     </button>
@@ -327,11 +351,13 @@
                     <i data-lucide="file-check" class="w-5 h-5 text-amber-500"></i>
                     <span>Audit de devis & Métré d'exécution</span>
                 </h2>
-                <form name="audit-plans" method="POST" data-netlify="true" enctype="multipart/form-data" class="space-y-4">
+                <form name="audit-plans" method="POST" data-netlify="true" enctype="multipart/form-data"
+                    class="space-y-4">
                     <input type="hidden" name="form-name" value="audit-plans" />
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit du projet</label>
-                        <select name="gabarit" id="gabarit-tab3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <select name="gabarit" id="gabarit-tab3"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                             <option value="2">Villa / Petit immeuble (RDC ou R+1)</option>
                             <option value="5">Immeuble moyen (R+2 à R+4)</option>
                             <option value="8">Grand Immeuble (R+5 à R+7)</option>
@@ -339,18 +365,24 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Téléverser vos plans (PDF, DWG, Images)</label>
-                        <input type="file" name="fichiers_plans" multiple required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400">
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Téléverser vos plans (PDF, DWG,
+                            Images)</label>
+                        <input type="file" name="fichiers_plans" multiple required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Devis actuel de l'entrepreneur à auditer (Optionnel)</label>
-                        <input type="file" name="devis_entrepreneur" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-600">
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Devis actuel de l'entrepreneur à
+                            auditer (Optionnel)</label>
+                        <input type="file" name="devis_entrepreneur"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-600">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
-                        <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <input type="email" name="email" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
-                    <button type="submit" id="btn-submit-tab3" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                    <button type="submit" id="btn-submit-tab3"
+                        class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
                         <i data-lucide="shield-check" class="w-5 h-5"></i>
                         <span id="text-btn-tab3">Payer -- FCFA pour l'audit</span>
                     </button>
@@ -437,7 +469,7 @@
             if (btnPayReal) {
                 btnPayReal.innerHTML = `<i data-lucide="wallet" class="w-4 h-4"></i> <span>Payer ${cleanMoney(price1)} (Wave / OM)</span>`;
             }
-            
+
             // Update Tab 2
             const gabarit2 = document.getElementById('gabarit-tab2');
             if (gabarit2) {
@@ -445,7 +477,7 @@
                 const price2 = getPrice('esquisse', levels2);
                 document.getElementById('text-btn-tab2').textContent = `Payer ${cleanMoney(price2)} pour l'esquisse`;
             }
-            
+
             // Update Tab 3
             const gabarit3 = document.getElementById('gabarit-tab3');
             if (gabarit3) {
@@ -453,7 +485,7 @@
                 const price3 = getPrice('audit', levels3);
                 document.getElementById('text-btn-tab3').textContent = `Payer ${cleanMoney(price3)} pour l'audit`;
             }
-            
+
             if (window.lucide) lucide.createIcons();
         }
 
@@ -463,7 +495,7 @@
         if (document.getElementById('gabarit-tab3')) {
             document.getElementById('gabarit-tab3').addEventListener('change', updatePaymentButton);
         }
-        
+
         // Initialiser les boutons au chargement
         updatePaymentButton();
 
@@ -475,6 +507,14 @@
             btn.innerHTML = 'Enregistrement en cours...';
 
             try {
+                const gabaritEl = document.getElementById(serviceType === 'esquisse' ? 'gabarit-tab2' : 'gabarit-tab3');
+                const levelsText = gabaritEl ? gabaritEl.options[gabaritEl.selectedIndex].text : "Bâtiment";
+                sessionStorage.setItem("cs_project_data", JSON.stringify({
+                    surface: document.getElementById('surface-input').value || 150,
+                    levels: parseInt(gabaritEl ? gabaritEl.value : 1),
+                    levelLabel: levelsText
+                }));
+
                 // 1. Send data to Netlify Forms silently
                 const formData = new FormData(formElement);
                 await fetch('/', {
@@ -488,12 +528,12 @@
                 if (serviceType === 'audit') levels = parseInt(document.getElementById('gabarit-tab3').value);
 
                 btn.innerHTML = 'Connexion à PayTech...';
-                
+
                 const response = await fetch('/.netlify/functions/paytech', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        serviceType: serviceType, 
+                    body: JSON.stringify({
+                        serviceType: serviceType,
                         levels: levels,
                         projectDetails: {
                             email: formData.get('email') || 'N/A',
@@ -520,12 +560,12 @@
         }
 
         const formTab2 = document.forms['demande-esquisse'];
-        if(formTab2) {
+        if (formTab2) {
             formTab2.addEventListener('submit', (e) => handleFormSubmitAndPay(e, 'esquisse', formTab2));
         }
 
         const formTab3 = document.forms['audit-plans'];
-        if(formTab3) {
+        if (formTab3) {
             formTab3.addEventListener('submit', (e) => handleFormSubmitAndPay(e, 'audit', formTab3));
         }
 
@@ -667,6 +707,12 @@
                 zone: zoneSelect.value
             }));
 
+            sessionStorage.setItem("cs_project_data", JSON.stringify({
+                surface: surfaceInput.value,
+                levels: levelSelect.value,
+                levelLabel: levelSelect.options[levelSelect.selectedIndex].text
+            }));
+
             try {
                 const response = await fetch('/.netlify/functions/paytech', {
                     method: 'POST',
@@ -714,55 +760,23 @@
                 runCalculations();
                 paywallOverlay.classList.add('hidden');
                 btnDownloadPdf.classList.remove('hidden');
+
+                const projectData = JSON.parse(sessionStorage.getItem("cs_project_data") || "{}");
+                if (window.genererDossierBQE) {
+                    window.genererDossierBQE(projectData);
+                    alert("Succès du paiement ! Votre dossier BQE a été débloqué et téléchargé automatiquement.");
+                }
             }
         });
 
         // 6. Générateur PDF sans slashes
         btnDownloadPdf.addEventListener('click', () => {
             if (!computedData) return;
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFontSize(18);
-            doc.text("Plateforme : ChantierSur.com", 14, 20);
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text("Bordereau Quantitatif Estimatif - Gros Oeuvre", 14, 26);
-            doc.text("Ouvrage : " + computedData.levelLabel + " | Surface Totale : " + cleanQty(computedData.stot, 'm2'), 14, 31);
-            doc.text("Ref : CS-" + Date.now().toString().slice(-6) + " | Date : " + new Date().toLocaleDateString('fr-FR'), 14, 36);
-
-            const tableRows = [
-                ['Ciment CPJ 42.5/35', cleanQty(computedData.cimentSacs, 'sacs'), '3 850 FCFA', cleanMoney(computedData.cimentTotal)],
-                ['Acier HA (12 a 16mm)', cleanQty(computedData.fer12, 'kg'), '540 FCFA', cleanMoney(computedData.fer12 * 540)],
-                ['Acier HA (10mm)', cleanQty(computedData.fer10, 'kg'), '540 FCFA', cleanMoney(computedData.fer10 * 540)],
-                ['Acier HA (8 & 6mm)', cleanQty(computedData.fer8 + computedData.fer6, 'kg'), '540 FCFA', cleanMoney((computedData.fer8 + computedData.fer6) * 540)],
-                ['Gravier Basalte Diack', cleanQty(computedData.gravierM3, 'm3'), '12 500 FCFA', cleanMoney(computedData.gravierTotal)],
-                ['Sable de Dune Propre', cleanQty(computedData.sableM3, 'm3'), '5 313 FCFA', cleanMoney(computedData.sableTotal)],
-                ['Agglos creux 15x20x40', cleanQty(computedData.agglos, 'U'), '300 FCFA', cleanMoney(computedData.agglosTotal)]
-            ];
-
-            if (computedData.hourdis > 0) {
-                tableRows.push(['Hourdis 16cm', cleanQty(computedData.hourdis, 'U'), '400 FCFA', cleanMoney(computedData.hourdisTotal)]);
+            if (window.genererDossierBQE) {
+                window.genererDossierBQE(computedData);
+            } else {
+                alert("Erreur: Le moteur PDF n'est pas chargé.");
             }
-
-            tableRows.push(['Main d Oeuvre Tacheron', cleanQty(computedData.stot, 'm2'), cleanMoney(computedData.tauxMo), cleanMoney(computedData.mainOeuvre)]);
-
-            doc.autoTable({
-                startY: 42,
-                head: [['Designation', 'Quantite Exacte', 'P.U. Moyen', 'Montant Estime']],
-                body: tableRows,
-                foot: [['TOTAL GROS OEUVRE', '', '', cleanMoney(computedData.grandTotal)]],
-                theme: 'striped',
-                headStyles: { fillColor: [15, 23, 42] },
-                footStyles: { fillColor: [217, 119, 6], textColor: [255, 255, 255], fontStyle: 'bold' }
-            });
-
-            const finalY = doc.lastAutoTable.finalY || 42;
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text("Contact & Assistance : admin@chantiersur.com", 14, finalY + 10);
-
-            doc.save("BQE-ChantierSur-" + computedData.levelLabel.replace(/[^a-zA-Z0-9]/g, "_") + ".pdf");
         });
     </script>
 </body>
