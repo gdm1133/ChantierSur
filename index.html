@@ -151,7 +151,7 @@
                         <button id="btn-pay-real"
                             class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 px-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-sm">
                             <i data-lucide="wallet" class="w-4 h-4"></i>
-                            <span>Payer 3 000 FCFA (Wave / OM)</span>
+                            <span>Payer 9 900 FCFA (Wave / OM)</span>
                         </button>
                     </div>
                     <p class="text-xs text-slate-500 mt-3 flex items-center gap-1">
@@ -247,6 +247,15 @@
 
         let computedData = null;
 
+        function updatePaymentButton() {
+            const levels = parseInt(levelSelect.value);
+            let price = 9900;
+            if (levels >= 3 && levels <= 5) price = 15000;
+            else if (levels >= 6) price = 35000;
+            btnPayReal.innerHTML = `<i data-lucide="wallet" class="w-4 h-4"></i> <span>Payer ${cleanMoney(price)} (Wave / OM)</span>`;
+            if (window.lucide) lucide.createIcons();
+        }
+
         // Mise à jour slider et sélecteur
         surfaceInput.addEventListener('input', (e) => {
             surfaceVal.textContent = e.target.value + ' m²';
@@ -255,6 +264,7 @@
         levelSelect.addEventListener('change', (e) => {
             const selectedText = e.target.options[e.target.selectedIndex].text;
             levelIndicator.textContent = selectedText.split('(')[0].trim();
+            updatePaymentButton();
         });
 
         // 3. Modèle de calcul BAEL étendu jusqu'à R+10 (11 niveaux)
@@ -382,7 +392,7 @@
                 const response = await fetch('/.netlify/functions/paytech', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({})
+                    body: JSON.stringify({ levels: levelSelect.value })
                 });
 
                 const data = await response.json();
@@ -394,12 +404,12 @@
                 } else {
                     alert('Erreur PayTech : ' + (data.message || 'Impossible d\'initialiser le paiement'));
                     btnPayReal.disabled = false;
-                    btnPayReal.innerHTML = 'Payer 3 000 FCFA (Wave / OM)';
+                    updatePaymentButton();
                 }
             } catch (err) {
                 alert('Erreur de connexion au serveur : ' + err.message);
                 btnPayReal.disabled = false;
-                btnPayReal.innerHTML = 'Payer 3 000 FCFA (Wave / OM)';
+                updatePaymentButton();
             }
         });
 
@@ -421,6 +431,7 @@
                     levelIndicator.textContent = levelSelect.options[levelSelect.selectedIndex].text.split('(')[0].trim();
                 }
 
+                updatePaymentButton();
                 runCalculations();
                 paywallOverlay.classList.add('hidden');
                 btnDownloadPdf.classList.remove('hidden');
