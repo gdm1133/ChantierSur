@@ -206,10 +206,10 @@
                                 agréés à Dakar pour recevoir une cotation groupée directe.
                             </p>
                         </div>
-                        <a id="whatsapp-b2b-link" target="_blank" href="#"
-                            class="shrink-0 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 transition">
-                            <i data-lucide="message-circle" class="w-4 h-4"></i>
-                            <span>Devis grossiste sur WhatsApp</span>
+                        <a id="email-b2b-link" target="_blank" href="#"
+                            class="shrink-0 bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 transition">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                            <span>Contactez-nous par e-mail</span>
                         </a>
                     </div>
                 </div>
@@ -367,9 +367,9 @@
 
             document.getElementById('total-global-cell').textContent = cleanMoney(computedData.grandTotal);
 
-            // WhatsApp B2B
-            const b2bMsg = encodeURIComponent(`Bonjour ChantierSur, je souhaite une cotation groupée pour un projet ${computedData.levelLabel} (${computedData.stot}m² bâti) à ${computedData.zone} : ${computedData.cimentSacs} sacs de ciment et ${Math.round(computedData.acierKg / 1000)}T d'acier HA.`);
-            document.getElementById('whatsapp-b2b-link').href = `https://wa.me/221770000000?text=${b2bMsg}`;
+            // Email B2B
+            const b2bMsg = encodeURIComponent(`Bonjour ChantierSur,\n\nJe souhaite une cotation groupée pour un projet ${computedData.levelLabel} (${computedData.stot}m² bâti) à ${computedData.zone} :\n- ${computedData.cimentSacs} sacs de ciment\n- ${Math.round(computedData.acierKg / 1000)}T d'acier HA.\n\nMerci.`);
+            document.getElementById('email-b2b-link').href = `mailto:admin@chantiersur.com?subject=Demande de devis grossiste&body=${b2bMsg}`;
 
             resultsSection.classList.remove('hidden');
             resultsSection.scrollIntoView({ behavior: 'smooth' });
@@ -445,7 +445,7 @@
             const doc = new jsPDF();
 
             doc.setFontSize(18);
-            doc.text("ChantierSur.com", 14, 20);
+            doc.text("Plateforme : ChantierSur.com", 14, 20);
             doc.setFontSize(10);
             doc.setTextColor(100);
             doc.text("Bordereau Quantitatif Estimatif - Gros Oeuvre", 14, 26);
@@ -477,6 +477,11 @@
                 headStyles: { fillColor: [15, 23, 42] },
                 footStyles: { fillColor: [217, 119, 6], textColor: [255, 255, 255], fontStyle: 'bold' }
             });
+
+            const finalY = doc.lastAutoTable.finalY || 42;
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text("Contact & Assistance : admin@chantiersur.com", 14, finalY + 10);
 
             doc.save("BQE-ChantierSur-" + computedData.levelLabel.replace(/[^a-zA-Z0-9]/g, "_") + ".pdf");
         });
