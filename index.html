@@ -22,14 +22,43 @@
     <!-- Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
         <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <i data-lucide="shield-check" class="w-7 h-7 text-amber-500"></i>
+            <div class="flex items-center space-x-3">
+                <img src="/icone-chantiersur-svg.svg" alt="ChantierSur Logo" class="w-8 h-8" onerror="this.outerHTML='<i data-lucide=\'shield-check\' class=\'w-7 h-7 text-amber-500\'></i>'">
                 <span class="text-xl font-black tracking-tight text-white">ChantierSur<span class="text-amber-500">.com</span></span>
             </div>
         </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-10 pt-2">
+            <div class="inline-flex items-center bg-amber-500/10 text-amber-400 px-4 py-1.5 rounded-full text-xs font-bold border border-amber-500/20 mb-6 shadow-sm">
+                <i data-lucide="award" class="w-4 h-4 mr-2"></i>
+                Ingénierie & Prédimensionnement BTP UEMOA
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight">Bâtissez sans angle mort.</h1>
+            <h2 class="text-lg md:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto mb-8">
+                L'ingénierie indépendante qui protège votre budget et sécurise votre maison au Sénégal. Obtenez en 1 clic vos métrés exacts, audits de devis et contrats d'artisans conformes aux normes BAEL 91 et au droit sénégalais (COCC).
+            </h2>
+            <div class="flex flex-col md:flex-row justify-center items-start md:items-center gap-4 md:gap-6 text-sm text-slate-400 font-medium max-w-3xl mx-auto">
+                <span class="flex items-center text-left"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0"></i> Ratios Stricts BAEL 91 R99 & Ciment CEM II 42.5R</span>
+                <span class="flex items-center text-left"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0"></i> Zéro commission sur les artisans (100% Indépendant)</span>
+                <span class="flex items-center text-left"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 mr-2 flex-shrink-0"></i> Génération immédiate & Paiement Wave / Orange Money / CB</span>
+            </div>
+        </section>
+
+        <!-- Bandeau Manifeste -->
+        <section class="manifesto-banner py-6 px-5 sm:px-6 bg-slate-900 text-white rounded-2xl mb-12 border-l-4 border-amber-500 shadow-xl ring-1 ring-white/5 relative overflow-hidden">
+            <div class="absolute right-0 top-0 opacity-5 pointer-events-none">
+                <i data-lucide="scale" class="w-40 h-40 -mt-6 -mr-6"></i>
+            </div>
+            <h3 class="text-amber-400 font-bold text-lg mb-3 flex items-center relative z-10"><i data-lucide="scale" class="w-5 h-5 mr-2"></i>Notre Garantie d'Indépendance Totale</h3>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed relative z-10">
+                ChantierSur ne vend ni ciment, ni fer, ni sable, et ne perçoit aucune commission de la part des entrepreneurs ou tâcherons. Notre unique client, c'est vous. Nos algorithmes comparent chaque mètre cube et chaque kilo d'acier aux standards stricts de calcul de structure pour neutraliser les surfacturations et garantir la solidité de votre patrimoine.
+            </p>
+        </section>
+
         <!-- Tabs Selection -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <button class="tab-btn active text-left bg-slate-800/90 border-2 border-amber-500 rounded-2xl p-4 transition shadow-lg" data-target="tab-esquisse">
