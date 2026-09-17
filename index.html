@@ -828,7 +828,10 @@
                 const response = await fetch('/.netlify/functions/paytech', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ levels: levelSelect.value })
+                    body: JSON.stringify({ 
+                        serviceType: 'express',
+                        levels: levelSelect.value 
+                    })
                 });
 
                 const data = await response.json();
@@ -854,7 +857,11 @@
             lucide.createIcons();
 
             const params = new URLSearchParams(window.location.search);
-            if (params.get('payment') === 'success') {
+            
+            if (params.get('payment') === 'cancelled') {
+                alert("Paiement interrompu. Votre configuration et vos fichiers restent sauvegardés. Vous pouvez reprendre votre commande quand vous le souhaitez.");
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else if (params.get('payment') === 'success') {
                 paymentAlert.classList.remove('hidden');
 
                 const saved = localStorage.getItem('cs_pending_state');
@@ -881,15 +888,31 @@
                     console.error("Impossible de parser l'audit IA", e);
                 }
 
+                const service = params.get('service') || 'express';
+
                 if (window.genererDossierBQE) {
                     const data = {
                         ...computedData,
                         ...projectData,
                         auditIA: auditResult
                     };
-                    window.genererDossierBQE(data);
-                    alert("Succès du paiement ! Votre dossier BQE a été débloqué et téléchargé automatiquement.");
+
+                    if (service === 'express') {
+                        window.genererDossierBQE(data, "express");
+                        alert("Succès du paiement ! Votre dossier BQE standard a été généré et téléchargé automatiquement.");
+                    } else if (service === 'esquisse') {
+                        window.genererDossierBQE(data, "esquisse");
+                        alert("Paiement validé ! Votre pack Esquisse et BQE prévisionnel a été généré.");
+                    } else if (service === 'audit') {
+                        window.genererDossierBQE(data, "audit", auditResult);
+                        alert("Paiement validé ! Votre rapport de contre-expertise BAEL et d'audit de devis a été généré.");
+                    } else {
+                        window.genererDossierBQE(data, "express");
+                        alert("Succès du paiement ! Votre dossier BQE a été débloqué et téléchargé automatiquement.");
+                    }
                 }
+                
+                window.history.replaceState({}, document.title, window.location.pathname);
             }
         });
 

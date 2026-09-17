@@ -1,4 +1,4 @@
-window.genererDossierBQE = function(data) {
+window.genererDossierBQE = function(data, type = "express", auditData = null) {
     if (!window.jspdf || !window.jspdf.jsPDF) {
         console.error("jsPDF n'est pas chargé");
         alert("Erreur de chargement du module PDF. Veuillez réessayer.");
@@ -87,6 +87,20 @@ window.genererDossierBQE = function(data) {
         styles: { fontSize: 10, cellPadding: 5 }
     });
 
+    if (type === "esquisse" && auditData && auditData.analyse_geometrique) {
+        const obsY = doc.lastAutoTable.finalY + 15;
+        doc.setFontSize(12);
+        doc.setTextColor(...primaryColor);
+        doc.setFont("helvetica", "bold");
+        doc.text("Récapitulatif du Programme Fonctionnel (Analyse IA du Croquis)", 14, obsY);
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...grayColor);
+        
+        const splitObs = doc.splitTextToSize(auditData.analyse_geometrique.observations || "Aucune observation détaillée.", 182);
+        doc.text(splitObs, 14, obsY + 8);
+    }
+
     addFooter(doc, 1);
 
     // =========================================================================
@@ -174,68 +188,120 @@ window.genererDossierBQE = function(data) {
     addFooter(doc, 3);
 
     // =========================================================================
-    // PAGE 4 : BUDGET PRÉVISIONNEL & CLAUSES CONTRACTUELLES
+    // PAGE 4 : BUDGET PRÉVISIONNEL & CLAUSES OU AUDIT DE DEVIS
     // =========================================================================
     doc.addPage();
     doc.setFontSize(16);
     doc.setTextColor(...primaryColor);
     doc.setFont("helvetica", "bold");
-    doc.text("Budget Prévisionnel Gros Œuvre", 14, 20);
 
-    const matMin = stot * 54000;
-    const matMax = stot * 62000;
-    const moMin = stot * 18000;
-    const moMax = stot * 23000;
-    const consMin = stot * 2800;
-    const consMax = stot * 3600;
-    const totMin = matMin + moMin + consMin;
-    const totMax = matMax + moMax + consMax;
+    if (type === "audit" && auditData && auditData.audit_devis) {
+        doc.text("Audit Comparatif de Devis & Contre-Expertise BAEL", 14, 20);
 
-    doc.autoTable({
-        startY: 30,
-        head: [['Poste de Dépense', 'Estimation Basse (FCFA)', 'Estimation Haute (FCFA)']],
-        body: [
-            ['Fourniture des Matériaux (54k - 62k / m2)', formatNb(matMin), formatNb(matMax)],
-            ['Main-d\'Œuvre Tâcheron (18k - 23k / m2)', formatNb(moMin), formatNb(moMax)],
-            ['Consommables (Bois, Pointes, Fil) (2.8k - 3.6k)', formatNb(consMin), formatNb(consMax)]
-        ],
-        foot: [
-            ['TOTAL ESTIMÉ GROS ŒUVRE BRUT', formatNb(totMin), formatNb(totMax)]
-        ],
-        theme: 'grid',
-        headStyles: { fillColor: primaryColor, textColor: [255, 255, 255], fontStyle: 'bold' },
-        footStyles: { fillColor: accentColor, textColor: [255, 255, 255], fontStyle: 'bold' },
-        styles: { fontSize: 10, cellPadding: 5 }
-    });
+        const auditBody = auditData.audit_devis.map(item => [
+            item.poste,
+            item.quantite_devis,
+            item.quantite_bael,
+            item.statut,
+            item.explication
+        ]);
 
-    const finalYPage4 = doc.lastAutoTable.finalY + 15;
+        doc.autoTable({
+            startY: 30,
+            head: [['Poste', 'Quantité Devis', 'Quantité Norme BAEL', 'Statut', 'Explication de l\'IA']],
+            body: auditBody,
+            theme: 'grid',
+            headStyles: { fillColor: primaryColor, textColor: [255, 255, 255], fontStyle: 'bold' },
+            styles: { fontSize: 9, cellPadding: 4 },
+            columnStyles: { 
+                3: { fontStyle: 'bold' },
+                4: { cellWidth: 50 } 
+            },
+            didParseCell: function(data) {
+                if (data.section === 'body' && data.column.index === 3) {
+                    if (data.cell.raw === 'Conforme') data.cell.styles.textColor = [22, 163, 74];
+                    else if (data.cell.raw === 'Surfacturation') data.cell.styles.textColor = [220, 38, 38];
+                    else if (data.cell.raw === 'Sous-dimensionnement') data.cell.styles.textColor = [234, 88, 12];
+                }
+            }
+        });
 
-    doc.setFontSize(14);
-    doc.setTextColor(...primaryColor);
-    doc.setFont("helvetica", "bold");
-    doc.text("Clauses Contractuelles Anti-Litiges à inclure", 14, finalYPage4);
+        if (auditData.alertes_chantier && auditData.alertes_chantier.length > 0) {
+            const finalYPage4 = doc.lastAutoTable.finalY + 15;
+            doc.setFontSize(14);
+            doc.setTextColor(...primaryColor);
+            doc.setFont("helvetica", "bold");
+            doc.text("Alertes & Recommandations Majeures du Bureau d'Étude", 14, finalYPage4);
 
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(30, 41, 59);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(220, 38, 38);
+            
+            let currentY = finalYPage4 + 10;
+            auditData.alertes_chantier.forEach(alerte => {
+                const splitText = doc.splitTextToSize("• " + alerte, 182);
+                doc.text(splitText, 14, currentY);
+                currentY += (splitText.length * 5) + 3;
+            });
+        }
+    } else {
+        doc.text("Budget Prévisionnel Gros Œuvre", 14, 20);
 
-    const clausesY = finalYPage4 + 10;
-    doc.text("1. Clause d'Enrobage Béton :", 14, clausesY);
-    doc.setTextColor(...grayColor);
-    doc.text("L'entrepreneur a l'obligation absolue d'utiliser des cales à béton pour garantir un enrobage minimum", 14, clausesY + 5);
-    doc.text("de 2,5 cm de tous les aciers. Le non-respect entraîne la destruction de l'ouvrage aux frais de l'entrepreneur.", 14, clausesY + 10);
+        const matMin = stot * 54000;
+        const matMax = stot * 62000;
+        const moMin = stot * 18000;
+        const moMax = stot * 23000;
+        const consMin = stot * 2800;
+        const consMax = stot * 3600;
+        const totMin = matMin + moMin + consMin;
+        const totMax = matMax + moMax + consMax;
 
-    doc.setTextColor(30, 41, 59);
-    doc.text("2. Clause de Retenue de Garantie Tâcheron :", 14, clausesY + 20);
-    doc.setTextColor(...grayColor);
-    doc.text("Une retenue de 10% sur chaque situation de paiement sera appliquée. Cette somme ne sera restituée", 14, clausesY + 25);
-    doc.text("qu'après la réception provisoire de l'ouvrage certifiant l'absence de malfaçons structurelles.", 14, clausesY + 30);
+        doc.autoTable({
+            startY: 30,
+            head: [['Poste de Dépense', 'Estimation Basse (FCFA)', 'Estimation Haute (FCFA)']],
+            body: [
+                ['Fourniture des Matériaux (54k - 62k / m2)', formatNb(matMin), formatNb(matMax)],
+                ['Main-d\'Œuvre Tâcheron (18k - 23k / m2)', formatNb(moMin), formatNb(moMax)],
+                ['Consommables (Bois, Pointes, Fil) (2.8k - 3.6k)', formatNb(consMin), formatNb(consMax)]
+            ],
+            foot: [
+                ['TOTAL ESTIMÉ GROS ŒUVRE BRUT', formatNb(totMin), formatNb(totMax)]
+            ],
+            theme: 'grid',
+            headStyles: { fillColor: primaryColor, textColor: [255, 255, 255], fontStyle: 'bold' },
+            footStyles: { fillColor: accentColor, textColor: [255, 255, 255], fontStyle: 'bold' },
+            styles: { fontSize: 10, cellPadding: 5 }
+        });
 
-    doc.setTextColor(30, 41, 59);
-    doc.text("3. Clause de Non-Prise en Charge des Surconsommations d'Acier :", 14, clausesY + 40);
-    doc.setTextColor(...grayColor);
-    doc.text("Le client ne prendra en charge aucune surconsommation d'acier supérieure aux quantités du présent BQE.", 14, clausesY + 45);
-    doc.text("Les pertes ou vols imputables à la mauvaise gestion de l'entrepreneur seront déduits de sa facture.", 14, clausesY + 50);
+        const finalYPage4 = doc.lastAutoTable.finalY + 15;
+
+        doc.setFontSize(14);
+        doc.setTextColor(...primaryColor);
+        doc.setFont("helvetica", "bold");
+        doc.text("Clauses Contractuelles Anti-Litiges à inclure", 14, finalYPage4);
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(30, 41, 59);
+
+        const clausesY = finalYPage4 + 10;
+        doc.text("1. Clause d'Enrobage Béton :", 14, clausesY);
+        doc.setTextColor(...grayColor);
+        doc.text("L'entrepreneur a l'obligation absolue d'utiliser des cales à béton pour garantir un enrobage minimum", 14, clausesY + 5);
+        doc.text("de 2,5 cm de tous les aciers. Le non-respect entraîne la destruction de l'ouvrage aux frais de l'entrepreneur.", 14, clausesY + 10);
+
+        doc.setTextColor(30, 41, 59);
+        doc.text("2. Clause de Retenue de Garantie Tâcheron :", 14, clausesY + 20);
+        doc.setTextColor(...grayColor);
+        doc.text("Une retenue de 10% sur chaque situation de paiement sera appliquée. Cette somme ne sera restituée", 14, clausesY + 25);
+        doc.text("qu'après la réception provisoire de l'ouvrage certifiant l'absence de malfaçons structurelles.", 14, clausesY + 30);
+
+        doc.setTextColor(30, 41, 59);
+        doc.text("3. Clause de Non-Prise en Charge des Surconsommations d'Acier :", 14, clausesY + 40);
+        doc.setTextColor(...grayColor);
+        doc.text("Le client ne prendra en charge aucune surconsommation d'acier supérieure aux quantités du présent BQE.", 14, clausesY + 45);
+        doc.text("Les pertes ou vols imputables à la mauvaise gestion de l'entrepreneur seront déduits de sa facture.", 14, clausesY + 50);
+    }
 
     addFooter(doc, 4);
 

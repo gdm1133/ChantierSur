@@ -40,17 +40,19 @@ exports.handler = async (event) => {
     const amount = resolvePrice(serviceType, levels);
     const itemName = `ChantierSur — Pack ${serviceType.toUpperCase()} (${levels} Niveaux)`;
 
+    const refCommand = `CS-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
     const payload = {
       item_name: itemName,
       item_price: amount,
       currency: 'XOF',
-      ref_command: `CS-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      ref_command: refCommand,
       command_name: `Paiement Audit ChantierSur`,
       env: process.env.PAYTECH_ENV || 'prod',
       ipn_url: 'https://chantiersur.com/.netlify/functions/paytech-ipn',
-      success_url: 'https://chantiersur.com/?payment=success',
-      cancel_url: 'https://chantiersur.com/?payment=cancel',
-      custom_field: JSON.stringify({ serviceType, levels, ...projectDetails })
+      success_url: `https://chantiersur.com/?payment=success&service=${serviceType}`,
+      cancel_url: `https://chantiersur.com/?payment=cancelled&service=${serviceType}`,
+      custom_field: JSON.stringify({ serviceType, levels, ref_command: refCommand, ...projectDetails })
     };
 
     const response = await fetch('https://paytech.sn/api/payment/request-payment', {
