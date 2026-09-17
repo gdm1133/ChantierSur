@@ -115,19 +115,19 @@
                             class="text-xs font-mono text-slate-400 bg-slate-900 border border-slate-700 px-2 py-0.5 rounded">R+1
                             (2 Niveaux)</span>
                     </div>
-                    <select id="level-select"
+                    <select id="level-select" name="exact_levels"
                         class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 font-medium">
-                        <option value="1">Rez-de-chaussée simple (RDC)</option>
-                        <option value="2" selected>Immeuble R+1 (1 Étage sur dalle)</option>
-                        <option value="3">Immeuble R+2 (2 Étages sur dalle)</option>
-                        <option value="4">Immeuble R+3 (3 Étages - Résidence)</option>
-                        <option value="5">Immeuble R+4 (4 Étages)</option>
-                        <option value="6">Immeuble R+5 (5 Étages)</option>
-                        <option value="7">Immeuble R+6 (6 Étages)</option>
-                        <option value="8">Immeuble R+7 (7 Étages)</option>
-                        <option value="9">Immeuble R+8 (8 Étages)</option>
-                        <option value="10">Immeuble R+9 (9 Étages)</option>
-                        <option value="11">Immeuble R+10 (10 Étages - Tour résidentielle)</option>
+                        <option value="0">RDC seul (Plain-pied / 1 niveau)</option>
+                        <option value="1" selected>R+1 (Rez-de-chaussée + 1 étage / 2 niveaux)</option>
+                        <option value="2">R+2 (3 niveaux)</option>
+                        <option value="3">R+3 (4 niveaux)</option>
+                        <option value="4">R+4 (5 niveaux)</option>
+                        <option value="5">R+5 (6 niveaux)</option>
+                        <option value="6">R+6 (7 niveaux)</option>
+                        <option value="7">R+7 (8 niveaux)</option>
+                        <option value="8">R+8 (9 niveaux)</option>
+                        <option value="9">R+9 (10 niveaux)</option>
+                        <option value="10">R+10 (11 niveaux)</option>
                     </select>
                 </div>
 
@@ -137,10 +137,13 @@
                     <select id="zone-select" name="zone_geographique"
                         class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                         <option value="" disabled selected>Sélectionnez la localisation du chantier</option>
-                        <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition marine sévère]</option>
-                        <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)</option>
+                        <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition
+                            marine sévère]</option>
+                        <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)
+                        </option>
                         <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]</option>
-                        <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique affleurante]</option>
+                        <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique
+                            affleurante]</option>
                         <option value="diamniadio">Diamniadio / Sébikotane / Pout [Zone d'extension]</option>
                         <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]</option>
                         <option value="interieur">Intérieur & Centre (Thiès, Touba, Kaolack, Saint-Louis)</option>
@@ -311,27 +314,40 @@
                         <select name="zone_geographique" id="zone-tab2" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                             <option value="" disabled selected>Sélectionnez la localisation du chantier</option>
-                            <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition marine sévère]</option>
-                            <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)</option>
-                            <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]</option>
-                            <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique affleurante]</option>
+                            <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche)
+                                [Exposition marine sévère]</option>
+                            <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles,
+                                Sicap)</option>
+                            <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]
+                            </option>
+                            <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique
+                                affleurante]</option>
                             <option value="diamniadio">Diamniadio / Sébikotane / Pout [Zone d'extension]</option>
-                            <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]</option>
+                            <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]
+                            </option>
                             <option value="interieur">Intérieur & Centre (Thiès, Touba, Kaolack, Saint-Louis)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Type d'ouvrage (Gabarit)</label>
-                        <select name="type_ouvrage" id="gabarit-tab2"
+                        <select name="exact_levels" id="gabarit-tab2" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="2">RDC ou R+1 (1 à 2 niveaux)</option>
-                            <option value="5">R+2 à R+4 (3 à 5 niveaux)</option>
-                            <option value="8">R+5 à R+7 (6 à 8 niveaux)</option>
-                            <option value="11">R+8 à R+10 (9 à 11 niveaux)</option>
+                            <option value="0">RDC seul (Plain-pied / 1 niveau)</option>
+                            <option value="1" selected>R+1 (Rez-de-chaussée + 1 étage / 2 niveaux)</option>
+                            <option value="2">R+2 (3 niveaux)</option>
+                            <option value="3">R+3 (4 niveaux)</option>
+                            <option value="4">R+4 (5 niveaux)</option>
+                            <option value="5">R+5 (6 niveaux)</option>
+                            <option value="6">R+6 (7 niveaux)</option>
+                            <option value="7">R+7 (8 niveaux)</option>
+                            <option value="8">R+8 (9 niveaux)</option>
+                            <option value="9">R+9 (10 niveaux)</option>
+                            <option value="10">R+10 (11 niveaux)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Description du programme (besoins spécifiques,
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Description du programme (besoins
+                            spécifiques,
                             chambres, etc.)</label>
                         <textarea name="description_programme" rows="3" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
@@ -365,23 +381,35 @@
                         <select name="zone_geographique" id="zone-tab3" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                             <option value="" disabled selected>Sélectionnez la localisation du chantier</option>
-                            <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition marine sévère]</option>
-                            <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)</option>
-                            <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]</option>
-                            <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique affleurante]</option>
+                            <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche)
+                                [Exposition marine sévère]</option>
+                            <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles,
+                                Sicap)</option>
+                            <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]
+                            </option>
+                            <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique
+                                affleurante]</option>
                             <option value="diamniadio">Diamniadio / Sébikotane / Pout [Zone d'extension]</option>
-                            <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]</option>
+                            <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]
+                            </option>
                             <option value="interieur">Intérieur & Centre (Thiès, Touba, Kaolack, Saint-Louis)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit du projet</label>
-                        <select name="gabarit" id="gabarit-tab3"
+                        <select name="exact_levels" id="gabarit-tab3" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="2">Villa / Petit immeuble (RDC ou R+1)</option>
-                            <option value="5">Immeuble moyen (R+2 à R+4)</option>
-                            <option value="8">Grand Immeuble (R+5 à R+7)</option>
-                            <option value="11">Tour résidentielle (R+8 à R+10)</option>
+                            <option value="0">RDC seul (Plain-pied / 1 niveau)</option>
+                            <option value="1" selected>R+1 (Rez-de-chaussée + 1 étage / 2 niveaux)</option>
+                            <option value="2">R+2 (3 niveaux)</option>
+                            <option value="3">R+3 (4 niveaux)</option>
+                            <option value="4">R+4 (5 niveaux)</option>
+                            <option value="5">R+5 (6 niveaux)</option>
+                            <option value="6">R+6 (7 niveaux)</option>
+                            <option value="7">R+7 (8 niveaux)</option>
+                            <option value="8">R+8 (9 niveaux)</option>
+                            <option value="9">R+9 (10 niveaux)</option>
+                            <option value="10">R+10 (11 niveaux)</option>
                         </select>
                     </div>
                     <div>
@@ -530,7 +558,7 @@
                 const gabaritEl = document.getElementById(serviceType === 'esquisse' ? 'gabarit-tab2' : 'gabarit-tab3');
                 const levelsText = gabaritEl ? gabaritEl.options[gabaritEl.selectedIndex].text : "Bâtiment";
                 const zoneEl = document.getElementById(serviceType === 'esquisse' ? 'zone-tab2' : 'zone-tab3');
-                
+
                 sessionStorage.setItem("cs_project_data", JSON.stringify({
                     surface: document.getElementById('surface-input').value || 150,
                     levels: parseInt(gabaritEl ? gabaritEl.value : 1),
@@ -606,10 +634,11 @@
         // 3. Modèle de calcul BAEL étendu jusqu'à R+10 (11 niveaux)
         function runCalculations() {
             const surface = parseFloat(surfaceInput.value);
-            const levels = parseInt(levelSelect.value); // 1 pour RDC, 2 pour R+1, ..., 11 pour R+10
+            // La valeur va de 0 (RDC) à 10 (R+10). On ajoute +1 pour correspondre aux niveaux physiques du BAEL (1 à 11)
+            const levels = parseInt(levelSelect.value) + 1;
             const stot = surface * levels;
             const zone = zoneSelect.value || 'dakar_centre';
-            
+
             // Note: En attente des règles BAEL précises, on applique un facteur générique
             let zoneFactor = 1.0;
             if (zone === 'interieur') zoneFactor = 1.15;
@@ -736,7 +765,7 @@
 
             sessionStorage.setItem("cs_project_data", JSON.stringify({
                 surface: surfaceInput.value,
-                levels: levelSelect.value,
+                levels: levelSelect.value, // 0 à 10
                 levelLabel: levelSelect.options[levelSelect.selectedIndex].text,
                 zone: zoneSelect.value
             }));
