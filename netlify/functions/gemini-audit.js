@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body || '{}');
     const { 
       surface = 150, 
-      levels = 1, 
+      levels = 0, 
       zone = 'dakar_centre', 
       planBase64 = null, 
       planMimeType = 'image/jpeg',

@@ -1,33 +1,10 @@
-// Matrice tarifaire 4x3 officielle en FCFA
-const PRICING_MATRIX = {
-  express: {
-    r1: 19500,   // RDC / R+1
-    r4: 39000,   // R+2 à R+4
-    r7: 75000,   // R+5 à R+7
-    r10: 140000  // R+8 à R+10
-  },
-  esquisse: {
-    r1: 49000,
-    r4: 99000,
-    r7: 190000,
-    r10: 340000
-  },
-  audit: {
-    r1: 79000,
-    r4: 165000,
-    r7: 320000,
-    r10: 590000
-  }
-};
-
 function resolvePrice(serviceType, levels) {
-  const service = PRICING_MATRIX[serviceType] || PRICING_MATRIX.express;
-  const nbLevels = parseInt(levels, 10) || 1;
-
-  if (nbLevels <= 2) return service.r1;
-  if (nbLevels <= 5) return service.r4;
-  if (nbLevels <= 8) return service.r7;
-  return service.r10;
+  const nbLevels = parseInt(levels, 10) || 0;
+  if (serviceType === 'esquisse') return 35000 + (nbLevels * 25000);
+  if (serviceType === 'express') return 15000 + (nbLevels * 12500);
+  if (serviceType === 'audit') return 55000 + (nbLevels * 45000);
+  if (serviceType === 'finitions') return 25000 + (nbLevels * 15000);
+  return 15000;
 }
 
 exports.handler = async (event) => {
@@ -36,7 +13,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { serviceType = 'express', levels = 1, projectDetails = {} } = JSON.parse(event.body);
+    const { serviceType = 'express', levels = 0, projectDetails = {} } = JSON.parse(event.body);
     const amount = resolvePrice(serviceType, levels);
     const itemName = `ChantierSur — Pack ${serviceType.toUpperCase()} (${levels} Niveaux)`;
 
@@ -72,7 +49,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(result) // Renvoie tout (success, token, redirect_url)
+        body: JSON.stringify(result)
       };
     } else {
       throw new Error(result.message || 'Erreur d’initialisation PayTech');
