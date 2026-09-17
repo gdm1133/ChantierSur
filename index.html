@@ -288,12 +288,17 @@
                     <i data-lucide="file-edit" class="w-5 h-5 text-amber-500"></i>
                     <span>Demande d'esquisse technique & pré-chiffrage</span>
                 </h2>
-                <form name="demande-esquisse" method="POST" data-netlify="true" class="space-y-4">
-                    <input type="hidden" name="form-name" value="demande-esquisse" />
+                <form name="devis-sans-plan" method="POST" data-netlify="true" class="space-y-4">
+                    <input type="hidden" name="form-name" value="devis-sans-plan" />
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Nom et Prénom</label>
+                        <input type="text" name="nom_client" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Surface du terrain et dimensions
                             (ex: 150m² - 10x15m)</label>
-                        <input type="text" name="surface_dimensions" required
+                        <input type="text" name="surface_terrain" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
@@ -308,8 +313,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit envisagé</label>
-                        <select name="gabarit" id="gabarit-tab2"
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Type d'ouvrage (Gabarit)</label>
+                        <select name="type_ouvrage" id="gabarit-tab2"
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                             <option value="2">RDC ou R+1 (1 à 2 niveaux)</option>
                             <option value="5">R+2 à R+4 (3 à 5 niveaux)</option>
@@ -318,22 +323,15 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Besoins spécifiques (chambres,
-                            salon, piscine...)</label>
-                        <textarea name="besoins" rows="3" required
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Description du programme (besoins spécifiques,
+                            chambres, etc.)</label>
+                        <textarea name="description_programme" rows="3" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
-                            <input type="email" name="email" required
-                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-300 mb-2">Numéro WhatsApp</label>
-                            <input type="tel" name="whatsapp" placeholder="+221 ..." required
-                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
+                        <input type="email" name="email" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <button type="submit" id="btn-submit-tab2"
                         class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
@@ -351,9 +349,9 @@
                     <i data-lucide="file-check" class="w-5 h-5 text-amber-500"></i>
                     <span>Audit de devis & Métré d'exécution</span>
                 </h2>
-                <form name="audit-plans" method="POST" data-netlify="true" enctype="multipart/form-data"
+                <form name="audit-avec-plan" method="POST" data-netlify="true" enctype="multipart/form-data"
                     class="space-y-4">
-                    <input type="hidden" name="form-name" value="audit-plans" />
+                    <input type="hidden" name="form-name" value="audit-avec-plan" />
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit du projet</label>
                         <select name="gabarit" id="gabarit-tab3"
@@ -367,13 +365,13 @@
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Téléverser vos plans (PDF, DWG,
                             Images)</label>
-                        <input type="file" name="fichiers_plans" multiple required
+                        <input type="file" name="plans_architecte" accept=".pdf,.png,.jpg,.jpeg,.dwg" multiple required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Devis actuel de l'entrepreneur à
                             auditer (Optionnel)</label>
-                        <input type="file" name="devis_entrepreneur"
+                        <input type="file" name="devis_entrepreneur" accept=".pdf,.png,.jpg,.jpeg,.dwg"
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-slate-700 file:text-white hover:file:bg-slate-600">
                     </div>
                     <div>
@@ -559,12 +557,12 @@
             }
         }
 
-        const formTab2 = document.forms['demande-esquisse'];
+        const formTab2 = document.forms['devis-sans-plan'];
         if (formTab2) {
             formTab2.addEventListener('submit', (e) => handleFormSubmitAndPay(e, 'esquisse', formTab2));
         }
 
-        const formTab3 = document.forms['audit-plans'];
+        const formTab3 = document.forms['audit-avec-plan'];
         if (formTab3) {
             formTab3.addEventListener('submit', (e) => handleFormSubmitAndPay(e, 'audit', formTab3));
         }
