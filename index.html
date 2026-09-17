@@ -503,10 +503,10 @@
 
         function getPrice(serviceType, levels) {
             const service = PRICING_MATRIX[serviceType];
-            const nbLevels = parseInt(levels, 10) || 1;
-            if (nbLevels <= 2) return service.r1;
-            if (nbLevels <= 5) return service.r4;
-            if (nbLevels <= 8) return service.r7;
+            const nbLevels = parseInt(levels, 10) || 0;
+            if (nbLevels <= 1) return service.r1;
+            if (nbLevels <= 4) return service.r4;
+            if (nbLevels <= 7) return service.r7;
             return service.r10;
         }
 
@@ -547,6 +547,13 @@
         // Initialiser les boutons au chargement
         updatePaymentButton();
 
+        const fileToBase64 = (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+
         async function handleFormSubmitAndPay(e, serviceType, formElement) {
             e.preventDefault();
             const btn = formElement.querySelector('button[type="submit"]');
@@ -558,13 +565,60 @@
                 const gabaritEl = document.getElementById(serviceType === 'esquisse' ? 'gabarit-tab2' : 'gabarit-tab3');
                 const levelsText = gabaritEl ? gabaritEl.options[gabaritEl.selectedIndex].text : "Bâtiment";
                 const zoneEl = document.getElementById(serviceType === 'esquisse' ? 'zone-tab2' : 'zone-tab3');
+                
+                const surfaceValue = document.getElementById('surface-input').value || 150;
+                const levelsValue = parseInt(gabaritEl ? gabaritEl.value : 0);
+                const zoneValue = zoneEl ? zoneEl.value : 'dakar_centre';
 
                 sessionStorage.setItem("cs_project_data", JSON.stringify({
-                    surface: document.getElementById('surface-input').value || 150,
-                    levels: parseInt(gabaritEl ? gabaritEl.value : 1),
+                    surface: surfaceValue,
+                    levels: levelsValue, // 0 à 10
                     levelLabel: levelsText,
-                    zone: zoneEl ? zoneEl.value : 'dakar_centre'
+                    zone: zoneValue
                 }));
+
+                const planInput = formElement.querySelector('input[type="file"][name="plans_architecte"], input[type="file"][name="croquis"]');
+                const devisInput = formElement.querySelector('input[type="file"][name="devis_entrepreneur"]');
+                
+                let planBase64 = null, planMimeType = null;
+                let devisBase64 = null, devisMimeType = null;
+                let hasFiles = false;
+
+                if (planInput && planInput.files.length > 0) {
+                    planMimeType = planInput.files[0].type;
+                    planBase64 = await fileToBase64(planInput.files[0]);
+                    hasFiles = true;
+                }
+                
+                if (devisInput && devisInput.files.length > 0) {
+                    devisMimeType = devisInput.files[0].type;
+                    devisBase64 = await fileToBase64(devisInput.files[0]);
+                    hasFiles = true;
+                }
+
+                if (hasFiles) {
+                    btn.innerHTML = "Analyse d'ingénierie BAEL en cours... (environ 5 sec)";
+                    const auditResponse = await fetch('/.netlify/functions/gemini-audit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            surface: surfaceValue,
+                            levels: levelsValue,
+                            zone: zoneValue,
+                            planBase64,
+                            planMimeType,
+                            devisBase64,
+                            devisMimeType
+                        })
+                    });
+
+                    if (auditResponse.ok) {
+                        const auditData = await auditResponse.json();
+                        sessionStorage.setItem("cs_audit_result", JSON.stringify(auditData));
+                    } else {
+                        console.error("Erreur Gemini:", await auditResponse.text());
+                    }
+                }
 
                 // 1. Send data to Netlify Forms silently
                 const formData = new FormData(formElement);
@@ -574,7 +628,7 @@
                 });
 
                 // 2. Fetch PayTech URL
-                let levels = 1;
+                let levels = 0;
                 if (serviceType === 'esquisse') levels = parseInt(document.getElementById('gabarit-tab2').value);
                 if (serviceType === 'audit') levels = parseInt(document.getElementById('gabarit-tab3').value);
 
@@ -819,8 +873,21 @@
                 btnDownloadPdf.classList.remove('hidden');
 
                 const projectData = JSON.parse(sessionStorage.getItem("cs_project_data") || "{}");
+                const rawAuditResult = sessionStorage.getItem("cs_audit_result");
+                let auditResult = null;
+                try {
+                    if (rawAuditResult) auditResult = JSON.parse(rawAuditResult);
+                } catch (e) {
+                    console.error("Impossible de parser l'audit IA", e);
+                }
+
                 if (window.genererDossierBQE) {
-                    window.genererDossierBQE(projectData);
+                    const data = {
+                        ...computedData,
+                        ...projectData,
+                        auditIA: auditResult
+                    };
+                    window.genererDossierBQE(data);
                     alert("Succès du paiement ! Votre dossier BQE a été débloqué et téléchargé automatiquement.");
                 }
             }
@@ -828,9 +895,35 @@
 
         // 6. Générateur PDF sans slashes
         btnDownloadPdf.addEventListener('click', () => {
-            if (!computedData) return;
+            if (!computedData) {
+                try {
+                    const saved = sessionStorage.getItem("cs_project_data");
+                    if (saved) {
+                        const st = JSON.parse(saved);
+                        surfaceInput.value = st.surface;
+                        levelSelect.value = st.levels;
+                        zoneSelect.value = st.zone;
+                        runCalculations();
+                    }
+                } catch (e) {
+                    console.error("Impossible de restaurer les données du projet", e);
+                }
+            }
+
+            const rawAuditResult = sessionStorage.getItem("cs_audit_result");
+            let auditResult = null;
+            try {
+                if (rawAuditResult) auditResult = JSON.parse(rawAuditResult);
+            } catch (e) {
+                console.error("Impossible de parser l'audit IA", e);
+            }
+
             if (window.genererDossierBQE) {
-                window.genererDossierBQE(computedData);
+                const data = {
+                    ...computedData,
+                    auditIA: auditResult
+                };
+                window.genererDossierBQE(data);
             } else {
                 alert("Erreur: Le moteur PDF n'est pas chargé.");
             }
