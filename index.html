@@ -61,9 +61,9 @@
                     <div
                         class="bg-amber-500/20 text-amber-500 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">
                         1</div>
-                    <span class="font-bold text-white">Estimation Instantanée</span>
+                    <span class="font-bold text-white">Estimation Express</span>
                 </div>
-                <p class="text-xs text-slate-400 pl-8">Calcul immédiat ciment, béton & fer BAEL</p>
+                <p class="text-xs text-slate-400 pl-8">BQE & Décaissement</p>
             </button>
             <button
                 class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition"
@@ -72,9 +72,9 @@
                     <div
                         class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">
                         2</div>
-                    <span class="font-bold text-white">Je n'ai pas de plan</span>
+                    <span class="font-bold text-white">Pack Esquisse</span>
                 </div>
-                <p class="text-xs text-slate-400 pl-8">Cadrage parcelle, distribution & pré-chiffrage</p>
+                <p class="text-xs text-slate-400 pl-8">Faisabilité & Consultation</p>
             </button>
             <button
                 class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition"
@@ -83,9 +83,9 @@
                     <div
                         class="bg-slate-700 text-slate-300 w-6 h-6 rounded flex items-center justify-center font-bold text-sm">
                         3</div>
-                    <span class="font-bold text-white">J'ai un plan d'architecte</span>
+                    <span class="font-bold text-white">Audit & Contre-Expertise IA</span>
                 </div>
-                <p class="text-xs text-slate-400 pl-8">Contre-expertise & métré d'exécution précis</p>
+                <p class="text-xs text-slate-400 pl-8">Contrôle de Devis</p>
             </button>
         </div>
 
@@ -346,11 +346,11 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2">Description du programme (besoins
-                            spécifiques,
-                            chambres, etc.)</label>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Description du programme (ou uploadez la photo d'un croquis)</label>
                         <textarea name="description_programme" rows="3" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+                        <input type="file" name="croquis" accept=".png,.jpg,.jpeg,.pdf"
+                            class="w-full mt-2 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-amber-500 file:text-slate-900 hover:file:bg-amber-400">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Email</label>
@@ -495,19 +495,12 @@
 
         let computedData = null;
 
-        const PRICING_MATRIX = {
-            express: { r1: 19500, r4: 39000, r7: 75000, r10: 140000 },
-            esquisse: { r1: 49000, r4: 99000, r7: 190000, r10: 340000 },
-            audit: { r1: 79000, r4: 165000, r7: 320000, r10: 590000 }
-        };
-
         function getPrice(serviceType, levels) {
-            const service = PRICING_MATRIX[serviceType];
             const nbLevels = parseInt(levels, 10) || 0;
-            if (nbLevels <= 1) return service.r1;
-            if (nbLevels <= 4) return service.r4;
-            if (nbLevels <= 7) return service.r7;
-            return service.r10;
+            if (serviceType === 'express') return 15000 + (nbLevels * 12500);
+            if (serviceType === 'esquisse') return 35000 + (nbLevels * 25000);
+            if (serviceType === 'audit') return 55000 + (nbLevels * 45000);
+            return 15000;
         }
 
         function updatePaymentButton() {
@@ -597,7 +590,7 @@
                 }
 
                 if (hasFiles) {
-                    btn.innerHTML = "Analyse d'ingénierie BAEL en cours... (environ 5 sec)";
+                    btn.innerHTML = "Traitement géométrique et calcul BAEL en cours...";
                     const auditResponse = await fetch('/.netlify/functions/gemini-audit', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },

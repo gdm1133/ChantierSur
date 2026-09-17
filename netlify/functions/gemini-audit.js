@@ -36,19 +36,23 @@ Données du projet :
 - Zone géographique : ${zone}
 
 Mission :
-1. Si un plan ou croquis est joint : analyse la géométrie, estime le nombre de poteaux et travées, et ventile les besoins théoriques niveau par niveau selon le BAEL.
-2. Si un devis est joint : analyse ligne par ligne les sacs de ciment, tonnes d'acier HA, agrégats et coût de main-d'œuvre. Compare-les aux ratios BAEL stricts et relève les surfacturations (> 10%) ou sous-dimensionnements.
+1. Si un plan ou croquis est joint : analyse la géométrie, extraits les portées critiques, estime le ratio de ferraillage réglementaire (kg/m³) et de ciment (sacs/m²).
+2. Si un devis est joint : compare poste par poste les quantités de l'artisan aux ratios BAEL 91 R99 de la zone et quantifie l'écart financier exact en FCFA.
 
-Format impératif : Réponds UNIQUEMENT avec un objet JSON valide, sans bloc de code markdown.
+Format impératif : Réponds UNIQUEMENT avec un objet JSON valide (strictement aucun bloc de code markdown, pas de texte avant ni après).
 {
+  "score_conformite": number,
+  "statut_global": string,
+  "economie_recommandee": number,
   "analyse_geometrique": {
-    "surface_par_niveau": number,
-    "nombre_poteaux_estime": number,
-    "observations": string
+    "emprise_sol": number,
+    "hauteur_totale": number,
+    "portee_max": number
   },
-  "recapitulatif_bael": [
+  "ventilation_niveaux": [
     {
       "niveau": string,
+      "beton_m3": number,
       "ciment_sacs": number,
       "acier_kg": number,
       "sable_m3": number,
@@ -58,13 +62,15 @@ Format impératif : Réponds UNIQUEMENT avec un objet JSON valide, sans bloc de 
   "audit_devis": [
     {
       "poste": string,
-      "quantite_devis": string,
-      "quantite_bael": string,
-      "statut": "Conforme" | "Surfacturation" | "Sous-dimensionnement",
-      "explication": string
+      "qte_devis": string,
+      "qte_bael": string,
+      "ecart": string,
+      "diagnostic": string,
+      "surcout_fcfa": number
     }
   ],
-  "alertes_chantier": [string, string, string]
+  "alertes_techniques": [string, string],
+  "clauses_sauvegarde": [string, string]
 }`
       }
     ];
