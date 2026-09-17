@@ -134,11 +134,16 @@
                 <!-- Localisation -->
                 <div class="mb-6">
                     <label class="block text-sm font-semibold text-slate-300 mb-2">Zone du chantier</label>
-                    <select id="zone-select"
+                    <select id="zone-select" name="zone_geographique"
                         class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        <option value="dakar">Dakar et Grande Banlieue (Rufisque, Diamniadio)</option>
-                        <option value="thies">Thiès, Mbour & Petite Côte</option>
-                        <option value="regions">Autres Régions (Acheminement matériaux inclus)</option>
+                        <option value="" disabled selected>Sélectionnez la localisation du chantier</option>
+                        <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition marine sévère]</option>
+                        <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)</option>
+                        <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]</option>
+                        <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique affleurante]</option>
+                        <option value="diamniadio">Diamniadio / Sébikotane / Pout [Zone d'extension]</option>
+                        <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]</option>
+                        <option value="interieur">Intérieur & Centre (Thiès, Touba, Kaolack, Saint-Louis)</option>
                     </select>
                 </div>
 
@@ -303,13 +308,16 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Localisation du terrain</label>
-                        <select name="localisation"
+                        <select name="zone_geographique" id="zone-tab2" required
                             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="Dakar (Almadies, etc)">Dakar et agglomération</option>
-                            <option value="Diamniadio">Diamniadio</option>
-                            <option value="Thies">Thiès</option>
-                            <option value="Mbour/Saly">Mbour / Saly</option>
-                            <option value="Autre">Autre région</option>
+                            <option value="" disabled selected>Sélectionnez la localisation du chantier</option>
+                            <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition marine sévère]</option>
+                            <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)</option>
+                            <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]</option>
+                            <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique affleurante]</option>
+                            <option value="diamniadio">Diamniadio / Sébikotane / Pout [Zone d'extension]</option>
+                            <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]</option>
+                            <option value="interieur">Intérieur & Centre (Thiès, Touba, Kaolack, Saint-Louis)</option>
                         </select>
                     </div>
                     <div>
@@ -352,6 +360,20 @@
                 <form name="audit-avec-plan" method="POST" data-netlify="true" enctype="multipart/form-data"
                     class="space-y-4">
                     <input type="hidden" name="form-name" value="audit-avec-plan" />
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2">Localisation du terrain</label>
+                        <select name="zone_geographique" id="zone-tab3" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                            <option value="" disabled selected>Sélectionnez la localisation du chantier</option>
+                            <option value="dakar_cotier">Dakar — Côtier (Almadies, Ngor, Ouakam, Yoff, Corniche) [Exposition marine sévère]</option>
+                            <option value="dakar_centre">Dakar — Centre / Agglomération (Plateau, Liberté, Parcelles, Sicap)</option>
+                            <option value="dakar_rufisque">Dakar — Rufisque / Bargny / Sendou [Sols marno-argileux]</option>
+                            <option value="dakar_banlieue">Dakar — Banlieue (Pikine, Guédiawaye) [Nappe phréatique affleurante]</option>
+                            <option value="diamniadio">Diamniadio / Sébikotane / Pout [Zone d'extension]</option>
+                            <option value="petite_cote">Petite-Côte (Mbour, Saly, Somone, Ngaparou) [Front de mer]</option>
+                            <option value="interieur">Intérieur & Centre (Thiès, Touba, Kaolack, Saint-Louis)</option>
+                        </select>
+                    </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-300 mb-2">Gabarit du projet</label>
                         <select name="gabarit" id="gabarit-tab3"
@@ -507,10 +529,13 @@
             try {
                 const gabaritEl = document.getElementById(serviceType === 'esquisse' ? 'gabarit-tab2' : 'gabarit-tab3');
                 const levelsText = gabaritEl ? gabaritEl.options[gabaritEl.selectedIndex].text : "Bâtiment";
+                const zoneEl = document.getElementById(serviceType === 'esquisse' ? 'zone-tab2' : 'zone-tab3');
+                
                 sessionStorage.setItem("cs_project_data", JSON.stringify({
                     surface: document.getElementById('surface-input').value || 150,
                     levels: parseInt(gabaritEl ? gabaritEl.value : 1),
-                    levelLabel: levelsText
+                    levelLabel: levelsText,
+                    zone: zoneEl ? zoneEl.value : 'dakar_centre'
                 }));
 
                 // 1. Send data to Netlify Forms silently
@@ -583,8 +608,12 @@
             const surface = parseFloat(surfaceInput.value);
             const levels = parseInt(levelSelect.value); // 1 pour RDC, 2 pour R+1, ..., 11 pour R+10
             const stot = surface * levels;
-            const zone = zoneSelect.value;
-            const zoneFactor = zone === 'dakar' ? 1.0 : (zone === 'thies' ? 1.05 : 1.15);
+            const zone = zoneSelect.value || 'dakar_centre';
+            
+            // Note: En attente des règles BAEL précises, on applique un facteur générique
+            let zoneFactor = 1.0;
+            if (zone === 'interieur') zoneFactor = 1.15;
+            else if (zone === 'petite_cote' || zone === 'diamniadio') zoneFactor = 1.05;
 
             // Ratios ciment croissants avec la hauteur (poteaux plus denses, fondations renforcées)
             // Sacs de 50kg par m² développé
@@ -708,7 +737,8 @@
             sessionStorage.setItem("cs_project_data", JSON.stringify({
                 surface: surfaceInput.value,
                 levels: levelSelect.value,
-                levelLabel: levelSelect.options[levelSelect.selectedIndex].text
+                levelLabel: levelSelect.options[levelSelect.selectedIndex].text,
+                zone: zoneSelect.value
             }));
 
             try {

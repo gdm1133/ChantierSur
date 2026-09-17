@@ -104,15 +104,26 @@ window.genererDossierBQE = function(data) {
     const pdsHa12 = acierTotal * 0.33;
     const pdsHa16 = acierTotal * 0.135; // HA 14/16
 
+    const ha6Kg = formatNb(pdsHa6);
+    const ha6Barres = formatNb(pdsHa6 / 2.66);
+    const ha8Kg = formatNb(pdsHa8);
+    const ha8Barres = formatNb(pdsHa8 / 4.74);
+    const ha10Kg = formatNb(pdsHa10);
+    const ha10Barres = formatNb(pdsHa10 / 7.40);
+    const ha12Kg = formatNb(pdsHa12);
+    const ha12Barres = formatNb(pdsHa12 / 10.66);
+    const ha16Kg = formatNb(pdsHa16);
+    const ha16Barres = formatNb(pdsHa16 / 18.96);
+
     doc.autoTable({
         startY: 30,
         head: [['Diamètre HA', 'Usage Principal', 'Poids Requis (kg)', 'Conversion en Barres (12m)']],
         body: [
-            ['HA 6', 'Cadres & Étriers', formatNb(pdsHa6) + ' kg', formatNb(pdsHa6 / 2.66) + ' barres'],
-            ['HA 8', 'Treillis dalle', formatNb(pdsHa8) + ' kg', formatNb(pdsHa8 / 4.74) + ' barres'],
-            ['HA 10', 'Chapeaux & Poteaux', formatNb(pdsHa10) + ' kg', formatNb(pdsHa10 / 7.40) + ' barres'],
-            ['HA 12', 'Longrines & Poteaux porteurs', formatNb(pdsHa12) + ' kg', formatNb(pdsHa12 / 10.66) + ' barres'],
-            ['HA 14 / 16', 'Retombées de poutres', formatNb(pdsHa16) + ' kg', formatNb(pdsHa16 / 18.96) + ' barres']
+            ['HA 6', 'Cadres & Étriers', `${ha6Kg} kg`, `${ha6Barres} barres`],
+            ['HA 8', 'Treillis dalle', `${ha8Kg} kg`, `${ha8Barres} barres`],
+            ['HA 10', 'Chapeaux & Poteaux', `${ha10Kg} kg`, `${ha10Barres} barres`],
+            ['HA 12', 'Longrines & Poteaux porteurs', `${ha12Kg} kg`, `${ha12Barres} barres`],
+            ['HA 14 / 16', 'Retombées de poutres', `${ha16Kg} kg`, `${ha16Barres} barres`]
         ],
         theme: 'grid',
         headStyles: { fillColor: primaryColor, textColor: [255, 255, 255], fontStyle: 'bold' },
