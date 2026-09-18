@@ -2,6 +2,7 @@
 <html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protection des Données & CDP - ChantierSur.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -54,64 +55,44 @@
 
             <!-- Desktop Nav -->
             <nav class="hidden lg:flex items-center space-x-6">
-                <a href="/index.html#simulateur" class="text-sm font-semibold text-[#0B1325] hover:text-[#F59E0B] transition">Calculateur</a>
-                <a href="/index.html#services" class="text-sm font-semibold text-[#0B1325] hover:text-[#F59E0B] transition">Nos Services</a>
-                <a href="/methodologie.html" class="text-sm font-semibold text-[#0B1325] hover:text-[#F59E0B] transition">Méthodologie & Normes</a>
-                <a href="/a-propos.html" class="text-sm font-semibold text-[#0B1325] hover:text-[#F59E0B] transition">Qui Sommes-Nous</a>
-                <a href="/cadre-juridique.html" class="text-sm font-semibold text-[#0B1325] hover:text-[#F59E0B] transition">Cadre Juridique COCC</a>
+                <a href="index.html#services-section" class="text-sm font-medium text-slate-700 hover:text-[#F59E0B] transition-colors">Simulateur & Services</a>
+                <a href="methodologie.html" class="text-sm font-medium text-slate-700 hover:text-[#F59E0B] transition-colors">Méthodologie BAEL 91</a>
+                <a href="cadre-juridique.html" class="text-sm font-medium text-slate-700 hover:text-[#F59E0B] transition-colors">Cadre Juridique</a>
+                <a href="a-propos.html" class="text-sm font-medium text-slate-700 hover:text-[#F59E0B] transition-colors">Qui Sommes-Nous</a>
             </nav>
 
             <div class="hidden lg:flex items-center">
-                <a href="/index.html#simulateur" class="bg-[#F59E0B] text-[#0B1325] font-bold px-5 py-2.5 rounded-full hover:bg-amber-400 transition shadow-md text-sm">Lancer mon Dossier</a>
+                <a href="index.html#services-section" class="bg-[#F59E0B] text-[#0B1325] font-bold px-5 py-2.5 rounded-full hover:bg-amber-400 transition shadow-md text-sm">Lancer mon Dossier</a>
             </div>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="lg:hidden p-2 text-[#0B1325]">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path id="menu-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <!-- Bouton Hamburger Mobile -->
+            <button id="mobile-menu-toggle" type="button" class="lg:hidden p-2 rounded-lg text-slate-800 hover:bg-slate-100 focus:outline-none" aria-label="Menu de navigation">
+              <svg id="burger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
             </button>
         </div>
     </header>
 
-    <!-- Mobile Drawer -->
-    <div id="mobile-drawer" class="fixed inset-0 z-[60] bg-slate-950/95 text-white backdrop-blur-md p-6 flex flex-col justify-between transition-transform transform translate-x-full duration-300">
-        <div>
-            <div class="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
-                <div class="flex items-center space-x-3">
-                    <img src="/icone-chantiersur-svg.svg" alt="Logo" class="w-8 h-8">
-                    <span class="text-xl font-black tracking-tight text-white">Chantier<span class="text-amber-500">Sur.com</span></span>
-                </div>
-                <button id="close-drawer-btn" class="p-2 text-slate-400 hover:text-white">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <nav class="flex flex-col space-y-4">
-                <a href="/index.html#simulateur" class="text-lg font-bold hover:text-amber-500 transition">Calculateur (Services)</a>
-                <a href="/methodologie.html" class="text-lg font-bold hover:text-amber-500 transition">Méthodologie & Normes BAEL</a>
-                <a href="/a-propos.html" class="text-lg font-bold hover:text-amber-500 transition">Qui Sommes-Nous</a>
-                <a href="/cadre-juridique.html" class="text-lg font-bold hover:text-amber-500 transition">Cadre Juridique COCC</a>
-                <a href="/confidentialite.html" class="text-lg font-bold hover:text-amber-500 transition">Protection des Données (CDP)</a>
-                <a href="/mentions-legales.html" class="text-lg font-bold hover:text-amber-500 transition">Mentions Légales</a>
-            </nav>
-        </div>
-
-        <div class="mt-8 pt-6 border-t border-slate-800">
-            <div class="flex items-center justify-between mb-4">
-                <span class="text-sm text-slate-400">Devise :</span>
-                <select id="mobile-currency" class="bg-slate-900 border border-slate-700 text-sm text-white rounded-lg px-2 py-1 outline-none">
-                    <option value="XOF">FCFA (XOF)</option>
-                    <option value="EUR">EUR (€)</option>
-                    <option value="CAD">CAD ($)</option>
-                    <option value="USD">USD ($)</option>
-                </select>
-            </div>
-            <div class="text-[11px] text-slate-500">
-                <p>Support : <a href="mailto:admin@chantiersur.com" class="text-amber-500">admin@chantiersur.com</a></p>
-                <p class="mt-2 text-emerald-500 font-medium">[✓] BAEL 91 R99 • COCC • Données CDP</p>
-            </div>
-        </div>
+        <!-- Tiroir LatÃ©ral DÃ©roulant Mobile -->
+    <div id="mobile-menu-drawer" class="hidden fixed inset-x-0 top-[65px] bg-[#0B1325]/98 backdrop-blur-lg border-b border-slate-800 p-6 z-50 text-white shadow-2xl space-y-5">
+      <nav class="flex flex-col space-y-4 text-base font-semibold">
+        <a href="index.html#services-section" class="mobile-nav-link text-slate-200 hover:text-[#F59E0B] transition-colors py-1">Simulateur & Services</a>
+        <a href="methodologie.html" class="mobile-nav-link text-slate-200 hover:text-[#F59E0B] transition-colors py-1">Méthodologie BAEL 91</a>
+        <a href="cadre-juridique.html" class="mobile-nav-link text-slate-200 hover:text-[#F59E0B] transition-colors py-1">Cadre Juridique COCC</a>
+        <a href="a-propos.html" class="mobile-nav-link text-slate-200 hover:text-[#F59E0B] transition-colors py-1">Qui Sommes-Nous</a>
+        <a href="confidentialite.html" class="mobile-nav-link text-slate-200 hover:text-[#F59E0B] transition-colors py-1">Protection DonnÃ©es CDP</a>
+        <a href="mentions-legales.html" class="mobile-nav-link text-slate-200 hover:text-[#F59E0B] transition-colors py-1">Mentions LÃ©gales</a>
+      </nav>
+      <div class="pt-4 border-t border-slate-800 flex flex-col space-y-2 text-xs text-slate-400">
+        <div>Assistance technique : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] font-bold">admin@chantiersur.com</a></div>
+        <div class="text-[11px] text-slate-500">Conforme BAEL 91 R99 â€¢ Droit COCC SÃ©nÃ©gal</div>
+      </div>
     </div>
-    
+
     <main class="max-w-4xl mx-auto px-4 py-12">
         <h1 class="text-3xl font-black text-amber-500 mb-8">Protection des Données & CDP</h1>
 
@@ -145,10 +126,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <!-- Col 1 -->
                 <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <img src="/icone-chantiersur-svg.svg" alt="Logo" class="w-6 h-6">
-                        <span class="text-lg font-black tracking-tight text-white">Chantier<span class="text-amber-500">Sur.com</span></span>
-                    </div>
+                    <a href="index.html" class="flex items-center space-x-2.5 mb-4">
+                        <div class="w-7 h-7 bg-slate-900 rounded-md flex items-center justify-center p-1 border border-slate-800 shadow-sm shrink-0">
+                            <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-amber-500" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="M9 12l2 2 4-4"/>
+                            </svg>
+                        </div>
+                        <span class="text-lg font-black tracking-tight text-white leading-none">Chantier<span class="text-[#F59E0B]">Sur.com</span></span>
+                    </a>
                     <p class="text-amber-500 font-bold mb-4">Bâtissez sans angle mort.</p>
                     <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
                         <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
@@ -159,10 +145,10 @@
                 <div>
                     <h4 class="text-white font-bold mb-4">Ingénierie & Services</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="/index.html#simulateur" class="hover:text-amber-500 transition">Esquisse Faisabilité</a></li>
-                        <li><a href="/index.html#simulateur" class="hover:text-amber-500 transition">BQE Express</a></li>
-                        <li><a href="/index.html#simulateur" class="hover:text-amber-500 transition">Audit Devis IA</a></li>
-                        <li><a href="/index.html#simulateur" class="hover:text-amber-500 transition">Second Œuvre (Finitions)</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Esquisse Faisabilité</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">BQE Express</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Contre-Expertise Devis</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Second Œuvre (Finitions)</a></li>
                     </ul>
                 </div>
 
@@ -170,9 +156,9 @@
                 <div>
                     <h4 class="text-white font-bold mb-4">Rigueur & Méthodologie</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="/methodologie.html" class="hover:text-amber-500 transition">Méthodologie BAEL 91 R99</a></li>
-                        <li><a href="/methodologie.html" class="hover:text-amber-500 transition">Les 6 Points d'Arrêt</a></li>
-                        <li><a href="/methodologie.html" class="hover:text-amber-500 transition">Guide Diaspora & WhatsApp</a></li>
+                        <li><a href="methodologie.html" class="hover:text-amber-500 transition">Méthodologie BAEL 91 R99</a></li>
+                        <li><a href="methodologie.html" class="hover:text-amber-500 transition">Les 6 Points d'Arrêt</a></li>
+                        <li><a href="methodologie.html" class="hover:text-amber-500 transition">Guide Diaspora & WhatsApp</a></li>
                     </ul>
                 </div>
 
@@ -180,10 +166,10 @@
                 <div>
                     <h4 class="text-white font-bold mb-4">Cadre Légal & Sécurité</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="/a-propos.html" class="hover:text-amber-500 transition">Qui Sommes-Nous</a></li>
-                        <li><a href="/cadre-juridique.html" class="hover:text-amber-500 transition">Cadre Juridique COCC</a></li>
-                        <li><a href="/confidentialite.html" class="hover:text-amber-500 transition">Protection des Données (CDP)</a></li>
-                        <li><a href="/mentions-legales.html" class="hover:text-amber-500 transition">Mentions Légales</a></li>
+                        <li><a href="a-propos.html" class="hover:text-amber-500 transition">Qui Sommes-Nous</a></li>
+                        <li><a href="cadre-juridique.html" class="hover:text-amber-500 transition">Cadre Juridique COCC</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-amber-500 transition">Protection des Données (CDP)</a></li>
+                        <li><a href="mentions-legales.html" class="hover:text-amber-500 transition">Mentions Légales</a></li>
                     </ul>
                 </div>
             </div>
@@ -200,17 +186,36 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const mobileDrawer = document.getElementById('mobile-drawer');
-            const closeBtn = document.getElementById('close-drawer-btn');
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const menuDrawer = document.getElementById('mobile-menu-drawer');
+            const burgerIcon = document.getElementById('burger-icon');
+            const closeIcon = document.getElementById('close-icon');
 
-            if (mobileBtn && mobileDrawer && closeBtn) {
-                mobileBtn.addEventListener('click', () => {
-                    mobileDrawer.classList.remove('translate-x-full');
+            if (menuToggle && menuDrawer) {
+              menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = menuDrawer.classList.toggle('hidden');
+                burgerIcon.classList.toggle('hidden', !isHidden);
+                closeIcon.classList.toggle('hidden', isHidden);
+              });
+
+              // Fermer le menu lors d'un clic sur un lien
+              document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                  menuDrawer.classList.add('hidden');
+                  burgerIcon.classList.remove('hidden');
+                  closeIcon.classList.add('hidden');
                 });
-                closeBtn.addEventListener('click', () => {
-                    mobileDrawer.classList.add('translate-x-full');
-                });
+              });
+
+              // Fermer lors d'un clic Ã  l'extÃ©rieur
+              document.addEventListener('click', (e) => {
+                if (!menuDrawer.contains(e.target) && !menuToggle.contains(e.target) && !menuDrawer.classList.contains('hidden')) {
+                  menuDrawer.classList.add('hidden');
+                  burgerIcon.classList.remove('hidden');
+                  closeIcon.classList.add('hidden');
+                }
+              });
             }
         });
     </script>

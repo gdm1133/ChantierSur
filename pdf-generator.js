@@ -1287,3 +1287,5 @@ window.genererDossierBQE = async function(data, serviceType = "express", extra =
 };
 
 window.generateProjectPDF = typeof generateProjectPDF !== 'undefined' ? generateProjectPDF : (typeof generatePDF !== 'undefined' ? generatePDF : (typeof genererDossierBQE !== 'undefined' ? genererDossierBQE : null));
+
+window.generateProjectPDF = typeof generateProjectPDF !== 'undefined' ? generateProjectPDF : (typeof generatePDF !== 'undefined' ? generatePDF : null);
