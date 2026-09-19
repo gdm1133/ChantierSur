@@ -1,1153 +1,801 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChantierSur.com | Bureau d'�tudes Num�rique & Audit BTP S�n�gal</title>
-    <meta name="description"
-        content="S�curisez votre construction au S�n�gal. Chiffrage exact BAEL 91 R99, contre-expertise de devis et conformit� juridique COCC.">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
+  <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91 R99, contre-expertise de devis et conformité juridique COCC.">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        /* Emp�che les sauts de page lors des transitions */
-        .tab-card {
-            transition: all 0.2s ease-in-out;
-        }
-    </style>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    .tab-card { transition: all 0.2s ease-in-out; }
+  </style>
 </head>
+<body class="bg-[#0B1325] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-[#F59E0B] selection:text-slate-950">
 
-<body
-    class="bg-[#0B1325] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-[#F59E0B] selection:text-slate-950">
+  <!-- TOPBAR RÉGLEMENTAIRE -->
+  <div class="bg-slate-950 border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center text-emerald-400 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+          Conformité BAEL 91 R99
+        </span>
+        <span>•</span>
+        <span>Droit COCC Sénégal</span>
+        <span>•</span>
+        <span>Données Protégées CDP</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
+        <span class="bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono">XOF (FCFA)</span>
+      </div>
+    </div>
+  </div>
 
-    <!-- ================================================================= -->
-    <!-- 1. BANDEAU DE CONFORMIT� R�GLEMENTAIRE (TOPBAR)                   -->
-    <!-- ================================================================= -->
-    <div class="bg-slate-950 border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-            <div class="flex items-center space-x-3">
-                <span class="inline-flex items-center text-emerald-400 font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
-                    Conformit� BAEL 91 R99
-                </span>
-                <span>�</span>
-                <span>Droit COCC S�n�gal</span>
-                <span>�</span>
-                <span>Donn�es Prot�g�es CDP</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span>Support direct : <a href="mailto:admin@chantiersur.com"
-                        class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
-                <span class="bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono">Devise : XOF (FCFA)</span>
-            </div>
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-[#0B1325]/95 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO SANS SOUS-TITRE -->
+      <a href="index.html" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center p-2 border border-slate-700/80 shadow-md group-hover:border-[#F59E0B] transition-colors">
+          <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-[#F59E0B]" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
         </div>
+        <span class="text-2xl font-black tracking-tight text-white leading-none">
+          Chantier<span class="text-[#F59E0B]">Sur.com</span>
+        </span>
+      </a>
+
+      <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+        <a href="#services-section" class="text-slate-200 hover:text-[#F59E0B] transition-colors">Simulateur & Services</a>
+        <a href="methodologie.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Méthodologie BAEL 91</a>
+        <a href="cadre-juridique.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Cadre Juridique</a>
+        <a href="a-propos.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Qui Sommes-Nous</a>
+      </nav>
+
+      <!-- MENU BURGER MOBILE -->
+      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none" aria-label="Menu Mobile">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
     </div>
 
-    <!-- ================================================================= -->
-    <!-- 2. NAVIGATION PRINCIPALE (HEADER)                                -->
-    <!-- ================================================================= -->
-    <header class="sticky top-0 z-40 bg-[#0B1325]/95 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- TIROIR DÉROULANT MOBILE -->
+    <div id="mobile-drawer" class="hidden md:hidden bg-slate-950 border-b border-slate-800 px-6 py-5 space-y-4">
+      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#F59E0B] font-semibold py-1">Simulateur & Services</a>
+      <a href="methodologie.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Méthodologie BAEL 91</a>
+      <a href="cadre-juridique.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Cadre Juridique</a>
+      <a href="a-propos.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Qui Sommes-Nous</a>
+    </div>
+  </header>
 
-            <!-- LOGO OFFICIEL CHANTIERSUR SANS TEXTE GRIS -->
-            <a href="index.html" class="flex items-center space-x-2.5 group focus:outline-none">
-  <div class="w-10 h-10 bg-[#0B1325] rounded-xl flex items-center justify-center p-2 border border-slate-700/80 shadow-md group-hover:border-[#F59E0B] transition-colors shrink-0">
-    <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-[#F59E0B]" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      <path d="M9 12l2 2 4-4"/>
-    </svg>
-  </div>
-  <span class="text-2xl font-black tracking-tight text-white leading-none">
-    Chantier<span class="text-[#F59E0B]">Sur.com</span>
-  </span>
-</a>
+  <!-- HERO SECTION -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-b from-[#0B1325] via-[#0D1830] to-[#0B1325] border-b border-slate-800/80">
+    <div class="max-w-4xl mx-auto space-y-4">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-[#F59E0B]/30 text-[#F59E0B] text-xs font-bold tracking-wide uppercase">
+        <span>🛡️ Audit Indépendant • Zéro Commission Constructeur</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+        Bâtissez au Sénégal <span class="text-[#F59E0B]">sans angle mort</span> ni surfacturation.
+      </h1>
+      <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
+        L'expertise d'un bureau d'études pour sécuriser vos investissements : calcul de structure BAEL 91 R99, métrés précis et protection juridique COCC.
+      </p>
+    </div>
+  </section>
 
-            <!-- NAVIGATION DESKTOP SANS BOUTON "LANCER MON DOSSIER" -->
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
-                <a href="#services-section" class="text-slate-200 hover:text-[#F59E0B] transition-colors">Simulateur &
-                    Services</a>
-                <a href="methodologie.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">M�thodologie
-                    BAEL 91</a>
-                <a href="cadre-juridique.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Cadre
-                    Juridique</a>
-                <a href="a-propos.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Qui
-                    Sommes-Nous</a>
-            </nav>
+  <!-- SECTION PRINCIPALE : SIMULATEUR & SERVICES -->
+  <main id="services-section" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
 
-            <!-- BOUTON BURGER MOBILE -->
-            <button id="burger-btn" type="button" onclick="toggleMobileMenu()"
-                class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800" aria-label="Menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+    <div class="text-center mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white">Nos Formules d'Ingénierie & Devis Immédiats</h2>
+      <p class="text-slate-400 text-sm mt-1">Sélectionnez une formule pour paramétrer votre dossier technique</p>
+    </div>
+
+    <!-- LES 4 BOUTONS ONGLETS DÉCLENCHEURS DIRECTS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      
+      <!-- ONGLET 1 -->
+      <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none cursor-pointer">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#F59E0B]">Phase Zéro</span>
+          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">35 000 F</span>
+        </div>
+        <h3 class="text-base font-bold text-white mb-1">1. Esquisse & Faisabilité</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Implantation, gabarit parcellaire et faisabilité structurelle.</p>
+      </button>
+
+      <!-- ONGLET 2 -->
+      <button type="button" id="tab-btn-2" onclick="switchTab(2)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Phase Budget</span>
+          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">25 000 F</span>
+        </div>
+        <h3 class="text-base font-bold text-white mb-1">2. BQE Gros Œuvre Express</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Quantitatif exact : béton, acier FeE500, ciment 42.5R et granulats.</p>
+      </button>
+
+      <!-- ONGLET 3 -->
+      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Audit Devis</span>
+          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">45 000 F</span>
+        </div>
+        <h3 class="text-base font-bold text-white mb-1">3. Contre-Expertise Devis</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Détection des surfacturations & ratios matériaux stricts.</p>
+      </button>
+
+      <!-- ONGLET 4 -->
+      <button type="button" id="tab-btn-4" onclick="switchTab(4)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Post-Gros Œuvre</span>
+          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">20 000 F</span>
+        </div>
+        <h3 class="text-base font-bold text-white mb-1">4. Finitions & Second Œuvre</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Carrelage, plomberie, étanchéité terrasse et réseaux.</p>
+      </button>
+
+    </div>
+
+    <!-- CONTENEUR DES FORMULAIRES -->
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+      
+      <!-- ============================================== -->
+      <!-- FORMULAIRE 1 : ESQUISSE & FAISABILITÉ          -->
+      <!-- ============================================== -->
+      <form id="pane-1" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-white">Dossier : Esquisse & Faisabilité Technique</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Normes BAEL 91 R99 • Implantation et contraintes parcellaires</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
+          </div>
         </div>
 
-        <!-- TIROIR MOBILE -->
-        <div id="mobile-drawer" class="hidden md:hidden bg-slate-950 border-b border-slate-800 px-6 py-5 space-y-4">
-            <a href="#services-section" onclick="toggleMobileMenu()"
-                class="block text-slate-200 hover:text-[#F59E0B] font-semibold py-1">Simulateur & Services</a>
-            <a href="methodologie.html"
-                class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">M�thodologie BAEL 91</a>
-            <a href="cadre-juridique.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Cadre
-                Juridique</a>
-            <a href="a-propos.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Qui
-                Sommes-Nous</a>
-        </div>
-    </header>
-
-    <!-- ================================================================= -->
-    <!-- 3. HERO BANNER                                                    -->
-    <!-- ================================================================= -->
-    <section
-        class="relative py-16 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-b from-[#0B1325] via-[#0D1830] to-[#0B1325] border-b border-slate-800/80">
-        <div class="max-w-4xl mx-auto space-y-5">
-            <div
-                class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-[#F59E0B]/30 text-[#F59E0B] text-xs font-bold tracking-wide uppercase">
-                <span>??? Audit Ind�pendant Sans Commission</span>
-            </div>
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                B�tissez au S�n�gal <span class="text-[#F59E0B]">sans angle mort</span> ni surfacturation.
-            </h1>
-            <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
-                L'expertise rigoureuse d'un bureau d'�tudes pour la diaspora et les ma�tres d'ouvrage : chiffrage exact
-                des mat�riaux, b�ton arm� BAEL 91 et s�curit� juridique COCC.
-            </p>
-        </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 4. SECTION PRINCIPALE : SIMULATEUR & SERVICES                     -->
-    <!-- ================================================================= -->
-    <main id="services-section" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-
-        <div class="text-center mb-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-white">Nos Formules d'Ing�nierie & Devis Imm�diats</h2>
-            <p class="text-slate-400 text-sm mt-1">S�lectionnez votre �tape de chantier pour lancer l'estimation
-                technique certifi�e</p>
-        </div>
-
-        <!-- LES 4 BOUTONS D'ONGLETS (INTERACTIVIT� GARANTIE PAR switchTab) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-
-            <!-- ONGLET 1 -->
-            <button type="button" id="tab-btn-1" onclick="switchTab(1)"
-                class="tab-card text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-[#F59E0B]">Phase Z�ro</span>
-                    <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">35 000
-                        F</span>
-                </div>
-                <h3 class="text-base font-bold text-white mb-1">1. Esquisse & Faisabilit�</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">�tude d'implantation, ratios de structure & gabarit
-                    parcellaire.</p>
-            </button>
-
-            <!-- ONGLET 2 -->
-            <button type="button" id="tab-btn-2" onclick="switchTab(2)"
-                class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Phase Budget</span>
-                    <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">25 000
-                        F</span>
-                </div>
-                <h3 class="text-base font-bold text-white mb-1">2. BQE Gros �uvre Express</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">Quantit�s exactes : ciment 42.5R, fers FeE500, sable
-                    et gravier.</p>
-            </button>
-
-            <!-- ONGLET 3 -->
-            <button type="button" id="tab-btn-3" onclick="switchTab(3)"
-                class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Arbitrage Devis</span>
-                    <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">45 000
-                        F</span>
-                </div>
-                <h3 class="text-base font-bold text-white mb-1">3. Contre-Expertise Devis</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">D�tection des surfacturations & v�rification des
-                    ratios d'armatures.</p>
-            </button>
-
-            <!-- ONGLET 4 -->
-            <button type="button" id="tab-btn-4" onclick="switchTab(4)"
-                class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Post-Gros �uvre</span>
-                    <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">20 000
-                        F</span>
-                </div>
-                <h3 class="text-base font-bold text-white mb-1">4. Finitions & Second �uvre</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">Carrelage, plomberie, �lectricit�, �tanch�it� terrasse
-                    & menuiserie.</p>
-            </button>
-
-        </div>
-
-        <!-- ================================================================= -->
-        <!-- CONTENEUR GLOBAL DU FORMULAIRE MULTI-�TAPES                       -->
-        <!-- ================================================================= -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative">
-
-            <!-- FORMULAIRE PANNEAU 1 : ESQUISSE & FAISABILIT� -->
-            <form id="pane-1" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
-
-                <!-- EN-T�TE DU FORMULAIRE & STEPPER -->
-                <div
-                    class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-white">Dossier : Esquisse & Faisabilit� Technique</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Normes BAEL 91 R99 � Analyse topographique et sol</p>
-                    </div>
-                    <!-- INDICATEURS 1, 2, 3 -->
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">
-                            1</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            2</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            3</div>
-                    </div>
-                </div>
-
-                <!-- �TAPE 1 : PROJET & GABARIT -->
-                <div class="step-container step-1 space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface au sol de la
-                                parcelle (m�)</label>
-                            <input type="number" name="surface" value="200" min="50" max="2500"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de niveaux
-                                (�l�vation)</label>
-                            <select name="exact_levels"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none"
-                                required>
-                                <option value="0">RDC Simple (Villa plain-pied)</option>
-                                <option value="1" selected>R+1 (Villa � �tage / Duplex)</option>
-                                <option value="2">R+2 (Immeuble R+2)</option>
-                                <option value="3">R+3 (Immeuble locatif R+3)</option>
-                                <option value="4">R+4 (Immeuble R+4)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Configuration de la
-                                parcelle</label>
-                            <select name="parcel_config"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none">
-                                <option value="standard" selected>En bande (1 fa�ade sur rue)</option>
-                                <option value="angle">Parcelle d'angle (2 fa�ades sur rue)</option>
-                                <option value="isolee">Isol�e (4 c�t�s libres)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Standing
-                                souhait�</label>
-                            <select name="standing"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none">
-                                <option value="moyen" selected>Moyen Standing (�quilibr� & Robuste)</option>
-                                <option value="economique">�conomique / Locatif classique</option>
-                                <option value="haut">Haut Standing (Prestations sup�rieures)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end pt-4">
-                        <button type="button" onclick="goToStep(1, 2)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2">
-                            <span>Suivant</span>
-                            <span>&rarr;</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- �TAPE 2 : SOL & G�OTECHNIQUE S�N�GAL -->
-                <div class="step-container step-2 hidden space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Sp�cificit�s
-                            du Sol (S�n�gal)</label>
-                        <select name="project_location"
-                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none"
-                            required>
-                            <optgroup label="?? Dakar Littoral & Presqu'�le (Risque Salin / Embruns)">
-                                <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam
-                                    (Enrobage 4,5 cm requis)</option>
-                                <option value="Dakar - Yoff / Camb�r�ne / Corniche">Yoff / Camb�r�ne / Corniche (Sable
-                                    dunaire marin)</option>
-                                <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E
-                                    / Mermoz</option>
-                            </optgroup>
-                            <optgroup label="?? Dakar Zones Basses (Nappe Haute / Inondable)">
-                                <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane
-                                    Peulh (Cuvelage/Drainage)</option>
-                                <option value="Pikine / Gu�diawaye / Thiaroye">Pikine / Gu�diawaye / Thiaroye (Sols
-                                    compressibles)</option>
-                            </optgroup>
-                            <optgroup label="?? Grand Dakar & P�les d'Expansion">
-                                <option value="Diamniadio / S�bikotane / Bargny">Diamniadio / S�bikotane / Bargny
-                                    (Argiles gonflantes)</option>
-                                <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
-                            </optgroup>
-                            <optgroup label="?? R�gions & Int�rieur">
-                                <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer -
-                                    corrosion)</option>
-                                <option value="Thi�s / Tivaouane / Touba">Thi�s / Tivaouane / Touba (Plateau lat�ritique
-                                    porteur)</option>
-                                <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres
-                                    R�gions</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Statut Juridique
-                                Foncier</label>
-                            <select name="land_status"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none">
-                                <option value="Titre Foncier (TF)" selected>Titre Foncier (TF - S�curis�)</option>
-                                <option value="Bail Emphyt�otique">Bail Emphyt�otique / �tat</option>
-                                <option value="D�lib�ration Communale">D�lib�ration Communale (Zone rurale)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Num�ro de Parcelle /
-                                Lot (Optionnel)</label>
-                            <input type="text" name="lot_number" placeholder="Ex: Lot 45 - Ilot B"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] focus:ring-1 focus:ring-[#F59E0B] outline-none">
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-3">
-                        <span class="block text-xs font-bold uppercase text-slate-400">Exigences Climatiques
-                            Particuli�res</span>
-                        <div class="flex flex-wrap gap-6 text-sm">
-                            <label class="inline-flex items-center space-x-2.5 cursor-pointer">
-                                <input type="checkbox" name="is_hivernage" checked
-                                    class="w-4 h-4 rounded text-[#F59E0B] focus:ring-[#F59E0B] bg-slate-900 border-slate-700">
-                                <span class="text-slate-300">R�sistance pluviom�trie intense (Hivernage)</span>
-                            </label>
-                            <label class="inline-flex items-center space-x-2.5 cursor-pointer">
-                                <input type="checkbox" name="is_ocean" checked
-                                    class="w-4 h-4 rounded text-[#F59E0B] focus:ring-[#F59E0B] bg-slate-900 border-slate-700">
-                                <span class="text-slate-300">Atmosph�re saline agressive (< 5 km de mer)</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-between pt-4">
-                        <button type="button" onclick="goToStep(1, 1)"
-                            class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl">
-                            &larr; Retour
-                        </button>
-                        <button type="button" onclick="goToStep(1, 3)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2">
-                            <span>Suivant</span>
-                            <span>&rarr;</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- �TAPE 3 : COORDONN�ES & VALIDATION PAIEMENT -->
-                <div class="step-container step-3 hidden space-y-6">
-                    <div
-                        class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
-                        <div>
-                            <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Prestation d'�tude</p>
-                            <p class="text-lg font-extrabold text-white">35 000 FCFA <span
-                                    class="text-xs text-slate-400 font-normal">TTC</span></p>
-                        </div>
-                        <span
-                            class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Livrable
-                            PDF Certifi�</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom complet du Ma�tre
-                                d'Ouvrage</label>
-                            <input type="text" name="client_name" placeholder="Ex: Moussa Ndiaye"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Adresse Email
-                                (R�ception du Dossier)</label>
-                            <input type="email" name="client_email" placeholder="ndiaye@example.com"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Num�ro T�l�phone S�n�gal (9
-                            chiffres Wave / OM)</label>
-                        <div class="flex">
-                            <span
-                                class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-700 bg-slate-800 text-slate-300 font-mono text-sm">+221</span>
-                            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono"
-                                required>
-                        </div>
-                        <p class="text-[11px] text-slate-500 mt-1">Saisie de 9 chiffres sans espace (Orange Money, Wave
-                            ou Free Money).</p>
-                    </div>
-
-                    <div class="flex justify-between items-center pt-4">
-                        <button type="button" onclick="goToStep(1, 2)"
-                            class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl">
-                            &larr; Retour
-                        </button>
-                        <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 35000, 'esquisse')"
-                            class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3">
-                            <span>Payer & T�l�charger mon Dossier</span>
-                            <span>&rarr;</span>
-                        </button>
-                    </div>
-                </div>
-
-            </form>
-
-            <!-- PANNEAU 2 : BQE GROS �UVRE EXPRESS (25 000 FCFA) -->
-            <form id="pane-2" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
-                <div
-                    class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-white">Dossier : BQE Gros �uvre Express (Quantitatif
-                            Mat�riaux)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Calcul exact du cubage b�ton, fers FeE500, ciment CEM
-                            II 42.5R</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">
-                            1</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            2</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            3</div>
-                    </div>
-                </div>
-
-                <!-- �tape 1 -->
-                <div class="step-container step-1 space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface D�velopp�e
-                                Totale (m�)</label>
-                            <input type="number" name="surface" value="240" min="40" max="3000"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de
-                                Niveaux</label>
-                            <select name="exact_levels"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                                <option value="0">RDC Simple</option>
-                                <option value="1" selected>R+1</option>
-                                <option value="2">R+2</option>
-                                <option value="3">R+3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex justify-end pt-4">
-                        <button type="button" onclick="goToStep(2, 2)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg">Suivant
-                            &rarr;</button>
-                    </div>
-                </div>
-
-                <!-- �tape 2 -->
-                <div class="step-container step-2 hidden space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation du
-                            Chantier</label>
-                        <select name="project_location"
-                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                            <option value="Dakar - Almadies / Ngor / Ouakam">Almadies / Ngor / Ouakam (Zone Marine)
-                            </option>
-                            <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika (Nappe Haute)
-                            </option>
-                            <option value="Diamniadio / S�bikotane">Diamniadio / S�bikotane</option>
-                            <option value="Saly / Mbour / Somone">Saly / Mbour / Somone</option>
-                            <option value="Autre r�gion du S�n�gal">Autre r�gion du S�n�gal</option>
-                        </select>
-                    </div>
-                    <div class="flex justify-between pt-4">
-                        <button type="button" onclick="goToStep(2, 1)"
-                            class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl">&larr;
-                            Retour</button>
-                        <button type="button" onclick="goToStep(2, 3)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg">Suivant
-                            &rarr;</button>
-                    </div>
-                </div>
-
-                <!-- �tape 3 -->
-                <div class="step-container step-3 hidden space-y-6">
-                    <div
-                        class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
-                        <div>
-                            <p class="text-xs uppercase font-bold text-[#F59E0B]">Forfait Chiffrage BQE</p>
-                            <p class="text-lg font-extrabold text-white">25 000 FCFA</p>
-                        </div>
-                        <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Bordereau PDF</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Votre Nom</label>
-                            <input type="text" name="client_name" placeholder="Nom et Pr�nom"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Votre Email</label>
-                            <input type="email" name="client_email" placeholder="adresse@email.com"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">T�l�phone (9
-                            chiffres)</label>
-                        <input type="tel" name="client_phone" maxlength="9" placeholder="770000000"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono"
-                            required>
-                    </div>
-                    <div class="flex justify-between items-center pt-4">
-                        <button type="button" onclick="goToStep(2, 2)"
-                            class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl">&larr;
-                            Retour</button>
-                        <button type="button" id="pay-btn-2" onclick="initiatePayment(2, 25000, 'express')"
-                            class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl">Payer
-                            & G�n�rer mon BQE &rarr;</button>
-                    </div>
-                </div>
-            </form>
-
-            <!-- PANNEAU 3 : CONTRE-EXPERTISE DEVIS (45 000 FCFA) -->
-            <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
-                <div
-                    class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-white">Dossier : Contre-Expertise Devis Entrepreneur</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Audit anti-surfacturation & v�rification de la
-                            coh�rence technique</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">
-                            1</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            2</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            3</div>
-                    </div>
-                </div>
-
-                <!-- �tape 1 -->
-                <div class="step-container step-1 space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Montant total du devis
-                                re�u (FCFA)</label>
-                            <input type="number" name="quoted_amount" placeholder="Ex: 38000000"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface du projet
-                                (m�)</label>
-                            <input type="number" name="surface" value="250"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                    </div>
-                    <div class="flex justify-end pt-4">
-                        <button type="button" onclick="goToStep(3, 2)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg">Suivant
-                            &rarr;</button>
-                    </div>
-                </div>
-
-                <!-- �tape 2 -->
-                <div class="step-container step-2 hidden space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation du
-                            Projet</label>
-                        <input type="text" name="project_location" value="Dakar et environs"
-                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                    </div>
-                    <div class="flex justify-between pt-4">
-                        <button type="button" onclick="goToStep(3, 1)"
-                            class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl">&larr;
-                            Retour</button>
-                        <button type="button" onclick="goToStep(3, 3)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg">Suivant
-                            &rarr;</button>
-                    </div>
-                </div>
-
-                <!-- �tape 3 -->
-                <div class="step-container step-3 hidden space-y-6">
-                    <div
-                        class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
-                        <div>
-                            <p class="text-xs uppercase font-bold text-[#F59E0B]">Audit d'Arbitrage</p>
-                            <p class="text-lg font-extrabold text-white">45 000 FCFA</p>
-                        </div>
-                        <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Rapport
-                            d'Expertise</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom complet</label>
-                            <input type="text" name="client_name" placeholder="Votre nom"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email</label>
-                            <input type="email" name="client_email" placeholder="votre@email.com"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">T�l�phone (9
-                            chiffres)</label>
-                        <input type="tel" name="client_phone" maxlength="9" placeholder="770000000"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono"
-                            required>
-                    </div>
-                    <div class="flex justify-between items-center pt-4">
-                        <button type="button" onclick="goToStep(3, 2)"
-                            class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl">&larr;
-                            Retour</button>
-                        <button type="button" id="pay-btn-3" onclick="initiatePayment(3, 45000, 'audit')"
-                            class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl">Lancer
-                            la Contre-Expertise &rarr;</button>
-                    </div>
-                </div>
-            </form>
-
-            <!-- PANNEAU 4 : FINITIONS & SECOND �UVRE (20 000 FCFA) -->
-            <form id="pane-4" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
-                <div
-                    class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-white">Dossier : Finitions & Second �uvre</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Carrelage, plomberie multicouche, appareillage et
-                            �tanch�it�</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">
-                            1</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            2</div>
-                        <div class="w-8 h-0.5 bg-slate-700"></div>
-                        <div
-                            class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">
-                            3</div>
-                    </div>
-                </div>
-
-                <!-- �tape 1 -->
-                <div class="step-container step-1 space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface Habitable
-                                (m�)</label>
-                            <input type="number" name="surface" value="180"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Niveau de
-                                Finition</label>
-                            <select name="standing"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                                <option value="standard" selected>Standard Robuste (Gr�s c�rame)</option>
-                                <option value="luxe">Prestige (Marbre & �clairage encastr�)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex justify-end pt-4">
-                        <button type="button" onclick="goToStep(4, 2)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg">Suivant
-                            &rarr;</button>
-                    </div>
-                </div>
-
-                <!-- �tape 2 -->
-                <div class="step-container step-2 hidden space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">R�seaux
-                            Prioritaires</label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                            <label
-                                class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800"><input
-                                    type="checkbox" checked class="text-[#F59E0B]"> <span>Plomberie &
-                                    Sanitaire</span></label>
-                            <label
-                                class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800"><input
-                                    type="checkbox" checked class="text-[#F59E0B]"> <span>�lectricit� &
-                                    Climatisation</span></label>
-                            <label
-                                class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800"><input
-                                    type="checkbox" checked class="text-[#F59E0B]"> <span>Carrelage &
-                                    Rev�tements</span></label>
-                            <label
-                                class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800"><input
-                                    type="checkbox" checked class="text-[#F59E0B]"> <span>�tanch�it� Toiture
-                                    Terrasse</span></label>
-                        </div>
-                    </div>
-                    <div class="flex justify-between pt-4">
-                        <button type="button" onclick="goToStep(4, 1)"
-                            class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl">&larr;
-                            Retour</button>
-                        <button type="button" onclick="goToStep(4, 3)"
-                            class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg">Suivant
-                            &rarr;</button>
-                    </div>
-                </div>
-
-                <!-- �tape 3 -->
-                <div class="step-container step-3 hidden space-y-6">
-                    <div
-                        class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
-                        <div>
-                            <p class="text-xs uppercase font-bold text-[#F59E0B]">Bordereau Second �uvre</p>
-                            <p class="text-lg font-extrabold text-white">20 000 FCFA</p>
-                        </div>
-                        <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Livrable
-                            Finitions</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom</label>
-                            <input type="text" name="client_name" placeholder="Nom et pr�nom"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email</label>
-                            <input type="email" name="client_email" placeholder="email@domaine.sn"
-                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"
-                                required>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">T�l�phone (9
-                            chiffres)</label>
-                        <input type="tel" name="client_phone" maxlength="9" placeholder="770000000"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono"
-                            required>
-                    </div>
-                    <div class="flex justify-between items-center pt-4">
-                        <button type="button" onclick="goToStep(4, 2)"
-                            class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl">&larr;
-                            Retour</button>
-                        <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 20000, 'finitions')"
-                            class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl">Valider
-                            & Payer &rarr;</button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-
-    </main>
-
-    <!-- ================================================================= -->
-    <!-- 5. PIED DE PAGE R�GLEMENTAIRE UNIFI�                             -->
-    <!-- ================================================================= -->
-    <footer class="bg-slate-950 border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400 mt-16">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <!-- ÉTAPE 1 -->
+        <div class="step-container step-1 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-                <div class="flex items-center space-x-2.5 mb-3">
-                    <div
-                        class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center border border-slate-800 text-[#F59E0B]">
-                        <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" stroke="currentColor" stroke-width="2">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg>
-                    </div>
-                    <span class="text-base font-black text-white">Chantier<span
-                            class="text-[#F59E0B]">Sur.com</span></span>
-                </div>
-                <p class="text-slate-400 leading-relaxed">Plateforme technique d'arbitrage et d'ing�nierie b�timent
-                    ind�pendante. Z�ro commission per�ue des artisans ou entreprises de travaux.</p>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface au sol de la parcelle (m²)</label>
+              <input type="number" name="surface" value="200" min="40" max="3000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
             </div>
             <div>
-                <h4 class="font-bold text-white uppercase tracking-wider mb-3">Nos Formules</h4>
-                <ul class="space-y-2">
-                    <li><a href="javascript:void(0)" onclick="switchTab(1)" class="hover:text-amber-400">1. Esquisse &
-                            Faisabilit�</a></li>
-                    <li><a href="javascript:void(0)" onclick="switchTab(2)" class="hover:text-amber-400">2. BQE Gros
-                            �uvre Express</a></li>
-                    <li><a href="javascript:void(0)" onclick="switchTab(3)" class="hover:text-amber-400">3.
-                            Contre-Expertise Devis</a></li>
-                    <li><a href="javascript:void(0)" onclick="switchTab(4)" class="hover:text-amber-400">4. Finitions &
-                            Second �uvre</a></li>
-                </ul>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de niveaux (Élévation)</label>
+              <select name="exact_levels" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+                <option value="0">RDC Simple (Plain-pied)</option>
+                <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+                <option value="2">R+2 (Immeuble R+2)</option>
+                <option value="3">R+3 (Immeuble R+3)</option>
+                <option value="4">R+4 (Immeuble R+4)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Configuration de la parcelle</label>
+              <select name="parcel_config" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+                <option value="standard" selected>En bande (1 façade sur rue)</option>
+                <option value="angle">Parcelle d'angle (2 façades sur rue)</option>
+                <option value="isolee">Isolée (4 côtés libres)</option>
+              </select>
             </div>
             <div>
-                <h4 class="font-bold text-white uppercase tracking-wider mb-3">Cadre & M�thodes</h4>
-                <ul class="space-y-2">
-                    <li><a href="methodologie.html" class="hover:text-amber-400">Normes BAEL 91 R99</a></li>
-                    <li><a href="methodologie.html" class="hover:text-amber-400">Protocole des 6 Points d'Arr�t</a></li>
-                    <li><a href="cadre-juridique.html" class="hover:text-amber-400">Garantie D�cennale (COCC)</a></li>
-                </ul>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Standing souhaité</label>
+              <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+                <option value="moyen" selected>Moyen Standing (Équilibré & Durable)</option>
+                <option value="economique">Économique / Locatif</option>
+                <option value="haut">Haut Standing (Prestations Premium)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4">
+            <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer">
+              <span>Suivant</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 2 -->
+        <div class="step-container step-2 hidden space-y-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Caractéristiques du Sol (Sénégal)</label>
+            <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+              <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+                <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Enrobage 4,5 cm requis)</option>
+                <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+                <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+              </optgroup>
+              <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+                <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Drainage requis)</option>
+                <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+              </optgroup>
+              <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+                <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+                <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+              </optgroup>
+              <optgroup label="📍 Régions & Petite Côte">
+                <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+                <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique)</option>
+                <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Statut Juridique Foncier</label>
+              <select name="land_status" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+                <option value="Titre Foncier (TF)" selected>Titre Foncier (TF)</option>
+                <option value="Bail Emphytéotique">Bail Emphytéotique</option>
+                <option value="Délibération Communale">Délibération Communale</option>
+              </select>
             </div>
             <div>
-                <h4 class="font-bold text-white uppercase tracking-wider mb-3">Conformit� & L�gal</h4>
-                <ul class="space-y-2">
-                    <li><a href="confidentialite.html" class="hover:text-amber-400">Protection des Donn�es (CDP)</a>
-                    </li>
-                    <li><a href="mentions-legales.html" class="hover:text-amber-400">Mentions L�gales</a></li>
-                    <li><a href="a-propos.html" class="hover:text-amber-400">Qui Sommes-Nous</a></li>
-                </ul>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro de Parcelle / Lot (Optionnel)</label>
+              <input type="text" name="lot_number" placeholder="Ex: Lot 12 - Ilot 4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
             </div>
+          </div>
+
+          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-3">
+            <span class="block text-xs font-bold uppercase text-slate-400">Exigences Environnementales</span>
+            <div class="flex flex-wrap gap-6 text-sm">
+              <label class="inline-flex items-center space-x-2.5 cursor-pointer">
+                <input type="checkbox" name="is_hivernage" checked class="w-4 h-4 rounded text-[#F59E0B] focus:ring-[#F59E0B] bg-slate-900 border-slate-700">
+                <span class="text-slate-300">Résistance pluviométrie sévère (Hivernage)</span>
+              </label>
+              <label class="inline-flex items-center space-x-2.5 cursor-pointer">
+                <input type="checkbox" name="is_ocean" checked class="w-4 h-4 rounded text-[#F59E0B] focus:ring-[#F59E0B] bg-slate-900 border-slate-700">
+                <span class="text-slate-300">Atmosphère saline agressive (< 5 km de mer)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl cursor-pointer">
+              &larr; Retour
+            </button>
+            <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer">
+              <span>Suivant</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
         </div>
-        <div
-            class="max-w-6xl mx-auto pt-8 border-t border-slate-900 flex justify-between items-center flex-wrap gap-4 text-[11px] text-slate-500">
-            <p>� 2026 ChantierSur.com. Tous droits r�serv�s. R�publique du S�n�gal.</p>
-            <p>Chiffrement TLS 1.3 � Passerelle Bancaire & Mobile Money PayTech</p>
+
+        <!-- ÉTAPE 3 -->
+        <div class="step-container step-3 hidden space-y-6">
+          <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <p class="text-xs uppercase font-bold text-[#F59E0B]">Forfait Étude Faisabilité</p>
+              <p class="text-lg font-extrabold text-white">35 000 FCFA <span class="text-xs text-slate-400 font-normal">TTC</span></p>
+            </div>
+            <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Livrable PDF Immédiat</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label>
+              <input type="text" name="client_name" placeholder="Ex: Moussa Ndiaye" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email (Réception du Dossier)</label>
+              <input type="email" name="client_email" placeholder="ndiaye@example.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone Sénégal (9 chiffres pour Wave / OM)</label>
+            <div class="flex">
+              <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-700 bg-slate-800 text-slate-300 font-mono text-sm">+221</span>
+              <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">Saisir exactement 9 chiffres (ex: 77 123 45 67).</p>
+          </div>
+
+          <div class="flex justify-between items-center pt-4">
+            <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl cursor-pointer">
+              &larr; Retour
+            </button>
+            <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 35000, 'esquisse')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
+              <span>Payer & Télécharger mon Dossier</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
         </div>
-    </footer>
+      </form>
 
-    <!-- ================================================================= -->
-    <!-- 6. JAVASCRIPT INDESTRUCTIBLE (Z�RO ERREUR, 100% OP�RATIONNEL)    -->
-    <!-- ================================================================= -->
-    <script src="pdf-generator.js"></script>
-    <script>
-        // A. BASCULE DES ONGLETS 1, 2, 3, 4
-        function switchTab(tabIndex) {
-            for (let i = 1; i <= 4; i++) {
-                const btn = document.getElementById('tab-btn-' + i);
-                const pane = document.getElementById('pane-' + i);
+      <!-- ============================================== -->
+      <!-- FORMULAIRE 2 : BQE GROS ŒUVRE EXPRESS          -->
+      <!-- ============================================== -->
+      <form id="pane-2" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-white">Dossier : BQE Gros Œuvre Express (Métré Matériaux)</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Cubage béton, aciers FeE500, ciment CEM II 42.5R, sable et gravier</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
+          </div>
+        </div>
 
-                if (btn) {
-                    if (i === tabIndex) {
-                        btn.className = 'tab-card text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none';
-                    } else {
-                        btn.className = 'tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none';
-                    }
-                }
+        <div class="step-container step-1 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface Développée Totale (m²)</label>
+              <input type="number" name="surface" value="240" min="40" max="3000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de Niveaux</label>
+              <select name="exact_levels" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+                <option value="0">RDC Simple</option>
+                <option value="1" selected>R+1</option>
+                <option value="2">R+2</option>
+                <option value="3">R+3</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex justify-end pt-4">
+            <button type="button" onclick="goToStep(2, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
+          </div>
+        </div>
 
-                if (pane) {
-                    if (i === tabIndex) {
-                        pane.classList.remove('hidden');
-                    } else {
-                        pane.classList.add('hidden');
-                    }
-                }
-            }
-        }
+        <div class="step-container step-2 hidden space-y-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation du Chantier</label>
+            <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+              <option value="Dakar - Almadies / Ngor / Ouakam">Almadies / Ngor / Ouakam (Zone Littorale)</option>
+              <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika (Nappe Haute)</option>
+              <option value="Diamniadio / Sébikotane">Diamniadio / Sébikotane</option>
+              <option value="Saly / Mbour / Somone">Saly / Mbour / Somone</option>
+              <option value="Autre région du Sénégal">Autre région du Sénégal</option>
+            </select>
+          </div>
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(2, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+            <button type="button" onclick="goToStep(2, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
+          </div>
+        </div>
 
-        // B. NAVIGATION �TAPES (SUIVANT / RETOUR)
-        function goToStep(paneId, targetStep) {
-            const pane = document.getElementById('pane-' + paneId);
-            if (!pane) return;
+        <div class="step-container step-3 hidden space-y-6">
+          <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <p class="text-xs uppercase font-bold text-[#F59E0B]">Forfait Chiffrage BQE</p>
+              <p class="text-lg font-extrabold text-white">25 000 FCFA</p>
+            </div>
+            <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Bordereau PDF</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom complet</label>
+              <input type="text" name="client_name" placeholder="Nom et Prénom" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email</label>
+              <input type="email" name="client_email" placeholder="client@domaine.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Téléphone (9 chiffres)</label>
+            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+          </div>
+          <div class="flex justify-between items-center pt-4">
+            <button type="button" onclick="goToStep(2, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+            <button type="button" id="pay-btn-2" onclick="initiatePayment(2, 25000, 'express')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Payer & Générer mon BQE &rarr;</button>
+          </div>
+        </div>
+      </form>
 
-            // Si on avance (targetStep > �tape actuelle), validation des champs de l'�tape courante
-            const activeStep = pane.querySelector('.step-container:not(.hidden)');
-            if (activeStep) {
-                const currentStepNum = activeStep.classList.contains('step-1') ? 1 : (activeStep.classList.contains('step-2') ? 2 : 3);
-                if (targetStep > currentStepNum) {
-                    const fields = activeStep.querySelectorAll('input, select, textarea');
-                    for (let field of fields) {
-                        if (!field.checkValidity()) {
-                            field.reportValidity();
-                            return; // Bloque si un champ obligatoire de cette �tape est vide
-                        }
-                    }
-                }
-            }
+      <!-- ============================================== -->
+      <!-- FORMULAIRE 3 : CONTRE-EXPERTISE DEVIS          -->
+      <!-- ============================================== -->
+      <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-white">Dossier : Contre-Expertise Devis BTP</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Audit anti-surfacturation & vérification de la cohérence des prix</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
+          </div>
+        </div>
 
-            // Masquer toutes les �tapes du panneau actif
-            pane.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
+        <div class="step-container step-1 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Montant du devis reçu de l'entrepreneur (FCFA)</label>
+              <input type="number" name="quoted_amount" placeholder="Ex: 35000000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface Développée Estimée (m²)</label>
+              <input type="number" name="surface" value="250" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+          </div>
+          <div class="flex justify-end pt-4">
+            <button type="button" onclick="goToStep(3, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
+          </div>
+        </div>
 
-            // Afficher l'�tape cibl�e
-            const nextStepEl = pane.querySelector('.step-' + targetStep);
-            if (nextStepEl) nextStepEl.classList.remove('hidden');
+        <div class="step-container step-2 hidden space-y-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation du Projet</label>
+            <input type="text" name="project_location" value="Dakar et environs" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          </div>
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(3, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+            <button type="button" onclick="goToStep(3, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
+          </div>
+        </div>
 
-            // Mise � jour visuelle des puces du stepper (1, 2, 3)
-            const b1 = pane.querySelector('.bullet-1');
-            const b2 = pane.querySelector('.bullet-2');
-            const b3 = pane.querySelector('.bullet-3');
+        <div class="step-container step-3 hidden space-y-6">
+          <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <p class="text-xs uppercase font-bold text-[#F59E0B]">Audit d'Arbitrage</p>
+              <p class="text-lg font-extrabold text-white">45 000 FCFA</p>
+            </div>
+            <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Rapport d'Expertise</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom complet</label>
+              <input type="text" name="client_name" placeholder="Votre nom" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email</label>
+              <input type="email" name="client_email" placeholder="votre@email.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Téléphone (9 chiffres)</label>
+            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+          </div>
+          <div class="flex justify-between items-center pt-4">
+            <button type="button" onclick="goToStep(3, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+            <button type="button" id="pay-btn-3" onclick="initiatePayment(3, 45000, 'audit')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Lancer la Contre-Expertise &rarr;</button>
+          </div>
+        </div>
+      </form>
 
-            [b1, b2, b3].forEach((bullet, idx) => {
-                if (!bullet) return;
-                const stepNum = idx + 1;
-                if (stepNum <= targetStep) {
-                    bullet.className = `bullet-${stepNum} w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow`;
-                } else {
-                    bullet.className = `bullet-${stepNum} w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm`;
-                }
-            });
-        }
+      <!-- ============================================== -->
+      <!-- FORMULAIRE 4 : FINITIONS & SECOND ŒUVRE        -->
+      <!-- ============================================== -->
+      <form id="pane-4" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-white">Dossier : Finitions & Second Œuvre</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Carrelage, plomberie, étanchéité terrasse et réseaux intérieurs</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
+            <div class="w-8 h-0.5 bg-slate-700"></div>
+            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
+          </div>
+        </div>
 
-        // C. PAIEMENT PAYTECH & SAUVEGARDE PROJET
-        async function initiatePayment(paneId, amount, serviceKey) {
-            const pane = document.getElementById('pane-' + paneId);
-            if (!pane) return;
+        <div class="step-container step-1 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface Habitable Totale (m²)</label>
+              <input type="number" name="surface" value="180" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Niveau de Finition</label>
+              <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+                <option value="standard" selected>Standard Robuste (Grès cérame résistant)</option>
+                <option value="luxe">Prestige (Marbre & faux-plafonds staff)</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex justify-end pt-4">
+            <button type="button" onclick="goToStep(4, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
+          </div>
+        </div>
 
-            const fd = new FormData(pane);
+        <div class="step-container step-2 hidden space-y-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Lots Prioritaires</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Plomberie & Sanitaires</span></label>
+              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Électricité & Climatisation</span></label>
+              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Carrelage & Peinture</span></label>
+              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Étanchéité Toiture Terrasse</span></label>
+            </div>
+          </div>
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(4, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+            <button type="button" onclick="goToStep(4, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
+          </div>
+        </div>
 
-            const clientName = (fd.get('client_name') || '').trim();
-            const clientEmail = (fd.get('client_email') || '').trim();
-            const clientPhone = (fd.get('client_phone') || '').trim();
+        <div class="step-container step-3 hidden space-y-6">
+          <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <p class="text-xs uppercase font-bold text-[#F59E0B]">Bordereau Second Œuvre</p>
+              <p class="text-lg font-extrabold text-white">20 000 FCFA</p>
+            </div>
+            <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Livrable Finitions</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom complet</label>
+              <input type="text" name="client_name" placeholder="Nom et Prénom" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email</label>
+              <input type="email" name="client_email" placeholder="client@domaine.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Téléphone (9 chiffres)</label>
+            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+          </div>
+          <div class="flex justify-between items-center pt-4">
+            <button type="button" onclick="goToStep(4, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+            <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 20000, 'finitions')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Valider & Payer &rarr;</button>
+          </div>
+        </div>
+      </form>
 
-            if (!clientName || !clientEmail || !clientPhone) {
-                alert("Veuillez renseigner votre nom, email et t�l�phone (9 chiffres).");
-                return;
-            }
+    </div>
 
-            if (clientPhone.length !== 9) {
-                alert("Le num�ro de t�l�phone doit comporter exactement 9 chiffres (ex: 771234567).");
-                return;
-            }
+  </main>
 
-            const projectData = {
-                service: serviceKey,
-                surface: parseFloat(fd.get('surface')) || 200,
-                exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
-                project_location: fd.get('project_location') || 'Dakar',
-                land_status: fd.get('land_status') || 'Titre Foncier (TF)',
-                lot_number: fd.get('lot_number') || '',
-                client_name: clientName,
-                client_email: clientEmail,
-                client_phone: clientPhone,
-                phone_prefix: '+221',
-                is_hivernage: Boolean(pane.querySelector('[name="is_hivernage"]')?.checked),
-                is_ocean: Boolean(pane.querySelector('[name="is_ocean"]')?.checked),
-                timestamp: Date.now()
-            };
+  <!-- FOOTER OFFICIEL -->
+  <footer class="bg-slate-950 border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400 mt-16">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <div class="flex items-center space-x-2.5 mb-3">
+          <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center border border-slate-800 text-[#F59E0B]">
+            <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span class="text-base font-black text-white">Chantier<span class="text-[#F59E0B]">Sur.com</span></span>
+        </div>
+        <p class="text-slate-400 leading-relaxed">Plateforme technique d'arbitrage et d'ingénierie bâtiment indépendante. Zéro commission perçue des artisans ou entreprises de travaux.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white uppercase tracking-wider mb-3">Nos Formules</h4>
+        <ul class="space-y-2">
+          <li><a href="javascript:void(0)" onclick="switchTab(1)" class="hover:text-amber-400">1. Esquisse & Faisabilité</a></li>
+          <li><a href="javascript:void(0)" onclick="switchTab(2)" class="hover:text-amber-400">2. BQE Gros Œuvre Express</a></li>
+          <li><a href="javascript:void(0)" onclick="switchTab(3)" class="hover:text-amber-400">3. Contre-Expertise Devis</a></li>
+          <li><a href="javascript:void(0)" onclick="switchTab(4)" class="hover:text-amber-400">4. Finitions & Second Œuvre</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white uppercase tracking-wider mb-3">Cadre & Méthodes</h4>
+        <ul class="space-y-2">
+          <li><a href="methodologie.html" class="hover:text-amber-400">Normes BAEL 91 R99</a></li>
+          <li><a href="methodologie.html" class="hover:text-amber-400">Protocole des 6 Points d'Arrêt</a></li>
+          <li><a href="cadre-juridique.html" class="hover:text-amber-400">Garantie Décennale (COCC)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white uppercase tracking-wider mb-3">Conformité & Légal</h4>
+        <ul class="space-y-2">
+          <li><a href="confidentialite.html" class="hover:text-amber-400">Protection des Données (CDP)</a></li>
+          <li><a href="mentions-legales.html" class="hover:text-amber-400">Mentions Légales</a></li>
+          <li><a href="a-propos.html" class="hover:text-amber-400">Qui Sommes-Nous</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-8 border-t border-slate-900 flex justify-between items-center flex-wrap gap-4 text-[11px] text-slate-500">
+      <p>© 2026 ChantierSur.com. Tous droits réservés. République du Sénégal.</p>
+      <p>Chiffrement TLS 1.3 • Passerelle Bancaire & Mobile Money PayTech</p>
+    </div>
+  </footer>
 
-            try {
-                localStorage.setItem('cs_project_data', JSON.stringify(projectData));
-                sessionStorage.setItem('cs_project_data', JSON.stringify(projectData));
-            } catch (e) { }
+  <!-- SCRIPT UNIVERSEL ET INDESTRUCTIBLE -->
+  <script src="pdf-generator.js"></script>
+  <script>
+    // 1. BASCULE DES ONGLETS
+    window.switchTab = function(tabIndex) {
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById('tab-btn-' + i);
+        const pane = document.getElementById('pane-' + i);
 
-            const btn = document.getElementById('pay-btn-' + paneId);
-            const originalText = btn ? btn.innerHTML : '';
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = 'Initialisation PayTech (Wave / OM)...';
-            }
-
-            try {
-                const response = await fetch('/.netlify/functions/paytech', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
-                        item_price: amount,
-                        currency: 'XOF',
-                        ref_command: 'CS-' + Date.now(),
-                        client_name: clientName,
-                        client_email: clientEmail,
-                        client_phone: clientPhone
-                    })
-                });
-
-                const data = await response.json();
-                if (data && data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert("Impossible de joindre la passerelle PayTech. V�rifiez votre configuration de cl�s d'API.");
-                    if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
-                }
-            } catch (err) {
-                console.error("Erreur PayTech:", err);
-                alert("Erreur de connexion au serveur de paiement.");
-                if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
-            }
-        }
-
-        // D. MENU BURGER MOBILE
-        function toggleMobileMenu() {
-            const drawer = document.getElementById('mobile-drawer');
-            if (drawer) drawer.classList.toggle('hidden');
-        }
-
-        // E. TEST DIRECT PDF PAR URL (?payment=success&service=...)
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('payment') === 'success') {
-                const s = urlParams.get('service') || 'express';
-
-                let data = null;
-                try {
-                    const raw = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
-                    if (raw) data = JSON.parse(raw);
-                } catch (e) { }
-
-                if (!data) {
-                    data = {
-                        service: s,
-                        surface: 240,
-                        exact_levels: 2,
-                        client_name: 'Moussa Ndiaye (Test Livrable)',
-                        client_email: 'moussa@chantiersur.com',
-                        client_phone: '771234567',
-                        phone_prefix: '+221',
-                        project_location: 'Almadies / Ngor / Ouakam (Zone Littorale)',
-                        land_status: 'Titre Foncier (TF)',
-                        lot_number: 'Lot N� 45',
-                        is_hivernage: true,
-                        is_ocean: true
-                    };
-                } else {
-                    data.service = s;
-                }
-
-                const gen = window.generateProjectPDF || window.generatePDF;
-                if (typeof gen === 'function') {
-                    setTimeout(() => gen(data), 600);
-                }
-            }
-        });
-    </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // 1. GESTION DES 4 ONGLETS DE SERVICES
-  // Recherche automatique des 4 cartes d'en-tête de services
-  const cards = Array.from(document.querySelectorAll('*')).filter(el => {
-    const t = el.innerText || '';
-    return (t.includes('Esquisse & Faisabilité') || t.includes('Gros Œuvre') || t.includes('Contre-Expertise') || t.includes('Finitions')) 
-      && el.parentElement && el.parentElement.children.length >= 4 && el.children.length > 0;
-  }).slice(0, 4);
-
-  // Recherche des conteneurs de formulaire correspondants
-  const formPanes = Array.from(document.querySelectorAll('[data-service-content], [id*="pane"], .service-pane, .tab-pane, form')).filter(el => {
-    return el.tagName === 'FORM' || el.classList.contains('service-pane') || el.hasAttribute('data-service-content') || (el.id && el.id.includes('pane'));
-  }).slice(0, 4);
-
-  if (cards.length === 4) {
-    cards.forEach((card, index) => {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Style visuel des cartes
-        cards.forEach((c, i) => {
-          if (i === index) {
-            c.classList.add('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
-            c.classList.remove('border-slate-800', 'bg-slate-900/60');
+        if (btn) {
+          if (i === tabIndex) {
+            btn.className = 'tab-card text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none cursor-pointer';
           } else {
-            c.classList.remove('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
-            c.classList.add('border-slate-800', 'bg-slate-900/60');
+            btn.className = 'tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer';
           }
-        });
+        }
 
-        // Affichage du formulaire sélectionné
-        if (formPanes.length === 4) {
-          formPanes.forEach((pane, i) => {
-            if (i === index) {
-              pane.classList.remove('hidden');
-              pane.style.display = 'block';
-            } else {
-              pane.classList.add('hidden');
-              pane.style.display = 'none';
+        if (pane) {
+          if (i === tabIndex) {
+            pane.classList.remove('hidden');
+          } else {
+            pane.classList.add('hidden');
+          }
+        }
+      }
+    };
+
+    // 2. NAVIGATION DANS LES ÉTAPES (SUIVANT / RETOUR)
+    window.goToStep = function(paneId, targetStep) {
+      const pane = document.getElementById('pane-' + paneId);
+      if (!pane) return;
+
+      const activeStep = pane.querySelector('.step-container:not(.hidden)');
+      if (activeStep) {
+        const currentStepNum = activeStep.classList.contains('step-1') ? 1 : (activeStep.classList.contains('step-2') ? 2 : 3);
+        if (targetStep > currentStepNum) {
+          const fields = activeStep.querySelectorAll('input, select, textarea');
+          for (let field of fields) {
+            if (!field.checkValidity()) {
+              field.reportValidity();
+              return;
             }
-          });
+          }
+        }
+      }
+
+      pane.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
+
+      const nextStepEl = pane.querySelector('.step-' + targetStep);
+      if (nextStepEl) nextStepEl.classList.remove('hidden');
+
+      const b1 = pane.querySelector('.bullet-1');
+      const b2 = pane.querySelector('.bullet-2');
+      const b3 = pane.querySelector('.bullet-3');
+
+      [b1, b2, b3].forEach((bullet, idx) => {
+        if (!bullet) return;
+        const stepNum = idx + 1;
+        if (stepNum <= targetStep) {
+          bullet.className = `bullet-${stepNum} w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow`;
+        } else {
+          bullet.className = `bullet-${stepNum} w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm`;
         }
       });
+    };
+
+    // 3. PAIEMENT PAYTECH & SAUVEGARDE PROJET
+    window.initiatePayment = async function(paneId, amount, serviceKey) {
+      const pane = document.getElementById('pane-' + paneId);
+      if (!pane) return;
+
+      const fd = new FormData(pane);
+      const clientName = (fd.get('client_name') || '').trim();
+      const clientEmail = (fd.get('client_email') || '').trim();
+      const clientPhone = (fd.get('client_phone') || '').trim();
+
+      if (!clientName || !clientEmail || !clientPhone) {
+        alert("Veuillez renseigner votre nom, email et téléphone.");
+        return;
+      }
+
+      if (clientPhone.length !== 9) {
+        alert("Le numéro de téléphone doit comporter exactement 9 chiffres (ex: 771234567).");
+        return;
+      }
+
+      const projectData = {
+        service: serviceKey,
+        surface: parseFloat(fd.get('surface')) || 200,
+        exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
+        project_location: fd.get('project_location') || 'Dakar',
+        land_status: fd.get('land_status') || 'Titre Foncier (TF)',
+        lot_number: fd.get('lot_number') || '',
+        client_name: clientName,
+        client_email: clientEmail,
+        client_phone: clientPhone,
+        phone_prefix: '+221',
+        is_hivernage: Boolean(pane.querySelector('[name="is_hivernage"]')?.checked),
+        is_ocean: Boolean(pane.querySelector('[name="is_ocean"]')?.checked),
+        timestamp: Date.now()
+      };
+
+      try {
+        localStorage.setItem('cs_project_data', JSON.stringify(projectData));
+        sessionStorage.setItem('cs_project_data', JSON.stringify(projectData));
+      } catch(e){}
+
+      const btn = document.getElementById('pay-btn-' + paneId);
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = 'Initialisation PayTech...';
+      }
+
+      try {
+        const response = await fetch('/.netlify/functions/paytech', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
+            item_price: amount,
+            currency: 'XOF',
+            ref_command: 'CS-' + Date.now(),
+            client_name: clientName,
+            client_email: clientEmail,
+            client_phone: clientPhone
+          })
+        });
+
+        const data = await response.json();
+        if (data && data.redirect_url) {
+          window.location.href = data.redirect_url;
+        } else {
+          alert("Impossible de joindre la passerelle PayTech. Vérifiez votre configuration.");
+          if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
+        }
+      } catch (err) {
+        console.error("Erreur PayTech:", err);
+        alert("Erreur de connexion au serveur de paiement.");
+        if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
+      }
+    };
+
+    // 4. MENU BURGER MOBILE
+    window.toggleMobileMenu = function() {
+      const drawer = document.getElementById('mobile-drawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    };
+
+    // 5. TEST DIRECT PDF PAR URL (?payment=success&service=...)
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success') {
+        const s = urlParams.get('service') || 'express';
+        
+        let data = null;
+        try {
+          const raw = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
+          if (raw) data = JSON.parse(raw);
+        } catch(e){}
+
+        if (!data) {
+          data = {
+            service: s,
+            surface: 240,
+            exact_levels: 2,
+            client_name: 'Moussa Ndiaye (Dossier Validé)',
+            client_email: 'moussa@chantiersur.com',
+            client_phone: '771234567',
+            phone_prefix: '+221',
+            project_location: 'Almadies / Ngor / Ouakam (Zone Littorale)',
+            land_status: 'Titre Foncier (TF)',
+            lot_number: 'Lot N° 45',
+            is_hivernage: true,
+            is_ocean: true
+          };
+        } else {
+          data.service = s;
+        }
+
+        const gen = window.generateProjectPDF || window.generatePDF;
+        if (typeof gen === 'function') {
+          setTimeout(() => gen(data), 600);
+        }
+      }
     });
-  }
-
-  // 2. GESTION DU BOUTON SUIVANT
-  document.addEventListener('click', function(e) {
-    const target = e.target.closest('button, a');
-    if (!target) return;
-    
-    const text = (target.textContent || '').trim().toLowerCase();
-    if (text.includes('suivant')) {
-      e.preventDefault();
-      
-      // Recherche de l'étape courante
-      let currentStep = target.closest('.form-step, .step-container, [data-step]');
-      if (!currentStep) {
-        let p = target.parentElement;
-        while (p && p.tagName !== 'FORM' && !p.classList.contains('form-step')) {
-          p = p.parentElement;
-        }
-        currentStep = p;
-      }
-      
-      if (!currentStep) return;
-
-      // Validation uniquement des champs visibles de l'étape active
-      const inputs = currentStep.querySelectorAll('input:not([type="hidden"]), select, textarea');
-      for (let input of inputs) {
-        if (!input.checkValidity()) {
-          input.reportValidity();
-          return;
-        }
-      }
-
-      // Passage à l'étape suivante
-      let nextStep = currentStep.nextElementSibling;
-      while (nextStep && (nextStep.tagName === 'SCRIPT' || (nextStep.offsetParent === null && !nextStep.classList.contains('hidden')))) {
-        nextStep = nextStep.nextElementSibling;
-      }
-
-      if (nextStep) {
-        currentStep.classList.add('hidden');
-        currentStep.style.display = 'none';
-        nextStep.classList.remove('hidden');
-        nextStep.style.display = 'block';
-
-        // Mise à jour de l'indicateur d'étape (puce 2)
-        const form = currentStep.closest('form');
-        if (form) {
-          form.querySelectorAll('.rounded-full, [data-bullet-step]').forEach(bullet => {
-            if (bullet.textContent.trim() === '2') {
-              bullet.classList.add('bg-[#F59E0B]', 'text-slate-950');
-              bullet.classList.remove('bg-slate-800', 'text-slate-400');
-            }
-          });
-        }
-      }
-    }
-  });
-});
-</script>
+  </script>
 </body>
-
 </html>
