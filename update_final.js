@@ -1,9 +1,9 @@
-$content = Get-Content -Path "index.html" -Raw
+const fs = require('fs');
+let html = fs.readFileSync('index.html', 'utf8');
 
-# Replace Tabs Grid
-$gridRegex = '<div class="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 mb-8 pb-2 hide-scrollbar">[\s\S]*?</div>'
-$newGrid = @"
-<!-- GRILLE DES 4 SERVICES -->
+// Replace Tabs Grid
+const gridRegex = /<div class="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 mb-8 pb-2 hide-scrollbar">[\s\S]*?<\/div>/;
+const newGrid = `<!-- GRILLE DES 4 SERVICES -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
   <!-- CARTE 1 -->
   <div id="tab-card-1" onclick="window.switchTab(1)" class="tab-card cursor-pointer p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] transition-all">
@@ -28,38 +28,36 @@ $newGrid = @"
     <h3 class="text-base font-bold text-white mb-1">4. Finitions & Second Œuvre</h3>
     <p class="text-xs text-slate-400">Phase Post-Gros Œuvre</p>
   </div>
-</div>
-"@
-$content = [System.Text.RegularExpressions.Regex]::Replace($content, $gridRegex, $newGrid)
+</div>`;
+html = html.replace(gridRegex, newGrid);
 
-# Replace Pane IDs
-$content = $content -replace 'id="pane-1"', 'id="service-pane-1"'
-$content = $content -replace 'id="pane-2"', 'id="service-pane-2"'
-$content = $content -replace 'id="pane-3"', 'id="service-pane-3"'
-$content = $content -replace 'id="pane-4"', 'id="service-pane-4"'
+// Replace Pane IDs
+html = html.replace(/id="pane-1"/g, 'id="service-pane-1"');
+html = html.replace(/id="pane-2"/g, 'id="service-pane-2"');
+html = html.replace(/id="pane-3"/g, 'id="service-pane-3"');
+html = html.replace(/id="pane-4"/g, 'id="service-pane-4"');
 
-# Replace Suivant Buttons
-$btnSuivantRegex = '<button type="button" class="btn-step-next[^>]*onclick="nextStep\(this\)"[^>]*>Suivant</button>'
-$newBtnSuivant = @"
+// Replace Suivant Buttons
+const btnSuivantRegex = /<button type="button" class="btn-step-next[^>]*onclick="nextStep\(this\)"[^>]*>Suivant<\/button>/g;
+const newBtnSuivant = `
 <button type="button" onclick="window.goToNextStep(this)" class="px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400 cursor-pointer">
   Suivant
 </button>
-"@
-$content = [System.Text.RegularExpressions.Regex]::Replace($content, $btnSuivantRegex, $newBtnSuivant)
+`.trim();
+html = html.replace(btnSuivantRegex, newBtnSuivant);
 
-# Replace Retour Buttons
-$btnRetourRegex = '<button type="button" class="[^"]*btn-prev"[^>]*>.*?Retour</button>'
-$newBtnRetour = @"
+// Replace Retour Buttons
+const btnRetourRegex = /<button type="button" class="[^"]*btn-prev"[^>]*>.*Retour<\/button>/g;
+const newBtnRetour = `
 <button type="button" onclick="window.goToPrevStep(this)" class="px-6 py-2.5 bg-slate-800 text-slate-300 font-medium rounded-lg hover:bg-slate-700 cursor-pointer">
   Retour
 </button>
-"@
-$content = [System.Text.RegularExpressions.Regex]::Replace($content, $btnRetourRegex, $newBtnRetour)
+`.trim();
+html = html.replace(btnRetourRegex, newBtnRetour);
 
-# Replace Script Block
-$scriptRegex = '<script>[\s\S]*?</script>\s*</body>'
-$newScript = @"
-<script>
+// Replace Script Block
+const scriptRegex = /<script>[\s\S]*?<\/script>\s*<\/body>/;
+const newScript = `<script>
 // 1. BASCULE IMMÉDIATE DES ONGLETS
 window.switchTab = function(serviceIndex) {
   // Mise à jour visuelle des 4 cartes
@@ -138,9 +136,8 @@ window.goToPrevStep = function(btn) {
   }
 };
 </script>
-</body>
-"@
-$content = [System.Text.RegularExpressions.Regex]::Replace($content, $scriptRegex, $newScript)
+</body>`;
+html = html.replace(scriptRegex, newScript);
 
-Set-Content -Path "index.html" -Value $content -Encoding UTF8
-Write-Output "Update complete"
+fs.writeFileSync('index.html', html, 'utf8');
+console.log('Update complete');
