@@ -157,204 +157,222 @@
       <!-- FORMULAIRE 1 : ESQUISSE & FAISABILITÉ          -->
       <!-- ============================================== -->
       <form id="pane-1" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
-          <div>
-            <h3 class="text-xl font-bold text-white">Dossier : Esquisse & Faisabilité Technique</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Normes BAEL 91 R99 • Implantation et contraintes parcellaires</p>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
-            <div class="w-8 h-0.5 bg-slate-700"></div>
-            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
-            <div class="w-8 h-0.5 bg-slate-700"></div>
-            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
-          </div>
+  
+  <!-- EN-TÊTE DU FORMULAIRE & STEPPER -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+    <div>
+      <h3 class="text-xl font-bold text-white">1. Dossier d'Esquisse & Faisabilité Technique</h3>
+      <p class="text-xs text-slate-400 mt-0.5">Étude nominative préalable • Règles d'urbanisme DUA & BAEL 91 R99</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
+      <div class="w-8 h-0.5 bg-slate-700"></div>
+      <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
+      <div class="w-8 h-0.5 bg-slate-700"></div>
+      <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 1 : GÉOMÉTRIE DE LA PARCELLE & GABARIT -->
+  <div class="step-container step-1 space-y-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface totale parcelle (m²)</label>
+        <input type="number" name="surface" value="200" min="50" max="3000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Largeur de façade sur rue (m)</label>
+        <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de niveaux (Élévation)</label>
+        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+          <option value="0">RDC Simple (Villa plain-pied)</option>
+          <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+          <option value="2">R+2 (Immeuble R+2)</option>
+          <option value="3">R+3 (Immeuble R+3)</option>
+          <option value="4">R+4 (Immeuble R+4)</option>
+          <option value="5">R+5 (Immeuble R+5)</option>
+          <option value="6">R+6 (Immeuble R+6)</option>
+          <option value="7">R+7 (Immeuble R+7)</option>
+          <option value="8">R+8 (Immeuble R+8)</option>
+          <option value="9">R+9 (Immeuble R+9)</option>
+          <option value="10">R+10 (Tour / Immeuble R+10)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Configuration de la parcelle</label>
+        <select name="parcel_config" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="bande" selected>En bande (1 seule façade sur rue)</option>
+          <option value="angle">En angle (2 façades d'angle sur rues)</option>
+          <option value="traversante">Traversante (2 façades opposées)</option>
+          <option value="isolee">Isolée (4 côtés dégagés)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Destination du bâtiment</label>
+        <select name="building_usage" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
+          <option value="locatif">Immeuble de rapport / Appartements locatifs</option>
+          <option value="mixte">Mixte (Commerces au RDC + Habitations)</option>
+          <option value="bureaux">Bureaux professionnels / Tertiaire</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Standing de construction</label>
+        <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="moyen" selected>Moyen Standing (Équilibré & Robuste)</option>
+          <option value="economique">Économique / Locatif standard</option>
+          <option value="haut">Haut Standing (Prestations Premium)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-4">
+      <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer">
+        <span>Suivant</span>
+        <span>&rarr;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 : SOL, ASSAINISSEMENT & TITRE FONCIER -->
+  <div class="step-container step-2 hidden space-y-6">
+    <div>
+      <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
+      <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+        <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+          <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Zone rocheuse/marine - Enrobage 4,5 cm)</option>
+          <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+          <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+        </optgroup>
+        <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+          <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Cuvelage/Drainage)</option>
+          <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+        </optgroup>
+        <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+          <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+          <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+        </optgroup>
+        <optgroup label="📍 Régions & Petite Côte">
+          <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+          <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique stable)</option>
+          <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Statut Juridique Foncier</label>
+        <select name="land_status" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="Titre Foncier (TF)" selected>Titre Foncier Définitif (TF)</option>
+          <option value="Bail Emphytéotique">Bail Emphytéotique de l'État</option>
+          <option value="Délibération Communale">Délibération Communale / Affectation</option>
+          <option value="En cours de régularisation">En cours de régularisation foncière</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro de Titre Foncier / Lot / NICAD</label>
+        <input type="text" name="lot_number" placeholder="Ex: TF N° 12.845/DP ou Lot N° 45" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Raccordement Assainissement Eaux Usées</label>
+        <select name="sanitation_type" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="autonome" selected>Fosse toutes eaux étanche + Puits perdu (Autonome)</option>
+          <option value="onas">Réseau collectif public ONAS existant</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">État de la mitoyenneté directe</label>
+        <select name="neighbor_status" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="vide" selected>Parcelles voisines nues (non bâties)</option>
+          <option value="bati_un_cote">Bâtiment mitoyen existant sur un côté</option>
+          <option value="bati_deux_cotes">Bâtiments mitoyens sur les deux côtés</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="flex justify-between pt-4">
+      <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+      <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer">
+        <span>Suivant</span>
+        <span>&rarr;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 : DONNÉES PERSONNELLES DU MAÎTRE D'OUVRAGE & PAIEMENT -->
+  <div class="step-container step-3 hidden space-y-6">
+    <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
+      <div>
+        <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Prestation d'Étude Personnalisée</p>
+        <div class="flex items-baseline space-x-2 mt-0.5">
+          <span id="price-val-1" class="text-2xl font-black text-white">35 000 FCFA</span>
+          <span id="price-converted-1" class="text-xs text-amber-300 font-semibold">(≈ 53,36 €)</span>
         </div>
+      </div>
+      <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Rapport Nominatif Certifié</span>
+    </div>
 
-        <!-- ÉTAPE 1 -->
-        <div class="step-container step-1 space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface au sol de la parcelle (m²)</label>
-              <input type="number" name="surface" value="200" min="40" max="3000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-              <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-                <option value="0">RDC Simple (Plain-pied)</option>
-                <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
-                <option value="2">R+2 (Immeuble R+2)</option>
-                <option value="3">R+3 (Immeuble R+3)</option>
-                <option value="4">R+4 (Immeuble R+4)</option>
-                <option value="5">R+5 (Immeuble R+5)</option>
-                <option value="6">R+6 (Immeuble R+6)</option>
-                <option value="7">R+7 (Immeuble R+7)</option>
-                <option value="8">R+8 (Immeuble R+8)</option>
-                <option value="9">R+9 (Immeuble R+9)</option>
-                <option value="10">R+10 (Tour / Immeuble R+10)</option>
-              </select>
-            </div>
-          </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label>
+        <input type="text" name="client_name" placeholder="Ex: El Hadji Abdoulaye Diop" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Adresse Email (Envoi & Archives)</label>
+        <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+      </div>
+    </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Configuration de la parcelle</label>
-              <select name="parcel_config" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                <option value="standard" selected>En bande (1 façade sur rue)</option>
-                <option value="angle">Parcelle d'angle (2 façades sur rue)</option>
-                <option value="isolee">Isolée (4 côtés libres)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Standing souhaité</label>
-              <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                <option value="moyen" selected>Moyen Standing (Équilibré & Durable)</option>
-                <option value="economique">Économique / Locatif</option>
-                <option value="haut">Haut Standing (Prestations Premium)</option>
-              </select>
-            </div>
-          </div>
+    <div>
+      <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
+      <div class="flex">
+        <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+          <option value="+221" selected>🇸🇳 SN (+221)</option>
+          <option value="+33">🇫🇷 FR (+33)</option>
+          <option value="+39">🇮🇹 IT (+39)</option>
+          <option value="+34">🇪🇸 ES (+34)</option>
+          <option value="+1">🇺🇸 US (+1)</option>
+          <option value="+1">🇨🇦 CA (+1)</option>
+          <option value="+225">🇨🇮 CI (+225)</option>
+          <option value="+241">🇬🇦 GA (+241)</option>
+          <option value="+222">🇲🇷 MR (+222)</option>
+          <option value="+220">🇬🇲 GM (+220)</option>
+          <option value="+223">🇲🇱 ML (+223)</option>
+          <option value="+212">🇲🇦 MA (+212)</option>
+          <option value="+32">🇧🇪 BE (+32)</option>
+          <option value="+49">🇩🇪 DE (+49)</option>
+          <option value="+44">🇬🇧 UK (+44)</option>
+          <option value="+41">🇨🇭 CH (+41)</option>
+          <option value="+242">🇨🇬 CG (+242)</option>
+          <option value="+243">🇨🇩 CD (+243)</option>
+          <option value="+971">🇦🇪 AE (+971)</option>
+          <option value="+966">🇸🇦 SA (+966)</option>
+          <option value="+224">🇬🇳 GN (+224)</option>
+        </select>
+        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
+      </div>
+      <p class="text-[11px] text-slate-500 mt-1">Ce numéro figurera sur le rapport officiel pour authentifier la propriété du dossier.</p>
+    </div>
 
-          <div class="flex justify-end pt-4">
-            <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer">
-              <span>Suivant</span>
-              <span>&rarr;</span>
-            </button>
-          </div>
-        </div>
+    <div class="flex justify-between items-center pt-4">
+      <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
+      <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
+        <span>Générer mon Rapport Officiel</span>
+        <span>&rarr;</span>
+      </button>
+    </div>
+  </div>
 
-        <!-- ÉTAPE 2 -->
-        <div class="step-container step-2 hidden space-y-6">
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Caractéristiques du Sol (Sénégal)</label>
-            <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-              <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
-                <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Enrobage 4,5 cm requis)</option>
-                <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
-                <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
-              </optgroup>
-              <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
-                <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Drainage requis)</option>
-                <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
-              </optgroup>
-              <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
-                <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
-                <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
-              </optgroup>
-              <optgroup label="📍 Régions & Petite Côte">
-                <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
-                <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique)</option>
-                <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
-              </optgroup>
-            </select>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Statut Juridique Foncier</label>
-              <select name="land_status" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                <option value="Titre Foncier (TF)" selected>Titre Foncier (TF)</option>
-                <option value="Bail Emphytéotique">Bail Emphytéotique</option>
-                <option value="Délibération Communale">Délibération Communale</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro de Parcelle / Lot (Optionnel)</label>
-              <input type="text" name="lot_number" placeholder="Ex: Lot 12 - Ilot 4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-            </div>
-          </div>
-
-          <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-3">
-            <span class="block text-xs font-bold uppercase text-slate-400">Exigences Environnementales</span>
-            <div class="flex flex-wrap gap-6 text-sm">
-              <label class="inline-flex items-center space-x-2.5 cursor-pointer">
-                <input type="checkbox" name="is_hivernage" checked class="w-4 h-4 rounded text-[#F59E0B] focus:ring-[#F59E0B] bg-slate-900 border-slate-700">
-                <span class="text-slate-300">Résistance pluviométrie sévère (Hivernage)</span>
-              </label>
-              <label class="inline-flex items-center space-x-2.5 cursor-pointer">
-                <input type="checkbox" name="is_ocean" checked class="w-4 h-4 rounded text-[#F59E0B] focus:ring-[#F59E0B] bg-slate-900 border-slate-700">
-                <span class="text-slate-300">Atmosphère saline agressive (< 5 km de mer)</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="flex justify-between pt-4">
-            <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl cursor-pointer">
-              &larr; Retour
-            </button>
-            <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer">
-              <span>Suivant</span>
-              <span>&rarr;</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- ÉTAPE 3 -->
-        <div class="step-container step-3 hidden space-y-6">
-          <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
-            <div>
-              <p class="text-xs uppercase font-bold text-[#F59E0B]">Forfait Étude Faisabilité</p>
-              <div class="flex items-baseline space-x-2 mt-0.5">
-                <span id="price-val-1" class="text-2xl font-black text-white">35 000 FCFA</span>
-                <span id="price-converted-1" class="text-xs text-amber-300 font-semibold">(≈ 53,36 €)</span>
-              </div>
-            </div>
-            <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Livrable PDF Immédiat</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label>
-              <input type="text" name="client_name" placeholder="Ex: Moussa Ndiaye" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email (Réception du Dossier)</label>
-              <input type="email" name="client_email" placeholder="ndiaye@example.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact)</label>
-            <div class="flex">
-              <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
-                <option value="+221" selected>🇸🇳 SN (+221)</option>
-                <option value="+33">🇫🇷 FR (+33)</option>
-                <option value="+39">🇮🇹 IT (+39)</option>
-                <option value="+34">🇪🇸 ES (+34)</option>
-                <option value="+1">🇺🇸 US (+1)</option>
-                <option value="+1">🇨🇦 CA (+1)</option>
-                <option value="+225">🇨🇮 CI (+225)</option>
-                <option value="+241">🇬🇦 GA (+241)</option>
-                <option value="+222">🇲🇷 MR (+222)</option>
-                <option value="+220">🇬🇲 GM (+220)</option>
-                <option value="+223">🇲🇱 ML (+223)</option>
-                <option value="+212">🇲🇦 MA (+212)</option>
-                <option value="+32">🇧🇪 BE (+32)</option>
-                <option value="+49">🇩🇪 DE (+49)</option>
-                <option value="+44">🇬🇧 UK (+44)</option>
-                <option value="+41">🇨🇭 CH (+41)</option>
-                <option value="+242">🇨🇬 CG (+242)</option>
-                <option value="+243">🇨🇩 CD (+243)</option>
-                <option value="+971">🇦🇪 AE (+971)</option>
-                <option value="+966">🇸🇦 SA (+966)</option>
-                <option value="+224">🇬🇳 GN (+224)</option>
-              </select>
-              <input type="tel" name="client_phone" placeholder="Numéro de téléphone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
-            </div>
-            <p class="text-[11px] text-slate-500 mt-1">Saisir le numéro sans l'indicatif international.</p>
-          </div>
-
-          <div class="flex justify-between items-center pt-4">
-            <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl cursor-pointer">
-              &larr; Retour
-            </button>
-            <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
-              <span>Payer & Télécharger mon Dossier</span>
-              <span>&rarr;</span>
-            </button>
-          </div>
-        </div>
-      </form>
+</form>
 
       <!-- ============================================== -->
       <!-- FORMULAIRE 2 : BQE GROS ŒUVRE EXPRESS          -->
