@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
   <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91 R99, contre-expertise de devis et conformité juridique COCC.">
 
@@ -316,12 +314,34 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone Sénégal (9 chiffres pour Wave / OM)</label>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact)</label>
             <div class="flex">
-              <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-700 bg-slate-800 text-slate-300 font-mono text-sm">+221</span>
-              <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+              <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+                <option value="+221" selected>🇸🇳 SN (+221)</option>
+                <option value="+33">🇫🇷 FR (+33)</option>
+                <option value="+39">🇮🇹 IT (+39)</option>
+                <option value="+34">🇪🇸 ES (+34)</option>
+                <option value="+1">🇺🇸 US (+1)</option>
+                <option value="+1">🇨🇦 CA (+1)</option>
+                <option value="+225">🇨🇮 CI (+225)</option>
+                <option value="+241">🇬🇦 GA (+241)</option>
+                <option value="+222">🇲🇷 MR (+222)</option>
+                <option value="+220">🇬🇲 GM (+220)</option>
+                <option value="+223">🇲🇱 ML (+223)</option>
+                <option value="+212">🇲🇦 MA (+212)</option>
+                <option value="+32">🇧🇪 BE (+32)</option>
+                <option value="+49">🇩🇪 DE (+49)</option>
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+41">🇨🇭 CH (+41)</option>
+                <option value="+242">🇨🇬 CG (+242)</option>
+                <option value="+243">🇨🇩 CD (+243)</option>
+                <option value="+971">🇦🇪 AE (+971)</option>
+                <option value="+966">🇸🇦 SA (+966)</option>
+                <option value="+224">🇬🇳 GN (+224)</option>
+              </select>
+              <input type="tel" name="client_phone" placeholder="Numéro de téléphone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
             </div>
-            <p class="text-[11px] text-slate-500 mt-1">Saisir exactement 9 chiffres (ex: 77 123 45 67).</p>
+            <p class="text-[11px] text-slate-500 mt-1">Saisir le numéro sans l'indicatif international.</p>
           </div>
 
           <div class="flex justify-between items-center pt-4">
@@ -384,13 +404,26 @@
 
         <div class="step-container step-2 hidden space-y-6">
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation du Chantier</label>
-            <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-              <option value="Dakar - Almadies / Ngor / Ouakam">Almadies / Ngor / Ouakam (Zone Littorale)</option>
-              <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika (Nappe Haute)</option>
-              <option value="Diamniadio / Sébikotane">Diamniadio / Sébikotane</option>
-              <option value="Saly / Mbour / Somone">Saly / Mbour / Somone</option>
-              <option value="Autre région du Sénégal">Autre région du Sénégal</option>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
+            <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+              <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+                <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Enrobage 4,5 cm requis)</option>
+                <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+                <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+              </optgroup>
+              <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+                <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Drainage requis)</option>
+                <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+              </optgroup>
+              <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+                <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+                <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+              </optgroup>
+              <optgroup label="📍 Régions & Petite Côte">
+                <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+                <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique)</option>
+                <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
+              </optgroup>
             </select>
           </div>
           <div class="flex justify-between pt-4">
@@ -421,8 +454,34 @@
             </div>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Téléphone (9 chiffres)</label>
-            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact)</label>
+            <div class="flex">
+              <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+                <option value="+221" selected>🇸🇳 SN (+221)</option>
+                <option value="+33">🇫🇷 FR (+33)</option>
+                <option value="+39">🇮🇹 IT (+39)</option>
+                <option value="+34">🇪🇸 ES (+34)</option>
+                <option value="+1">🇺🇸 US (+1)</option>
+                <option value="+1">🇨🇦 CA (+1)</option>
+                <option value="+225">🇨🇮 CI (+225)</option>
+                <option value="+241">🇬🇦 GA (+241)</option>
+                <option value="+222">🇲🇷 MR (+222)</option>
+                <option value="+220">🇬🇲 GM (+220)</option>
+                <option value="+223">🇲🇱 ML (+223)</option>
+                <option value="+212">🇲🇦 MA (+212)</option>
+                <option value="+32">🇧🇪 BE (+32)</option>
+                <option value="+49">🇩🇪 DE (+49)</option>
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+41">🇨🇭 CH (+41)</option>
+                <option value="+242">🇨🇬 CG (+242)</option>
+                <option value="+243">🇨🇩 CD (+243)</option>
+                <option value="+971">🇦🇪 AE (+971)</option>
+                <option value="+966">🇸🇦 SA (+966)</option>
+                <option value="+224">🇬🇳 GN (+224)</option>
+              </select>
+              <input type="tel" name="client_phone" placeholder="Numéro de téléphone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">Saisir le numéro sans l'indicatif international.</p>
           </div>
           <div class="flex justify-between items-center pt-4">
             <button type="button" onclick="goToStep(2, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
@@ -467,8 +526,27 @@
 
         <div class="step-container step-2 hidden space-y-6">
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation du Projet</label>
-            <input type="text" name="project_location" value="Dakar et environs" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
+            <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+              <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+                <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Enrobage 4,5 cm requis)</option>
+                <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+                <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+              </optgroup>
+              <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+                <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Drainage requis)</option>
+                <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+              </optgroup>
+              <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+                <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+                <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+              </optgroup>
+              <optgroup label="📍 Régions & Petite Côte">
+                <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+                <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique)</option>
+                <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
+              </optgroup>
+            </select>
           </div>
           <div class="flex justify-between pt-4">
             <button type="button" onclick="goToStep(3, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
@@ -498,8 +576,34 @@
             </div>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Téléphone (9 chiffres)</label>
-            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact)</label>
+            <div class="flex">
+              <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+                <option value="+221" selected>🇸🇳 SN (+221)</option>
+                <option value="+33">🇫🇷 FR (+33)</option>
+                <option value="+39">🇮🇹 IT (+39)</option>
+                <option value="+34">🇪🇸 ES (+34)</option>
+                <option value="+1">🇺🇸 US (+1)</option>
+                <option value="+1">🇨🇦 CA (+1)</option>
+                <option value="+225">🇨🇮 CI (+225)</option>
+                <option value="+241">🇬🇦 GA (+241)</option>
+                <option value="+222">🇲🇷 MR (+222)</option>
+                <option value="+220">🇬🇲 GM (+220)</option>
+                <option value="+223">🇲🇱 ML (+223)</option>
+                <option value="+212">🇲🇦 MA (+212)</option>
+                <option value="+32">🇧🇪 BE (+32)</option>
+                <option value="+49">🇩🇪 DE (+49)</option>
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+41">🇨🇭 CH (+41)</option>
+                <option value="+242">🇨🇬 CG (+242)</option>
+                <option value="+243">🇨🇩 CD (+243)</option>
+                <option value="+971">🇦🇪 AE (+971)</option>
+                <option value="+966">🇸🇦 SA (+966)</option>
+                <option value="+224">🇬🇳 GN (+224)</option>
+              </select>
+              <input type="tel" name="client_phone" placeholder="Numéro de téléphone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">Saisir le numéro sans l'indicatif international.</p>
           </div>
           <div class="flex justify-between items-center pt-4">
             <button type="button" onclick="goToStep(3, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
@@ -583,8 +687,34 @@
             </div>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Téléphone (9 chiffres)</label>
-            <input type="tel" name="client_phone" maxlength="9" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact)</label>
+            <div class="flex">
+              <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+                <option value="+221" selected>🇸🇳 SN (+221)</option>
+                <option value="+33">🇫🇷 FR (+33)</option>
+                <option value="+39">🇮🇹 IT (+39)</option>
+                <option value="+34">🇪🇸 ES (+34)</option>
+                <option value="+1">🇺🇸 US (+1)</option>
+                <option value="+1">🇨🇦 CA (+1)</option>
+                <option value="+225">🇨🇮 CI (+225)</option>
+                <option value="+241">🇬🇦 GA (+241)</option>
+                <option value="+222">🇲🇷 MR (+222)</option>
+                <option value="+220">🇬🇲 GM (+220)</option>
+                <option value="+223">🇲🇱 ML (+223)</option>
+                <option value="+212">🇲🇦 MA (+212)</option>
+                <option value="+32">🇧🇪 BE (+32)</option>
+                <option value="+49">🇩🇪 DE (+49)</option>
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+41">🇨🇭 CH (+41)</option>
+                <option value="+242">🇨🇬 CG (+242)</option>
+                <option value="+243">🇨🇩 CD (+243)</option>
+                <option value="+971">🇦🇪 AE (+971)</option>
+                <option value="+966">🇸🇦 SA (+966)</option>
+                <option value="+224">🇬🇳 GN (+224)</option>
+              </select>
+              <input type="tel" name="client_phone" placeholder="Numéro de téléphone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">Saisir le numéro sans l'indicatif international.</p>
           </div>
           <div class="flex justify-between items-center pt-4">
             <button type="button" onclick="goToStep(4, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
@@ -641,7 +771,11 @@
     </div>
   </footer>
 
-  <!-- SCRIPT UNIVERSEL ET INDESTRUCTIBLE -->
+  <!-- 1. Moteurs jsPDF officiels -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- 2. Script Métier ChantierSur -->
   <script src="pdf-generator.js"></script>
   <script>
     // TAUX DE CONVERSION OFFICIELS (Valeurs par défaut, mises à jour via API)
@@ -795,19 +929,25 @@
       if (!pane) return;
 
       const fd = new FormData(pane);
+      const prefix = (fd.get('phone_prefix') || '+221').trim();
       const clientName = (fd.get('client_name') || '').trim();
       const clientEmail = (fd.get('client_email') || '').trim();
       const clientPhone = (fd.get('client_phone') || '').trim();
 
       if (!clientName || !clientEmail || !clientPhone) {
-        alert("Veuillez renseigner votre nom, email et téléphone.");
+        alert("Veuillez renseigner votre nom, votre email et votre numéro de téléphone.");
         return;
       }
 
-      if (clientPhone.length !== 9) {
-        alert("Le numéro de téléphone doit comporter exactement 9 chiffres (ex: 771234567).");
+      if (prefix === '+221' && clientPhone.length !== 9) {
+        alert("Pour un numéro sénégalais (+221), veuillez saisir exactement 9 chiffres (ex: 771234567).");
+        return;
+      } else if (clientPhone.length < 6) {
+        alert("Veuillez saisir un numéro de téléphone valide.");
         return;
       }
+
+      const fullPhoneNumber = `${prefix}${clientPhone}`;
 
       const projectData = {
         service: serviceKey,
@@ -818,8 +958,8 @@
         lot_number: fd.get('lot_number') || '',
         client_name: clientName,
         client_email: clientEmail,
-        client_phone: clientPhone,
-        phone_prefix: '+221',
+        client_phone: fullPhoneNumber,
+        phone_prefix: prefix,
         is_hivernage: Boolean(pane.querySelector('[name="is_hivernage"]')?.checked),
         is_ocean: Boolean(pane.querySelector('[name="is_ocean"]')?.checked),
         timestamp: Date.now()
@@ -848,7 +988,7 @@
             ref_command: 'CS-' + Date.now(),
             client_name: clientName,
             client_email: clientEmail,
-            client_phone: clientPhone
+            client_phone: fullPhoneNumber
           })
         });
 
@@ -914,12 +1054,13 @@
         function triggerPDF() {
           const statusEl = document.getElementById('pdf-status');
           const gen = window.generateProjectPDF || window.generatePDF;
+          
           if (typeof gen === 'function') {
             try {
               gen(testData);
-              if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Document PDF généré avec succès !</span>';
+              if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
             } catch(err) {
-              console.error("Erreur génération PDF:", err);
+              console.error("Erreur PDF:", err);
               if (statusEl) statusEl.innerHTML = '<span class="text-rose-400 font-bold">Erreur : ' + err.message + '</span>';
             }
           } else {
