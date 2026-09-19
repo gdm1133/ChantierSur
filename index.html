@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
   <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91 R99, contre-expertise de devis et conformité juridique COCC.">
 
@@ -31,7 +33,15 @@
       </div>
       <div class="flex items-center space-x-4">
         <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
-        <span class="bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono">XOF (FCFA)</span>
+        <div class="flex items-center space-x-2">
+          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
+          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-slate-900 border border-slate-700 text-[#F59E0B] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+            <option value="XOF" selected>FCFA (XOF)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar US ($)</option>
+            <option value="CAD">Dollar Canadien ($ CAD)</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
@@ -108,7 +118,6 @@
       <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-[#F59E0B]">Phase Zéro</span>
-          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">35 000 F</span>
         </div>
         <h3 class="text-base font-bold text-white mb-1">1. Esquisse & Faisabilité</h3>
         <p class="text-xs text-slate-400 leading-relaxed">Implantation, gabarit parcellaire et faisabilité structurelle.</p>
@@ -118,7 +127,6 @@
       <button type="button" id="tab-btn-2" onclick="switchTab(2)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Phase Budget</span>
-          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">25 000 F</span>
         </div>
         <h3 class="text-base font-bold text-white mb-1">2. BQE Gros Œuvre Express</h3>
         <p class="text-xs text-slate-400 leading-relaxed">Quantitatif exact : béton, acier FeE500, ciment 42.5R et granulats.</p>
@@ -128,7 +136,6 @@
       <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Audit Devis</span>
-          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">45 000 F</span>
         </div>
         <h3 class="text-base font-bold text-white mb-1">3. Contre-Expertise Devis</h3>
         <p class="text-xs text-slate-400 leading-relaxed">Détection des surfacturations & ratios matériaux stricts.</p>
@@ -138,7 +145,6 @@
       <button type="button" id="tab-btn-4" onclick="switchTab(4)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Post-Gros Œuvre</span>
-          <span class="text-xs font-mono font-bold bg-slate-900 px-2 py-0.5 rounded text-amber-300">20 000 F</span>
         </div>
         <h3 class="text-base font-bold text-white mb-1">4. Finitions & Second Œuvre</h3>
         <p class="text-xs text-slate-400 leading-relaxed">Carrelage, plomberie, étanchéité terrasse et réseaux.</p>
@@ -176,12 +182,18 @@
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-              <select name="exact_levels" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
+              <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
                 <option value="0">RDC Simple (Plain-pied)</option>
                 <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
                 <option value="2">R+2 (Immeuble R+2)</option>
                 <option value="3">R+3 (Immeuble R+3)</option>
                 <option value="4">R+4 (Immeuble R+4)</option>
+                <option value="5">R+5 (Immeuble R+5)</option>
+                <option value="6">R+6 (Immeuble R+6)</option>
+                <option value="7">R+7 (Immeuble R+7)</option>
+                <option value="8">R+8 (Immeuble R+8)</option>
+                <option value="9">R+9 (Immeuble R+9)</option>
+                <option value="10">R+10 (Tour / Immeuble R+10)</option>
               </select>
             </div>
           </div>
@@ -284,7 +296,10 @@
           <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
             <div>
               <p class="text-xs uppercase font-bold text-[#F59E0B]">Forfait Étude Faisabilité</p>
-              <p class="text-lg font-extrabold text-white">35 000 FCFA <span class="text-xs text-slate-400 font-normal">TTC</span></p>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="price-val-1" class="text-2xl font-black text-white">35 000 FCFA</span>
+                <span id="price-converted-1" class="text-xs text-amber-300 font-semibold">(≈ 53,36 €)</span>
+              </div>
             </div>
             <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Livrable PDF Immédiat</span>
           </div>
@@ -313,7 +328,7 @@
             <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl cursor-pointer">
               &larr; Retour
             </button>
-            <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 35000, 'esquisse')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
+            <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
               <span>Payer & Télécharger mon Dossier</span>
               <span>&rarr;</span>
             </button>
@@ -347,11 +362,18 @@
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de Niveaux</label>
-              <select name="exact_levels" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                <option value="0">RDC Simple</option>
-                <option value="1" selected>R+1</option>
-                <option value="2">R+2</option>
-                <option value="3">R+3</option>
+              <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+                <option value="0">RDC Simple (Plain-pied)</option>
+                <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+                <option value="2">R+2 (Immeuble R+2)</option>
+                <option value="3">R+3 (Immeuble R+3)</option>
+                <option value="4">R+4 (Immeuble R+4)</option>
+                <option value="5">R+5 (Immeuble R+5)</option>
+                <option value="6">R+6 (Immeuble R+6)</option>
+                <option value="7">R+7 (Immeuble R+7)</option>
+                <option value="8">R+8 (Immeuble R+8)</option>
+                <option value="9">R+9 (Immeuble R+9)</option>
+                <option value="10">R+10 (Tour / Immeuble R+10)</option>
               </select>
             </div>
           </div>
@@ -381,7 +403,10 @@
           <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
             <div>
               <p class="text-xs uppercase font-bold text-[#F59E0B]">Forfait Chiffrage BQE</p>
-              <p class="text-lg font-extrabold text-white">25 000 FCFA</p>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="price-val-2" class="text-2xl font-black text-white">25 000 FCFA</span>
+                <span id="price-converted-2" class="text-xs text-amber-300 font-semibold">(≈ 38,11 €)</span>
+              </div>
             </div>
             <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Bordereau PDF</span>
           </div>
@@ -401,7 +426,7 @@
           </div>
           <div class="flex justify-between items-center pt-4">
             <button type="button" onclick="goToStep(2, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
-            <button type="button" id="pay-btn-2" onclick="initiatePayment(2, 25000, 'express')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Payer & Générer mon BQE &rarr;</button>
+            <button type="button" id="pay-btn-2" onclick="initiatePayment(2, 'express')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Payer & Générer mon BQE &rarr;</button>
           </div>
         </div>
       </form>
@@ -455,7 +480,10 @@
           <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
             <div>
               <p class="text-xs uppercase font-bold text-[#F59E0B]">Audit d'Arbitrage</p>
-              <p class="text-lg font-extrabold text-white">45 000 FCFA</p>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="price-val-3" class="text-2xl font-black text-white">45 000 FCFA</span>
+                <span id="price-converted-3" class="text-xs text-amber-300 font-semibold">(≈ 68,60 €)</span>
+              </div>
             </div>
             <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Rapport d'Expertise</span>
           </div>
@@ -475,7 +503,7 @@
           </div>
           <div class="flex justify-between items-center pt-4">
             <button type="button" onclick="goToStep(3, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
-            <button type="button" id="pay-btn-3" onclick="initiatePayment(3, 45000, 'audit')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Lancer la Contre-Expertise &rarr;</button>
+            <button type="button" id="pay-btn-3" onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Lancer la Contre-Expertise &rarr;</button>
           </div>
         </div>
       </form>
@@ -537,7 +565,10 @@
           <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
             <div>
               <p class="text-xs uppercase font-bold text-[#F59E0B]">Bordereau Second Œuvre</p>
-              <p class="text-lg font-extrabold text-white">20 000 FCFA</p>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="price-val-4" class="text-2xl font-black text-white">20 000 FCFA</span>
+                <span id="price-converted-4" class="text-xs text-amber-300 font-semibold">(≈ 30,49 €)</span>
+              </div>
             </div>
             <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Livrable Finitions</span>
           </div>
@@ -557,7 +588,7 @@
           </div>
           <div class="flex justify-between items-center pt-4">
             <button type="button" onclick="goToStep(4, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
-            <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 20000, 'finitions')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Valider & Payer &rarr;</button>
+            <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 'finitions')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Valider & Payer &rarr;</button>
           </div>
         </div>
       </form>
@@ -613,6 +644,87 @@
   <!-- SCRIPT UNIVERSEL ET INDESTRUCTIBLE -->
   <script src="pdf-generator.js"></script>
   <script>
+    // TAUX DE CONVERSION OFFICIELS (Valeurs par défaut, mises à jour via API)
+    let CONVERSION_RATES = {
+      XOF: 1,
+      EUR: 655.957, // Le FCFA est arrimé à l'Euro avec un taux fixe
+      USD: 600.0,
+      CAD: 440.0
+    };
+
+    // Actualisation avec les taux du jour
+    async function fetchLiveRates() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/XOF');
+        const data = await res.json();
+        if (data && data.rates) {
+          if (data.rates.USD) CONVERSION_RATES.USD = 1 / data.rates.USD;
+          if (data.rates.CAD) CONVERSION_RATES.CAD = 1 / data.rates.CAD;
+          window.updateAllPrices(); // Rafraîchit l'affichage avec les taux du jour
+        }
+      } catch (err) {
+        console.error("Impossible de récupérer les taux de change du jour :", err);
+      }
+    }
+    
+    // Lancement de l'actualisation au démarrage
+    fetchLiveRates();
+
+    // TARIFICATION DE BASE ET PAR NIVEAU
+    const PRICING_RULES = {
+      1: { base: 35000, perLevelAbove1: 5000 },  // Esquisse
+      2: { base: 25000, perLevelAbove1: 5000 },  // BQE Express
+      3: { base: 45000, perLevelAbove1: 7500 },  // Audit Devis
+      4: { base: 20000, perLevelAbove1: 3000 }   // Finitions
+    };
+
+    // CALCUL DU MONTANT EXACT EN FCFA
+    window.calculateServicePrice = function(paneId) {
+      const pane = document.getElementById('pane-' + paneId);
+      if (!pane) return 0;
+
+      const levelSelect = pane.querySelector('[name="exact_levels"]');
+      const levels = levelSelect ? parseInt(levelSelect.value, 10) : 1;
+      const rule = PRICING_RULES[paneId] || { base: 25000, perLevelAbove1: 5000 };
+
+      let price = rule.base;
+      if (levels > 1) {
+        price += (levels - 1) * rule.perLevelAbove1;
+      }
+      return price;
+    };
+
+    // MISE À JOUR DE L'AFFICHAGE DES PRIX ET CONVERSIONS
+    window.updateAllPrices = function() {
+      const currencySelect = document.getElementById('currency-select');
+      const activeCurrency = currencySelect ? currencySelect.value : 'XOF';
+      const rate = CONVERSION_RATES[activeCurrency] || 1;
+
+      for (let i = 1; i <= 4; i++) {
+        const priceXOF = window.calculateServicePrice(i);
+        const priceValEl = document.getElementById('price-val-' + i);
+        const priceConvEl = document.getElementById('price-converted-' + i);
+
+        if (priceValEl) {
+          priceValEl.textContent = priceXOF.toLocaleString('fr-FR') + ' FCFA';
+        }
+
+        if (priceConvEl) {
+          if (activeCurrency === 'XOF') {
+            const eurEquiv = (priceXOF / CONVERSION_RATES.EUR).toFixed(2);
+            priceConvEl.textContent = `(≈ ${eurEquiv} €)`;
+          } else {
+            const converted = (priceXOF / rate).toFixed(2);
+            const symbols = { EUR: '€', USD: '$US', CAD: '$ CAD' };
+            priceConvEl.textContent = `(≈ ${converted} ${symbols[activeCurrency]})`;
+          }
+        }
+      }
+    };
+
+    // APPEL AU CHARGEMENT INITIAL
+    document.addEventListener('DOMContentLoaded', window.updateAllPrices);
+
     // 1. BASCULE DES ONGLETS
     window.switchTab = function(tabIndex) {
       for (let i = 1; i <= 4; i++) {
@@ -677,8 +789,9 @@
     };
 
     // 3. PAIEMENT PAYTECH & SAUVEGARDE PROJET
-    window.initiatePayment = async function(paneId, amount, serviceKey) {
+    window.initiatePayment = async function(paneId, serviceKey) {
       const pane = document.getElementById('pane-' + paneId);
+      const exactAmount = window.calculateServicePrice(paneId);
       if (!pane) return;
 
       const fd = new FormData(pane);
@@ -730,7 +843,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
-            item_price: amount,
+            item_price: exactAmount,
             currency: 'XOF',
             ref_command: 'CS-' + Date.now(),
             client_name: clientName,
@@ -764,36 +877,60 @@
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment') === 'success') {
         const s = urlParams.get('service') || 'express';
-        
-        let data = null;
-        try {
-          const raw = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
-          if (raw) data = JSON.parse(raw);
-        } catch(e){}
 
-        if (!data) {
-          data = {
-            service: s,
-            surface: 240,
-            exact_levels: 2,
-            client_name: 'Moussa Ndiaye (Dossier Validé)',
-            client_email: 'moussa@chantiersur.com',
-            client_phone: '771234567',
-            phone_prefix: '+221',
-            project_location: 'Almadies / Ngor / Ouakam (Zone Littorale)',
-            land_status: 'Titre Foncier (TF)',
-            lot_number: 'Lot N° 45',
-            is_hivernage: true,
-            is_ocean: true
-          };
-        } else {
-          data.service = s;
+        // Données de test réalistes
+        const testData = {
+          service: s,
+          surface: 240,
+          exact_levels: 2,
+          client_name: 'Moussa Ndiaye (Dossier Test)',
+          client_email: 'client@chantiersur.com',
+          client_phone: '771234567',
+          phone_prefix: '+221',
+          project_location: 'Almadies / Ngor / Ouakam (Zone Littorale)',
+          land_status: 'Titre Foncier (TF)',
+          lot_number: 'Lot N° 45',
+          is_hivernage: true,
+          is_ocean: true
+        };
+
+        // Création d'une modale visible à l'écran
+        const modal = document.createElement('div');
+        modal.id = 'pdf-success-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+        modal.innerHTML = `
+          <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5">
+            <div class="w-16 h-16 bg-amber-500/20 text-[#F59E0B] rounded-full flex items-center justify-center mx-auto text-3xl">📄</div>
+            <h3 class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
+            <p class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#F59E0B] uppercase">${s}</strong> est prêt.</p>
+            <button id="btn-force-download" class="w-full py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+              📥 Télécharger mon Rapport PDF
+            </button>
+            <p id="pdf-status" class="text-xs text-slate-400">Le téléchargement démarre également en arrière-plan...</p>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        function triggerPDF() {
+          const statusEl = document.getElementById('pdf-status');
+          const gen = window.generateProjectPDF || window.generatePDF;
+          if (typeof gen === 'function') {
+            try {
+              gen(testData);
+              if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Document PDF généré avec succès !</span>';
+            } catch(err) {
+              console.error("Erreur génération PDF:", err);
+              if (statusEl) statusEl.innerHTML = '<span class="text-rose-400 font-bold">Erreur : ' + err.message + '</span>';
+            }
+          } else {
+            if (statusEl) statusEl.innerHTML = '<span class="text-rose-400 font-bold">Erreur : moteur pdf-generator.js non détecté.</span>';
+          }
         }
 
-        const gen = window.generateProjectPDF || window.generatePDF;
-        if (typeof gen === 'function') {
-          setTimeout(() => gen(data), 600);
-        }
+        document.getElementById('btn-force-download').addEventListener('click', triggerPDF);
+
+        // Tentative automatique après 800ms
+        setTimeout(triggerPDF, 800);
       }
     });
   </script>
