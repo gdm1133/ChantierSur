@@ -124,7 +124,8 @@
       doc.text(`Dossier : ${refDoc}`, 196, 12, { align: 'right' });
       doc.setTextColor(203, 213, 225);
       doc.text(`Date : ${currentDate}`, 196, 18, { align: 'right' });
-      doc.text(`Titulaire : ${clientName.substring(0, 26)}`, 196, 24, { align: 'right' });
+      const displayTitulaire = clientName.length > 28 ? clientName.substring(0, 26) + '...' : clientName;
+      doc.text(`Titulaire : ${displayTitulaire}`, 196, 24, { align: 'right' });
 
       doc.setTextColor(...COLOR_NAVY);
       doc.setFont('helvetica', 'bold');
@@ -143,7 +144,13 @@
       doc.setFontSize(6.2);
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(100, 116, 139);
-      doc.text(`DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. LA TRANSMISSION DE CE LIVRABLE À DES TIERS ENGAGE LA RESPONSABILITÉ CIVILE DU DÉTENTEUR.`, 14, 49);
+      
+      // AVERTISSEMENT JURIDIQUE DE CONFIDENTIALITÉ (MULTI-LIGNES DANS LES MARGES)
+      const legalNotice = `DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. LA TRANSMISSION OU DIFFUSION DE CE LIVRABLE ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`;
+      
+      // Découpe automatique sur la largeur utile de 182 mm (marge gauche 14mm à droite 196mm)
+      const splitNotice = doc.splitTextToSize(legalNotice, 182);
+      doc.text(splitNotice, 14, 48.5);
     }
 
     // --- PAGE 1 ---
@@ -167,7 +174,7 @@
     doc.text(`Email Enregistré : ${clientEmail}`, 18, 78);
     doc.text(`Statut Foncier : ${landStatus}`, 18, 84);
 
-    let dimTxt = `Façade ${facade1} m × Profondeur ~${(surface / facade1).toFixed(1)} m`;
+    let dimTxt = `Façade ${facade1} m × Profondeur env. ${(surface / facade1).toFixed(1)} m`;
     if (config === 'angle' && facade2 > 0) dimTxt = `Façade 1: ${facade1} m • Façade 2: ${facade2} m (Angle)`;
 
     doc.text(`Localisation : ${location}`, 110, 66);
@@ -185,8 +192,8 @@
       ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
       ["Emprise au Sol Maximale (CES = 0,65)", `${empriseSolMax} m²`, "Limite légale de projection au sol des constructions"],
       ["Espaces Libres Perméables (35%)", `${espacesLibres} m²`, "Zone perméable requise pour l'infiltration pluviale"],
-      ["Surface Développée de Plancher Totale (SDP)", `~${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
-      ["Hauteur Totale du Bâtiment Projeté", `~${hauteurFaitage} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
+      ["Surface Développée de Plancher Totale (SDP)", `env. ${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
+      ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
       ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Recul légal d'alignement exigé : ${reculAlignement} m`],
       ["Gabarit Légal sur Rue (H <= L + R)", `${hauteurMaxGabarit} mètres`, respecteGabarit ? "CONFORME au gabarit direct sur rue" : "DÉPASSEMENT : Retrait en gradins requis aux étages hauts"],
       ["Places de Stationnement Obligatoires", `${Math.max(1, Math.round(sdpTotale / 120))} place(s)`, "Norme PDU Dakar : 1 place / logement ou tranche 100 m²"]
@@ -249,10 +256,10 @@
 
     const descenteRows = [
       ["Surface d'Influence du Poteau Central", `${surfaceInfluence} m²`, "Trame structurelle courante 4,00 m × 4,00 m"],
-      ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (~${(gTotal / 9.81).toFixed(1)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
-      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (~${(qTotal / 9.81).toFixed(1)} T)`, `Norme NF P 06-001 selon usage : ${qUnit} kN/m² par niveau`],
-      ["Effort Normal Total de Service (N_ser)", `${nSer} kN (~${(nSer / 9.81).toFixed(1)} Tonnes)`, "N_ser = G + Q (Dimensionnement du sol sous semelle)"],
-      ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (~${(nUltime / 9.81).toFixed(1)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure)"]
+      ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (env. ${(gTotal / 9.81).toFixed(1)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
+      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${(qTotal / 9.81).toFixed(1)} T)`, `Norme NF P 06-001 selon usage : ${qUnit} kN/m² par niveau`],
+      ["Effort Normal Total de Service (N_ser)", `${nSer} kN (env. ${(nSer / 9.81).toFixed(1)} Tonnes)`, "N_ser = G + Q (Dimensionnement du sol sous semelle)"],
+      ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (env. ${(nUltime / 9.81).toFixed(1)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure)"]
     ];
 
     doc.autoTable({
@@ -326,7 +333,11 @@
       theme: 'grid',
       headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
       styles: { fontSize: 7.2, cellPadding: 2.2 },
-      columnStyles: { 1: { fontStyle: 'bold', textColor: COLOR_NAVY } },
+      columnStyles: { 
+        0: { cellWidth: 52, fontStyle: 'bold' }, 
+        1: { cellWidth: 38, fontStyle: 'bold', textColor: COLOR_NAVY }, 
+        2: { cellWidth: 92 } 
+      },
       margin: { left: 14, right: 14 }
     });
 
@@ -381,7 +392,7 @@
       ["3. Second Œuvre, Fluides & Électricité", formatFCFA(pSecondOeuvre), "Plomberie multicouche, câblage NF C 15-100, carrelage grès cérame, menuiseries"],
       ["4. Étanchéité Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), "Complexe bicouche bitumineux 4mm, relevés d'acrotère et protection thermique"],
       ["5. Provision pour Aléas & Marché (7%)", formatFCFA(pAleas), "Marge de sécurité couvrant les fluctuations des prix du ciment 42.5R et fer FeE500"],
-      ["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), `Ratio moyen d'ingénierie : ~${formatFCFA(Math.round(pTotal / sdpTotale))} / m² de plancher`]
+      ["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), `Ratio moyen d'ingénierie : env. ${formatFCFA(Math.round(pTotal / sdpTotale))} / m² de plancher`]
     ];
 
     doc.autoTable({

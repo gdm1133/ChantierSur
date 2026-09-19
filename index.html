@@ -991,15 +991,18 @@
       const projectData = {
         service: serviceKey,
         surface: parseFloat(fd.get('surface')) || 200,
-        exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
         facade_width: parseFloat(fd.get('facade_width')) || 10,
         facade_width_2: parseFloat(fd.get('facade_width_2')) || 0,
         street_width: parseFloat(fd.get('street_width')) || 12,
-        has_basement: fd.get('has_basement') || 'non',
-        energy_backup: fd.get('energy_backup') || 'standard',
+        exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
         parcel_config: fd.get('parcel_config') || 'bande',
         building_usage: fd.get('building_usage') || 'unifamilial',
         standing: fd.get('standing') || 'moyen',
+        has_basement: fd.get('has_basement') || 'non',
+        energy_backup: fd.get('energy_backup') || 'standard',
+        project_location: fd.get('project_location') || 'Dakar - Zone Urbaine',
+        land_status: fd.get('land_status') || 'Titre Foncier (TF)',
+        lot_number: (fd.get('lot_number') || '').trim() || 'Lot non précisé',
         sanitation_type: fd.get('sanitation_type') || 'autonome',
         neighbor_status: fd.get('neighbor_status') || 'vide',
         project_location: fd.get('project_location') || 'Dakar',
@@ -1065,23 +1068,40 @@
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment') === 'success') {
-        const s = urlParams.get('service') || 'express';
+        const s = urlParams.get('service') || 'esquisse';
 
-        // Données de test réalistes
-        const testData = {
+        // 1. Recherche prioritaire des vraies données saisies par le client
+        let realData = null;
+        try {
+          const saved = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
+          if (saved) {
+            realData = JSON.parse(saved);
+          }
+        } catch(e) {}
+
+        // 2. Si aucune saisie préalable n'est trouvée (test direct de l'URL sans formulaire), utiliser le modèle de test
+        const finalData = (realData && realData.client_name) ? realData : {
           service: s,
           surface: 240,
+          facade_width: 10,
+          facade_width_2: 0,
+          street_width: 12,
           exact_levels: 2,
           client_name: 'Moussa Ndiaye (Dossier Test)',
           client_email: 'client@chantiersur.com',
           client_phone: '771234567',
           phone_prefix: '+221',
-          project_location: 'Almadies / Ngor / Ouakam (Zone Littorale)',
+          project_location: 'Dakar - Almadies / Ngor / Ouakam',
           land_status: 'Titre Foncier (TF)',
           lot_number: 'Lot N° 45',
-          is_hivernage: true,
-          is_ocean: true
+          parcel_config: 'bande',
+          building_usage: 'unifamilial',
+          standing: 'moyen',
+          sanitation_type: 'autonome',
+          neighbor_status: 'vide'
         };
+
+        finalData.service = s;
 
         // Création d'une modale visible à l'écran
         const modal = document.createElement('div');
@@ -1100,13 +1120,13 @@
         `;
         document.body.appendChild(modal);
 
+        // Déclencheur
         function triggerPDF() {
           const statusEl = document.getElementById('pdf-status');
           const gen = window.generateProjectPDF || window.generatePDF;
-          
           if (typeof gen === 'function') {
             try {
-              gen(testData);
+              gen(finalData);
               if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
             } catch(err) {
               console.error("Erreur PDF:", err);
@@ -1119,7 +1139,7 @@
 
         document.getElementById('btn-force-download').addEventListener('click', triggerPDF);
 
-        // Tentative automatique après 800ms
+        // Modal visuelle et téléchargement
         setTimeout(triggerPDF, 800);
       }
     });
