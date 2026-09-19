@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -181,7 +181,7 @@
         <input type="number" name="surface" value="200" min="50" max="3000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
       </div>
       <div>
-        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Largeur de façade sur rue (m)</label>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Façade principale sur rue (m)</label>
         <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
       </div>
       <div>
@@ -205,22 +205,32 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Configuration de la parcelle</label>
-        <select name="parcel_config" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-          <option value="bande" selected>En bande (1 seule façade sur rue)</option>
-          <option value="angle">En angle (2 façades d'angle sur rues)</option>
+        <select name="parcel_config" id="parcel-config-select" onchange="window.handleParcelConfigChange(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+          <option value="bande" selected>En bande (1 façade sur rue)</option>
+          <option value="angle">En angle (2 façades sur rues)</option>
           <option value="traversante">Traversante (2 façades opposées)</option>
           <option value="isolee">Isolée (4 côtés dégagés)</option>
         </select>
       </div>
+      
+      <!-- CHAMP CONDITIONNEL SECONDE FAÇADE (MASQUÉ PAR DÉFAUT) -->
+      <div id="facade-2-container" class="hidden">
+        <label class="block text-xs font-bold text-amber-400 uppercase mb-2">2nde Façade sur rue (m)</label>
+        <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-slate-950 border-2 border-amber-500/50 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
+      </div>
+
       <div>
-        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Destination du bâtiment</label>
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Destination de l'ouvrage</label>
         <select name="building_usage" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
           <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
-          <option value="locatif">Immeuble de rapport / Appartements locatifs</option>
-          <option value="mixte">Mixte (Commerces au RDC + Habitations)</option>
-          <option value="bureaux">Bureaux professionnels / Tertiaire</option>
+          <option value="locatif">Immeuble locatif / Appartements</option>
+          <option value="mixte">Mixte (Commerce RDC + Logements)</option>
+          <option value="bureaux">Bureaux tertiaires / Professionnel</option>
         </select>
       </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Standing de construction</label>
         <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
@@ -796,6 +806,17 @@
   <!-- 2. Script Métier ChantierSur -->
   <script src="pdf-generator.js"></script>
   <script>
+    window.handleParcelConfigChange = function(val) {
+      const f2Container = document.getElementById('facade-2-container');
+      if (f2Container) {
+        if (val === 'angle' || val === 'traversante') {
+          f2Container.classList.remove('hidden');
+        } else {
+          f2Container.classList.add('hidden');
+        }
+      }
+    };
+
     // TAUX DE CONVERSION OFFICIELS (Valeurs par défaut, mises à jour via API)
     let CONVERSION_RATES = {
       XOF: 1,
@@ -971,6 +992,16 @@
         service: serviceKey,
         surface: parseFloat(fd.get('surface')) || 200,
         exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
+        facade_width: parseFloat(fd.get('facade_width')) || 10,
+        facade_width_2: parseFloat(fd.get('facade_width_2')) || 0,
+        street_width: parseFloat(fd.get('street_width')) || 12,
+        has_basement: fd.get('has_basement') || 'non',
+        energy_backup: fd.get('energy_backup') || 'standard',
+        parcel_config: fd.get('parcel_config') || 'bande',
+        building_usage: fd.get('building_usage') || 'unifamilial',
+        standing: fd.get('standing') || 'moyen',
+        sanitation_type: fd.get('sanitation_type') || 'autonome',
+        neighbor_status: fd.get('neighbor_status') || 'vide',
         project_location: fd.get('project_location') || 'Dakar',
         land_status: fd.get('land_status') || 'Titre Foncier (TF)',
         lot_number: fd.get('lot_number') || '',
