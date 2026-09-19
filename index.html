@@ -129,7 +129,6 @@
     <span class="text-lg font-black tracking-tight text-[#0B1325] dark:text-white leading-none">
       Chantier<span class="text-[#F59E0B]">Sur.com</span>
     </span>
-    <span class="text-[9px] font-bold tracking-wider text-slate-500 uppercase mt-0.5">Bureau d'Ã‰tudes NumÃ©rique</span>
   </div>
 </a>
 
@@ -228,29 +227,29 @@
         <section id="services-section" class="scroll-mt-24">
         <!-- Tabs Selection -->
         <div class="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 mb-8 pb-2 hide-scrollbar">
-            <button id="tab-btn-1" class="tab-btn active text-left bg-slate-800/90 border-2 border-amber-500 rounded-2xl p-4 transition shadow-lg flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="esquisse">
+            <button id="tab-btn-1" class="tab-card tab-btn active text-left bg-slate-800/90 border-2 border-amber-500 rounded-2xl p-4 transition shadow-lg flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="esquisse" onclick="switchTab(1)">
                 <span class="font-bold text-white block">1. Esquisse & Faisabilité</span>
                 <span class="text-xs text-slate-400">Phase Zéro</span>
             </button>
-            <button id="tab-btn-2" class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="express">
+            <button id="tab-btn-2" class="tab-card tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="express" onclick="switchTab(2)">
                 <span class="font-bold text-white block">2. BQE Gros Œuvre Express</span>
                 <span class="text-xs text-slate-400">Phase Budget</span>
             </button>
-            <button id="tab-btn-3" class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="audit">
+            <button id="tab-btn-3" class="tab-card tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="audit" onclick="switchTab(3)">
                 <span class="font-bold text-white block">3. Contre-Expertise Devis</span>
                 <span class="text-xs text-slate-400">Détection des surfacturations & ratios matériaux stricts</span>
             </button>
-            <button id="tab-btn-4" class="tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="finitions">
+            <button id="tab-btn-4" class="tab-card tab-btn text-left bg-slate-800/60 border-2 border-transparent hover:border-slate-600 rounded-2xl p-4 transition flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center" data-service-tab="finitions" onclick="switchTab(4)">
                 <span class="font-bold text-white block">4. Finitions & Second Œuvre</span>
                 <span class="text-xs text-slate-400">Phase Post-Gros Œuvre</span>
             </button>
         </div>
 
         <!-- Tab 1: Esquisse -->
-        <div id="service-pane-1" data-service-content="esquisse" class="tab-content block">
+        <div id="pane-1" data-service-content="esquisse" class="tab-content block">
             <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 mb-8">
                 <h2 class="text-lg font-bold text-white mb-6">Esquisse & Faisabilité</h2>
-                <form id="form-esquisse" data-service="esquisse" class="stepper-form space-y-4 relative">
+                <form novalidate id="form-esquisse" data-service="esquisse" class="stepper-form space-y-4 relative">
                     <!-- Stepper indicator -->
                     <div class="flex items-center justify-between mb-6 px-2 stepper-nav">
                         <div class="flex flex-col items-center flex-1">
@@ -270,7 +269,7 @@
                     </div>
                     
                     <!-- Step 1 -->
-                    <div class="step-container block space-y-4" data-bullet-step="1">
+                    <div class="form-step block space-y-4" data-bullet-step="1">
                     <div>
                         <label class="block text-sm mb-2">Zone géographique</label>
                         <select name="zone" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white">
@@ -356,12 +355,12 @@
                         <input type="file" name="croquis_upload" accept="image/*,.pdf" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
                     </div>
                         <div class="flex justify-end pt-4 border-t border-slate-700 mt-4">
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="2">
+                    <div class="form-step hidden space-y-4" data-bullet-step="2">
                     <div class="client-id-card p-5 bg-slate-800 border border-slate-700 rounded-xl my-6 space-y-4">
                         <div class="flex items-center space-x-2 border-b border-slate-700 pb-2">
                             <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
@@ -431,12 +430,12 @@
 
                         <div class="flex justify-between pt-4 border-t border-slate-700 mt-4">
                             <button type="button" class="px-6 py-2 bg-slate-700 text-white font-bold rounded-xl btn-prev" class="btn-step-prev px-6 py-2.5 bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold rounded-xl transition"><i data-lucide="arrow-left" class="w-4 h-4 inline mr-1"></i> Retour</button>
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="3">
+                    <div class="form-step hidden space-y-4" data-bullet-step="3">
                     <div class="flex items-center mt-2 p-3 bg-slate-900/50 border border-slate-700/50 rounded-xl">
                         <input type="checkbox" name="zone_cotiere" id="zone_cotiere_esquisse" value="true" class="w-5 h-5 text-amber-500 bg-slate-800 border-slate-600 rounded">
                         <label for="zone_cotiere_esquisse" class="ml-3 text-sm text-slate-300 leading-tight">Terrain situé à moins de 2 km de l'océan (Almadies, Yoff, Ngor, Rufisque littoral, Saly, etc.)</label>
@@ -463,10 +462,10 @@
         </div>
 
         <!-- Tab 2: Express -->
-        <div id="service-pane-2" data-service-content="express" class="tab-content hidden">
+        <div id="pane-2" data-service-content="express" class="tab-content hidden">
             <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 mb-8">
                 <h2 class="text-lg font-bold text-white mb-6">BQE Gros Œuvre Express</h2>
-                <form id="form-express" data-service="express" class="stepper-form space-y-4 relative">
+                <form novalidate id="form-express" data-service="express" class="stepper-form space-y-4 relative">
                     <!-- Stepper indicator -->
                     <div class="flex items-center justify-between mb-6 px-2 stepper-nav">
                         <div class="flex flex-col items-center flex-1">
@@ -486,7 +485,7 @@
                     </div>
                     
                     <!-- Step 1 -->
-                    <div class="step-container block space-y-4" data-bullet-step="1">
+                    <div class="form-step block space-y-4" data-bullet-step="1">
                     <div>
                         <label class="block text-sm mb-2">Surface développée totale (m²)</label>
                         <input type="number" name="surface_dev" min="150" max="3000" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white block-invalid">
@@ -516,12 +515,12 @@
                         </select>
                     </div>
                         <div class="flex justify-end pt-4 border-t border-slate-700 mt-4">
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="2">
+                    <div class="form-step hidden space-y-4" data-bullet-step="2">
                     <div class="client-id-card p-5 bg-slate-800 border border-slate-700 rounded-xl my-6 space-y-4">
                         <div class="flex items-center space-x-2 border-b border-slate-700 pb-2">
                             <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
@@ -591,12 +590,12 @@
 
                         <div class="flex justify-between pt-4 border-t border-slate-700 mt-4">
                             <button type="button" class="px-6 py-2 bg-slate-700 text-white font-bold rounded-xl btn-prev" class="btn-step-prev px-6 py-2.5 bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold rounded-xl transition"><i data-lucide="arrow-left" class="w-4 h-4 inline mr-1"></i> Retour</button>
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="3">
+                    <div class="form-step hidden space-y-4" data-bullet-step="3">
                     <div class="flex items-center mt-2 p-3 bg-slate-900/50 border border-slate-700/50 rounded-xl">
                         <input type="checkbox" name="zone_cotiere" id="zone_cotiere_express" value="true" class="w-5 h-5 text-amber-500 bg-slate-800 border-slate-600 rounded">
                         <label for="zone_cotiere_express" class="ml-3 text-sm text-slate-300 leading-tight">Terrain situé à moins de 2 km de l'océan (Almadies, Yoff, Ngor, Rufisque littoral, Saly, etc.)</label>
@@ -623,10 +622,10 @@
         </div>
 
         <!-- Tab 3: Audit -->
-        <div id="service-pane-3" data-service-content="audit" class="tab-content hidden">
+        <div id="pane-3" data-service-content="audit" class="tab-content hidden">
             <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 mb-8">
                 <h2 class="text-lg font-bold text-white mb-6">Contre-Expertise Devis</h2>
-                <form id="form-audit" data-service="audit" class="stepper-form space-y-4 relative">
+                <form novalidate id="form-audit" data-service="audit" class="stepper-form space-y-4 relative">
                     <!-- Stepper indicator -->
                     <div class="flex items-center justify-between mb-6 px-2 stepper-nav">
                         <div class="flex flex-col items-center flex-1">
@@ -646,7 +645,7 @@
                     </div>
                     
                     <!-- Step 1 -->
-                    <div class="step-container block space-y-4" data-bullet-step="1">
+                    <div class="form-step block space-y-4" data-bullet-step="1">
                     <div>
                         <label class="block text-sm mb-2">Surface développée totale (m²)</label>
                         <input type="number" name="surface_dev" min="150" max="3000" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white block-invalid">
@@ -684,12 +683,12 @@
                         <input type="file" name="plan_upload" accept=".pdf,image/*" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white">
                     </div>
                         <div class="flex justify-end pt-4 border-t border-slate-700 mt-4">
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="2">
+                    <div class="form-step hidden space-y-4" data-bullet-step="2">
                     <div class="client-id-card p-5 bg-slate-800 border border-slate-700 rounded-xl my-6 space-y-4">
                         <div class="flex items-center space-x-2 border-b border-slate-700 pb-2">
                             <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
@@ -759,12 +758,12 @@
 
                         <div class="flex justify-between pt-4 border-t border-slate-700 mt-4">
                             <button type="button" class="px-6 py-2 bg-slate-700 text-white font-bold rounded-xl btn-prev" class="btn-step-prev px-6 py-2.5 bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold rounded-xl transition"><i data-lucide="arrow-left" class="w-4 h-4 inline mr-1"></i> Retour</button>
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="3">
+                    <div class="form-step hidden space-y-4" data-bullet-step="3">
                     <div class="flex items-center mt-2 p-3 bg-slate-900/50 border border-slate-700/50 rounded-xl">
                         <input type="checkbox" name="zone_cotiere" id="zone_cotiere_audit" value="true" class="w-5 h-5 text-amber-500 bg-slate-800 border-slate-600 rounded">
                         <label for="zone_cotiere_audit" class="ml-3 text-sm text-slate-300 leading-tight">Terrain situé à moins de 2 km de l'océan (Almadies, Yoff, Ngor, Rufisque littoral, Saly, etc.)</label>
@@ -791,10 +790,10 @@
         </div>
 
         <!-- Tab 4: Finitions -->
-        <div id="service-pane-4" data-service-content="finitions" class="tab-content hidden">
+        <div id="pane-4" data-service-content="finitions" class="tab-content hidden">
             <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 mb-8">
                 <h2 class="text-lg font-bold text-white mb-6">Finitions & Second Œuvre</h2>
-                <form id="form-finitions" data-service="finitions" class="stepper-form space-y-4 relative">
+                <form novalidate id="form-finitions" data-service="finitions" class="stepper-form space-y-4 relative">
                     <!-- Stepper indicator -->
                     <div class="flex items-center justify-between mb-6 px-2 stepper-nav">
                         <div class="flex flex-col items-center flex-1">
@@ -814,7 +813,7 @@
                     </div>
                     
                     <!-- Step 1 -->
-                    <div class="step-container block space-y-4" data-bullet-step="1">
+                    <div class="form-step block space-y-4" data-bullet-step="1">
                     <div>
                         <label class="block text-sm mb-2">Surface développée totale (m²)</label>
                         <input type="number" name="surface_dev" min="150" max="3000" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white block-invalid">
@@ -847,12 +846,12 @@
                         <label for="toiture_terrasse" class="ml-2 text-sm text-white">Toiture-terrasse accessible à étancher</label>
                     </div>
                         <div class="flex justify-end pt-4 border-t border-slate-700 mt-4">
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="2">
+                    <div class="form-step hidden space-y-4" data-bullet-step="2">
                     <div class="client-id-card p-5 bg-slate-800 border border-slate-700 rounded-xl my-6 space-y-4">
                         <div class="flex items-center space-x-2 border-b border-slate-700 pb-2">
                             <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
@@ -922,12 +921,12 @@
 
                         <div class="flex justify-between pt-4 border-t border-slate-700 mt-4">
                             <button type="button" class="px-6 py-2 bg-slate-700 text-white font-bold rounded-xl btn-prev" class="btn-step-prev px-6 py-2.5 bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold rounded-xl transition"><i data-lucide="arrow-left" class="w-4 h-4 inline mr-1"></i> Retour</button>
-                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400">Suivant</button>
+                            <button type="button" class="btn-step-next px-6 py-2.5 bg-[#F59E0B] text-slate-950 font-bold rounded-lg hover:bg-amber-400" onclick="nextStep(this)">Suivant</button>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="step-container hidden space-y-4" data-bullet-step="3">
+                    <div class="form-step hidden space-y-4" data-bullet-step="3">
                     <div class="flex items-center mt-2 p-3 bg-slate-900/50 border border-slate-700/50 rounded-xl">
                         <input type="checkbox" name="zone_cotiere" id="zone_cotiere_finitions" value="true" class="w-5 h-5 text-amber-500 bg-slate-800 border-slate-600 rounded">
                         <label for="zone_cotiere_finitions" class="ml-3 text-sm text-slate-300 leading-tight">Terrain situé à moins de 2 km de l'océan (Almadies, Yoff, Ngor, Rufisque littoral, Saly, etc.)</label>
@@ -1550,5 +1549,140 @@ document.addEventListener('DOMContentLoaded', function() {
 
   </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("Initialisation du moteur interactif ChantierSur...");
+
+  // ==========================================
+  // 1. GESTION DES 4 ONGLETS DE SERVICES
+  // ==========================================
+  // Sélectionne le conteneur parent qui englobe directement les 4 cartes du haut
+  const tabCards = document.querySelectorAll('.tab-card, [data-service-tab], #services-section .grid > div, .grid-cols-4 > div, .grid-cols-2 > div');
+  
+  // On cible précisément les 4 premières cartes de services
+  const serviceCards = Array.from(document.querySelectorAll('*')).filter(el => {
+    const text = el.innerText || '';
+    return text.includes('Esquisse & Faisabilité') || text.includes('Gros Œuvre Express') || text.includes('Contre-Expertise') || text.includes('Finitions & Second');
+  }).filter(el => el.children.length > 0 && el.parentElement.children.length >= 4).slice(0, 4);
+
+  // Recherche des conteneurs de formulaire associés
+  const formPanes = document.querySelectorAll('[data-service-content], [id^="pane-"], [id^="service-pane-"], .service-form-pane');
+
+  function activateTab(index) {
+    // Style visuel des cartes
+    serviceCards.forEach((card, i) => {
+      if (i === index) {
+        card.classList.add('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
+        card.classList.remove('border-slate-800', 'bg-slate-900/60');
+      } else {
+        card.classList.remove('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
+        card.classList.add('border-slate-800', 'bg-slate-900/60');
+      }
+    });
+
+    // Bascule des formulaires correspondants
+    if (formPanes.length >= 4) {
+      formPanes.forEach((pane, i) => {
+        if (i === index) {
+          pane.classList.remove('hidden');
+          pane.style.display = 'block';
+        } else {
+          pane.classList.add('hidden');
+          pane.style.display = 'none';
+        }
+      });
+    }
+  }
+
+  // Écoute des clics sur chaque carte
+  serviceCards.forEach((card, idx) => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      activateTab(idx);
+    });
+  });
+
+  // ==========================================
+  // 2. GESTION DU BOUTON "SUIVANT" (STEPPER)
+  // ==========================================
+  document.addEventListener('click', function(e) {
+    const nextBtn = e.target.closest('button, a');
+    if (!nextBtn) return;
+
+    const btnText = (nextBtn.textContent || '').trim().toLowerCase();
+    const isNext = btnText.includes('suivant') || nextBtn.classList.contains('btn-next-step') || nextBtn.classList.contains('btn-step-next');
+
+    if (isNext) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Trouve le conteneur de l'étape courante
+      let currentStep = nextBtn.closest('.form-step, .step-container, [data-step]');
+      if (!currentStep) {
+        // Recherche par division parente
+        let parent = nextBtn.parentElement;
+        while (parent && !parent.classList.contains('form-step') && parent.tagName !== 'FORM') {
+          parent = parent.parentElement;
+        }
+        currentStep = parent;
+      }
+
+      if (!currentStep) return;
+
+      // Validation manuelle des champs visibles uniquement
+      const visibleInputs = currentStep.querySelectorAll('input:not([type="hidden"]), select, textarea');
+      for (let input of visibleInputs) {
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          return; // Arrêt si un champ de l'étape active est incomplet
+        }
+      }
+
+      // Recherche de l'étape suivante dans le même formulaire
+      let nextStep = currentStep.nextElementSibling;
+      while (nextStep && (nextStep.tagName === 'SCRIPT' || nextStep.offsetParent === null && !nextStep.classList.contains('hidden'))) {
+        nextStep = nextStep.nextElementSibling;
+      }
+
+      if (nextStep) {
+        currentStep.classList.add('hidden');
+        currentStep.style.display = 'none';
+        nextStep.classList.remove('hidden');
+        nextStep.style.display = 'block';
+
+        // Mise à jour visuelle des puces (1, 2, 3)
+        const currentForm = currentStep.closest('form');
+        if (currentForm) {
+          const indicators = currentForm.querySelectorAll('.rounded-full, [data-bullet-step]');
+          indicators.forEach(ind => {
+            if (ind.textContent.trim() === '2') {
+              ind.classList.add('bg-[#F59E0B]', 'text-slate-950');
+              ind.classList.remove('bg-slate-800', 'text-slate-400');
+            }
+          });
+        }
+      }
+    }
+
+    // Gestion du bouton "Précédent" / "Retour"
+    const isPrev = btnText.includes('retour') || btnText.includes('précédent') || nextBtn.classList.contains('btn-prev-step');
+    if (isPrev) {
+      e.preventDefault();
+      const currentStep = nextBtn.closest('.form-step, .step-container, [data-step]');
+      if (currentStep) {
+        const prevStep = currentStep.previousElementSibling;
+        if (prevStep) {
+          currentStep.classList.add('hidden');
+          currentStep.style.display = 'none';
+          prevStep.classList.remove('hidden');
+          prevStep.style.display = 'block';
+        }
+      }
+    }
+  });
+
+});
+</script>
 </body>
 </html>
