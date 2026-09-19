@@ -21,22 +21,22 @@
   // =========================================================================
   // FONCTION PRINCIPALE EXPORTÉE SUR WINDOW
   // =========================================================================
-  // FORMATTEUR MONÃ‰TAIRE SÃ‰CURISÃ‰ (ESPACES ASCII PURS, AUCUN SLASH NI CARACTÃˆRE CORROMPU)
+  // FORMATTEUR MONÉTAIRE SÉCURISÉ (ESPACES ASCII PURS, AUCUN SLASH NI CARACTÈRE CORROMPU)
 function formatFCFA(val) {
   if (val === undefined || val === null || isNaN(val)) return "0 FCFA";
   const num = Math.round(val).toString();
   return num.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " FCFA";
 }
 
-// MOTEUR D'ESQUISSE & FAISABILITÃ‰ TECHNIQUE HAUTE VALEUR (4 PAGES)
+// MOTEUR D'ESQUISSE & FAISABILITÉ TECHNIQUE HAUTE VALEUR (4 PAGES)
 function generateEsquissePDF(doc, data) {
   const COLOR_NAVY = [11, 19, 37];      // #0B1325
   const COLOR_AMBER = [245, 158, 11];   // #F59E0B
   const COLOR_SLATE = [71, 85, 105];    // #475569
   const COLOR_BG_LIGHT = [248, 250, 252];
 
-  // DonnÃ©es recueillies
-  const clientName = (data.client_name || 'MaÃ®tre d\'Ouvrage').trim();
+  // Données recueillies
+  const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
   const clientPhone = (data.phone_prefix || '+221') + ' ' + (data.client_phone || '770000000');
   const clientEmail = (data.client_email || 'client@chantiersur.com').trim();
   const surface = parseFloat(data.surface) || 200;
@@ -46,10 +46,10 @@ function generateEsquissePDF(doc, data) {
   const hasBasement = data.has_basement === 'oui';
   const energyBackup = data.energy_backup || 'standard';
   const levels = parseInt(data.exact_levels, 10) || 1;
-  const totalLevelsCount = levels + 1; // RDC + Ã©tages
+  const totalLevelsCount = levels + 1; // RDC + étages
   const location = data.project_location || 'Dakar - Zone Urbaine';
   const landStatus = data.land_status || 'Titre Foncier (TF)';
-  const lotNumber = data.lot_number || 'Non spÃ©cifiÃ©';
+  const lotNumber = data.lot_number || 'Non spécifié';
   const config = data.parcel_config || 'bande';
   const usage = data.building_usage || 'unifamilial';
   const standing = data.standing || 'moyen';
@@ -58,59 +58,59 @@ function generateEsquissePDF(doc, data) {
   const refDoc = 'CS-ESQ-' + (data.timestamp ? data.timestamp.toString().slice(-6) : Date.now().toString().slice(-6));
   const currentDate = new Date().toLocaleDateString('fr-FR');
 
-  // --- CALCULS URBANISTIQUES (CODE DE L'URBANISME SÃ‰NÃ‰GAL) ---
+  // --- CALCULS URBANISTIQUES (CODE DE L'URBANISME SÉNÉGAL) ---
   const cesMax = 0.65;
   const empriseSolMax = Math.round(surface * cesMax);
   const espacesLibres = Math.round(surface * (1 - cesMax));
   const sdpTotale = Math.round(empriseSolMax * totalLevelsCount * 0.90);
   const hauteurFaitage = ((totalLevelsCount * 3.10) + 1.20).toFixed(1);
   const reculAlignement = streetWidth >= 15 ? 4.0 : 3.0; // Recul sur rue obligatoire
-  const hauteurMaxGabarit = (streetWidth + reculAlignement).toFixed(1); // DÃ©cret 2009-1450: H <= L + R
+  const hauteurMaxGabarit = (streetWidth + reculAlignement).toFixed(1); // Décret 2009-1450: H <= L + R
   const respecteGabarit = parseFloat(hauteurFaitage) <= parseFloat(hauteurMaxGabarit);
 
-  // --- ANALYSE GÃ‰OTECHNIQUE PAR SECTEUR TERRITORIAL DU SÃ‰NÃ‰GAL ---
+  // --- ANALYSE GÉOTECHNIQUE PAR SECTEUR TERRITORIAL DU SÉNÉGAL ---
   const locLower = location.toLowerCase();
   const isMarine = locLower.includes('almadies') || locLower.includes('ngor') || locLower.includes('yoff') || locLower.includes('corniche') || locLower.includes('saly');
   const isWetland = locLower.includes('massar') || locLower.includes('malika') || locLower.includes('pikine') || locLower.includes('thiaroye');
-  const isClay = locLower.includes('diamniadio') || locLower.includes('bargny') || locLower.includes('sÃ©bikotane');
+  const isClay = locLower.includes('diamniadio') || locLower.includes('bargny') || locLower.includes('sébikotane');
 
   let portanceSolBars = 2.2;
-  let natureSol = "Plateau sÃ©dimentaire / LatÃ©rite compacte portante";
-  let modeFondation = "Semelles isolÃ©es superficielles reliÃ©es par longrines de rigiditÃ© croisÃ©es";
-  let enrobageAciers = "3,0 cm (Exposition standard protÃ©gÃ©e)";
-  let typeCiment = "CEM II/B-L 42.5R dosÃ© Ã  350 kg/mÂ³ minimum";
-  let hydroRisk = "ModÃ©rÃ© / Infiltration pluviale standard";
+  let natureSol = "Plateau sédimentaire / Latérite compacte portante";
+  let modeFondation = "Semelles isolées superficielles reliées par longrines de rigidité croisées";
+  let enrobageAciers = "3,0 cm (Exposition standard protégée)";
+  let typeCiment = "CEM II/B-L 42.5R dosé à 350 kg/m³ minimum";
+  let hydroRisk = "Modéré / Infiltration pluviale standard";
 
   if (isMarine) {
     portanceSolBars = 2.0;
-    natureSol = "Sable dunaire quartzeux littoral / PrÃ©sence possible de basalte fracturÃ©";
-    modeFondation = "Semelles isolÃ©es rigides avec double nappe d'aciers HA et longrines antisismiques";
-    enrobageAciers = "4,5 cm Ã  5,0 cm STRICT (Attaque saline sÃ©vÃ¨re par embruns et brouillard marin)";
-    typeCiment = "CEM II 42.5R haute rÃ©sistance aux chlorures";
-    hydroRisk = "Ã‰levÃ© (RemontÃ©es capillaires cÃ´tiÃ¨res et sels corrosifs)";
+    natureSol = "Sable dunaire quartzeux littoral / Présence possible de basalte fracturé";
+    modeFondation = "Semelles isolées rigides avec double nappe d'aciers HA et longrines antisismiques";
+    enrobageAciers = "4,5 cm à 5,0 cm STRICT (Attaque saline sévère par embruns et brouillard marin)";
+    typeCiment = "CEM II 42.5R haute résistance aux chlorures";
+    hydroRisk = "Élevé (Remontées capillaires côtières et sels corrosifs)";
   } else if (isWetland) {
     portanceSolBars = 1.2;
-    natureSol = "Sables alluvionnaires fins compressibles / Nappe phrÃ©atique sub-affleurante en hivernage";
-    modeFondation = hasBasement ? "Radier gÃ©nÃ©ral Ã©tanche sous cuvelage avec parois moulÃ©es" : "Radier gÃ©nÃ©ral nervurÃ© ou semelles filantes rigides avec cuvelage Ã©tanche";
+    natureSol = "Sables alluvionnaires fins compressibles / Nappe phréatique sub-affleurante en hivernage";
+    modeFondation = hasBasement ? "Radier général étanche sous cuvelage avec parois moulées" : "Radier général nervuré ou semelles filantes rigides avec cuvelage étanche";
     enrobageAciers = "4,0 cm avec hydrofuge de masse Sika";
-    typeCiment = "CEM II 42.5R avec compacitÃ© maximale";
-    hydroRisk = "Critique (Submersion saisonniÃ¨re / Infiltration permanente sous semelle)";
+    typeCiment = "CEM II 42.5R avec compacité maximale";
+    hydroRisk = "Critique (Submersion saisonnière / Infiltration permanente sous semelle)";
   } else if (isClay) {
     portanceSolBars = 1.5;
-    natureSol = "Marnes et argiles gonflantes (PhÃ©nomÃ¨ne sÃ©vÃ¨re de retrait / gonflement volumÃ©trique)";
-    modeFondation = "Puits courts ancrÃ©s sous la zone active de dessiccation (-2,20 m) ou rÃ©seau de longrines rigides";
+    natureSol = "Marnes et argiles gonflantes (Phénomène sévère de retrait / gonflement volumétrique)";
+    modeFondation = "Puits courts ancrés sous la zone active de dessiccation (-2,20 m) ou réseau de longrines rigides";
     enrobageAciers = "3,5 cm avec renfort des armatures longitudinales de traction";
-    typeCiment = "CEM II 42.5R normalisÃ©";
-    hydroRisk = "Mouvements diffÃ©rentiels saisonniers (Saison sÃ¨che vs Hivernage)";
+    typeCiment = "CEM II 42.5R normalisé";
+    hydroRisk = "Mouvements différentiels saisonniers (Saison sèche vs Hivernage)";
   }
 
-  // --- DESCENTE DE CHARGES PRÃ‰LIMINAIRE (BAEL 91 R99) ---
-  const surfaceInfluence = 16.0; // Poteau le plus chargÃ© : trame moyenne 4x4m
-  const gPlancher = 5.8; // kN/mÂ² (Dalle corps creux 16+4, chape, carrelage, cloisons, enduits)
-  const gPoteauPoutre = 1.2; // kN/mÂ²
+  // --- DESCENTE DE CHARGES PRÉLIMINAIRE (BAEL 91 R99) ---
+  const surfaceInfluence = 16.0; // Poteau le plus chargé : trame moyenne 4x4m
+  const gPlancher = 5.8; // kN/m² (Dalle corps creux 16+4, chape, carrelage, cloisons, enduits)
+  const gPoteauPoutre = 1.2; // kN/m²
   const gNiveau = (gPlancher + gPoteauPoutre) * surfaceInfluence; // 112 kN/niveau
-  const qUnit = usage === 'bureaux' ? 2.5 : (usage === 'mixte' ? 2.0 : 1.5); // kN/mÂ²
-  const qNiveau = qUnit * surfaceInfluence; // 24 Ã  40 kN/niveau
+  const qUnit = usage === 'bureaux' ? 2.5 : (usage === 'mixte' ? 2.0 : 1.5); // kN/m²
+  const qNiveau = qUnit * surfaceInfluence; // 24 à 40 kN/niveau
 
   const gTotal = gNiveau * totalLevelsCount;
   const qTotal = qNiveau * totalLevelsCount;
@@ -118,13 +118,13 @@ function generateEsquissePDF(doc, data) {
   const nUltime = Math.round((1.35 * gTotal) + (1.5 * qTotal)); // kN
   const tonnesSer = (nSer / 9.81).toFixed(1);
 
-  // Surface et dimension de la semelle carrÃ©e (DTU 13.12)
-  const qAdmkNm2 = portanceSolBars * 100; // 1 bar = 100 kN/mÂ²
+  // Surface et dimension de la semelle carrée (DTU 13.12)
+  const qAdmkNm2 = portanceSolBars * 100; // 1 bar = 100 kN/m²
   const surfaceSemelleRequise = ((nSer * 1.05) / qAdmkNm2).toFixed(2);
   const coteSemelleCarrer = Math.ceil(Math.sqrt(surfaceSemelleRequise) * 20) / 20; // Arrondi aux 5 cm sup
-  const epaisseurSemelle = Math.max(35, Math.round(((coteSemelleCarrer * 100 - 30) / 4) + 5)); // Condition de rigiditÃ© en cm
+  const epaisseurSemelle = Math.max(35, Math.round(((coteSemelleCarrer * 100 - 30) / 4) + 5)); // Condition de rigidité en cm
 
-  // --- EN-TÃŠTE RÃ‰UTILISABLE SANS "1." DANS LE TITRE ---
+  // --- EN-TÊTE RÉUTILISABLE SANS "1." DANS LE TITRE ---
   function drawEsquisseHeader(pageDoc, pageNum, pageTitle, subTitle) {
     pageDoc.setFillColor(...COLOR_NAVY);
     pageDoc.rect(0, 0, 210, 28, 'F');
@@ -143,15 +143,15 @@ function generateEsquissePDF(doc, data) {
     pageDoc.setFont('helvetica', 'normal');
     pageDoc.setFontSize(7.5);
     pageDoc.setTextColor(148, 163, 184);
-    pageDoc.text("BUREAU D'Ã‰TUDES NUMÃ‰RIQUE â€¢ AUDIT TECHNIQUE BTP SÃ‰NÃ‰GAL", 14, 20);
+    pageDoc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", 14, 20);
 
-    // DonnÃ©es cartouche haut
+    // Données cartouche haut
     pageDoc.setFontSize(8);
     pageDoc.setTextColor(255, 255, 255);
-    pageDoc.text(Dossier : + refDoc, 196, 12, { align: 'right' });
+    pageDoc.text(`Dossier : ${refDoc}`, 196, 12, { align: 'right' });
     pageDoc.setTextColor(203, 213, 225);
-    pageDoc.text(Date :  + currentDate, 196, 18, { align: 'right' });
-    pageDoc.text(Titulaire :  + clientName.substring(0, 26), 196, 24, { align: 'right' });
+    pageDoc.text(`Date : ${currentDate}`, 196, 18, { align: 'right' });
+    pageDoc.text(`Titulaire : ${clientName.substring(0, 26)}`, 196, 24, { align: 'right' });
 
     // Titres de section
     pageDoc.setTextColor(...COLOR_NAVY);
@@ -168,17 +168,17 @@ function generateEsquissePDF(doc, data) {
     pageDoc.setLineWidth(0.5);
     pageDoc.line(14, 45, 196, 45);
 
-    // FILIGRANE DE SÃ‰CURITÃ‰ NOMINATIF ANTI-DIFFUSION
+    // FILIGRANE DE SÉCURITÉ NOMINATIF ANTI-DIFFUSION
     pageDoc.setFontSize(6.2);
     pageDoc.setFont('helvetica', 'italic');
     pageDoc.setTextColor(100, 116, 139);
-    pageDoc.text(DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL â€” MAÃŽTRE D'OUVRAGE : +clientName.toUpperCase()+ â€¢ TÃ‰L : +clientPhone+ â€¢ TITRE FONCIER : +lotNumber+. LA TRANSMISSION DE CE LIVRABLE Ã€ DES TIERS SANS MANDAT ENGAGE LA RESPONSABILITÃ‰ CIVILE ET PÃ‰NALE DU DÃ‰TENTEUR., 14, 49);
+    pageDoc.text(`DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. LA TRANSMISSION DE CE LIVRABLE À DES TIERS SANS MANDAT ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`, 14, 49);
   }
 
   // =========================================================================
-  // PAGE 1 : IDENTIFICATION FONCIÃˆRE, GABARIT & VOLUMÃ‰TRIE DUA
+  // PAGE 1 : IDENTIFICATION FONCIÈRE, GABARIT & VOLUMÉTRIE DUA
   // =========================================================================
-  drawEsquisseHeader(doc, 1, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie I : Cartouche Foncier, Gabarit VolumÃ©trique & ConformitÃ© au Code de l'Urbanisme");
+  drawEsquisseHeader(doc, 1, "Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Gabarit Volumétrique & Conformité au Code de l'Urbanisme");
 
   // Cartouche officiel d'identification
   doc.setFillColor(...COLOR_BG_LIGHT);
@@ -189,46 +189,46 @@ function generateEsquissePDF(doc, data) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("IDENTIFICATION NOMINATIVE DU MAÃŽTRE D'OUVRAGE & DU TITRE DE PROPRIÃ‰TÃ‰", 18, 59);
+  doc.text("IDENTIFICATION NOMINATIVE DU MAÎTRE D'OUVRAGE & DU TITRE DE PROPRIÉTÉ", 18, 59);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.8);
   doc.setTextColor(51, 65, 85);
-  doc.text(MaÃ®tre d'Ouvrage : +clientName, 18, 66);
-  doc.text(TÃ©lÃ©phone NotifiÃ© : +clientPhone, 18, 72);
-  doc.text(Email EnregistrÃ© : +clientEmail, 18, 78);
-  doc.text(Statut Foncier : +landStatus, 18, 84);
+  doc.text(`Maître d'Ouvrage : ${clientName}`, 18, 66);
+  doc.text(`Téléphone Notifié : ${clientPhone}`, 18, 72);
+  doc.text(`Email Enregistré : ${clientEmail}`, 18, 78);
+  doc.text(`Statut Foncier : ${landStatus}`, 18, 84);
 
-  let dimTxt = FaÃ§ade +facade1+ m Ã— Profondeur ~+((surface / facade1).toFixed(1))+ m;
-  if (config === 'angle' && facade2 > 0) dimTxt = FaÃ§ade 1: +facade1+ m â€¢ FaÃ§ade 2: +facade2+ m (Angle);
+  let dimTxt = `Façade ${facade1} m × Profondeur ~${(surface / facade1).toFixed(1)} m`;
+  if (config === 'angle' && facade2 > 0) dimTxt = `Façade 1: ${facade1} m • Façade 2: ${facade2} m (Angle)`;
 
-  doc.text(Localisation : +location, 110, 66);
-  doc.text(RÃ©f. Cadastrale / Lot : +lotNumber, 110, 72);
-  doc.text(Destination de l'Ouvrage : +usage.toUpperCase(), 110, 78);
-  doc.text(GÃ©omÃ©trie Parcelle : +dimTxt, 110, 84);
+  doc.text(`Localisation : ${location}`, 110, 66);
+  doc.text(`Réf. Cadastrale / Lot : ${lotNumber}`, 110, 72);
+  doc.text(`Destination de l'Ouvrage : ${usage.toUpperCase()}`, 110, 78);
+  doc.text(`Géométrie Parcelle : ${dimTxt}`, 110, 84);
 
   let currentY = 93;
 
-  // I. Gabarit VolumÃ©trique & ConformitÃ© RÃ¨gle Hauteur
+  // I. Gabarit Volumétrique & Conformité Règle Hauteur
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("I. GABARIT URBANISTIQUE & DROITS Ã€ BÃ‚TIR (DÃ‰CRET 2009-1450 & PDU DAKAR)", 14, currentY);
+  doc.text("I. GABARIT URBANISTIQUE & DROITS À BÂTIR (DÉCRET 2009-1450 & PDU DAKAR)", 14, currentY);
 
   const gabaritRows = [
-    ["Surface Totale Parcellaire", surface+ mÂ², "Superficie de base enregistrÃ©e au cadastre"],
-    ["Emprise au Sol Maximale (CES = 0,65)", empriseSolMax+ mÂ², "Limite lÃ©gale de projection au sol des constructions"],
-    ["Espaces Libres ImpermÃ©ables (35%)", espacesLibres+ mÂ², "Zone permÃ©able requise pour l'infiltration pluviale"],
-    ["Surface DÃ©veloppÃ©e de Plancher Totale (SDP)", ~+sdpTotale+ mÂ², Somme des planchers utiles sur R++levels+ (hors trÃ©mies)],
-    ["Hauteur Totale du BÃ¢timent ProjetÃ©", ~+hauteurFaitage+ m, "Dalle supÃ©rieure + acrotÃ¨re de terrasse de 1,20 m"],
-    ["Largeur de la Voie Publique Desservante", streetWidth+ mÃ¨tres, Recul lÃ©gal d'alignement exigÃ© : +reculAlignement+ m],
-    ["Gabarit Maximal LÃ©gal sur Rue (H <= L + R)", hauteurMaxGabarit+ mÃ¨tres, respecteGabarit ? "CONFORME au gabarit direct sur rue" : "DÃ‰PASSEMENT : Retrait en gradins Ã  45Â° requis aux Ã©tages hauts"],
-    ["Places de Stationnement Privatives Obligatoires", Math.max(1, Math.round(sdpTotale / 120))+ place(s), "Norme PDU Dakar : 1 place par logement ou tranche de 100 mÂ²"]
+    ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
+    ["Emprise au Sol Maximale (CES = 0,65)", `${empriseSolMax} m²`, "Limite légale de projection au sol des constructions"],
+    ["Espaces Libres Imperméables (35%)", `${espacesLibres} m²`, "Zone perméable requise pour l'infiltration pluviale"],
+    ["Surface Développée de Plancher Totale (SDP)", `~${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
+    ["Hauteur Totale du Bâtiment Projeté", `~${hauteurFaitage} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
+    ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Recul légal d'alignement exigé : ${reculAlignement.toFixed(1)} m`],
+    ["Gabarit Maximal Légal sur Rue (H <= L + R)", `${hauteurMaxGabarit} mètres`, respecteGabarit ? "CONFORME au gabarit direct sur rue" : "DÉPASSEMENT : Retrait en gradins à 45° requis aux étages hauts"],
+    ["Places de Stationnement Privatives Obligatoires", `${Math.max(1, Math.round(sdpTotale / 120))} place(s)`, "Norme PDU Dakar : 1 place par logement ou tranche de 100 m²"]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['Indicateur d\'Urbanisme', 'Valeur DÃ©terminÃ©e', 'Exigence LÃ©gale (Direction de l\'Urbanisme)']],
+    head: [['Indicateur d\'Urbanisme', 'Valeur Déterminée', 'Exigence Légale (Direction de l\'Urbanisme)']],
     body: gabaritRows,
     theme: 'grid',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -243,29 +243,29 @@ function generateEsquissePDF(doc, data) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("II. CONTRAINTES D'IMPLANTATION, PAN COUPÃ‰ D'ANGLE & PROSPECTS", 14, currentY);
+  doc.text("II. CONTRAINTES D'IMPLANTATION, PAN COUPÉ D'ANGLE & PROSPECTS", 14, currentY);
 
   let angleDesc = "Alignement standard sur voie unique avec recul obligatoire de 3,00 m.";
   if (config === 'angle') {
-    angleDesc = Parcelle d'Angle (+facade1+m Ã— +facade2+m) : Pan coupÃ© de visibilitÃ© obligatoire de 3,50 m d'hypotÃ©nuse Ã  l'intersection pour sÃ©curiser le carrefour. Double recul sur les deux rues.;
+    angleDesc = `Parcelle d'Angle (${facade1}m × ${facade2}m) : Pan coupé de visibilité obligatoire de 3,50 m d'hypoténuse à l'intersection pour sécuriser le carrefour. Double recul sur les deux rues.`;
   } else if (config === 'traversante') {
-    angleDesc = "Parcelle Traversante : Deux accÃ¨s distincts sur voies publiques opposÃ©es. Recul rÃ©glementaire de 3,00 m sur les deux faÃ§ades.";
+    angleDesc = "Parcelle Traversante : Deux accès distincts sur voies publiques opposées. Recul réglementaire de 3,00 m sur les deux façades.";
   } else if (config === 'bande') {
-    angleDesc = "Configuration en Bande : Murs mitoyens latÃ©raux aveugles obligatoires (coupe-feu 2h). Aucune fenÃªtre directe sans accord Ã©crit des voisins.";
+    angleDesc = "Configuration en Bande : Murs mitoyens latéraux aveugles obligatoires (coupe-feu 2h). Aucune fenêtre directe sans accord écrit des voisins.";
   } else {
-    angleDesc = "Parcelle IsolÃ©e : Recul minimal de 2,00 m imposÃ© sur toutes les limites sÃ©paratives de propriÃ©tÃ©.";
+    angleDesc = "Parcelle Isolée : Recul minimal de 2,00 m imposé sur toutes les limites séparatives de propriété.";
   }
 
   const mitoyenRows = [
-    ["RÃ©gime de FaÃ§ade & Voirie", config.toUpperCase(), angleDesc],
-    ["Ã‰tat des Terrains Voisins", neighbor === 'vide' ? "Parcelles Voisines Nues" : "Constructions Mitoyennes PrÃ©sentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-Å“uvre prÃ©alable." : "Constat d'huissier contradictoire obligatoire avant toute excavation."],
-    ["Puits de Jour & Cours d'AÃ©ration", "Minimum 12 mÂ² (Largeur min 3,00 m)", "Obligatoire pour les piÃ¨ces aveugles centrales selon le rÃ¨glement sanitaire."],
-    ["RÃ©gime des Eaux de Toiture", "Ã‰gout intÃ©rieur Ã  la parcelle", "Interdiction absolue de dÃ©verser les eaux pluviales sur le domaine public ou chez les voisins."]
+    ["Régime de Façade & Voirie", config.toUpperCase(), angleDesc],
+    ["État des Terrains Voisins", neighbor === 'vide' ? "Parcelles Voisines Nues" : "Constructions Mitoyennes Présentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-œuvre préalable." : "Constat d'huissier contradictoire obligatoire avant toute excavation."],
+    ["Puits de Jour & Cours d'Aération", "Minimum 12 m² (Largeur min 3,00 m)", "Obligatoire pour les pièces aveugles centrales selon le règlement sanitaire."],
+    ["Régime des Eaux de Toiture", "Égout intérieur à la parcelle", "Interdiction absolue de déverser les eaux pluviales sur le domaine public ou chez les voisins."]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['ParamÃ¨tre Spatial', 'Situation Chantier', 'Prescription d\'IngÃ©nierie Obligatoire']],
+    head: [['Paramètre Spatial', 'Situation Chantier', 'Prescription d\'Ingénierie Obligatoire']],
     body: mitoyenRows,
     theme: 'striped',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -277,25 +277,25 @@ function generateEsquissePDF(doc, data) {
   // PAGE 2 : DESCENTE DE CHARGES BAEL 91 & DIMENSIONNEMENT SEMELLE
   // =========================================================================
   doc.addPage();
-  drawEsquisseHeader(doc, 2, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie II : Descente de Charges (BAEL 91 R99) & Dimensionnement des Fondations");
+  drawEsquisseHeader(doc, 2, "Rapport d'Esquisse & Faisabilité Technique", "Partie II : Descente de Charges (BAEL 91 R99) & Dimensionnement des Fondations");
 
   currentY = 54;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("III. DESCENTE DE CHARGES THÃ‰ORIQUE SUR LE POTEAU LE PLUS CHARGÃ‰ (BAEL 91 R99)", 14, currentY);
+  doc.text("III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ (BAEL 91 R99)", 14, currentY);
 
   const descenteRows = [
-    ["Surface d'Influence du Poteau Central", surfaceInfluence+ mÂ², "Trame structurelle courante 4,00 m Ã— 4,00 m"],
-    ["Charges Permanentes CumulÃ©es (G)", gTotal.toFixed(0)+ kN (~+(gTotal / 9.81).toFixed(1)+ T), "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
-    ["Charges d'Exploitation CumulÃ©es (Q)", qTotal.toFixed(0)+ kN (~+(qTotal / 9.81).toFixed(1)+ T), Norme NF P 06-001 selon usage : +qUnit+ kN/mÂ² par niveau],
-    ["Effort Normal Total de Service (N_ser)", nSer+ kN (~+tonnesSer+ Tonnes), "N_ser = G + Q (UtilisÃ© pour le dimensionnement du sol)"],
-    ["Effort Normal Total Ultime (N_u)", nUltime+ kN (~+(nUltime / 9.81).toFixed(1)+ Tonnes), "N_u = 1,35 G + 1,5 Q (UtilisÃ© pour le ferraillage des armatures)"]
+    ["Surface d'Influence du Poteau Central", `${surfaceInfluence} m²`, "Trame structurelle courante 4,00 m × 4,00 m"],
+    ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (~${(gTotal / 9.81).toFixed(1)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
+    ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (~${(qTotal / 9.81).toFixed(1)} T)`, `Norme NF P 06-001 selon usage : ${qUnit} kN/m² par niveau`],
+    ["Effort Normal Total de Service (N_ser)", `${nSer} kN (~${tonnesSer} Tonnes)`, "N_ser = G + Q (Utilisé pour le dimensionnement du sol)"],
+    ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (~${(nUltime / 9.81).toFixed(1)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Utilisé pour le ferraillage des armatures)"]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['ParamÃ¨tre de Descente de Charges', 'Valeur CalculÃ©e', 'HypothÃ¨se & MÃ©thode de Calcul BAEL 91']],
+    head: [['Paramètre de Descente de Charges', 'Valeur Calculée', 'Hypothèse & Méthode de Calcul BAEL 91']],
     body: descenteRows,
     theme: 'grid',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -306,25 +306,25 @@ function generateEsquissePDF(doc, data) {
 
   currentY = doc.lastAutoTable.finalY + 8;
 
-  // IV. Dimensionnement GÃ©omÃ©trique de la Semelle & Profil Sol
+  // IV. Dimensionnement Géométrique de la Semelle & Profil Sol
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("IV. PRÃ‰-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÃ‰OTECHNIQUE", 14, currentY);
+  doc.text("IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE", 14, currentY);
 
   const semelleRows = [
-    ["CapacitÃ© Portante Admissible du Sol (q_adm)", portanceSolBars+ bars (+qAdmkNm2+ kN/mÂ²), "Valeur gÃ©otechnique estimative pour le secteur sÃ©lectionnÃ©"],
-    ["Surface Portante Minimale Requise (S)", surfaceSemelleRequise+ mÂ², "Formule DTU 13.12 : S >= 1,05 Ã— N_ser / q_adm"],
-    ["Dimensionnement Semelle CarrÃ©e (A Ã— B)", coteSemelleCarrer.toFixed(2)+ m Ã— +coteSemelleCarrer.toFixed(2)+ m, "Section d'assise au sol sous le poteau le plus chargÃ©"],
-    ["Ã‰paisseur Minimale de la Semelle (H)", epaisseurSemelle+ cm (d >= +(epaisseurSemelle - 5)+ cm), "Condition de rigiditÃ© : d >= (A - a)/4 pour Ã©viter le poinÃ§onnement"],
-    ["Enrobage RÃ©glementaire des Aciers", enrobageAciers, "Obligation BAEL 91 R99 pour prÃ©venir la corrosion des armatures"],
-    ["Nature Stratigraphique du Terrain", natureSol, "Profil gÃ©ologique dominant dans la zone choisie"],
-    ["Mode de Fondation PrÃ©conisÃ©", modeFondation, hasBasement ? "Cuvelage Ã©tanche requis en sous-sol" : "AdaptÃ© pour Ã©viter les tassements diffÃ©rentiels"]
+    ["Capacité Portante Admissible du Sol (q_adm)", `${portanceSolBars.toFixed(1)} bars (${qAdmkNm2} kN/m²)`, "Valeur géotechnique estimative pour le secteur sélectionné"],
+    ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise} m²`, "Formule DTU 13.12 : S >= 1,05 × N_ser / q_adm"],
+    ["Dimensionnement Semelle Carrée (A × B)", `${coteSemelleCarrer.toFixed(2)} m × ${coteSemelleCarrer.toFixed(2)} m`, "Section d'assise au sol sous le poteau le plus chargé"],
+    ["Épaisseur Minimale de la Semelle (H)", `${epaisseurSemelle} cm (d >= ${epaisseurSemelle - 5} cm)`, "Condition de rigidité : d >= (A - a)/4 pour éviter le poinçonnement"],
+    ["Enrobage Réglementaire des Aciers", enrobageAciers, "Obligation BAEL 91 R99 pour prévenir la corrosion des armatures"],
+    ["Nature Stratigraphique du Terrain", natureSol, "Profil géologique dominant dans la zone choisie"],
+    ["Mode de Fondation Préconisé", modeFondation, hasBasement ? "Cuvelage étanche requis en sous-sol" : "Adapté pour éviter les tassements différentiels"]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['Ã‰lÃ©ment de Dimensionnement', 'Prescription DÃ©terminÃ©e', 'Justification Technique de SÃ©curitÃ©']],
+    head: [['Élément de Dimensionnement', 'Prescription Déterminée', 'Justification Technique de Sécurité']],
     body: semelleRows,
     theme: 'striped',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -334,36 +334,36 @@ function generateEsquissePDF(doc, data) {
   });
 
   // =========================================================================
-  // PAGE 3 : RÃ‰SEAUX (SEN'EAU, SENELEC, ONAS) & CLIMAT TROPICAL
+  // PAGE 3 : RÉSEAUX (SEN'EAU, SENELEC, ONAS) & CLIMAT TROPICAL
   // =========================================================================
   doc.addPage();
-  drawEsquisseHeader(doc, 3, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie III : RÃ©silience Fluides (Sen'Eau, Senelec, ONAS) & Conception Bioclimatique");
+  drawEsquisseHeader(doc, 3, "Rapport d'Esquisse & Faisabilité Technique", "Partie III : Résilience Fluides (Sen'Eau, Senelec, ONAS) & Conception Bioclimatique");
 
   currentY = 54;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("V. RÃ‰SERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT (NS 17-074)", 14, currentY);
+  doc.text("V. RÉSERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT (NS 17-074)", 14, currentY);
 
   const occupantsEstimes = Math.max(6, Math.round(sdpTotale / 25));
   const bacheEauVolume = Math.max(3.5, ((occupantsEstimes * 150 * 2) / 1000)).toFixed(1);
   const puissanceKva = Math.max(9, Math.round(totalLevelsCount * 5.0));
 
-  let energieDetail = "Raccordement standard Senelec monophasÃ© ou triphasÃ©.";
-  if (energyBackup === 'solaire') energieDetail = "Installation photovoltaÃ¯que hybride avec onduleur 5 kVA et stockage lithium pour charges critiques (Ã©clairage, froid, surpresseur).";
-  if (energyBackup === 'groupe') energieDetail = "Inverseur de source automatique Normal/Secours (ATS) + local insonorisÃ© pour groupe Ã©lectrogÃ¨ne diesel.";
+  let energieDetail = "Raccordement standard Senelec monophasé ou triphasé.";
+  if (energyBackup === 'solaire') energieDetail = "Installation photovoltaïque hybride avec onduleur 5 kVA et stockage lithium pour charges critiques (éclairage, froid, surpresseur).";
+  if (energyBackup === 'groupe') energieDetail = "Inverseur de source automatique Normal/Secours (ATS) + local insonorisé pour groupe électrogène diesel.";
 
   const reseauxRows = [
-    ["BÃ¢che Ã  Eau Tampon EnterrÃ©e (Sen'Eau)", bacheEauVolume+ mÂ³ (Autonomie 48h), "Obligatoire face aux baisses de pression rÃ©currentes. Cuve bÃ©ton Ã©tanche + surpresseur hydrophore."],
-    ["Bilan de Puissance Souscrite (Senelec)", puissanceKva+ kVA (+(puissanceKva > 12 ? 'TriphasÃ©' : 'MonophasÃ©')+), "CalculÃ© pour climatisation split system complÃ¨te, Ã©clairage et groupe motopompe."],
-    ["Secours Ã‰nergÃ©tique PrÃ©conisÃ©", energyBackup.toUpperCase(), energieDetail],
-    ["Boucle de Terre en Fond de Fouille", "CÃ¢ble cuivre nu 25 mmÂ² (<= 5 Ohms)", "Ceinture sous semelles obligatoire pour la protection contre la foudre en hivernage."],
-    ["SystÃ¨me d'Assainissement des Eaux", sanitation === 'onas' ? "RÃ©seau Public Collectif ONAS" : "Fosse Toutes Eaux Ã‰tanche (NS 17-074)", sanitation === 'onas' ? "Pose obligatoire d'un clapet anti-retour de faÃ§ade contre les refoulements d'Ã©gout." : Fosse Ã©tanche 3 compartiments (+Math.max(4.5, totalLevelsCount * 1.5).toFixed(1)+ mÂ³) + puits filtrant.]
+    ["Bâche à Eau Tampon Enterrée (Sen'Eau)", `${bacheEauVolume} m³ (Autonomie 48h)`, "Obligatoire face aux baisses de pression récurrentes. Cuve béton étanche + surpresseur hydrophore."],
+    ["Bilan de Puissance Souscrite (Senelec)", `${puissanceKva} kVA (${puissanceKva > 12 ? 'Triphasé' : 'Monophasé'})`, "Calculé pour climatisation split system complète, éclairage et groupe motopompe."],
+    ["Secours Énergétique Préconisé", energyBackup.toUpperCase(), energieDetail],
+    ["Boucle de Terre en Fond de Fouille", "Câble cuivre nu 25 mm² (<= 5 Ohms)", "Ceinture sous semelles obligatoire pour la protection contre la foudre en hivernage."],
+    ["Système d'Assainissement des Eaux", sanitation === 'onas' ? "Réseau Public Collectif ONAS" : "Fosse Toutes Eaux Étanche (NS 17-074)", sanitation === 'onas' ? "Pose obligatoire d'un clapet anti-retour de façade contre les refoulements d'égout." : `Fosse étanche 3 compartiments (${Math.max(4.5, totalLevelsCount * 1.5).toFixed(1)} m³) + puits filtrant.`]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['Poste VRD & Ã‰quipements', 'Dimensionnement PrÃ©conisÃ©', 'Prescription Fonctionnelle Indispensable']],
+    head: [['Poste VRD & Équipements', 'Dimensionnement Préconisé', 'Prescription Fonctionnelle Indispensable']],
     body: reseauxRows,
     theme: 'grid',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -381,15 +381,15 @@ function generateEsquissePDF(doc, data) {
   doc.text("VI. CONCEPTION BIOCLIMATIQUE & PROTECTION THERMIQUE SOUS CLIMAT TROPICAL", 14, currentY);
 
   const bioclimRows = [
-    ["Orientation & Vents Dominants", "AlizÃ©s maritimes N-NO", "PrivilÃ©gier la ventilation traversante pour capter les brises fraÃ®ches et rÃ©duire le besoin de climatisation."],
-    ["Protection FaÃ§ades Est / Ouest", "Harmattan sec & Soleil rasant", "Limiter les baies vitrÃ©es sur ces faÃ§ades ou intÃ©grer des casquettes bÃ©ton / brise-soleil verticaux."],
-    ["Isolation Toiture Terrasse", "Complexe SBS 4mm + Chape rÃ©flÃ©chissante", "L'isolation thermique sous chape diminue la tempÃ©rature sous plafond de 4Â°C Ã  6Â°C."],
-    ["Ã‰tanchÃ©itÃ© AcrotÃ¨res & Solins", "RelevÃ©s d'Ã©tanchÃ©itÃ© min 20 cm", "Goutte d'eau et bavette zinc obligatoires pour Ã©viter le ruissellement noirci sur les faÃ§ades."]
+    ["Orientation & Vents Dominants", "Alizés maritimes N-NO", "Privilégier la ventilation traversante pour capter les brises fraîches et réduire le besoin de climatisation."],
+    ["Protection Façades Est / Ouest", "Harmattan sec & Soleil rasant", "Limiter les baies vitrées sur ces façades ou intégrer des casquettes béton / brise-soleil verticaux."],
+    ["Isolation Toiture Terrasse", "Complexe SBS 4mm + Chape réfléchissante", "L'isolation thermique sous chape diminue la température sous plafond de 4°C à 6°C."],
+    ["Étanchéité Acrotères & Solins", "Relevés d'étanchéité min 20 cm", "Goutte d'eau et bavette zinc obligatoires pour éviter le ruissellement noirci sur les façades."]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['Axe Bioclimatique', 'Prescription d\'IngÃ©nierie', 'BÃ©nÃ©fice Confort & DurabilitÃ©']],
+    head: [['Axe Bioclimatique', 'Prescription d\'Ingénierie', 'Bénéfice Confort & Durabilité']],
     body: bioclimRows,
     theme: 'striped',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -401,17 +401,17 @@ function generateEsquissePDF(doc, data) {
   // PAGE 4 : ENVELOPPE BUDGET TCE & FEUILLE DE ROUTE ADMINISTRATIVE TELEDAC
   // =========================================================================
   doc.addPage();
-  drawEsquisseHeader(doc, 4, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie IV : Enveloppe BudgÃ©taire TCE & ProcÃ©dure Administrative du Permis (TELEDAC)");
+  drawEsquisseHeader(doc, 4, "Rapport d'Esquisse & Faisabilité Technique", "Partie IV : Enveloppe Budgétaire TCE & Procédure Administrative du Permis (TELEDAC)");
 
   currentY = 54;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("VII. ENVELOPPE BUDGÃ‰TAIRE PRÃ‰VISIONNELLE TOUS CORPS D'Ã‰TAT (TCE SÃ‰NÃ‰GAL 2026)", 14, currentY);
+  doc.text("VII. ENVELOPPE BUDGÉTAIRE PRÉVISIONNELLE TOUS CORPS D'ÉTAT (TCE SÉNÉGAL 2026)", 14, currentY);
 
   let coutM2 = standing === 'haut' ? 325000 : (standing === 'economique' ? 225000 : 270000);
-  if (levels >= 3) coutM2 += (levels * 6000); // SurcoÃ»t de structure et pompage
-  if (hasBasement) coutM2 += 40000; // SurcoÃ»t cuvelage et terrassement sous-sol
+  if (levels >= 3) coutM2 += (levels * 6000); // Surcoût de structure et pompage
+  if (hasBasement) coutM2 += 40000; // Surcoût cuvelage et terrassement sous-sol
 
   const budgetTotalTCE = Math.round(sdpTotale * coutM2);
   const pTerrassement = Math.round(budgetTotalTCE * (hasBasement ? 0.18 : 0.14));
@@ -422,17 +422,17 @@ function generateEsquissePDF(doc, data) {
   const pTotal = pTerrassement + pGrosOeuvre + pSecondOeuvre + pEtancheite + pAleas;
 
   const budgetTceRows = [
-    ["1. Terrassements, Fouilles & Fondations", formatFCFA(pTerrassement), hasBasement ? "Fouilles sous-sol, blindage, bÃ©ton armÃ© hydrofuge" : "Fouilles en puits/rigoles, bÃ©ton de propretÃ©, semelles armÃ©es, longrines"],
-    ["2. Superstructure BÃ©ton ArmÃ© BAEL 91", formatFCFA(pGrosOeuvre), "Poteaux, poutres, dalles corps creux 16+4, maÃ§onnerie agglos vibrÃ©s de 15"],
-    ["3. Second Å’uvre, Fluides & Ã‰lectricitÃ©", formatFCFA(pSecondOeuvre), "Plomberie multicouche, cÃ¢blage NF C 15-100, carrelage grÃ¨s cÃ©rame, menuiseries"],
-    ["4. Ã‰tanchÃ©itÃ© Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), "Complexe bicouche bitumineux 4mm, relevÃ©s d'acrotÃ¨re et protection thermique"],
-    ["5. Provision pour AlÃ©as & MarchÃ© (7%)", formatFCFA(pAleas), "Marge de sÃ©curitÃ© couvrant les fluctuations des prix du ciment 42.5R et fer FeE500"],
-    ["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), Ratio moyen d'ingÃ©nierie : ~+formatFCFA(Math.round(pTotal / sdpTotale))+ / mÂ² de plancher]
+    ["1. Terrassements, Fouilles & Fondations", formatFCFA(pTerrassement), hasBasement ? "Fouilles sous-sol, blindage, béton armé hydrofuge" : "Fouilles en puits/rigoles, béton de propreté, semelles armées, longrines"],
+    ["2. Superstructure Béton Armé BAEL 91", formatFCFA(pGrosOeuvre), "Poteaux, poutres, dalles corps creux 16+4, maçonnerie agglos vibrés de 15"],
+    ["3. Second Œuvre, Fluides & Électricité", formatFCFA(pSecondOeuvre), "Plomberie multicouche, câblage NF C 15-100, carrelage grès cérame, menuiseries"],
+    ["4. Étanchéité Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), "Complexe bicouche bitumineux 4mm, relevés d'acrotère et protection thermique"],
+    ["5. Provision pour Aléas & Marché (7%)", formatFCFA(pAleas), "Marge de sécurité couvrant les fluctuations des prix du ciment 42.5R et fer FeE500"],
+    ["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), `Ratio moyen d'ingénierie : ~${formatFCFA(Math.round(pTotal / sdpTotale))} / m² de plancher`]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['Macro-Lot Technique TCE', 'Montant PrÃ©visionnel', 'Prestations & MatÃ©riaux NormalisÃ©s Inclus']],
+    head: [['Macro-Lot Technique TCE', 'Montant Prévisionnel', 'Prestations & Matériaux Normalisés Inclus']],
     body: budgetTceRows,
     theme: 'grid',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -443,23 +443,23 @@ function generateEsquissePDF(doc, data) {
 
   currentY = doc.lastAutoTable.finalY + 8;
 
-  // VIII. Feuille de Route LÃ©gale & TELEDAC
+  // VIII. Feuille de Route Légale & TELEDAC
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("VIII. FEUILLE DE ROUTE LÃ‰GALE : OBTENTION DU PERMIS DE CONSTRUIRE (TELEDAC)", 14, currentY);
+  doc.text("VIII. FEUILLE DE ROUTE LÉGALE : OBTENTION DU PERMIS DE CONSTRUIRE (TELEDAC)", 14, currentY);
 
   const etapesTeledac = [
-    ["1. Bornage Contradictoire", "GÃ©omÃ¨tre-Expert AgrÃ©Ã© (OGES)", "Plan de bornage rÃ©gulier et scellement des bornes physiques."],
-    ["2. Plans Architecturaux VisÃ©s", "Architecte Ordre (OAAS)", "Obligation lÃ©gale pour toute surface > 80 mÂ² ou tout R+1 et plus."],
-    ["3. Note de Calcul de StabilitÃ©", "Bureau d'Ã‰tudes Techniques (BET)", "Justification des sections de bÃ©ton et armatures selon BAEL 91 R99."],
-    ["4. DÃ©pÃ´t Plateforme TELEDAC", "Commission Mairie / DUA", "DÃ©lai lÃ©gal de 28 Ã  40 jours. Interdiction formelle d'ouvrir le chantier sans arrÃªtÃ© signÃ©."],
-    ["5. Contrat & Clauses COCC", "Entreprise GÃ©nÃ©rale / TÃ¢cheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrÃªt."]
+    ["1. Bornage Contradictoire", "Géomètre-Expert Agréé (OGES)", "Plan de bornage régulier et scellement des bornes physiques."],
+    ["2. Plans Architecturaux Visés", "Architecte Ordre (OAAS)", "Obligation légale pour toute surface > 80 m² ou tout R+1 et plus."],
+    ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections de béton et armatures selon BAEL 91 R99."],
+    ["4. Dépôt Plateforme TELEDAC", "Commission Mairie / DUA", "Délai légal de 28 à 40 jours. Interdiction formelle d'ouvrir le chantier sans arrêté signé."],
+    ["5. Contrat & Clauses COCC", "Entreprise Générale / Tâcheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrêt."]
   ];
 
   doc.autoTable({
     startY: currentY + 3,
-    head: [['Ã‰tape Administrative', 'Professionnel CompÃ©tent', 'Exigence LÃ©gale ImpÃ©rative (Code de l\'Urbanisme)']],
+    head: [['Étape Administrative', 'Professionnel Compétent', 'Exigence Légale Impérative (Code de l\'Urbanisme)']],
     body: etapesTeledac,
     theme: 'striped',
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
@@ -477,14 +477,15 @@ function generateEsquissePDF(doc, data) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(...COLOR_NAVY);
-  doc.text("VISA TECHNIQUE DU BUREAU D'Ã‰TUDES INDÃ‰PENDANT CHANTIERSUR.COM :", 18, currentY + 5);
+  doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", 18, currentY + 5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
   doc.setTextColor(...COLOR_SLATE);
-  doc.text("Ã‰tude d'esquisse et de faisabilitÃ© Ã©tablie conformÃ©ment aux rÃ¨gles de l'art du bÃ¢timent (BAEL 91 RÃ©visÃ© 99 & DUA SÃ©nÃ©gal).", 18, currentY + 10);
-  doc.text(Rapport officiel certifiÃ© nÂ° +refDoc+ â€¢ Ã‰mis Ã  Dakar le +currentDate+ pour le compte exclusif de +clientName+., 18, currentY + 15);
+  doc.text("Étude d'esquisse et de faisabilité établie conformément aux règles de l'art du bâtiment (BAEL 91 Révisé 99 & DUA Sénégal).", 18, currentY + 10);
+  doc.text(`Rapport officiel certifié n° ${refDoc} • Émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}.`, 18, currentY + 15);
 }
+
 
 window.generateProjectPDF = function(projectData) {
     const jsPDFClass = getJsPDF();
@@ -511,7 +512,6 @@ window.generateProjectPDF = function(projectData) {
     const landStatus = data.land_status || 'Titre Foncier (TF)';
     const standing = data.standing || 'moyen';
     const facadeWidth = parseFloat(data.facade_width) || 10;
-    const facadeWidth2 = parseFloat(data.facade_width_2) || 15;
     const parcelConfig = data.parcel_config || 'bande';
     const buildingUsage = data.building_usage || 'unifamilial';
     const sanitationType = data.sanitation_type || 'autonome';
@@ -606,7 +606,144 @@ window.generateProjectPDF = function(projectData) {
     // =========================================================================
     if (service === 'esquisse') {
       generateEsquissePDF(doc, data);
-    }// =========================================================================
+    }
+
+    // =========================================================================
+    // 2. LIVRABLE : BQE GROS ŒUVRE EXPRESS
+    // =========================================================================
+    else if (service === 'express') {
+      // PAGE 1 : Quantitatifs Béton & Aciers
+      drawPageHeader(doc, "2. Bordereau Quantitatif Estimatif (BQE) Gros Œuvre", "Phase Budget : Cubages Béton, Aciers FeE500, Ciment & Granulats");
+      let currentY = drawProjectIdentityBlock(50);
+
+      // Calculs d'ingénierie BAEL 91
+      const cubageBeton = Math.round(surface * 0.38 * (levels > 2 ? 1.08 : 1.0));
+      const ratioAcier = levels >= 4 ? 105 : (levels >= 2 ? 95 : 85); // kg d'acier / m3 de béton
+      const tonnageAcier = ((cubageBeton * ratioAcier) / 1000).toFixed(2);
+      const sacsCimentStructure = Math.round(cubageBeton * 7); // 350 kg/m3 = 7 sacs de 50kg
+      const sacsCimentMaconnerie = Math.round(surface * 1.8);
+      const totalSacsCiment = sacsCimentStructure + sacsCimentMaconnerie;
+      const tonnesCiment = (totalSacsCiment * 0.05).toFixed(1);
+      const volumeSable = Math.round(cubageBeton * 0.50 + (surface * 0.08));
+      const volumeGravier = Math.round(cubageBeton * 0.82);
+      const nbAgglos15 = Math.round(surface * 14.5);
+      const nbAgglos20 = Math.round(surface * 3.5);
+
+      // Prix Unitaires Moyens Dakar 2026
+      const prixCimentSac = 4400; // 88 000 FCFA / tonne
+      const prixAcierTonne = 620000;
+      const prixSableM3 = 11000;
+      const prixGravierM3 = 19000; // Basalte de Diack
+      const prixAgglo15 = 380;
+      const prixAgglo20 = 480;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(...COLOR_NAVY);
+      doc.text("I. BORDEREAU ESTIMATIF DÉTAILLÉ DES MATÉRIAUX MAJEURS", 14, currentY);
+
+      const bqeRows = [
+        ["Aciers Haute Adhérence FeE500", "Barres HA 6, 8, 10, 12, 14", `${tonnageAcier} Tonnes`, `${prixAcierTonne.toLocaleString('fr-FR')} F`, `${Math.round(tonnageAcier * prixAcierTonne).toLocaleString('fr-FR')} FCFA`],
+        ["Ciment CEM II 42.5R (SOCOCIM/Dangote)", "Sacs de 50 kg normalisés", `${totalSacsCiment} Sacs (${tonnesCiment} T)`, `${prixCimentSac.toLocaleString('fr-FR')} F`, `${Math.round(totalSacsCiment * prixCimentSac).toLocaleString('fr-FR')} FCFA`],
+        ["Gravier Basalte Concassé (Diack)", "Calibres 8/16 & 16/25", `${volumeGravier} m³`, `${prixGravierM3.toLocaleString('fr-FR')} F`, `${Math.round(volumeGravier * prixGravierM3).toLocaleString('fr-FR')} FCFA`],
+        ["Sable dunaire propre (Kayar/Diender)", "Sable lavé sans sel", `${volumeSable} m³`, `${prixSableM3.toLocaleString('fr-FR')} F`, `${Math.round(volumeSable * prixSableM3).toLocaleString('fr-FR')} FCFA`],
+        ["Agglos creux de 15 (Élévations)", "Parpaings vibrés", `${nbAgglos15.toLocaleString('fr-FR')} U`, `${prixAgglo15} F`, `${Math.round(nbAgglos15 * prixAgglo15).toLocaleString('fr-FR')} FCFA`],
+        ["Agglos pleins de 20 (Soubassement)", "Agglos de fondation", `${nbAgglos20.toLocaleString('fr-FR')} U`, `${prixAgglo20} F`, `${Math.round(nbAgglos20 * prixAgglo20).toLocaleString('fr-FR')} FCFA`],
+        ["Fil de recuit & cales d'enrobage", "Accessoires de ferraillage", "Forfait chantier", "-", `${Math.round(surface * 1200).toLocaleString('fr-FR')} FCFA`]
+      ];
+
+      const totalFournitures = Math.round(
+        (tonnageAcier * prixAcierTonne) +
+        (totalSacsCiment * prixCimentSac) +
+        (volumeGravier * prixGravierM3) +
+        (volumeSable * prixSableM3) +
+        (nbAgglos15 * prixAgglo15) +
+        (nbAgglos20 * prixAgglo20) +
+        (surface * 1200)
+      );
+
+      doc.autoTable({
+        startY: currentY + 4,
+        head: [['Poste Matériaux', 'Spécification Technique', 'Quantité Calculée', 'Prix Unitaire', 'Total Estimé']],
+        body: bqeRows,
+        theme: 'grid',
+        headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+        styles: { fontSize: 7, cellPadding: 2 },
+        columnStyles: { 4: { halign: 'right', fontStyle: 'bold' } },
+        margin: { left: 14, right: 14 }
+      });
+
+      currentY = doc.lastAutoTable.finalY + 6;
+
+      // Encadré Total Matériaux
+      doc.setFillColor(...COLOR_BG_LIGHT);
+      doc.rect(14, currentY, 182, 14, 'F');
+      doc.setDrawColor(...COLOR_AMBER);
+      doc.setLineWidth(0.8);
+      doc.rect(14, currentY, 182, 14, 'D');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...COLOR_NAVY);
+      doc.text("SOUS-TOTAL ESTIMATIF FOURNITURES MATÉRIAUX BRUTS :", 18, currentY + 9);
+      doc.setTextColor(...COLOR_AMBER);
+      doc.setFontSize(10);
+      doc.text(`${totalFournitures.toLocaleString('fr-FR')} FCFA`, 190, currentY + 9, { align: 'right' });
+
+      // PAGE 2 : Protocole des 6 Points d'Arrêt (Mandatory Hold Points)
+      doc.addPage();
+      drawPageHeader(doc, "2. Protocole Technique des 6 Points d'Arrêt", "Contrôle Qualité Chantier : Ne payez aucun acompte sans visa écrit");
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(...COLOR_NAVY);
+      doc.text("II. PROTOCOLE D'INSPECTION AVANT DÉCAISSEMENT DES ACOMPTES", 14, 52);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(...COLOR_SLATE);
+      doc.text("Pour sécuriser votre investissement à distance, appliquez la règle des 6 Points d'Arrêt : chaque point exige une validation formelle :", 14, 57);
+
+      const holdPointsRows = [
+        ["Point 1 : Fond de Fouille", "Avant coulage du béton de propreté", "Vérifier la profondeur d'assise et l'absence de remblai meuble ou d'eau stagnante."],
+        ["Point 2 : Ferraillage Semelles", "Avant coulage du béton de fondation", "Contrôler le diamètre des fers HA, le façonnage des crochets et les cales d'enrobage (4 cm)."],
+        ["Point 3 : Chaînage & Longrines", "Avant remblaiement du soubassement", "Vérifier la continuité des aciers d'attente et l'arase étanche anti-remontée capillaire."],
+        ["Point 4 : Dalle & Poutres", "3 heures avant la toupie ou la bétonnière", "Contrôler les armatures chapeaux, le calage des hourdis et la solidité des étaiements."],
+        ["Point 5 : Décoffrage Structure", "Minimum 21 jours après coulage de dalle", "Interdiction absolue de décoffrer prématurément sans l'accord écrit du technicien."],
+        ["Point 6 : Épreuve d'Étanchéité", "Après pose du complexe bitumineux", "Mise en eau de la terrasse pendant 48 heures consécutives. Zéro trace d'humidité sous plafond."]
+      ];
+
+      doc.autoTable({
+        startY: 61,
+        head: [['Point d\'Arrêt', 'Moment du Contrôle', 'Critère Impératif de Validation']],
+        body: holdPointsRows,
+        theme: 'striped',
+        headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 8 },
+        styles: { fontSize: 7.5, cellPadding: 3 },
+        columnStyles: { 0: { cellWidth: 42, fontStyle: 'bold' } },
+        margin: { left: 14, right: 14 }
+      });
+
+      // Cadre conseil bétonnière
+      currentY = doc.lastAutoTable.finalY + 10;
+      doc.setFillColor(254, 243, 199);
+      doc.roundedRect(14, currentY, 182, 24, 2, 2, 'F');
+      doc.setDrawColor(...COLOR_AMBER);
+      doc.roundedRect(14, currentY, 182, 24, 2, 2, 'D');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(146, 64, 14);
+      doc.text("RÈGLE TECHNIQUE D'OR SUR LES CHANTIERS DE DAKAR :", 18, currentY + 6);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(120, 53, 15);
+      doc.text("• Pour 1 sac de ciment CEM II 42.5R (50 kg) : doser avec 2 brouettes de gravier 8/16 et 1 brouette rase de sable.", 18, currentY + 12);
+      doc.text("• L'eau de gâchage ne doit JAMAIS rendre le béton liquide (l'excès d'eau chute la résistance mécanique de 40%).", 18, currentY + 17);
+      doc.text("• Utilisation impérative d'une aiguille vibrante lors du coulage des poteaux pour éviter les nids de gravier.", 18, currentY + 22);
+    }
+
+    // =========================================================================
     // 3. LIVRABLE : CONTRE-EXPERTISE DEVIS BTP
     // =========================================================================
     else if (service === 'audit') {
@@ -827,6 +964,28 @@ window.generateProjectPDF = function(projectData) {
 
     // =========================================================================
     // NUMÉROTATION MULTIPAGE & PIEDS DE PAGE AUTOMATIQUES ("Page X sur Y")
+    // =========================================================================
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= totalPages; p++) {
+      doc.setPage(p);
+      const pageHeight = doc.internal.pageSize.height;
+
+      doc.setDrawColor(226, 232, 240);
+      doc.setLineWidth(0.4);
+      doc.line(14, pageHeight - 16, 196, pageHeight - 16);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.8);
+      doc.setTextColor(148, 163, 184);
+      doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", 14, pageHeight - 11);
+      doc.text("Rapport certifié édité sous les règles de l'art BAEL 91 R99 & Code des Obligations Civiles et Commerciales.", 14, pageHeight - 7);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...COLOR_NAVY);
+      doc.text(`Page ${p} sur ${totalPages}`, 196, pageHeight - 9, { align: 'right' });
+    }
+
+
     // =========================================================================
     const totalPages = doc.internal.getNumberOfPages();
     for (let p = 1; p <= totalPages; p++) {
