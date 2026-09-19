@@ -1551,97 +1551,85 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  console.log("Initialisation du moteur interactif ChantierSur...");
-
-  // ==========================================
   // 1. GESTION DES 4 ONGLETS DE SERVICES
-  // ==========================================
-  // Sélectionne le conteneur parent qui englobe directement les 4 cartes du haut
-  const tabCards = document.querySelectorAll('.tab-card, [data-service-tab], #services-section .grid > div, .grid-cols-4 > div, .grid-cols-2 > div');
-  
-  // On cible précisément les 4 premières cartes de services
-  const serviceCards = Array.from(document.querySelectorAll('*')).filter(el => {
-    const text = el.innerText || '';
-    return text.includes('Esquisse & Faisabilité') || text.includes('Gros Œuvre Express') || text.includes('Contre-Expertise') || text.includes('Finitions & Second');
-  }).filter(el => el.children.length > 0 && el.parentElement.children.length >= 4).slice(0, 4);
+  // Recherche automatique des 4 cartes d'en-tête de services
+  const cards = Array.from(document.querySelectorAll('*')).filter(el => {
+    const t = el.innerText || '';
+    return (t.includes('Esquisse & Faisabilité') || t.includes('Gros Œuvre') || t.includes('Contre-Expertise') || t.includes('Finitions')) 
+      && el.parentElement && el.parentElement.children.length >= 4 && el.children.length > 0;
+  }).slice(0, 4);
 
-  // Recherche des conteneurs de formulaire associés
-  const formPanes = document.querySelectorAll('[data-service-content], [id^="pane-"], [id^="service-pane-"], .service-form-pane');
+  // Recherche des conteneurs de formulaire correspondants
+  const formPanes = Array.from(document.querySelectorAll('[data-service-content], [id*="pane"], .service-pane, .tab-pane, form')).filter(el => {
+    return el.tagName === 'FORM' || el.classList.contains('service-pane') || el.hasAttribute('data-service-content') || (el.id && el.id.includes('pane'));
+  }).slice(0, 4);
 
-  function activateTab(index) {
-    // Style visuel des cartes
-    serviceCards.forEach((card, i) => {
-      if (i === index) {
-        card.classList.add('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
-        card.classList.remove('border-slate-800', 'bg-slate-900/60');
-      } else {
-        card.classList.remove('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
-        card.classList.add('border-slate-800', 'bg-slate-900/60');
-      }
-    });
+  if (cards.length === 4) {
+    cards.forEach((card, index) => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Style visuel des cartes
+        cards.forEach((c, i) => {
+          if (i === index) {
+            c.classList.add('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
+            c.classList.remove('border-slate-800', 'bg-slate-900/60');
+          } else {
+            c.classList.remove('ring-2', 'ring-[#F59E0B]', 'border-[#F59E0B]', 'bg-slate-800');
+            c.classList.add('border-slate-800', 'bg-slate-900/60');
+          }
+        });
 
-    // Bascule des formulaires correspondants
-    if (formPanes.length >= 4) {
-      formPanes.forEach((pane, i) => {
-        if (i === index) {
-          pane.classList.remove('hidden');
-          pane.style.display = 'block';
-        } else {
-          pane.classList.add('hidden');
-          pane.style.display = 'none';
+        // Affichage du formulaire sélectionné
+        if (formPanes.length === 4) {
+          formPanes.forEach((pane, i) => {
+            if (i === index) {
+              pane.classList.remove('hidden');
+              pane.style.display = 'block';
+            } else {
+              pane.classList.add('hidden');
+              pane.style.display = 'none';
+            }
+          });
         }
       });
-    }
+    });
   }
 
-  // Écoute des clics sur chaque carte
-  serviceCards.forEach((card, idx) => {
-    card.style.cursor = 'pointer';
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      activateTab(idx);
-    });
-  });
-
-  // ==========================================
-  // 2. GESTION DU BOUTON "SUIVANT" (STEPPER)
-  // ==========================================
+  // 2. GESTION DU BOUTON SUIVANT
   document.addEventListener('click', function(e) {
-    const nextBtn = e.target.closest('button, a');
-    if (!nextBtn) return;
-
-    const btnText = (nextBtn.textContent || '').trim().toLowerCase();
-    const isNext = btnText.includes('suivant') || nextBtn.classList.contains('btn-next-step') || nextBtn.classList.contains('btn-step-next');
-
-    if (isNext) {
+    const target = e.target.closest('button, a');
+    if (!target) return;
+    
+    const text = (target.textContent || '').trim().toLowerCase();
+    if (text.includes('suivant')) {
       e.preventDefault();
-      e.stopPropagation();
-
-      // Trouve le conteneur de l'étape courante
-      let currentStep = nextBtn.closest('.form-step, .step-container, [data-step]');
+      
+      // Recherche de l'étape courante
+      let currentStep = target.closest('.form-step, .step-container, [data-step]');
       if (!currentStep) {
-        // Recherche par division parente
-        let parent = nextBtn.parentElement;
-        while (parent && !parent.classList.contains('form-step') && parent.tagName !== 'FORM') {
-          parent = parent.parentElement;
+        let p = target.parentElement;
+        while (p && p.tagName !== 'FORM' && !p.classList.contains('form-step')) {
+          p = p.parentElement;
         }
-        currentStep = parent;
+        currentStep = p;
       }
-
+      
       if (!currentStep) return;
 
-      // Validation manuelle des champs visibles uniquement
-      const visibleInputs = currentStep.querySelectorAll('input:not([type="hidden"]), select, textarea');
-      for (let input of visibleInputs) {
+      // Validation uniquement des champs visibles de l'étape active
+      const inputs = currentStep.querySelectorAll('input:not([type="hidden"]), select, textarea');
+      for (let input of inputs) {
         if (!input.checkValidity()) {
           input.reportValidity();
-          return; // Arrêt si un champ de l'étape active est incomplet
+          return;
         }
       }
 
-      // Recherche de l'étape suivante dans le même formulaire
+      // Passage à l'étape suivante
       let nextStep = currentStep.nextElementSibling;
-      while (nextStep && (nextStep.tagName === 'SCRIPT' || nextStep.offsetParent === null && !nextStep.classList.contains('hidden'))) {
+      while (nextStep && (nextStep.tagName === 'SCRIPT' || (nextStep.offsetParent === null && !nextStep.classList.contains('hidden')))) {
         nextStep = nextStep.nextElementSibling;
       }
 
@@ -1651,37 +1639,19 @@ document.addEventListener('DOMContentLoaded', function() {
         nextStep.classList.remove('hidden');
         nextStep.style.display = 'block';
 
-        // Mise à jour visuelle des puces (1, 2, 3)
-        const currentForm = currentStep.closest('form');
-        if (currentForm) {
-          const indicators = currentForm.querySelectorAll('.rounded-full, [data-bullet-step]');
-          indicators.forEach(ind => {
-            if (ind.textContent.trim() === '2') {
-              ind.classList.add('bg-[#F59E0B]', 'text-slate-950');
-              ind.classList.remove('bg-slate-800', 'text-slate-400');
+        // Mise à jour de l'indicateur d'étape (puce 2)
+        const form = currentStep.closest('form');
+        if (form) {
+          form.querySelectorAll('.rounded-full, [data-bullet-step]').forEach(bullet => {
+            if (bullet.textContent.trim() === '2') {
+              bullet.classList.add('bg-[#F59E0B]', 'text-slate-950');
+              bullet.classList.remove('bg-slate-800', 'text-slate-400');
             }
           });
         }
       }
     }
-
-    // Gestion du bouton "Précédent" / "Retour"
-    const isPrev = btnText.includes('retour') || btnText.includes('précédent') || nextBtn.classList.contains('btn-prev-step');
-    if (isPrev) {
-      e.preventDefault();
-      const currentStep = nextBtn.closest('.form-step, .step-container, [data-step]');
-      if (currentStep) {
-        const prevStep = currentStep.previousElementSibling;
-        if (prevStep) {
-          currentStep.classList.add('hidden');
-          currentStep.style.display = 'none';
-          prevStep.classList.remove('hidden');
-          prevStep.style.display = 'block';
-        }
-      }
-    }
   });
-
 });
 </script>
 </body>
