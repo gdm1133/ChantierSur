@@ -1247,27 +1247,22 @@
     fetchLiveRates();
 
         // GRILLE TARIFAIRE "EXÉCUTIVE" CHANTIERSUR (Positionnement Bureau d'Études Premium)
-    const PRICING_RULES = {
-      1: { base: 149000, perLevelAbove1: 25000 }, // Formule 1 : Esquisse & Faisabilité
-      2: { base: 199000, perLevelAbove1: 30000 }, // Formule 2 : BQE Gros Œuvre
-      3: { base: 249000, perLevelAbove1: 40000 }, // Formule 3 : Audit & Contre-Expertise Devis
-      4: { base: 99000, perLevelAbove1: 15000 }   // Formule 4 : Finitions & Second Œuvre
+        const PRICING_RULES = {
+      1: { base: 149000, perLevelAbove1: 25000 }, // Esquisse
+      2: { base: 199000, perLevelAbove1: 30000 }, // BQE Gros Œuvre
+      3: { base: 249000, perLevelAbove1: 40000 }, // Audit Devis
+      4: { base: 99000, perLevelAbove1: 15000 }   // Finitions
     };
 
-    // CALCUL DU MONTANT EXACT EN FCFA
     window.calculateServicePrice = function(paneId) {
+      const rule = PRICING_RULES[paneId];
+      if (!rule) return 199000;
       const pane = document.getElementById('pane-' + paneId);
-      if (!pane) return 0;
-
-      const levelSelect = pane.querySelector('[name="exact_levels"]');
-      const levels = levelSelect ? parseInt(levelSelect.value, 10) : 1;
-      const rule = PRICING_RULES[paneId] || { base: 25000, perLevelAbove1: 5000 };
-
-      let price = rule.base;
-      if (levels > 1) {
-        price += (levels - 1) * rule.perLevelAbove1;
-      }
-      return price;
+      if (!pane) return rule.base;
+      const fd = new FormData(pane);
+      const levels = parseInt(fd.get('exact_levels') || '0', 10);
+      const extraLevels = Math.max(0, levels - 1);
+      return rule.base + (extraLevels * rule.perLevelAbove1);
     };
 
     // MISE À JOUR DE L'AFFICHAGE DES PRIX ET CONVERSIONS
@@ -1438,17 +1433,18 @@
 
       // 2. Appel PayTech ou bascule directe
       try {
-        const response = await fetch('/.netlify/functions/paytech', {
+                const response = await fetch('/.netlify/functions/paytech', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
-            item_price: exactAmount,
+            item_price: exactAmount, // Montant dynamique transmis (ex: 199000)
             currency: 'XOF',
+            service: serviceKey,
             ref_command: 'CS-' + Date.now(),
             client_name: clientName,
             client_email: clientEmail,
-            client_phone: `${rawPrefix}${rawPhone}`
+            client_phone: `${prefixDigits}${rawPhone}`
           })
         });
 

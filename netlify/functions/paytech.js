@@ -1,35 +1,30 @@
-function resolvePrice(serviceType, levels) {
-  const nbLevels = parseInt(levels, 10) || 0;
-  if (serviceType === 'esquisse') return 35000 + (nbLevels * 25000);
-  if (serviceType === 'express') return 15000 + (nbLevels * 12500);
-  if (serviceType === 'audit') return 55000 + (nbLevels * 45000);
-  if (serviceType === 'finitions') return 25000 + (nbLevels * 15000);
-  return 15000;
-}
-
+// netlify/functions/paytech.js
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Méthode non autorisée' }) };
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    const { serviceType = 'express', levels = 0, projectDetails = {} } = JSON.parse(event.body);
-    const amount = resolvePrice(serviceType, levels);
-    const itemName = `ChantierSur — Pack ${serviceType.toUpperCase()} (${levels} Niveaux)`;
+    const data = JSON.parse(event.body || '{}');
 
-    const refCommand = `CS-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    // Récupération stricte du montant dynamique envoyé par le simulateur
+    const exactPrice = parseInt(data.item_price, 10);
 
     const payload = {
-      item_name: itemName,
-      item_price: amount,
+      item_name: data.item_name || 'ChantierSur - Prestation BTP',
+      item_price: exactPrice, // Ne pas mettre 15000 ici
       currency: 'XOF',
-      ref_command: refCommand,
-      command_name: `Paiement Audit ChantierSur`,
-      env: process.env.PAYTECH_ENV || 'prod',
-      ipn_url: 'https://chantiersur.com/.netlify/functions/paytech-ipn',
-      success_url: `https://chantiersur.com/?payment=success&service=${serviceType}`,
-      cancel_url: `https://chantiersur.com/?payment=cancelled&service=${serviceType}`,
-      custom_field: JSON.stringify({ serviceType, levels, ref_command: refCommand, ...projectDetails })
+      ref_command: data.ref_command || ('CS-' + Date.now()),
+      command_name: `Paiement ${data.item_name}`,
+      env: process.env.PAYTECH_ENV || 'test',
+      ipn_url: process.env.PAYTECH_IPN_URL || 'https://www.chantiersur.com/.netlify/functions/paytech-ipn',
+      success_url: `https://www.chantiersur.com/app_privee.html?payment=success&service=${data.service || 'express'}`,
+      cancel_url: 'https://www.chantiersur.com/app_privee.html?payment=cancel',
+      custom_field: JSON.stringify({
+        client_name: data.client_name,
+        client_email: data.client_email,
+        client_phone: data.client_phone
+      })
     };
 
     const response = await fetch('https://paytech.sn/api/payment/request-payment', {
@@ -45,19 +40,14 @@ exports.handler = async (event) => {
 
     const result = await response.json();
 
-    if (result && result.success === 1) {
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(result)
-      };
-    } else {
-      throw new Error(result.message || 'Erreur d’initialisation PayTech');
-    }
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(result)
+    };
   } catch (error) {
     return {
       statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: error.message })
     };
   }
