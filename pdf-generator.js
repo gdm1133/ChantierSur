@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Conforme : BAEL 91 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit COCC
  */
@@ -30,7 +30,13 @@
   // =========================================================================
   function renderEsquisse(doc, data, refDoc, currentDate) {
     const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
-    const clientPhone = (data.phone_prefix || '+221') + ' ' + (data.client_phone || '770000000');
+    
+    // Assainissement téléphone anti-doublon
+    const rawPrefix = (data.phone_prefix || '+221').trim();
+    let rawPhone = (data.client_phone || '770000000').toString().trim();
+    rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
+    const clientPhone = `${rawPrefix} ${rawPhone}`;
+
     const clientEmail = (data.client_email || 'client@chantiersur.com').trim();
     const surface = parseFloat(data.surface) || 200;
     const facade1 = parseFloat(data.facade_width) || 10;
@@ -94,12 +100,13 @@
     const qTotal = qUnit * surfaceInfluence * totalLevelsCount;
     const nSer = Math.round(gTotal + qTotal);
     const nUltime = Math.round((1.35 * gTotal) + (1.5 * qTotal));
-    const qAdmkNm2 = portanceSolBars * 100;
+    
+    // Correction précision flottante (arrondi entier propre)
+    const qAdmkNm2 = Math.round(portanceSolBars * 100);
     const surfaceSemelleRequise = ((nSer * 1.05) / qAdmkNm2).toFixed(2);
     const coteSemelleCarrer = Math.ceil(Math.sqrt(surfaceSemelleRequise) * 20) / 20;
     const epaisseurSemelle = Math.max(35, Math.round(((coteSemelleCarrer * 100 - 30) / 4) + 5));
 
-    // En-tête de section
     function drawHeader(pageTitle, subTitle) {
       doc.setFillColor(...COLOR_NAVY);
       doc.rect(0, 0, 210, 28, 'F');
@@ -124,6 +131,7 @@
       doc.text(`Dossier : ${refDoc}`, 196, 12, { align: 'right' });
       doc.setTextColor(203, 213, 225);
       doc.text(`Date : ${currentDate}`, 196, 18, { align: 'right' });
+      
       const displayTitulaire = clientName.length > 28 ? clientName.substring(0, 26) + '...' : clientName;
       doc.text(`Titulaire : ${displayTitulaire}`, 196, 24, { align: 'right' });
 
@@ -141,19 +149,18 @@
       doc.setLineWidth(0.5);
       doc.line(14, 45, 196, 45);
 
+      // Notice de confidentialité sur 2 lignes nettes
+      const legalNotice = `DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. LA TRANSMISSION OU DIFFUSION DE CE LIVRABLE ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`;
       doc.setFontSize(6.2);
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(100, 116, 139);
-      
-      // AVERTISSEMENT JURIDIQUE DE CONFIDENTIALITÉ (MULTI-LIGNES DANS LES MARGES)
-      const legalNotice = `DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. LA TRANSMISSION OU DIFFUSION DE CE LIVRABLE ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`;
-      
-      // Découpe automatique sur la largeur utile de 182 mm (marge gauche 14mm à droite 196mm)
       const splitNotice = doc.splitTextToSize(legalNotice, 182);
       doc.text(splitNotice, 14, 48.5);
     }
 
-    // --- PAGE 1 ---
+    // =========================================================================
+    // PAGE 1 : GABARIT VOLUMÉTRIQUE & ALIGNEMENT
+    // =========================================================================
     drawHeader("Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Gabarit Volumétrique & Conformité au Code de l'Urbanisme");
 
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -218,9 +225,9 @@
 
     let angleDesc = "Alignement standard sur voie unique avec recul obligatoire de 3,00 m.";
     if (config === 'angle') {
-      angleDesc = `Parcelle d'Angle (${facade1}m × ${facade2}m) : Pan coupé de visibilité obligatoire de 3,50 m d'hypoténuse au carrefour. Double recul sur les deux rues.`;
+      angleDesc = `Parcelle d'Angle (${facade1}m × ${facade2}m) : Pan coupé de visibilité de 3,50 m d'hypoténuse au carrefour. Double recul sur les deux rues.`;
     } else if (config === 'traversante') {
-      angleDesc = "Parcelle Traversante : Deux accès distincts sur voies opposées. Recul réglementaire de 3,00 m sur les deux façades.";
+      angleDesc = "Parcelle Traversante : Accès distincts sur voies opposées. Recul réglementaire de 3,00 m sur les deux façades.";
     } else if (config === 'bande') {
       angleDesc = "Configuration en Bande : Murs mitoyens latéraux aveugles obligatoires (coupe-feu 2h). Aucune baie sans accord écrit.";
     } else {
@@ -244,7 +251,9 @@
       margin: { left: 14, right: 14 }
     });
 
-    // --- PAGE 2 ---
+    // =========================================================================
+    // PAGE 2 : DESCENTE DE CHARGES & PRÉ-DIMENSIONNEMENT SEMELLE
+    // =========================================================================
     doc.addPage();
     drawHeader("Rapport d'Esquisse & Faisabilité Technique", "Partie II : Descente de Charges (BAEL 91 R99) & Dimensionnement des Fondations");
 
@@ -279,6 +288,7 @@
     doc.setTextColor(...COLOR_NAVY);
     doc.text("IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE", 14, currentY);
 
+    // Correction de la structure du tableau IV (lignes strictement indépendantes)
     const semelleRows = [
       ["Capacité Portante Admissible du Sol (q_adm)", `${portanceSolBars} bars (${qAdmkNm2} kN/m²)`, "Valeur géotechnique estimative pour le secteur sélectionné"],
       ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise} m²`, "Formule DTU 13.12 : S >= 1,05 × N_ser / q_adm"],
@@ -296,11 +306,17 @@
       theme: 'striped',
       headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
       styles: { fontSize: 7.2, cellPadding: 2.2 },
-      columnStyles: { 1: { fontStyle: 'bold', textColor: COLOR_NAVY } },
+      columnStyles: { 
+        0: { cellWidth: 55, fontStyle: 'bold' },
+        1: { cellWidth: 42, fontStyle: 'bold', textColor: COLOR_NAVY },
+        2: { cellWidth: 85 }
+      },
       margin: { left: 14, right: 14 }
     });
 
-    // --- PAGE 3 ---
+    // =========================================================================
+    // PAGE 3 : RÉSEAUX (SEN'EAU, SENELEC, ONAS) & CLIMAT TROPICAL
+    // =========================================================================
     doc.addPage();
     drawHeader("Rapport d'Esquisse & Faisabilité Technique", "Partie III : Résilience Fluides (Sen'Eau, Senelec, ONAS) & Conception Bioclimatique");
 
@@ -315,11 +331,12 @@
     const puissanceKva = Math.max(9, Math.round(totalLevelsCount * 5.0));
 
     let energieDetail = "Raccordement standard Senelec monophasé ou triphasé.";
-    if (energyBackup === 'solaire') energieDetail = "Installation photovoltaïque hybride avec onduleur 5 kVA et stockage lithium pour charges critiques.";
-    if (energyBackup === 'groupe') energieDetail = "Inverseur de source automatique Normal/Secours (ATS) + local insonorisé pour groupe électrogène.";
+    if (energyBackup === 'solaire') energieDetail = "Installation photovoltaïque hybride avec onduleur 5 kVA et stockage lithium.";
+    if (energyBackup === 'groupe') energieDetail = "Inverseur de source automatique Normal/Secours (ATS) + local insonorisé pour groupe.";
 
+    // Correction de la séparation nette des lignes du tableau V
     const reseauxRows = [
-      ["Bâche à Eau Tampon Enterrée (Sen'Eau)", `${bacheEauVolume} m³ (Autonomie 48h)`, "Obligatoire face aux baisses de pression récurrentes. Cuve béton étanche + surpresseur."],
+      ["Bâche à Eau Tampon Enterrée (Sen'Eau)", `${bacheEauVolume} m³ (Autonomie 48h)`, "Obligatoire face aux baisses de pression. Cuve béton étanche + surpresseur."],
       ["Bilan de Puissance Souscrite (Senelec)", `${puissanceKva} kVA (${puissanceKva > 12 ? 'Triphasé' : 'Monophasé'})`, "Calculé pour climatisation split system complète, éclairage et motopompe."],
       ["Secours Énergétique Préconisé", energyBackup.toUpperCase(), energieDetail],
       ["Boucle de Terre en Fond de Fouille", "Câble cuivre nu 25 mm² (<= 5 Ohms)", "Ceinture sous semelles obligatoire pour la protection foudre en hivernage."],
@@ -334,9 +351,9 @@
       headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
       styles: { fontSize: 7.2, cellPadding: 2.2 },
       columnStyles: { 
-        0: { cellWidth: 52, fontStyle: 'bold' }, 
-        1: { cellWidth: 38, fontStyle: 'bold', textColor: COLOR_NAVY }, 
-        2: { cellWidth: 92 } 
+        0: { cellWidth: 52, fontStyle: 'bold' },
+        1: { cellWidth: 40, fontStyle: 'bold', textColor: COLOR_NAVY },
+        2: { cellWidth: 90 }
       },
       margin: { left: 14, right: 14 }
     });
@@ -347,11 +364,12 @@
     doc.setTextColor(...COLOR_NAVY);
     doc.text("VI. CONCEPTION BIOCLIMATIQUE & PROTECTION THERMIQUE SOUS CLIMAT TROPICAL", 14, currentY);
 
+    // Correction de la coquille "Quest" -> "Ouest"
     const bioclimRows = [
-      ["Orientation & Vents Dominants", "Alizés maritimes N-NO", "Privilégier la ventilation traversante pour capter les brises fraîches et réduire la climatisation."],
-      ["Protection Façades Est / Ouest", "Harmattan sec & Soleil rasant", "Limiter les baies vitrées sur ces façades ou intégrer des casquettes béton / brise-soleil."],
+      ["Orientation & Vents Dominants", "Alizés maritimes N-NO", "Privilégier la ventilation traversante pour capter les brises fraîches."],
+      ["Protection Façades Est / Ouest", "Harmattan sec & Soleil rasant", "Limiter les baies vitrées sur ces façades ou intégrer des casquettes béton."],
       ["Isolation Toiture Terrasse", "Complexe SBS 4mm + Chape réfléchissante", "L'isolation thermique sous chape diminue la température sous plafond de 4°C à 6°C."],
-      ["Étanchéité Acrotères & Solins", "Relevés d'étanchéité min 20 cm", "Goutte d'eau et bavette zinc obligatoires pour éviter le ruissellement noirci sur les façades."]
+      ["Étanchéité Acrotères & Solins", "Relevés d'étanchéité min 20 cm", "Goutte d'eau et bavette zinc obligatoires contre le ruissellement noirci."]
     ];
 
     doc.autoTable({
@@ -364,7 +382,9 @@
       margin: { left: 14, right: 14 }
     });
 
-    // --- PAGE 4 ---
+    // =========================================================================
+    // PAGE 4 : ENVELOPPE BUDGET TCE & FEUILLE DE ROUTE ADMINISTRATIVE
+    // =========================================================================
     doc.addPage();
     drawHeader("Rapport d'Esquisse & Faisabilité Technique", "Partie IV : Enveloppe Budgétaire TCE & Procédure Administrative du Permis (TELEDAC)");
 
@@ -406,17 +426,19 @@
       margin: { left: 14, right: 14 }
     });
 
+    // Inversion corrigée : Le titre VIII est placé rigoureusement AVANT le tableau VIII
     currentY = doc.lastAutoTable.finalY + 8;
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.setTextColor(...COLOR_NAVY);
     doc.text("VIII. FEUILLE DE ROUTE LÉGALE : OBTENTION DU PERMIS DE CONSTRUIRE (TELEDAC)", 14, currentY);
 
+    // Correction des coquilles rédactionnelles
     const etapesTeledac = [
       ["1. Bornage Contradictoire", "Géomètre-Expert Agréé (OGES)", "Plan de bornage régulier et scellement des bornes physiques."],
       ["2. Plans Architecturaux Visés", "Architecte Ordre (OAAS)", "Obligation légale pour toute surface > 80 m² ou tout R+1 et plus."],
       ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections de béton et armatures selon BAEL 91 R99."],
-      ["4. Dépôt Plateforme TELEDAC", "Commission Mairie / DUA", "Délai légal de 28 à 40 jours. Interdiction formelle d'ouvrir le chantier sans arrêté."],
+      ["4. Dépôt Plateforme TELEDAC", "Commission Mairie / DUA", "Délai légal de 28 à 40 jours. Interdiction formelle d'ouvrir le chantier sans arrêté signé."],
       ["5. Contrat & Clauses COCC", "Entreprise Générale / Tâcheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrêt."]
     ];
 
@@ -430,6 +452,7 @@
       margin: { left: 14, right: 14 }
     });
 
+    // Bloc de visa technique
     currentY = doc.lastAutoTable.finalY + 5;
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.rect(14, currentY, 182, 20, 'F');
@@ -447,10 +470,6 @@
     doc.text("Étude d'esquisse et de faisabilité établie conformément aux règles de l'art du bâtiment (BAEL 91 Révisé 99 & DUA Sénégal).", 18, currentY + 10);
     doc.text(`Rapport officiel certifié n° ${refDoc} • Émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}.`, 18, currentY + 15);
   }
-
-  // =========================================================================
-  // 2. LIVRABLES : GROS ŒUVRE, AUDIT DEVIS & FINITIONS
-  // =========================================================================
   function renderOtherServices(doc, data, service, refDoc, currentDate) {
     const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
     const surface = parseFloat(data.surface) || 200;

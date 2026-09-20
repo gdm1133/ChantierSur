@@ -971,22 +971,25 @@
       const prefix = (fd.get('phone_prefix') || '+221').trim();
       const clientName = (fd.get('client_name') || '').trim();
       const clientEmail = (fd.get('client_email') || '').trim();
-      const clientPhone = (fd.get('client_phone') || '').trim();
+      const rawPhone = (fd.get('client_phone') || '').trim();
+      
+      // Nettoyage si l'utilisateur a déjà tapé le préfixe ou le zéro initial
+      let cleanPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '');
 
-      if (!clientName || !clientEmail || !clientPhone) {
+      if (!clientName || !clientEmail || !cleanPhone) {
         alert("Veuillez renseigner votre nom, votre email et votre numéro de téléphone.");
         return;
       }
 
-      if (prefix === '+221' && clientPhone.length !== 9) {
+      if (prefix === '+221' && cleanPhone.length !== 9) {
         alert("Pour un numéro sénégalais (+221), veuillez saisir exactement 9 chiffres (ex: 771234567).");
         return;
-      } else if (clientPhone.length < 6) {
+      } else if (cleanPhone.length < 6) {
         alert("Veuillez saisir un numéro de téléphone valide.");
         return;
       }
 
-      const fullPhoneNumber = `${prefix}${clientPhone}`;
+      const fullPhoneNumber = `${prefix} ${cleanPhone}`;
 
       const projectData = {
         service: serviceKey,
