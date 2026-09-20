@@ -11,15 +11,20 @@
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
-    <main class="max-w-3xl w-full bg-slate-900/60 p-8 md:p-12 rounded-2xl border border-slate-800 shadow-2xl space-y-8 mb-12 mx-4">
+    <main class="max-w-3xl w-full bg-slate-900/60 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden mb-12 mx-4">
         
-        <header class="space-y-3 border-b border-slate-800 pb-6">
-            <a href="/" class="text-xs font-bold tracking-widest text-[#F59E0B] uppercase hover:underline inline-block mb-2">&larr; Retour à l'accueil</a>
-            <h1 class="text-3xl md:text-4xl font-black text-white">Mentions Légales</h1>
-            <p class="text-sm text-slate-400">Cadre réglementaire régissant l'accès et l'utilisation de la plateforme www.chantiersur.com.</p>
-        </header>
+        <div class="h-64 w-full relative">
+            <img src="assets/img/img_mentions.jpg" alt="Mentions Légales" class="w-full h-full object-cover opacity-80" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+            <a href="/" class="absolute top-6 left-6 text-xs font-bold tracking-widest text-[#F59E0B] uppercase bg-slate-900/80 px-4 py-2 rounded-lg border border-amber-500/30 hover:bg-amber-500 hover:text-slate-900 transition-all">&larr; Retour à l'accueil</a>
+            <div class="absolute bottom-6 left-8 right-8">
+                <h1 class="text-3xl md:text-4xl font-black text-white">Mentions Légales</h1>
+                <p class="text-sm text-slate-300 mt-2">Cadre réglementaire régissant l'accès et l'utilisation de la plateforme.</p>
+            </div>
+        </div>
 
-        <section class="space-y-3">
+        <div class="p-8 md:p-12 space-y-8">
+                    <section class="space-y-3">
             <h2 class="text-lg font-bold text-[#F59E0B]">1. Éditeur de la Plateforme</h2>
             <div class="text-sm text-slate-300 space-y-1.5 leading-relaxed bg-slate-950/40 p-4 rounded-xl border border-slate-800/80">
                 <p><span class="font-semibold text-white">Dénomination :</span> ChantierSur Technologies SARL <span class="text-xs text-amber-300/80 italic">(société en cours d'immatriculation)</span></p>
@@ -59,6 +64,7 @@
                 Les présentes mentions et les conditions d'utilisation de la plateforme sont soumises au droit applicable en République du Sénégal. En l'absence de résolution amiable, tout litige relève de la compétence expresse des juridictions de Dakar.
             </p>
         </section>
+        </div>
     </main>
 
     <div class="w-full">
@@ -188,6 +194,9 @@
 
   </div>
 </div>
+
+
+
 
     </div>
 </body>
