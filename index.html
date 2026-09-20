@@ -19,15 +19,15 @@
   <!-- TOPBAR RÉGLEMENTAIRE -->
   <div class="bg-slate-950 border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-      <div class="flex items-center space-x-3">
-        <span class="inline-flex items-center text-emerald-400 font-semibold">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
           Conformité BAEL 91 R99
         </span>
-        <span>•</span>
-        <span>Droit COCC Sénégal</span>
-        <span>•</span>
-        <span>Données Protégées CDP</span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">Droit COCC Sénégal</span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">Données Protégées CDP</span>
       </div>
       <div class="flex items-center space-x-4">
         <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
@@ -110,10 +110,10 @@
     </div>
 
     <!-- LES 4 BOUTONS ONGLETS DÉCLENCHEURS DIRECTS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="flex overflow-x-auto snap-x sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 pb-4 sm:pb-0">
       
       <!-- ONGLET 1 -->
-      <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none cursor-pointer">
+      <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-slate-800 border-2 border-[#F59E0B] ring-2 ring-[#F59E0B] shadow-xl focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-[#F59E0B]">Phase Zéro</span>
         </div>
@@ -122,7 +122,7 @@
       </button>
 
       <!-- ONGLET 2 -->
-      <button type="button" id="tab-btn-2" onclick="switchTab(2)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
+      <button type="button" id="tab-btn-2" onclick="switchTab(2)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Phase Budget</span>
         </div>
@@ -131,7 +131,7 @@
       </button>
 
       <!-- ONGLET 3 -->
-      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
+      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Audit Devis</span>
         </div>
@@ -140,7 +140,7 @@
       </button>
 
       <!-- ONGLET 4 -->
-      <button type="button" id="tab-btn-4" onclick="switchTab(4)" class="tab-card text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
+      <button type="button" id="tab-btn-4" onclick="switchTab(4)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-slate-900/70 border-2 border-slate-800 hover:border-slate-700 shadow-md focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Post-Gros Œuvre</span>
         </div>

@@ -25,15 +25,15 @@
     <!-- TOPBAR RÉGLEMENTAIRE -->
   <div class="bg-slate-950 border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-      <div class="flex items-center space-x-3">
-        <span class="inline-flex items-center text-emerald-400 font-semibold">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
           Conformité BAEL 91 R99
         </span>
-        <span>•</span>
-        <span>Droit COCC Sénégal</span>
-        <span>•</span>
-        <span>Données Protégées CDP</span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">Droit COCC Sénégal</span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">Données Protégées CDP</span>
       </div>
       <div class="flex items-center space-x-4">
         <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
@@ -179,40 +179,11 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('mobile-menu-toggle');
-            const menuDrawer = document.getElementById('mobile-menu-drawer');
-            const burgerIcon = document.getElementById('burger-icon');
-            const closeIcon = document.getElementById('close-icon');
-
-            if (menuToggle && menuDrawer) {
-              menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isHidden = menuDrawer.classList.toggle('hidden');
-                burgerIcon.classList.toggle('hidden', !isHidden);
-                closeIcon.classList.toggle('hidden', isHidden);
-              });
-
-              // Fermer le menu lors d'un clic sur un lien
-              document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                  menuDrawer.classList.add('hidden');
-                  burgerIcon.classList.remove('hidden');
-                  closeIcon.classList.add('hidden');
-                });
-              });
-
-              // Fermer lors d'un clic Ã  l'extÃ©rieur
-              document.addEventListener('click', (e) => {
-                if (!menuDrawer.contains(e.target) && !menuToggle.contains(e.target) && !menuDrawer.classList.contains('hidden')) {
-                  menuDrawer.classList.add('hidden');
-                  burgerIcon.classList.remove('hidden');
-                  closeIcon.classList.add('hidden');
-                }
-              });
-            }
-        });
+        <script>
+        window.toggleMobileMenu = function() {
+            const drawer = document.getElementById('mobile-drawer');
+            if (drawer) drawer.classList.toggle('hidden');
+        };
     </script>
 <!-- SOUS-PIED DE PAGE INSTITUTIONNEL & LÉGAL -->
 <div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
