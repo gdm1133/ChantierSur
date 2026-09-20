@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Conforme : BAEL 91 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit COCC
  */
@@ -1428,6 +1428,397 @@ function renderAudit(doc, data, refDoc, currentDate) {
   // =========================================================================
   // FONCTION EXPORTÉE GLOBALE
   // =========================================================================
+  // ========================================================================= 
+// 4. LIVRABLE : BORDEREAU SECOND ŒUVRE & FINITIONS (4 PAGES DENSES) 
+// ========================================================================= 
+function renderFinitions(doc, data, refDoc, currentDate) { 
+  const COLOR_NAVY = [11, 19, 37]; // #0B1325 
+  const COLOR_AMBER = [245, 158, 11]; // #F59E0B 
+  const COLOR_SLATE = [71, 85, 105]; // #475569 
+  const COLOR_BG_LIGHT = [248, 250, 252]; 
+  
+  const clientName = (data.client_name || 'Maître d\'Ouvrage').trim(); 
+  const p = (data.phone_prefix || '+221').trim(); 
+  const pDigits = p.replace(/\D/g, ''); 
+  let d = (data.client_phone || '770000000').toString().replace(/\D/g, '').replace(/^0+/, ''); 
+  if (pDigits && d.startsWith(pDigits)) d = d.substring(pDigits.length).replace(/^0+/, ''); 
+  if (pDigits && d.startsWith(pDigits)) d = d.substring(pDigits.length).replace(/^0+/, ''); 
+  const clientPhone = `${p} ${d}`; 
+  const clientEmail = (data.client_email || 'client@chantiersur.com').trim(); 
+  
+  const surface = parseFloat(data.surface) || 250; 
+  const levels = parseInt(data.exact_levels, 10) || 1; 
+  const totalLevelsCount = levels + 1; 
+  const waterRooms = parseInt(data.water_rooms, 10) || 4; 
+  const tileType = data.tile_type || 'gres_cerame_60'; 
+  const joineryType = data.joinery_type || 'alu_vitre'; 
+  const standing = data.standing || 'moyen'; 
+  const terraceUsage = data.terrace_usage || 'accessible_carrelee'; 
+  const acSystem = data.ac_system || 'split_individuel'; 
+  const location = data.project_location || 'Dakar - Zone Urbaine'; 
+  const landStatus = data.land_status || 'Titre Foncier (TF)'; 
+  const lotNumber = data.lot_number || 'Non spécifié'; 
+
+  // --- CALCULS DES QUANTITATIFS SECOND ŒUVRE --- 
+  const surfaceCarrelageSolNet = Math.round(surface * 0.88); // 88% de la SDP au sol 
+  const surfaceCarrelageSolCommande = Math.round(surfaceCarrelageSolNet * 1.12); // +12% chutes coupe & plinthes 
+  const lineairePlinthes = Math.round(surface * 0.75); // ml de plinthes 
+  const sacsColleC2E = Math.round(surfaceCarrelageSolCommande / 4.5); // 1 sac 25kg pour 4,5 m² 
+  const sacsJointHydrofuge = Math.round(surfaceCarrelageSolCommande / 22); // 1 sac 5kg pour 22 m² 
+  
+  const surfaceFaienceMurs = Math.round(waterRooms * 28); // 28 m² de faïence par SDE (hauteur 2,10m) 
+  const surfacePeintureMursPlafonds = Math.round(surface * 2.85); // Murs + plafonds 
+  const surfaceEtancheiteTerrasse = Math.round(surface / totalLevelsCount); 
+  const lineaireSolinsAcrotere = Math.round(Math.sqrt(surfaceEtancheiteTerrasse) * 4); 
+
+  // Prix unitaires moyens Dakar 2026 (FCFA) 
+  let prixM2Carrelage = 8500; 
+  if (tileType === 'gres_cerame_grand_format') prixM2Carrelage = 14500; 
+  if (tileType === 'carreaux_pate_rouge') prixM2Carrelage = 5500; 
+  if (tileType === 'marbre_granit') prixM2Carrelage = 32000; 
+  
+  const prixSacColleC2E = 5800; 
+  const prixM2Faience = 7500; 
+  const prixM2Peinture = 2400; // Fourniture impression + 2 couches finition 
+  const prixM2EtancheiteSBS = 12500; // Complexe 4mm + forme de pente 
+  
+  const totalCarrelageSolF = Math.round(surfaceCarrelageSolCommande * prixM2Carrelage); 
+  const totalColleF = Math.round(sacsColleC2E * prixSacColleC2E); 
+  const totalFaienceF = Math.round(surfaceFaienceMurs * prixM2Faience); 
+  const totalPeintureF = Math.round(surfacePeintureMursPlafonds * prixM2Peinture); 
+  const totalEtancheiteF = Math.round(surfaceEtancheiteTerrasse * prixM2EtancheiteSBS); 
+  const totalPlomberieF = Math.round(waterRooms * 650000); // Sanitaires + réseau multicouche 
+  const totalElectriciteF = Math.round(surface * 16000); // Tableaux, filerie NF C 15-100, appareillage 
+  const totalMenuiseriesF = Math.round(surface * 22000); // Aluminium + portes intérieures 
+  
+  const totalSecondOeuvreFournitures = totalCarrelageSolF + totalColleF + totalFaienceF + totalPeintureF + totalEtancheiteF + totalPlomberieF + totalElectriciteF + totalMenuiseriesF; 
+  const mainOeuvreSecondOeuvre = Math.round(surface * 32000); 
+  const totalTCEFinitions = totalSecondOeuvreFournitures + mainOeuvreSecondOeuvre; 
+
+  function drawFinitionsHeader(pageTitle, subTitle) { 
+    doc.setFillColor(...COLOR_NAVY); 
+    doc.rect(0, 0, 210, 28, 'F'); 
+    doc.setFillColor(...COLOR_AMBER); 
+    doc.rect(0, 28, 210, 1.5, 'F'); 
+    doc.setTextColor(255, 255, 255); 
+    doc.setFont('helvetica', 'bold'); 
+    doc.setFontSize(14); 
+    doc.text("Chantier", 14, 13); 
+    const tw = doc.getTextWidth("Chantier"); 
+    doc.setTextColor(...COLOR_AMBER); 
+    doc.text("Sur.com", 14 + tw, 13); 
+    doc.setFont('helvetica', 'normal'); 
+    doc.setFontSize(7.5); 
+    doc.setTextColor(148, 163, 184); 
+    doc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", 14, 20); 
+    doc.setFontSize(8); 
+    doc.setTextColor(255, 255, 255); 
+    doc.text(`Dossier : ${refDoc}`, 196, 12, { align: 'right' }); 
+    doc.setTextColor(203, 213, 225); 
+    doc.text(`Date : ${currentDate}`, 196, 18, { align: 'right' }); 
+    const displayTitulaire = clientName.length > 28 ? clientName.substring(0, 26) + '...' : clientName; 
+    doc.text(`Titulaire : ${displayTitulaire}`, 196, 24, { align: 'right' }); 
+    doc.setTextColor(...COLOR_NAVY); 
+    doc.setFont('helvetica', 'bold'); 
+    doc.setFontSize(10.5); 
+    doc.text(pageTitle.toUpperCase(), 14, 37); 
+    doc.setFont('helvetica', 'normal'); 
+    doc.setFontSize(7.5); 
+    doc.setTextColor(...COLOR_SLATE); 
+    doc.text(subTitle, 14, 42); 
+    doc.setDrawColor(226, 232, 240); 
+    doc.setLineWidth(0.5); 
+    doc.line(14, 45, 196, 45); 
+    const legalNotice = `DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. LA TRANSMISSION DE CE LIVRABLE ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`; 
+    doc.setFontSize(6.2); 
+    doc.setFont('helvetica', 'italic'); 
+    doc.setTextColor(100, 116, 139); 
+    const splitNotice = doc.splitTextToSize(legalNotice, 182); 
+    doc.text(splitNotice, 14, 48.5); 
+  } 
+
+  // ========================================================================= 
+  // PAGE 1 : REVÊTEMENTS DE SOLS, FAÏENCES ET PEINTURES 
+  // ========================================================================= 
+  drawFinitionsHeader("Bordereau Technique Finitions & Second Œuvre", "Partie I : Cartouche de Propriété, Métré des Revêtements & Peintures"); 
+  
+  doc.setFillColor(...COLOR_BG_LIGHT); 
+  doc.roundedRect(14, 53, 182, 34, 2, 2, 'F'); 
+  doc.setDrawColor(203, 213, 225); 
+  doc.roundedRect(14, 53, 182, 34, 2, 2, 'D'); 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(8.5); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("IDENTIFICATION NOMINATIVE DU MAÎTRE D'OUVRAGE & DU SITE", 18, 59); 
+  doc.setFont('helvetica', 'normal'); 
+  doc.setFontSize(7.8); 
+  doc.setTextColor(51, 65, 85); 
+  doc.text(`Maître d'Ouvrage : ${clientName}`, 18, 66); 
+  doc.text(`Contact Notifié : ${clientPhone}`, 18, 72); 
+  doc.text(`Email Enregistré : ${clientEmail}`, 18, 78); 
+  doc.text(`Statut Foncier : ${landStatus}`, 18, 84); 
+  doc.text(`Localisation : ${location}`, 110, 66); 
+  doc.text(`Réf. Cadastrale / Lot : ${lotNumber}`, 110, 72); 
+  doc.text(`Pièces d'eau : ${waterRooms} Salles de bain / WC`, 110, 78); 
+  doc.text(`Configuration : R+${levels} (${totalLevelsCount} niveaux) • SDP : ${surface} m²`, 110, 84); 
+  
+  let currentY = 93; 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("I. QUANTITATIFS PRÉVISIONNELS CARRELAGE, FAÏENCE & MORTIERS TECHNIQUES", 14, currentY); 
+  
+  const carrelageRows = [ 
+    ["Carrelage Sol Principal (Grès Cérame)", `${formatNum(surfaceCarrelageSolCommande)} m²`, `${formatFCFA(prixM2Carrelage)} / m²`, formatFCFA(totalCarrelageSolF), `Surface nette ${formatNum(surfaceCarrelageSolNet)} m² + 12% chutes de pose & plinthes`], 
+    ["Plinthes Assorties Découpées", `${formatNum(lineairePlinthes)} mètres linéaires`, "Incluses dans commande", "-", "Hauteur 7 cm, bords biseautés posés au mortier colle"], 
+    ["Faïence Murale Pièces d'Eau (SDE/WC)", `${formatNum(surfaceFaienceMurs)} m²`, `${formatFCFA(prixM2Faience)} / m²`, formatFCFA(totalFaienceF), `Base de 28 m² / pièce d'eau (pose jusqu'à 2,10 m de hauteur)`], 
+    ["Mortier Colle Amélioré C2E (Sacs 25 kg)", `${formatNum(sacsColleC2E)} Sacs`, `${formatFCFA(prixSacColleC2E)} / Sac`, formatFCFA(totalColleF), "Colle flexible déformable indispensable pour éviter le décollement"], 
+    ["Joint de Carrelage Hydrofuge (Sacs 5 kg)", `${formatNum(sacsJointHydrofuge)} Sacs`, "3 500 FCFA / Sac", formatFCFA(sacsJointHydrofuge * 3500), "Joint fin anti-moisissures spécial pièces humides"] 
+  ]; 
+  doc.autoTable({ 
+    startY: currentY + 3, 
+    head: [['Poste Revêtement & Liants', 'Quantitatif', 'Prix Unitaire', 'Montant Estimé', 'Prescription Technique de Pose']], 
+    body: carrelageRows, 
+    theme: 'grid', 
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 }, 
+    styles: { fontSize: 7.2, cellPadding: 2.2 }, 
+    columnStyles: { 0: { cellWidth: 50, fontStyle: 'bold' }, 3: { halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY } }, 
+    margin: { left: 14, right: 14 } 
+  }); 
+  
+  currentY = doc.lastAutoTable.finalY + 8; 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("II. TRAVAUX D'ENDUITS, PEINTURE INTÉRIEURE & EXTÉRIEURE", 14, currentY); 
+  
+  const peintureRows = [ 
+    ["Préparation des Fonds & Enduit de Lissage", `${formatNum(surfacePeintureMursPlafonds)} m²`, "Égrenage, rebouchage des micro-fissures et 2 passes d'enduit fin"], 
+    ["Sous-Couche d'Impression Fixatrice", `${formatNum(Math.round(surfacePeintureMursPlafonds / 8))} Litres`, "Primaire acrylique régulateur de porosité des supports ciment"], 
+    ["Peinture Finition Intérieure Lavable", `${formatNum(Math.round((surfacePeintureMursPlafonds * 0.7) / 5))} Litres`, "Peinture émulsion acrylique satinée (2 couches croisées)"], 
+    ["Peinture Façade Extérieure Anti-UV/Sels", `${formatNum(Math.round((surfacePeintureMursPlafonds * 0.3) / 4))} Litres`, "Revêtement semi-épais D2/D3 résistant aux embruns salins et pluies d'hivernage"], 
+    ["BUDGET FOURNITURES PEINTURE ESTIMÉ", formatFCFA(totalPeintureF), "Fourniture complète de la gamme professionnelle labellisée"] 
+  ]; 
+  doc.autoTable({ 
+    startY: currentY + 3, 
+    head: [['Opération Peinture & Traitement', 'Quantitatif / Volume Requis', 'Spécifications Produits & Exécution']], 
+    body: peintureRows, 
+    theme: 'striped', 
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 }, 
+    styles: { fontSize: 7.2, cellPadding: 2.2 }, 
+    columnStyles: { 0: { cellWidth: 55, fontStyle: 'bold' } }, 
+    margin: { left: 14, right: 14 } 
+  }); 
+
+  // ========================================================================= 
+  // PAGE 2 : FLUIDES, PLOMBERIE SANITAIRE & ÉLECTRICITÉ 
+  // ========================================================================= 
+  doc.addPage(); 
+  drawFinitionsHeader("Bordereau Technique Finitions & Second Œuvre", "Partie II : Réseaux de Fluides, Plomberie Sanitaire & Électricité (NF C 15-100)"); 
+  currentY = 54; 
+  
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("III. LOT PLOMBERIE SANITAIRE & ÉVACUATIONS HYDROCARBURES/EAUX", 14, currentY); 
+  
+  const plomberieRows = [ 
+    ["Réseau d'Alimentation Multicouche PN16", "Tubes multicouche sertis sous gaine", "Zéro raccord caché sous carrelage. Distribution par nourrices visitables."], 
+    ["Équipements Sanitaires Complets", `${waterRooms} Ensembles complets`, "WC suspendus ou cuvettes céramiques NF, meubles vasques avec miroir LED."], 
+    ["Robinetterie & Mitigeurs Céramique", `${waterRooms * 2} Mitigeurs mousseurs`, "Corps en laiton massif chromé résistant à l'entartrage de l'eau de ville."], 
+    ["Réseau d'Évacuation PVC Assainissement", "Tubes PVC NF série assainissement", "Pente minimale de 2 cm/mètre, culottes de visite et colonnes de ventilation primaire."], 
+    ["Siphons de Sol Anti-Odeurs", `${waterRooms + 2} Siphons siphoïdes inox`, "Équipés de clapets magnétiques anti-retour d'odeurs et anti-insectes."], 
+    ["BUDGET ESTIMATIF DU LOT PLOMBERIE", formatFCFA(totalPlomberieF), "Fourniture des sanitaires, réseaux et accessoires de raccordement"] 
+  ]; 
+  doc.autoTable({ 
+    startY: currentY + 3, 
+    head: [['Poste Technique Plomberie', 'Dimensionnement', 'Prescription d\'Ingénierie & Normes']], 
+    body: plomberieRows, 
+    theme: 'grid', 
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 }, 
+    styles: { fontSize: 7.2, cellPadding: 2.2 }, 
+    columnStyles: { 0: { cellWidth: 55, fontStyle: 'bold' } }, 
+    margin: { left: 14, right: 14 } 
+  }); 
+  
+  currentY = doc.lastAutoTable.finalY + 8; 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("IV. LOT ÉLECTRICITÉ, COURANTS FORTS/FAIBLES & CLIMATISATION", 14, currentY); 
+  
+  const nbSplitsEstimes = Math.max(3, Math.round(surface / 35)); 
+  const electriciteRows = [ 
+    ["Tableaux Divisionnaires par Palier", `${totalLevelsCount} Tableaux équipés`, "Coupure générale par étage + disjoncteurs différentiels 30mA haute sensibilité."], 
+    ["Circuits Prises & Éclairage NF C 15-100", `${formatNum(Math.round(surface * 1.4))} Points lumineux / prises`, "Filerie cuivre sous gaine ICTA encastrée, conducteurs 1,5 mm² et 2,5 mm²."], 
+    ["Lignes Dédiées Climatisation Inverter", `${nbSplitsEstimes} Lignes indépendantes`, "Câble 3G 2,5 mm² avec disjoncteur courbe D 16A/20A par appareil."], 
+    ["Réseau Informatique & Télécoms (RJ45)", `${Math.round(surface / 40)} Prises RJ45 Cat 6`, "Câblage en étoile vers baie de brassage pour connexion internet fibre optique."], 
+    ["Protection Parafoudre & Piquet de Terre", "Boucle cuivre + parafoudre modulaire", "Résistance de terre <= 5 Ohms pour protéger les équipements électroniques."], 
+    ["BUDGET ESTIMATIF DU LOT ÉLECTRICITÉ", formatFCFA(totalElectriciteF), "Tableaux, appareillage blanc haut de gamme, goulottes et chemins de câbles"] 
+  ]; 
+  doc.autoTable({ 
+    startY: currentY + 3, 
+    head: [['Poste Courants Forts / Faibles', 'Quantitatif Prévisionnel', 'Exigence de Sécurité & Conformité']], 
+    body: electriciteRows, 
+    theme: 'striped', 
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 }, 
+    styles: { fontSize: 7.2, cellPadding: 2.2 }, 
+    columnStyles: { 0: { cellWidth: 55, fontStyle: 'bold' } }, 
+    margin: { left: 14, right: 14 } 
+  }); 
+
+  // ========================================================================= 
+  // PAGE 3 : ÉTANCHÉITÉ TERRASSE, MENUISERIES & BORDEREAU FINANCIER 
+  // ========================================================================= 
+  doc.addPage(); 
+  drawFinitionsHeader("Bordereau Technique Finitions & Second Œuvre", "Partie III : Étanchéité Toiture Terrasse, Menuiseries & Récapitulatif Financier"); 
+  currentY = 54; 
+  
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("V. COMPLEXE D'ÉTANCHÉITÉ TOITURE TERRASSE & ACROTÈRES (DTU 43.1)", 14, currentY); 
+  
+  const etancheiteRows = [ 
+    ["Forme de Pente en Béton Maigre", `${formatNum(surfaceEtancheiteTerrasse)} m²`, "Pente minimale de 1,5% vers les moises d'évacuation pluviale (zéro flaque stagnante)"], 
+    ["Primaire d'Imprégnation à Froid (EIF)", `${formatNum(Math.round(surfaceEtancheiteTerrasse * 0.3))} kg`, "Application au rouleau pour garantir l'adhérence totale de la membrane au support"], 
+    ["Membrane Bitumineuse Élastomère SBS 4mm", `${formatNum(Math.round(surfaceEtancheiteTerrasse * 1.15))} m²`, "Membrane armée polyester soudée en plein au chalumeau avec recouvrements de 10 cm"], 
+    ["Relevés d'Acrotère & Solins Grillagés", `${formatNum(lineaireSolinsAcrotere)} ml`, "Relevés de 20 cm minimum avec engravure ou becquet béton et bavette de protection"], 
+    ["Épreuve de Mise en Eau Réglementaire", "48 heures consécutives", "Mise en eau de la terrasse avant pose de la protection mécanique. Tolérance : zéro fuite"], 
+    ["BUDGET COMPLEXE ÉTANCHÉITÉ TOITURE", formatFCFA(totalEtancheiteF), "Forme de pente, primaire, membrane 4mm et relevés d'étanchéité"] 
+  ]; 
+  doc.autoTable({ 
+    startY: currentY + 3, 
+    head: [['Composant de l\'Étanchéité', 'Quantitatif Déterminé', 'Spécifications d\'Exécution Obligatoires']], 
+    body: etancheiteRows, 
+    theme: 'grid', 
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 }, 
+    styles: { fontSize: 7.2, cellPadding: 2.2 }, 
+    columnStyles: { 0: { cellWidth: 55, fontStyle: 'bold' } }, 
+    margin: { left: 14, right: 14 } 
+  }); 
+  
+  currentY = doc.lastAutoTable.finalY + 8; 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("VI. BORDEREAU RÉCAPITULATIF FINANCIER DU SECOND ŒUVRE (DAKAR 2026)", 14, currentY); 
+  
+  const recapFinitionsRows = [ 
+    ["1. Carrelage Sol, Plinthes & Colles C2E", formatFCFA(totalCarrelageSolF + totalColleF), "Fourniture grès cérame, mortiers colles améliorés et joints hydrofuges"], 
+    ["2. Faïences Murales & Sanitaires SDE", formatFCFA(totalFaienceF), "Carrelage vertical pièces d'eau jusqu'à hauteur de linteau"], 
+    ["3. Peinture Intérieure & Extérieure Lavable", formatFCFA(totalPeintureF), "Impression et 2 couches finition acrylique satinée anti-UV"], 
+    ["4. Plomberie Sanitaire & Appareillages", formatFCFA(totalPlomberieF), "Réseaux multicouche, meubles vasques, mitigeurs et évacuations"], 
+    ["5. Électricité Générale & Courants Faibles", formatFCFA(totalElectriciteF), "Tableaux, filerie NF, appareillage complet et réseau informatique"], 
+    ["6. Menuiseries Aluminium & Bois Intérieur", formatFCFA(totalMenuiseriesF), "Châssis alu laqué, vitrage teinté stopsol et portes intérieures isoplanes"], 
+    ["7. Étanchéité Toiture Terrasse (DTU 43.1)", formatFCFA(totalEtancheiteF), "Complexe SBS 4mm, relevés d'acrotère et test de mise en eau 48h"], 
+    ["8. Main d'Œuvre Spécialisée Tous Corps d'État", formatFCFA(mainOeuvreSecondOeuvre), `Poseurs carreleurs, électriciens, plombiers, peintres et étancheurs`], 
+    ["TOTAL GÉNÉRAL SECOND ŒUVRE & FINITIONS", formatFCFA(totalTCEFinitions), `Ratio estimatif : env. ${formatFCFA(Math.round(totalTCEFinitions / surface))} / m² de plancher`] 
+  ]; 
+  doc.autoTable({ 
+    startY: currentY + 3, 
+    head: [['Poste Second Œuvre & Finitions', 'Montant Estimatif', 'Prestations Incluses']], 
+    body: recapFinitionsRows, 
+    theme: 'striped', 
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 }, 
+    styles: { fontSize: 7.2, cellPadding: 2.2 }, 
+    columnStyles: { 0: { cellWidth: 55, fontStyle: 'bold' }, 1: { halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY } }, 
+    margin: { left: 14, right: 14 } 
+  }); 
+
+  // ========================================================================= 
+  // PAGE 4 : PROCÈS-VERBAL DE RÉCEPTION DES TRAVAUX (COCC ART. 768) 
+  // ========================================================================= 
+  doc.addPage(); 
+  drawFinitionsHeader("Bordereau Technique Finitions & Second Œuvre", "Partie IV : Procès-Verbal Officiel de Réception des Travaux (Article 768 du COCC)"); 
+  currentY = 54; 
+  
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(9); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("VII. PROCÈS-VERBAL OFFICIEL DE RÉCEPTION DE CHANTIER (VALEUR JURIDIQUE COCC)", 14, currentY); 
+  doc.setFont('helvetica', 'normal'); 
+  doc.setFontSize(7.3); 
+  doc.setTextColor(...COLOR_SLATE); 
+  doc.text("Ce document contradictoire acte l'achèvement des travaux, le transfert de garde de l'ouvrage et déclenche les garanties légales :", 14, currentY + 5); 
+  
+  // Cadre PV officiel 
+  const pvBoxY = currentY + 9; 
+  doc.setFillColor(255, 255, 255); 
+  doc.rect(14, pvBoxY, 182, 122, 'D'); 
+  
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(8); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("PROCÈS-VERBAL CONTRADICTOIRE DE RÉCEPTION DES TRAVAUX", 18, pvBoxY + 7); 
+  
+  doc.setFont('helvetica', 'normal'); 
+  doc.setFontSize(7.3); 
+  doc.setTextColor(51, 65, 85); 
+  doc.text(`Chantier situé à : ${location} • Titre Foncier / Lot : ${lotNumber}`, 18, pvBoxY + 14); 
+  doc.text(`Maître d'Ouvrage : ${clientName} • Téléphone : ${clientPhone}`, 18, pvBoxY + 20); 
+  doc.text(`Entrepreneur / Tâcheron en charge des travaux : ..........................................................................................................`, 18, pvBoxY + 26); 
+  
+  doc.setFont('helvetica', 'bold'); 
+  doc.text("DÉCISION CONTRADICTOIRE DES PARTIES :", 18, pvBoxY + 34); 
+  doc.setFont('helvetica', 'normal'); 
+  doc.text("[ ] RÉCEPTION PRONONCÉE SANS RÉSERVE : L'ouvrage est conforme aux règles de l'art.", 22, pvBoxY + 41); 
+  doc.text("[ ] RÉCEPTION PRONONCÉE AVEC RÉSERVES : Les désordres consignés ci-après doivent être levés sous 15 jours.", 22, pvBoxY + 47); 
+  
+  // Tableau des réserves 
+  doc.setFont('helvetica', 'bold'); 
+  doc.text("LISTE CONTRADICTOIRE DES RÉSERVES CONSTATÉES LORS DE LA VISITE :", 18, pvBoxY + 56); 
+  doc.setDrawColor(203, 213, 225); 
+  for (let l = 0; l < 4; l++) { 
+    doc.line(18, pvBoxY + 64 + (l * 8), 190, pvBoxY + 64 + (l * 8)); 
+  } 
+  
+  doc.setFont('helvetica', 'normal'); 
+  doc.setFontSize(7); 
+  doc.text("Délai impératif accordé à l'entrepreneur pour la levée intégrale des réserves : ................. jours calendaires.", 18, pvBoxY + 100); 
+  doc.text("La retenue de garantie légale de 5% (Art. 768 COCC) demeure consignée jusqu'au PV de levée des réserves.", 18, pvBoxY + 105); 
+  
+  // Signatures contradictoires 
+  doc.setDrawColor(203, 213, 225); 
+  doc.rect(18, pvBoxY + 110, 85, 34); 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(7.2); 
+  doc.text("LE MAÎTRE D'OUVRAGE :", 22, pvBoxY + 116); 
+  doc.setFont('helvetica', 'italic'); 
+  doc.setFontSize(6.8); 
+  doc.text("(Mention manuscrite 'Lu et approuvé')", 22, pvBoxY + 121); 
+  
+  doc.rect(111, pvBoxY + 110, 81, 34); 
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(7.2); 
+  doc.text("L'ENTREPRENEUR / TÂCHERON :", 115, pvBoxY + 116); 
+  doc.setFont('helvetica', 'italic'); 
+  doc.setFontSize(6.8); 
+  doc.text("(Cachet commercial et signature)", 115, pvBoxY + 121); 
+  
+  // Bloc de validation technique officiel 
+  currentY = pvBoxY + 148; 
+  doc.setFillColor(...COLOR_BG_LIGHT); 
+  doc.rect(14, currentY, 182, 20, 'F'); 
+  doc.setDrawColor(203, 213, 225); 
+  doc.rect(14, currentY, 182, 20, 'D'); 
+  
+  doc.setFont('helvetica', 'bold'); 
+  doc.setFontSize(7.5); 
+  doc.setTextColor(...COLOR_NAVY); 
+  doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", 18, currentY + 5); 
+  
+  doc.setFont('helvetica', 'normal'); 
+  doc.setFontSize(6.8); 
+  doc.setTextColor(...COLOR_SLATE); 
+  doc.text("Bordereau technique de second œuvre et modèle de réception établis selon les normes du bâtiment et le Code des Obligations Civiles et Commerciales.", 18, currentY + 10); 
+  doc.text(`Rapport certifié nominatif n° ${refDoc} • Émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}.`, 18, currentY + 15); 
+}
+
+
+  // =========================================================================
+  // FONCTION EXPORTEE GLOBALE
+  // =========================================================================
   window.generateProjectPDF = function(projectData) {
     const jsPDFClass = getJsPDF();
     if (!jsPDFClass) {
@@ -1451,8 +1842,10 @@ function renderAudit(doc, data, refDoc, currentDate) {
     } else if (service === 'express') {
       renderExpress(doc, data, refDoc, currentDate);
     } else if (service === 'audit') {
-      renderAudit(doc, data, refDoc, currentDate);
-    } else {
+    renderAudit(doc, data, refDoc, currentDate);
+  } else if (service === 'finitions') {
+    renderFinitions(doc, data, refDoc, currentDate);
+  } else {
       renderOtherServices(doc, data, service, refDoc, currentDate);
     }
 

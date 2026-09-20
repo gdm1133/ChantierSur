@@ -818,113 +818,228 @@
       <!-- ============================================== -->
       <!-- FORMULAIRE 4 : FINITIONS & SECOND ŒUVRE        -->
       <!-- ============================================== -->
-      <form id="pane-4" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
-          <div>
-            <h3 class="text-xl font-bold text-white">Dossier : Finitions & Second Œuvre</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Carrelage, plomberie, étanchéité terrasse et réseaux intérieurs</p>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div>
-            <div class="w-8 h-0.5 bg-slate-700"></div>
-            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div>
-            <div class="w-8 h-0.5 bg-slate-700"></div>
-            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div>
-          </div>
-        </div>
+      <!-- ==================================================== --> 
+<!-- FORMULAIRE 4 : FINITIONS & SECOND ŒUVRE --> 
+<!-- ==================================================== --> 
+<form id="pane-4" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate> 
+  <!-- EN-TÊTE & STEPPER --> 
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4"> 
+    <div> 
+      <h3 class="text-xl font-bold text-white">4. Bordereau Technique Finitions & Second Œuvre</h3> 
+      <p class="text-xs text-slate-400 mt-0.5">Quantitatifs carrelage, étanchéité, plomberie, électricité & PV de réception COCC</p> 
+    </div> 
+    <div class="flex items-center space-x-3"> 
+      <div class="bullet-1 w-8 h-8 rounded-full bg-[#F59E0B] text-slate-950 font-bold flex items-center justify-center text-sm shadow">1</div> 
+      <div class="w-8 h-0.5 bg-slate-700"></div> 
+      <div class="bullet-2 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">2</div> 
+      <div class="w-8 h-0.5 bg-slate-700"></div> 
+      <div class="bullet-3 w-8 h-8 rounded-full bg-slate-800 text-slate-400 font-semibold flex items-center justify-center text-sm">3</div> 
+    </div> 
+  </div> 
 
-        <div class="step-container step-1 space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface Habitable Totale (m²)</label>
-              <input type="number" name="surface" value="180" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Niveau de Finition</label>
-              <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none">
-                <option value="standard" selected>Standard Robuste (Grès cérame résistant)</option>
-                <option value="luxe">Prestige (Marbre & faux-plafonds staff)</option>
-              </select>
-            </div>
-          </div>
-          <div class="flex justify-end pt-4">
-            <button type="button" onclick="goToStep(4, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
-          </div>
-        </div>
+  <!-- ÉTAPE 1 : VOLUMÉTRIE & CHOIX DES REVÊTEMENTS --> 
+  <div class="step-container step-1 space-y-6"> 
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6"> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Surface développée - SDP (m²)</label> 
+        <input type="number" name="surface" value="250" min="40" max="5000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" placeholder="Ex: 250" required> 
+        <p class="text-[10px] text-slate-500 mt-1">Surface totale habitable des planchers à équiper.</p> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de niveaux (Élévation)</label> 
+        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required> 
+          <option value="0">RDC Simple (Plain-pied)</option> 
+          <option value="1" selected>R+1 (Villa duplex)</option> 
+          <option value="2">R+2 (Immeuble R+2)</option> 
+          <option value="3">R+3 (Immeuble R+3)</option> 
+          <option value="4">R+4 (Immeuble R+4)</option> 
+          <option value="5">R+5 (Immeuble R+5)</option> 
+          <option value="6">R+6 (Immeuble R+6)</option> 
+          <option value="7">R+7 (Immeuble R+7)</option> 
+          <option value="8">R+8 (Immeuble R+8)</option> 
+          <option value="9">R+9 (Immeuble R+9)</option> 
+          <option value="10">R+10 (Tour R+10)</option> 
+        </select> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nombre de pièces d'eau (SDE / WC)</label> 
+        <input type="number" name="water_rooms" value="4" min="1" max="50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono" required> 
+        <p class="text-[10px] text-slate-500 mt-1">Salles de bain, salles d'eau et toilettes visiteurs.</p> 
+      </div> 
+    </div> 
+    
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6"> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Revêtement des Sols</label> 
+        <select name="tile_type" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
+          <option value="gres_cerame_60" selected>Grès Cérame 60x60 cm (Standard recommandé)</option> 
+          <option value="gres_cerame_grand_format">Grès Cérame Grand Format 80x80 ou 120x60</option> 
+          <option value="carreaux_pate_rouge">Carreaux pâte rouge (Économique)</option> 
+          <option value="marbre_granit">Marbre / Granit naturel (Prestige)</option> 
+        </select> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Menuiseries Extérieures</label> 
+        <select name="joinery_type" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
+          <option value="alu_vitre" selected>Aluminium laqué avec vitrage teinté Stopsol</option> 
+          <option value="alu_double_vitrage">Aluminium rupture pont thermique + double vitrage</option> 
+          <option value="bois_massif">Bois massif local traité (Acajou / Teck)</option> 
+          <option value="pvc">Profilés PVC étanches</option> 
+        </select> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Standing Global des Finitions</label> 
+        <select name="standing" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
+          <option value="moyen" selected>Moyen Standing (Durable & Moderne)</option> 
+          <option value="economique">Économique / Locatif standard</option> 
+          <option value="haut">Haut Standing / Prestations de luxe</option> 
+        </select> 
+      </div> 
+    </div> 
+    
+    <div class="flex justify-end pt-4"> 
+      <button type="button" onclick="goToStep(4, 2)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer"> 
+        <span>Suivant</span> 
+        <span>&rarr;</span> 
+      </button> 
+    </div> 
+  </div> 
 
-        <div class="step-container step-2 hidden space-y-6">
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Lots Prioritaires</label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Plomberie & Sanitaires</span></label>
-              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Électricité & Climatisation</span></label>
-              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Carrelage & Peinture</span></label>
-              <label class="flex items-center space-x-2 bg-slate-950 p-3 rounded-lg border border-slate-800 cursor-pointer"><input type="checkbox" checked class="text-[#F59E0B]"> <span>Étanchéité Toiture Terrasse</span></label>
-            </div>
-          </div>
-          <div class="flex justify-between pt-4">
-            <button type="button" onclick="goToStep(4, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
-            <button type="button" onclick="goToStep(4, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg cursor-pointer">Suivant &rarr;</button>
-          </div>
-        </div>
+  <!-- ÉTAPE 2 : TOITURE TERRASSE, GÉOTECHNIQUE & TITRE --> 
+  <div class="step-container step-2 hidden space-y-6"> 
+    <div> 
+      <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label> 
+      <select name="project_location" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required> 
+        <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère - Enrobage 4,5 cm)"> 
+          <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Atmosphère saline - Métaux traités)</option> 
+          <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Vents côtiers & sables)</option> 
+          <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option> 
+        </optgroup> 
+        <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute - Cuvelage)"> 
+          <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Humidité ascensionnelle)</option> 
+          <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Remontées de nappe)</option> 
+        </optgroup> 
+        <optgroup label="📍 Grand Dakar & Pôles d'Expansion"> 
+          <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option> 
+          <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option> 
+        </optgroup> 
+        <optgroup label="📍 Régions & Petite Côte"> 
+          <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - Corrosion quincailleries)</option> 
+          <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Climat chaud sec)</option> 
+          <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option> 
+        </optgroup> 
+      </select> 
+    </div> 
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Usage de la Toiture Terrasse</label> 
+        <select name="terrace_usage" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
+          <option value="accessible_carrelee" selected>Terrasse accessible (Dallage carrelé sur chape)</option> 
+          <option value="technique_inaccessible">Terrasse technique inaccessible (Protection gravillons)</option> 
+          <option value="vegetalisee_amorce">Terrasse aménagée / Pergola extérieure</option> 
+        </select> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Système de Climatisation Prévu</label> 
+        <select name="ac_system" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
+          <option value="split_individuel" selected>Splits individuels muraux inverter</option> 
+          <option value="multi_split">Système Multi-split centralisé (VRV / VRF)</option> 
+          <option value="pre_installation_seule">Attentes électriques et frigorifiques seules</option> 
+        </select> 
+      </div> 
+    </div> 
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Statut Juridique Foncier</label> 
+        <select name="land_status" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
+          <option value="Titre Foncier (TF)" selected>Titre Foncier Définitif (TF)</option> 
+          <option value="Bail Emphytéotique">Bail Emphytéotique de l'État</option> 
+          <option value="Délibération Communale">Délibération Communale</option> 
+          <option value="En cours de régularisation">En cours de régularisation</option> 
+        </select> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro de Parcelle / Titre Foncier</label> 
+        <input type="text" name="lot_number" placeholder="Ex: TF N° 33.109/DP ou Lot N° 5" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required> 
+      </div> 
+    </div> 
+    
+    <div class="flex justify-between pt-4"> 
+      <button type="button" onclick="goToStep(4, 1)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button> 
+      <button type="button" onclick="goToStep(4, 3)" class="px-8 py-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer"> 
+        <span>Suivant</span> 
+        <span>&rarr;</span> 
+      </button> 
+    </div> 
+  </div> 
 
-        <div class="step-container step-3 hidden space-y-6">
-          <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between">
-            <div>
-              <p class="text-xs uppercase font-bold text-[#F59E0B]">Bordereau Second Œuvre</p>
-              <div class="flex items-baseline space-x-2 mt-0.5">
-                <span id="price-val-4" class="text-2xl font-black text-white">20 000 FCFA</span>
-                <span id="price-converted-4" class="text-xs text-amber-300 font-semibold">(≈ 30,49 €)</span>
-              </div>
-            </div>
-            <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg text-slate-300">Livrable Finitions</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom complet</label>
-              <input type="text" name="client_name" placeholder="Nom et Prénom" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Email</label>
-              <input type="email" name="client_email" placeholder="client@domaine.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required>
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact)</label>
-            <div class="flex">
-              <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer">
-                <option value="+221" selected>🇸🇳 SN (+221)</option>
-                <option value="+33">🇫🇷 FR (+33)</option>
-                <option value="+39">🇮🇹 IT (+39)</option>
-                <option value="+34">🇪🇸 ES (+34)</option>
-                <option value="+1">🇺🇸 US (+1)</option>
-                <option value="+1">🇨🇦 CA (+1)</option>
-                <option value="+225">🇨🇮 CI (+225)</option>
-                <option value="+241">🇬🇦 GA (+241)</option>
-                <option value="+222">🇲🇷 MR (+222)</option>
-                <option value="+220">🇬🇲 GM (+220)</option>
-                <option value="+223">🇲🇱 ML (+223)</option>
-                <option value="+212">🇲🇦 MA (+212)</option>
-                <option value="+32">🇧🇪 BE (+32)</option>
-                <option value="+49">🇩🇪 DE (+49)</option>
-                <option value="+44">🇬🇧 UK (+44)</option>
-                <option value="+41">🇨🇭 CH (+41)</option>
-                <option value="+242">🇨🇬 CG (+242)</option>
-                <option value="+243">🇨🇩 CD (+243)</option>
-                <option value="+971">🇦🇪 AE (+971)</option>
-                <option value="+966">🇸🇦 SA (+966)</option>
-                <option value="+224">🇬🇳 GN (+224)</option>
-              </select>
-              <input type="tel" name="client_phone" placeholder="Numéro de téléphone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required>
-            </div>
-            <p class="text-[11px] text-slate-500 mt-1">Saisir le numéro sans l'indicatif international.</p>
-          </div>
-          <div class="flex justify-between items-center pt-4">
-            <button type="button" onclick="goToStep(4, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
-            <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 'finitions')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-xl cursor-pointer">Valider & Payer &rarr;</button>
-          </div>
-        </div>
-      </form>
+  <!-- ÉTAPE 3 : DONNÉES DU MAÎTRE D'OUVRAGE & PAIEMENT --> 
+  <div class="step-container step-3 hidden space-y-6"> 
+    <div class="bg-amber-500/10 border border-[#F59E0B]/30 p-4 rounded-xl flex items-center justify-between"> 
+      <div> 
+        <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Prestation Second Œuvre & PV</p> 
+        <div class="flex items-baseline space-x-2 mt-0.5"> 
+          <span id="price-val-4" class="text-2xl font-black text-white">20 000 FCFA</span> 
+          <span id="price-converted-4" class="text-xs text-amber-300 font-semibold">(≈ 30,49 €)</span> 
+        </div> 
+      </div> 
+      <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Dossier Certifié Nominatif</span> 
+    </div> 
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label> 
+        <input type="text" name="client_name" placeholder="Ex: Cheikh Anta Diop" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Adresse Email</label> 
+        <input type="email" name="client_email" placeholder="cheikh.diop@domaine.sn" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none" required> 
+      </div> 
+    </div> 
+    
+    <div> 
+      <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label> 
+      <div class="flex"> 
+        <select name="phone_prefix" class="bg-slate-800 border border-r-0 border-slate-700 rounded-l-xl px-3 py-3 text-slate-200 text-xs sm:text-sm font-semibold outline-none focus:border-[#F59E0B] max-w-[140px] sm:max-w-[170px] cursor-pointer"> 
+          <option value="+221" selected>🇸🇳 SN (+221)</option> 
+          <option value="+33">🇫🇷 FR (+33)</option> 
+          <option value="+39">🇮🇹 IT (+39)</option> 
+          <option value="+34">🇪🇸 ES (+34)</option> 
+          <option value="+1">🇺🇸 US (+1)</option> 
+          <option value="+1">🇨🇦 CA (+1)</option> 
+          <option value="+225">🇨🇮 CI (+225)</option> 
+          <option value="+241">🇬🇦 GA (+241)</option> 
+          <option value="+222">🇲🇷 MR (+222)</option> 
+          <option value="+220">🇬🇲 GM (+220)</option> 
+          <option value="+223">🇲🇱 ML (+223)</option> 
+          <option value="+212">🇲🇦 MA (+212)</option> 
+          <option value="+32">🇧🇪 BE (+32)</option> 
+          <option value="+49">🇩🇪 DE (+49)</option> 
+          <option value="+44">🇬🇧 UK (+44)</option> 
+          <option value="+41">🇨🇭 CH (+41)</option> 
+          <option value="+242">🇨🇬 CG (+242)</option> 
+          <option value="+243">🇨🇩 CD (+243)</option> 
+          <option value="+971">🇦🇪 AE (+971)</option> 
+          <option value="+966">🇸🇦 SA (+966)</option> 
+          <option value="+224">🇬🇳 GN (+224)</option> 
+        </select> 
+        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-950 border border-slate-700 rounded-r-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none font-mono text-sm" required> 
+      </div> 
+      <p class="text-[11px] text-slate-500 mt-1">Ce numéro figurera sur le procès-verbal officiel pour certifier la propriété du dossier.</p> 
+    </div> 
+    
+    <div class="flex justify-between items-center pt-4"> 
+      <button type="button" onclick="goToStep(4, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button> 
+      <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 'finitions')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer"> 
+        <span>Générer mon Dossier Finitions</span> 
+        <span>&rarr;</span> 
+      </button> 
+    </div> 
+  </div> 
+</form>
+
 
     </div>
 
@@ -1176,9 +1291,16 @@
         advance_requested: parseInt(fd.get('advance_requested'), 10) || 30,
         has_guarantee: fd.get('has_guarantee') || 'aucune',
         ceiling_height: parseFloat(fd.get('ceiling_height')) || 3.0,
-        project_location: fd.get('project_location') || 'Dakar - Zone Urbaine',
-        land_status: fd.get('land_status') || 'Titre Foncier (TF)',
+        project_location: fd.get('project_location') || '',
+        land_status: fd.get('land_status') || '',
         lot_number: (fd.get('lot_number') || '').trim() || 'Non spécifié',
+        // Spécifiques Finitions
+        water_rooms: parseInt(fd.get('water_rooms'), 10) || 4,
+        tile_type: fd.get('tile_type') || 'gres_cerame_60',
+        joinery_type: fd.get('joinery_type') || 'alu_vitre',
+        terrace_usage: fd.get('terrace_usage') || 'accessible_carrelee',
+        ac_system: fd.get('ac_system') || 'split_individuel',
+        standing: fd.get('standing') || 'moyen',
         client_name: clientName,
         client_email: clientEmail,
         phone_prefix: rawPrefix,
