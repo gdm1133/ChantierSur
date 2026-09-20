@@ -376,7 +376,7 @@
     <div class="flex justify-between items-center pt-4">
       <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
       <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
-        <span>Générer mon Rapport Officiel</span>
+        <span>Éditer mon Rapport d'Esquisse</span>
         <span>&rarr;</span>
       </button>
     </div>
@@ -583,7 +583,7 @@
     <div class="flex justify-between items-center pt-4">
       <button type="button" onclick="goToStep(2, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
       <button type="button" id="pay-btn-2" onclick="initiatePayment(2, 'express')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
-        <span>Générer mon BQE Gros Œuvre</span>
+        <span>Éditer mon Bordereau BQE</span>
         <span>&rarr;</span>
       </button>
     </div>
@@ -806,7 +806,7 @@
     <div class="flex justify-between items-center pt-4">
       <button type="button" onclick="goToStep(3, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button>
       <button type="button" id="pay-btn-3" onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
-        <span>Générer mon Audit de Devis</span>
+        <span>Lancer l'Audit de mon Devis</span>
         <span>&rarr;</span>
       </button>
     </div>
@@ -1033,7 +1033,7 @@
     <div class="flex justify-between items-center pt-4"> 
       <button type="button" onclick="goToStep(4, 2)" class="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl cursor-pointer">&larr; Retour</button> 
       <button type="button" id="pay-btn-4" onclick="initiatePayment(4, 'finitions')" class="px-8 py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer"> 
-        <span>Générer mon Dossier Finitions</span> 
+        <span>Finaliser mon Dossier Second Œuvre</span> 
         <span>&rarr;</span> 
       </button> 
     </div> 
@@ -1433,7 +1433,7 @@
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = 'Initialisation du dossier...';
+        btn.innerHTML = 'Édition du dossier en cours...';
       }
 
       // 2. Appel PayTech ou bascule directe
