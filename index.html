@@ -324,8 +324,8 @@
       <div>
         <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Prestation d'Étude Personnalisée</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
-          <span id="price-val-1" class="text-2xl font-black text-white">35 000 FCFA</span>
-          <span id="price-converted-1" class="text-xs text-amber-300 font-semibold">(≈ 53,36 €)</span>
+          <span id="price-val-1" class="text-2xl font-black text-white">149 000 FCFA</span>
+          <span id="price-converted-1" class="text-xs text-amber-300 font-semibold">(≈ 227 €)</span>
         </div>
       </div>
       <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Rapport Nominatif Certifié</span>
@@ -531,8 +531,8 @@
       <div>
         <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Forfait Chiffrage BQE Express</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
-          <span id="price-val-2" class="text-2xl font-black text-white">25 000 FCFA</span>
-          <span id="price-converted-2" class="text-xs text-amber-300 font-semibold">(≈ 38,11 €)</span>
+          <span id="price-val-2" class="text-2xl font-black text-white">199 000 FCFA</span>
+          <span id="price-converted-2" class="text-xs text-amber-300 font-semibold">(≈ 303 €)</span>
         </div>
       </div>
       <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Bordereau Nominatif PDF</span>
@@ -754,8 +754,8 @@
       <div>
         <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Forfait Contre-Expertise & Audit</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
-          <span id="price-val-3" class="text-2xl font-black text-white">45 000 FCFA</span>
-          <span id="price-converted-3" class="text-xs text-amber-300 font-semibold">(≈ 68,60 €)</span>
+          <span id="price-val-3" class="text-2xl font-black text-white">249 000 FCFA</span>
+          <span id="price-converted-3" class="text-xs text-amber-300 font-semibold">(≈ 380 €)</span>
         </div>
       </div>
       <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Dossier d'Arbitrage Certifié</span>
@@ -981,8 +981,8 @@
       <div> 
         <p class="text-xs uppercase font-bold text-[#F59E0B]">Total Prestation Second Œuvre & PV</p> 
         <div class="flex items-baseline space-x-2 mt-0.5"> 
-          <span id="price-val-4" class="text-2xl font-black text-white">20 000 FCFA</span> 
-          <span id="price-converted-4" class="text-xs text-amber-300 font-semibold">(≈ 30,49 €)</span> 
+          <span id="price-val-4" class="text-2xl font-black text-white">99 000 FCFA</span> 
+          <span id="price-converted-4" class="text-xs text-amber-300 font-semibold">(≈ 151 €)</span> 
         </div> 
       </div> 
       <span class="text-xs bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">Dossier Certifié Nominatif</span> 
@@ -1246,12 +1246,12 @@
     // Lancement de l'actualisation au démarrage
     fetchLiveRates();
 
-    // TARIFICATION DE BASE ET PAR NIVEAU
+        // GRILLE TARIFAIRE "EXÉCUTIVE" CHANTIERSUR (Positionnement Bureau d'Études Premium)
     const PRICING_RULES = {
-      1: { base: 35000, perLevelAbove1: 5000 },  // Esquisse
-      2: { base: 25000, perLevelAbove1: 5000 },  // BQE Express
-      3: { base: 45000, perLevelAbove1: 7500 },  // Audit Devis
-      4: { base: 20000, perLevelAbove1: 3000 }   // Finitions
+      1: { base: 149000, perLevelAbove1: 25000 }, // Formule 1 : Esquisse & Faisabilité
+      2: { base: 199000, perLevelAbove1: 30000 }, // Formule 2 : BQE Gros Œuvre
+      3: { base: 249000, perLevelAbove1: 40000 }, // Formule 3 : Audit & Contre-Expertise Devis
+      4: { base: 99000, perLevelAbove1: 15000 }   // Formule 4 : Finitions & Second Œuvre
     };
 
     // CALCUL DU MONTANT EXACT EN FCFA
