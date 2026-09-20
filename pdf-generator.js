@@ -1448,6 +1448,10 @@ function renderAudit(doc, data, refDoc, currentDate) {
 
     if (service === 'esquisse') {
       renderEsquisse(doc, data, refDoc, currentDate);
+    } else if (service === 'express') {
+      renderExpress(doc, data, refDoc, currentDate);
+    } else if (service === 'audit') {
+      renderAudit(doc, data, refDoc, currentDate);
     } else {
       renderOtherServices(doc, data, service, refDoc, currentDate);
     }
