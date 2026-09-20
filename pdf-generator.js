@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Conforme : BAEL 91 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit COCC
  */
@@ -473,23 +473,31 @@
 // =========================================================================
 // 2. LIVRABLE : BQE GROS ŒUVRE EXPRESS (PHASE BUDGET - 4 PAGES DENSES)
 // =========================================================================
+function formatNum(n) {
+  if (n === undefined || n === null || isNaN(n)) return "0";
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
 function renderExpress(doc, data, refDoc, currentDate) {
-  const COLOR_NAVY = [11, 19, 37];      // #0B1325
-  const COLOR_AMBER = [245, 158, 11];   // #F59E0B
-  const COLOR_SLATE = [71, 85, 105];    // #475569
+  const COLOR_NAVY = [11, 19, 37];
+  const COLOR_AMBER = [245, 158, 11];
+  const COLOR_SLATE = [71, 85, 105];
   const COLOR_BG_LIGHT = [248, 250, 252];
 
-  // Données du Maître d'Ouvrage
   const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
-  const rawPrefix = (data.phone_prefix || '+221').trim();
-  let rawPhone = (data.client_phone || '770000000').toString().trim();
-  rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
-  const clientPhone = `${rawPrefix} ${rawPhone}`;
+  
+  // Formatage propre du téléphone sans aucun doublon
+  const p = (data.phone_prefix || '+221').trim();
+  const pDigits = p.replace(/\D/g, '');
+  let d = (data.client_phone || '770000000').toString().replace(/\D/g, '').replace(/^0+/, '');
+  if (pDigits && d.startsWith(pDigits)) d = d.substring(pDigits.length).replace(/^0+/, '');
+  if (pDigits && d.startsWith(pDigits)) d = d.substring(pDigits.length).replace(/^0+/, '');
+  const clientPhone = `${p} ${d}`;
 
   const clientEmail = (data.client_email || 'client@chantiersur.com').trim();
-  const surface = parseFloat(data.surface) || 240; // SDP totale
+  const surface = parseFloat(data.surface) || 250;
   const levels = parseInt(data.exact_levels, 10) || 1;
-  const totalLevelsCount = levels + 1; // RDC + étages
+  const totalLevelsCount = levels + 1;
   const slabType = data.slab_type || 'hourdis16';
   const hasBasement = data.has_basement === 'oui';
   const concreteMethod = data.concrete_method || 'betonniere';
@@ -497,12 +505,9 @@ function renderExpress(doc, data, refDoc, currentDate) {
   const landStatus = data.land_status || 'Titre Foncier (TF)';
   const lotNumber = data.lot_number || 'Non spécifié';
 
-  // Détection environnement marin / sol
   const isMarine = location.toLowerCase().includes('almadies') || location.toLowerCase().includes('ngor') || location.toLowerCase().includes('yoff') || location.toLowerCase().includes('corniche') || location.toLowerCase().includes('saly');
-  const isWetland = location.toLowerCase().includes('massar') || location.toLowerCase().includes('malika') || location.toLowerCase().includes('pikine') || location.toLowerCase().includes('thiaroye');
 
-  // --- CALCULS D'INGÉNIERIE STRUCTURELLE (BAEL 91 R99) ---
-  // Cubage béton par organe
+  // Cubages béton BAEL 91
   const vFondations = Math.round(surface * (hasBasement ? 0.16 : 0.11));
   const vPoteaux = Math.round(surface * (0.065 + (levels * 0.003)));
   const vPoutres = Math.round(surface * 0.08);
@@ -510,45 +515,42 @@ function renderExpress(doc, data, refDoc, currentDate) {
   const vDallageRdc = Math.round((surface / totalLevelsCount) * 0.10);
   const vTotalBeton = vFondations + vPoteaux + vPoutres + vPlanchers + vDallageRdc;
 
-  // Aciers Haute Adhérence FeE500
+  // Aciers FeE500
   let ratioAcierM3 = levels >= 4 ? 105 : (levels >= 2 ? 95 : 85);
-  if (isMarine) ratioAcierM3 += 5; // Aciers de peau supplémentaires contre l'air salin
+  if (isMarine) ratioAcierM3 += 5;
   const tonnageAcierTotal = ((vTotalBeton * ratioAcierM3) / 1000).toFixed(2);
   const kgAcierTotal = Math.round(tonnageAcierTotal * 1000);
 
-  // Ventilation des aciers par diamètre commercial
-  const kgHA14_16 = Math.round(kgAcierTotal * 0.28); // Gros fers semelles et poteaux bas
-  const kgHA12 = Math.round(kgAcierTotal * 0.32);    // Fers principaux poutres et poteaux
-  const kgHA10 = Math.round(kgAcierTotal * 0.20);    // Poutrelles et chaînages
-  const kgHA8 = Math.round(kgAcierTotal * 0.12);     // Étriers et armatures de répartition
-  const kgHA6 = Math.round(kgAcierTotal * 0.08);     // Cadres et épingles de liaison
-  const filRecuitKg = Math.round(tonnageAcierTotal * 15); // 15 kg par tonne d'acier
+  const kgHA14_16 = Math.round(kgAcierTotal * 0.28);
+  const kgHA12 = Math.round(kgAcierTotal * 0.32);
+  const kgHA10 = Math.round(kgAcierTotal * 0.20);
+  const kgHA8 = Math.round(kgAcierTotal * 0.12);
+  const kgHA6 = Math.round(kgAcierTotal * 0.08);
+  const filRecuitKg = Math.round(tonnageAcierTotal * 15);
 
-  // Liants & Granulats
-  const sacsCimentStructure = Math.round(vTotalBeton * 7); // 350 kg/m3 = 7 sacs de 50kg
+  // Granulats et agglos
+  const sacsCimentStructure = Math.round(vTotalBeton * 7);
   const sacsCimentMaconnerie = Math.round(surface * 1.8);
   const totalSacsCiment = sacsCimentStructure + sacsCimentMaconnerie;
   const tonnesCiment = (totalSacsCiment * 0.05).toFixed(1);
 
-  const volGravierBasalte = Math.round(vTotalBeton * 0.82); // Diack
+  const volGravierBasalte = Math.round(vTotalBeton * 0.82);
   const volSableKayar = Math.round((vTotalBeton * 0.48) + (surface * 0.08));
 
-  // Maçonnerie agglos
   const nbAgglos15 = Math.round(surface * 14.2);
   const nbAgglos20 = Math.round(surface * 3.4);
   const nbHourdis = slabType === 'dalle_pleine' ? 0 : Math.round((surface * ((totalLevelsCount - 1) / totalLevelsCount)) * 8.5);
 
-  // Prix Unitaires Marché Dakar 2026 (FCFA)
+  // Prix unitaires Dakar 2026
   const PRIX_ACIER_TONNE = 620000;
-  const PRIX_CIMENT_SAC = 4400; // 88 000 F / tonne
-  const PRIX_GRAVIER_M3 = 19000; // Basalte Diack
-  const PRIX_SABLE_M3 = 11500;   // Sable dunaire lavé
+  const PRIX_CIMENT_SAC = 4400;
+  const PRIX_GRAVIER_M3 = 19000;
+  const PRIX_SABLE_M3 = 11500;
   const PRIX_AGGLO_15 = 380;
   const PRIX_AGGLO_20 = 480;
   const PRIX_HOURDIS = 450;
-  const PRIX_FIL_CALES = 1400;   // par m² de plancher
+  const PRIX_FIL_CALES = 1400;
 
-  // Totaux financiers fournitures
   const totalAcierF = Math.round(tonnageAcierTotal * PRIX_ACIER_TONNE);
   const totalCimentF = Math.round(totalSacsCiment * PRIX_CIMENT_SAC);
   const totalGravierF = Math.round(volGravierBasalte * PRIX_GRAVIER_M3);
@@ -557,10 +559,9 @@ function renderExpress(doc, data, refDoc, currentDate) {
   const totalAccessoiresF = Math.round(surface * PRIX_FIL_CALES);
 
   const totalFournituresBrutes = totalAcierF + totalCimentF + totalGravierF + totalSableF + totalAgglosF + totalAccessoiresF;
-  const mainOeuvreEstimee = Math.round(surface * 28000); // 28 000 FCFA / m² main d'œuvre gros œuvre
+  const mainOeuvreEstimee = Math.round(surface * 28000);
   const totalGrosOeuvreTCE = totalFournituresBrutes + mainOeuvreEstimee;
 
-  // En-tête officiel
   function drawExpressHeader(pageTitle, subTitle) {
     doc.setFillColor(...COLOR_NAVY);
     doc.rect(0, 0, 210, 28, 'F');
@@ -603,7 +604,6 @@ function renderExpress(doc, data, refDoc, currentDate) {
     doc.setLineWidth(0.5);
     doc.line(14, 45, 196, 45);
 
-    // Clause nominative sur 2 lignes
     const legalNotice = `DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. CE BORDEREAU DE COMMANDE MATÉRIAUX ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`;
     doc.setFontSize(6.2);
     doc.setFont('helvetica', 'italic');
@@ -613,11 +613,10 @@ function renderExpress(doc, data, refDoc, currentDate) {
   }
 
   // =========================================================================
-  // PAGE 1 : CARTOUCHE FONCIER & CUBAGES BÉTON PAR ORGANE
+  // PAGE 1 : CUBAGES BÉTON ARMÉ
   // =========================================================================
   drawExpressHeader("Bordereau Quantitatif Estimatif (BQE) Gros Œuvre", "Partie I : Cartouche de Propriété, Synthèse Matériaux & Ventilation Béton Armé");
 
-  // Cartouche officiel
   doc.setFillColor(...COLOR_BG_LIGHT);
   doc.roundedRect(14, 53, 182, 34, 2, 2, 'F');
   doc.setDrawColor(203, 213, 225);
@@ -648,13 +647,13 @@ function renderExpress(doc, data, refDoc, currentDate) {
   doc.text("I. SYNTHÈSE GLOBALE DES QUANTITATIFS MAJEURS GROS ŒUVRE", 14, currentY);
 
   const syntheseRows = [
-    ["Béton Armé Structurel (fc28 >= 25 MPa)", `${vTotalBeton} m³`, `Ratio moyen : ~${(vTotalBeton / surface).toFixed(2)} m³ de béton / m² de plancher`],
-    ["Aciers Haute Adhérence FeE500", `${tonnageAcierTotal} Tonnes (${kgAcierTotal} kg)`, `Ratio de ferraillage : ~${ratioAcierM3} kg d'acier / m³ de béton`],
-    ["Ciment CEM II 42.5R (SOCOCIM / Dangote)", `${totalSacsCiment} Sacs (~${tonnesCiment} T)`, "Structure dosée à 350 kg/m³ + mortiers de pose et d'enduits"],
-    ["Gravier Basalte Concassé (Carrières Diack)", `${volGravierBasalte} m³`, "Calibres 8/16 & 16/25 (Mélange granulaire optimal)"],
-    ["Sable Dunaire Lavé Propre (Kayar / Diender)", `${volSableKayar} m³`, "Sable d'apport exempt de coquillages et de matières organiques"],
-    ["Agglos Vibrés Normalisés (15 & 20)", `${(nbAgglos15 + nbAgglos20).toLocaleString('fr-FR')} Unités`, `Agglos creux de 15 (${nbAgglos15.toLocaleString('fr-FR')}) + Agglos pleins de 20 (${nbAgglos20.toLocaleString('fr-FR')})`],
-    ["Plancher Hourdis Entrevous Béton", slabType === 'dalle_pleine' ? "Dalle Pleine BA" : `${nbHourdis.toLocaleString('fr-FR')} Hourdis`, slabType === 'dalle_pleine' ? "Coffrage intégral dalle pleine" : "Hourdis creux 16+4 pour allègement des planchers hauts"]
+    ["Béton Armé Structurel (fc28 >= 25 MPa)", `${vTotalBeton} m³`, `Ratio moyen : env. ${(vTotalBeton / surface).toFixed(2)} m³ de béton / m² de plancher`],
+    ["Aciers Haute Adhérence FeE500", `${tonnageAcierTotal} Tonnes (${formatNum(kgAcierTotal)} kg)`, `Ratio de ferraillage : env. ${ratioAcierM3} kg d'acier / m³ de béton`],
+    ["Ciment CEM II 42.5R (SOCOCIM / Dangote)", `${formatNum(totalSacsCiment)} Sacs (env. ${tonnesCiment} T)`, "Structure dosée à 350 kg/m³ + mortiers de pose et d'enduits"],
+    ["Gravier Basalte Concassé (Carrières Diack)", `${formatNum(volGravierBasalte)} m³`, "Calibres 8/16 & 16/25 (Mélange granulaire optimal)"],
+    ["Sable Dunaire Lavé Propre (Kayar / Diender)", `${formatNum(volSableKayar)} m³`, "Sable d'apport exempt de coquillages et de matières organiques"],
+    ["Agglos Vibrés Normalisés (15 & 20)", `${formatNum(nbAgglos15 + nbAgglos20)} Unités`, `Agglos creux 15 (${formatNum(nbAgglos15)}) + Agglos pleins 20 (${formatNum(nbAgglos20)})`],
+    ["Plancher Hourdis Entrevous Béton", slabType === 'dalle_pleine' ? "Dalle Pleine BA" : `${formatNum(nbHourdis)} Hourdis`, slabType === 'dalle_pleine' ? "Coffrage intégral dalle pleine" : "Hourdis creux 16+4 pour allègement des planchers hauts"]
   ];
 
   doc.autoTable({
@@ -695,7 +694,7 @@ function renderExpress(doc, data, refDoc, currentDate) {
   });
 
   // =========================================================================
-  // PAGE 2 : NOMENCLATURE DES ACIERS & BORDEREAU FINANCIER FOURNITURES
+  // PAGE 2 : NOMENCLATURE DES ACIERS & BORDEREAU FOURNITURES
   // =========================================================================
   doc.addPage();
   drawExpressHeader("Bordereau Quantitatif Estimatif (BQE) Gros Œuvre", "Partie II : Calibrage des Aciers FeE500 & Bordereau Estimatif Fournitures 2026");
@@ -707,13 +706,13 @@ function renderExpress(doc, data, refDoc, currentDate) {
   doc.text("III. NOMENCLATURE & CALIBRAGE DES ARMATURES HAUTE ADHÉRENCE FeE500", 14, currentY);
 
   const aciersRows = [
-    ["Aciers HA 14 & HA 16", `${kgHA14_16} kg (${(kgHA14_16/1000).toFixed(2)} T)`, "Aciers longitudinaux des semelles de fondation et poteaux du RDC"],
-    ["Aciers HA 12", `${kgHA12} kg (${(kgHA12/1000).toFixed(2)} T)`, "Armatures principales des poutres maîtresses et poteaux des étages"],
-    ["Aciers HA 10", `${kgHA10} kg (${(kgHA10/1000).toFixed(2)} T)`, "Aciers chapeaux de dalle, poutrelles hourdis et linteaux"],
-    ["Aciers HA 8", `${kgHA8} kg (${(kgHA8/1000).toFixed(2)} T)`, "Armatures de répartition, chaînages verticaux et renforts d'angles"],
-    ["Aciers HA 6", `${kgHA6} kg (${(kgHA6/1000).toFixed(2)} T)`, "Cadres, étriers et épingles anti-flambement des poteaux et poutres"],
-    ["Fil de Recuit & Cales d'Enrobage (4 cm)", `${filRecuitKg} kg de fil + cales`, "Indispensable pour maintenir l'enrobage strict de 4,5 cm en milieu salin"],
-    ["TOTAL ACIERS HAUTE ADHÉRENCE FeE500", `${kgAcierTotal} kg (~${tonnageAcierTotal} T)`, "Fers certifiés SOCOCIM / Senbus / Someta à haute limite d'élasticité"]
+    ["Aciers HA 14 & HA 16", `${formatNum(kgHA14_16)} kg (${(kgHA14_16/1000).toFixed(2)} T)`, "Aciers longitudinaux des semelles de fondation et poteaux du RDC"],
+    ["Aciers HA 12", `${formatNum(kgHA12)} kg (${(kgHA12/1000).toFixed(2)} T)`, "Armatures principales des poutres maîtresses et poteaux des étages"],
+    ["Aciers HA 10", `${formatNum(kgHA10)} kg (${(kgHA10/1000).toFixed(2)} T)`, "Aciers chapeaux de dalle, poutrelles hourdis et linteaux"],
+    ["Aciers HA 8", `${formatNum(kgHA8)} kg (${(kgHA8/1000).toFixed(2)} T)`, "Armatures de répartition, chaînages verticaux et renforts d'angles"],
+    ["Aciers HA 6", `${formatNum(kgHA6)} kg (${(kgHA6/1000).toFixed(2)} T)`, "Cadres, étriers et épingles anti-flambement des poteaux et poutres"],
+    ["Fil de Recuit & Cales d'Enrobage (4 cm)", `${formatNum(filRecuitKg)} kg de fil + cales`, "Indispensable pour maintenir l'enrobage strict de 4,5 cm en milieu salin"],
+    ["TOTAL ACIERS HAUTE ADHÉRENCE FeE500", `${formatNum(kgAcierTotal)} kg (env. ${tonnageAcierTotal} T)`, "Fers certifiés SOCOCIM / Senbus / Someta à haute limite d'élasticité"]
   ];
 
   doc.autoTable({
@@ -735,12 +734,12 @@ function renderExpress(doc, data, refDoc, currentDate) {
 
   const bordereauRows = [
     ["Aciers FeE500 (Barres de 12 m)", `${tonnageAcierTotal} Tonnes`, `${formatFCFA(PRIX_ACIER_TONNE)} / T`, formatFCFA(totalAcierF), "Aciers certifiés sans rouille feuilletée"],
-    ["Ciment CEM II 42.5R (Sacs 50 kg)", `${totalSacsCiment} Sacs`, `${formatFCFA(PRIX_CIMENT_SAC)} / Sac`, formatFCFA(totalCimentF), "SOCOCIM / Dangote / Sahel"],
-    ["Gravier Basalte Diack (8/16 & 16/25)", `${volGravierBasalte} m³`, `${formatFCFA(PRIX_GRAVIER_M3)} / m³`, formatFCFA(totalGravierF), "Basalte concassé haute compacité"],
-    ["Sable Dunaire Lavé (Kayar / Diender)", `${volSableKayar} m³`, `${formatFCFA(PRIX_SABLE_M3)} / m³`, formatFCFA(totalSableF), "Sable propre sans vase ni sel"],
-    ["Agglos Creux Vibrés de 15", `${nbAgglos15.toLocaleString('fr-FR')} U`, `${PRIX_AGGLO_15} FCFA / U`, formatFCFA(nbAgglos15 * PRIX_AGGLO_15), "Élévations des murs extérieurs et refends"],
-    ["Agglos Pleins Vibrés de 20", `${nbAgglos20.toLocaleString('fr-FR')} U`, `${PRIX_AGGLO_20} FCFA / U`, formatFCFA(nbAgglos20 * PRIX_AGGLO_20), "Murs de soubassement sous longrines"],
-    ["Hourdis Creux Béton (16 ou 20)", slabType === 'dalle_pleine' ? "-" : `${nbHourdis.toLocaleString('fr-FR')} U`, slabType === 'dalle_pleine' ? "-" : `${PRIX_HOURDIS} FCFA / U`, slabType === 'dalle_pleine' ? "0 FCFA" : formatFCFA(nbHourdis * PRIX_HOURDIS), "Entrevous de plancher"],
+    ["Ciment CEM II 42.5R (Sacs 50 kg)", `${formatNum(totalSacsCiment)} Sacs`, `${formatFCFA(PRIX_CIMENT_SAC)} / Sac`, formatFCFA(totalCimentF), "SOCOCIM / Dangote / Sahel"],
+    ["Gravier Basalte Diack (8/16 & 16/25)", `${formatNum(volGravierBasalte)} m³`, `${formatFCFA(PRIX_GRAVIER_M3)} / m³`, formatFCFA(totalGravierF), "Basalte concassé haute compacité"],
+    ["Sable Dunaire Lavé (Kayar / Diender)", `${formatNum(volSableKayar)} m³`, `${formatFCFA(PRIX_SABLE_M3)} / m³`, formatFCFA(totalSableF), "Sable propre sans vase ni sel"],
+    ["Agglos Creux Vibrés de 15", `${formatNum(nbAgglos15)} U`, `${PRIX_AGGLO_15} FCFA / U`, formatFCFA(nbAgglos15 * PRIX_AGGLO_15), "Élévations des murs extérieurs et refends"],
+    ["Agglos Pleins Vibrés de 20", `${formatNum(nbAgglos20)} U`, `${PRIX_AGGLO_20} FCFA / U`, formatFCFA(nbAgglos20 * PRIX_AGGLO_20), "Murs de soubassement sous longrines"],
+    ["Hourdis Creux Béton (16 ou 20)", slabType === 'dalle_pleine' ? "-" : `${formatNum(nbHourdis)} U`, slabType === 'dalle_pleine' ? "-" : `${PRIX_HOURDIS} FCFA / U`, slabType === 'dalle_pleine' ? "0 FCFA" : formatFCFA(nbHourdis * PRIX_HOURDIS), "Entrevous de plancher"],
     ["Accessoires (Fil, cales, polyane)", "Forfait chantier", `${formatFCFA(PRIX_FIL_CALES)} / m²`, formatFCFA(totalAccessoiresF), "Cales béton 4cm, film étanche dallage"],
     ["SOUS-TOTAL ESTIMATIF MATÉRIAUX BRUTS", "-", "-", formatFCFA(totalFournituresBrutes), "Hors main d'œuvre et transport chantier"]
   ];
@@ -753,8 +752,11 @@ function renderExpress(doc, data, refDoc, currentDate) {
     headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
     styles: { fontSize: 7.2, cellPadding: 2.2 },
     columnStyles: { 
-      0: { cellWidth: 50, fontStyle: 'bold' },
-      3: { halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY } 
+      0: { cellWidth: 46 },
+      1: { cellWidth: 26 },
+      2: { cellWidth: 32 },
+      3: { cellWidth: 36, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
+      4: { cellWidth: 42 }
     },
     margin: { left: 14, right: 14 }
   });
@@ -781,10 +783,10 @@ function renderExpress(doc, data, refDoc, currentDate) {
   const phase4Acier = (tonnageAcierTotal - (parseFloat(phase1Acier) + parseFloat(phase2Acier) + parseFloat(phase3Acier))).toFixed(2);
 
   const planningRows = [
-    ["Phase 1 : Fouilles, Fondations & Soubassement", `${phase1Ciment} Sacs`, `${phase1Acier} T (HA16, HA14, HA12)`, `${Math.round(volGravierBasalte * 0.25)} m³`, `${nbAgglos20} agglos pleins de 20 + sable`],
-    ["Phase 2 : Poteaux RDC & Plancher Haut", `${phase2Ciment} Sacs`, `${phase2Acier} T (HA14, HA12, HA8)`, `${Math.round(volGravierBasalte * 0.30)} m³`, `${Math.round(nbHourdis * 0.5)} hourdis + ${Math.round(nbAgglos15 * 0.3)} agglos 15`],
-    ["Phase 3 : Élévations & Planchers Étages (R+N)", `${phase3Ciment} Sacs`, `${phase3Acier} T (HA12, HA10, HA8)`, `${Math.round(volGravierBasalte * 0.25)} m³`, `${Math.round(nbHourdis * 0.5)} hourdis + ${Math.round(nbAgglos15 * 0.4)} agglos 15`],
-    ["Phase 4 : Toiture Terrasse, Acrotères & Enduits", `${phase4Ciment} Sacs`, `${phase4Acier} T (HA10, HA8, HA6)`, `${Math.round(volGravierBasalte * 0.20)} m³`, `${Math.round(nbAgglos15 * 0.3)} agglos 15 + sable enduits`]
+    ["Phase 1 : Fouilles, Fondations & Soubassement", `${formatNum(phase1Ciment)} Sacs`, `${phase1Acier} T (HA16, HA14, HA12)`, `${formatNum(Math.round(volGravierBasalte * 0.25))} m³`, `${formatNum(nbAgglos20)} agglos pleins de 20 + sable`],
+    ["Phase 2 : Poteaux RDC & Plancher Haut", `${formatNum(phase2Ciment)} Sacs`, `${phase2Acier} T (HA14, HA12, HA8)`, `${formatNum(Math.round(volGravierBasalte * 0.30))} m³`, `${formatNum(Math.round(nbHourdis * 0.5))} hourdis + ${formatNum(Math.round(nbAgglos15 * 0.3))} agglos 15`],
+    ["Phase 3 : Élévations & Planchers Étages (R+N)", `${formatNum(phase3Ciment)} Sacs`, `${phase3Acier} T (HA12, HA10, HA8)`, `${formatNum(Math.round(volGravierBasalte * 0.25))} m³`, `${formatNum(Math.round(nbHourdis * 0.5))} hourdis + ${formatNum(Math.round(nbAgglos15 * 0.4))} agglos 15`],
+    ["Phase 4 : Toiture Terrasse, Acrotères & Enduits", `${formatNum(phase4Ciment)} Sacs`, `${phase4Acier} T (HA10, HA8, HA6)`, `${formatNum(Math.round(volGravierBasalte * 0.20))} m³`, `${formatNum(Math.round(nbAgglos15 * 0.3))} agglos 15 + sable enduits`]
   ];
 
   doc.autoTable({
@@ -798,6 +800,7 @@ function renderExpress(doc, data, refDoc, currentDate) {
     margin: { left: 14, right: 14 }
   });
 
+  // Positionnement rigoureux du Titre VI AVANT le Tableau VI
   currentY = doc.lastAutoTable.finalY + 8;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
@@ -812,7 +815,7 @@ function renderExpress(doc, data, refDoc, currentDate) {
     ["Équipe Maçons & Coffreurs", formatFCFA(moMaconCoffreur), "Montage des agglos, coffrage bois des poteaux/poutres, coulage et vibration du béton"],
     ["Équipe Ferrailleurs Spécialisés", formatFCFA(moFerrailleur), "Façonnage sur gabarit des cadres, étriers, crochets sismiques et ligatures strictes"],
     ["Location Équipements & Étaiement", formatFCFA(moMateriel), "Bétonnière thermique, aiguille vibrante, étais métalliques télescopiques et madriers"],
-    ["TOTAL MAIN D'ŒUVRE GROS ŒUVRE", formatFCFA(mainOeuvreEstimee), `Base contractuelle moyenne : ~${formatFCFA(Math.round(mainOeuvreEstimee / surface))} / m² de plancher`],
+    ["TOTAL MAIN D'ŒUVRE GROS ŒUVRE", formatFCFA(mainOeuvreEstimee), `Base contractuelle moyenne : env. ${formatFCFA(Math.round(mainOeuvreEstimee / surface))} / m² de plancher`],
     ["BUDGET GLOBAL GROS ŒUVRE (TCE FOURNITURES + MO)", formatFCFA(totalGrosOeuvreTCE), `Ratio d'ingénierie global : env. ${formatFCFA(Math.round(totalGrosOeuvreTCE / surface))} / m² de plancher`]
   ];
 
@@ -831,7 +834,7 @@ function renderExpress(doc, data, refDoc, currentDate) {
   });
 
   // =========================================================================
-  // PAGE 4 : PROTOCOLE DES 6 POINTS D'ARRÊT & VISA TECHNIQUE
+  // PAGE 4 : PROTOCOLE DES 6 POINTS D'ARRÊT & RÉGLEMENTATION
   // =========================================================================
   doc.addPage();
   drawExpressHeader("Bordereau Quantitatif Estimatif (BQE) Gros Œuvre", "Partie IV : Protocole de Réception des 6 Points d'Arrêt & Sécurité Juridique COCC");
@@ -886,7 +889,6 @@ function renderExpress(doc, data, refDoc, currentDate) {
     margin: { left: 14, right: 14 }
   });
 
-  // Bloc de validation technique
   currentY = doc.lastAutoTable.finalY + 5;
   doc.setFillColor(...COLOR_BG_LIGHT);
   doc.rect(14, currentY, 182, 20, 'F');
