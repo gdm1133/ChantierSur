@@ -1,10 +1,16 @@
-﻿/**
+/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Conforme : BAEL 91 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit COCC
  */
 
 (function() {
   'use strict';
+  // Formatteur monétaire sécurisé (espaces purs)
+  function formatNum(n) {
+    if (n === undefined || n === null || isNaN(n)) return "0";
+    return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
+
 
   // Couleurs de la charte officielle ChantierSur
   const COLOR_NAVY = [11, 19, 37];      // #0B1325
@@ -470,15 +476,7 @@
     doc.text("Étude d'esquisse et de faisabilité établie conformément aux règles de l'art du bâtiment (BAEL 91 Révisé 99 & DUA Sénégal).", 18, currentY + 10);
     doc.text(`Rapport officiel certifié n° ${refDoc} • Émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}.`, 18, currentY + 15);
   }
-// =========================================================================
-// 2. LIVRABLE : BQE GROS ŒUVRE EXPRESS (PHASE BUDGET - 4 PAGES DENSES)
-// =========================================================================
-function formatNum(n) {
-  if (n === undefined || n === null || isNaN(n)) return "0";
-  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-}
-
-function renderExpress(doc, data, refDoc, currentDate) {
+  function renderExpress(doc, data, refDoc, currentDate) {
   const COLOR_NAVY = [11, 19, 37];
   const COLOR_AMBER = [245, 158, 11];
   const COLOR_SLATE = [71, 85, 105];
@@ -906,6 +904,8 @@ function renderExpress(doc, data, refDoc, currentDate) {
   doc.text("Bordereau Quantitatif Estimatif établi selon les normes BAEL 91 R99 et le Code des Obligations Civiles et Commerciales.", 18, currentY + 10);
   doc.text(`Rapport officiel certifié n° ${refDoc} • Émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}.`, 18, currentY + 15);
 }
+
+
   function renderOtherServices(doc, data, service, refDoc, currentDate) {
     const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
     const surface = parseFloat(data.surface) || 200;
@@ -1013,8 +1013,6 @@ function renderExpress(doc, data, refDoc, currentDate) {
 
     if (service === 'esquisse') {
       renderEsquisse(doc, data, refDoc, currentDate);
-    } else if (service === 'express') {
-      renderExpress(doc, data, refDoc, currentDate);
     } else {
       renderOtherServices(doc, data, service, refDoc, currentDate);
     }
