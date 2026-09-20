@@ -906,6 +906,441 @@
 }
 
 
+  // =========================================================================
+// 3. LIVRABLE : CONTRE-EXPERTISE & AUDIT DEVIS BTP (4 PAGES DENSES)
+// =========================================================================
+function renderAudit(doc, data, refDoc, currentDate) {
+  const COLOR_NAVY = [11, 19, 37];      // #0B1325
+  const COLOR_AMBER = [245, 158, 11];   // #F59E0B
+  const COLOR_SLATE = [71, 85, 105];    // #475569
+  const COLOR_BG_LIGHT = [248, 250, 252];
+
+  // Données du Maître d'Ouvrage
+  const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+  const p = (data.phone_prefix || '+221').trim();
+  const pDigits = p.replace(/\D/g, '');
+  let d = (data.client_phone || '770000000').toString().replace(/\D/g, '').replace(/^0+/, '');
+  if (pDigits && d.startsWith(pDigits)) d = d.substring(pDigits.length).replace(/^0+/, '');
+  if (pDigits && d.startsWith(pDigits)) d = d.substring(pDigits.length).replace(/^0+/, '');
+  const clientPhone = `${p} ${d}`;
+
+  const clientEmail = (data.client_email || 'client@chantiersur.com').trim();
+  const quotedAmount = parseFloat(data.quoted_amount) || 45000000;
+  const surface = parseFloat(data.surface) || 250;
+  const levels = parseInt(data.exact_levels, 10) || 1;
+  const totalLevelsCount = levels + 1;
+  const scope = data.contract_scope || 'tce_clef_en_main';
+  const contractorType = data.contractor_type || 'tacheron';
+  const standing = data.standing || 'moyen';
+  const location = data.project_location || 'Dakar - Zone Urbaine';
+  const landStatus = data.land_status || 'Titre Foncier (TF)';
+  const lotNumber = data.lot_number || 'Non spécifié';
+  const advanceRequested = parseInt(data.advance_requested, 10) || 30;
+  const hasGuarantee = data.has_guarantee || 'aucune';
+
+  // --- BENCHMARK DU MARCHÉ DAKAR 2026 (FCFA / m²) ---
+  let baseMin = 220000;
+  let baseMax = 270000;
+
+  if (scope === 'go_seul') {
+    baseMin = 115000;
+    baseMax = 145000;
+  } else if (scope === 'clos_couvert') {
+    baseMin = 160000;
+    baseMax = 195000;
+  } else {
+    // TCE
+    if (standing === 'economique') { baseMin = 210000; baseMax = 250000; }
+    else if (standing === 'haut') { baseMin = 310000; baseMax = 380000; }
+    else { baseMin = 250000; baseMax = 305000; }
+  }
+
+  // Ajustement étages hauts
+  if (levels >= 3) {
+    const extra = levels * 4000;
+    baseMin += extra;
+    baseMax += extra;
+  }
+
+  const refTotalMin = Math.round(surface * baseMin);
+  const refTotalMax = Math.round(surface * baseMax);
+  const refMoyen = Math.round((refTotalMin + refTotalMax) / 2);
+  const ratioM2Soumis = Math.round(quotedAmount / surface);
+  const ecartPourcent = Math.round(((quotedAmount - refMoyen) / refMoyen) * 100);
+
+  // Diagnostic
+  let verdictTitre = "DEVIS COHÉRENT AVEC LE MARCHÉ DAKAR 2026";
+  let verdictCouleur = [16, 185, 129]; // Vert
+  let verdictAvis = "Le montant global se positionne dans la fourchette d'ingénierie attendue pour ce type d'ouvrage. La négociation doit cibler les clauses de garantie.";
+
+  if (quotedAmount > refTotalMax * 1.12) {
+    verdictTitre = "RISQUE DE SURFACTURATION OU COEFFICIENT DE MARGE ABUSIF";
+    verdictCouleur = [239, 68, 68]; // Rouge
+    verdictAvis = `Le montant soumis dépasse de ${ecartPourcent}% la médiane constatée à Dakar. Des marges anormales sur les fournitures ou des postes doublons sont identifiés.`;
+  } else if (quotedAmount < refTotalMin * 0.85) {
+    verdictTitre = "ALERTE MAJEURE : DEVIS ANORMALEMENT BAS (DANGER DE MALFAÇONS)";
+    verdictCouleur = [245, 158, 11]; // Ambre
+    verdictAvis = "Un devis excessivement bas est le premier facteur d'abandon de chantier, de réduction du diamètre des aciers ou de sous-dosage du béton armé.";
+  }
+
+  // En-tête officiel
+  function drawAuditHeader(pageTitle, subTitle) {
+    doc.setFillColor(...COLOR_NAVY);
+    doc.rect(0, 0, 210, 28, 'F');
+    doc.setFillColor(...COLOR_AMBER);
+    doc.rect(0, 28, 210, 1.5, 'F');
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text("Chantier", 14, 13);
+    const tw = doc.getTextWidth("Chantier");
+    doc.setTextColor(...COLOR_AMBER);
+    doc.text("Sur.com", 14 + tw, 13);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(148, 163, 184);
+    doc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", 14, 20);
+
+    doc.setFontSize(8);
+    doc.setTextColor(255, 255, 255);
+    doc.text(`Dossier : ${refDoc}`, 196, 12, { align: 'right' });
+    doc.setTextColor(203, 213, 225);
+    doc.text(`Date : ${currentDate}`, 196, 18, { align: 'right' });
+    
+    const displayTitulaire = clientName.length > 28 ? clientName.substring(0, 26) + '...' : clientName;
+    doc.text(`Titulaire : ${displayTitulaire}`, 196, 24, { align: 'right' });
+
+    doc.setTextColor(...COLOR_NAVY);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.text(pageTitle.toUpperCase(), 14, 37);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...COLOR_SLATE);
+    doc.text(subTitle, 14, 42);
+
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.5);
+    doc.line(14, 45, 196, 45);
+
+    const legalNotice = `DOCUMENT D'ARBITRAGE TECHNIQUE & JURIDIQUE NOMINATIF — MAÎTRE D'OUVRAGE : ${clientName.toUpperCase()} • TÉL : ${clientPhone} • TITRE FONCIER : ${lotNumber}. TOUTE UTILISATION OU DIFFUSION ENGAGE LA RESPONSABILITÉ CIVILE ET PÉNALE DU DÉTENTEUR.`;
+    doc.setFontSize(6.2);
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(100, 116, 139);
+    const splitNotice = doc.splitTextToSize(legalNotice, 182);
+    doc.text(splitNotice, 14, 48.5);
+  }
+
+  // =========================================================================
+  // PAGE 1 : DIAGNOSTIC FINANCIER MACRO & VERDICT DE COHÉRENCE
+  // =========================================================================
+  drawAuditHeader("Rapport de Contre-Expertise & Audit Devis", "Partie I : Cartouche de Propriété, Confrontation Marché & Verdict d'Ingénierie");
+
+  doc.setFillColor(...COLOR_BG_LIGHT);
+  doc.roundedRect(14, 53, 182, 34, 2, 2, 'F');
+  doc.setDrawColor(203, 213, 225);
+  doc.roundedRect(14, 53, 182, 34, 2, 2, 'D');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("IDENTIFICATION NOMINATIVE DU MAÎTRE D'OUVRAGE & DU DEVIS AUDITÉ", 18, 59);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.8);
+  doc.setTextColor(51, 65, 85);
+  doc.text(`Maître d'Ouvrage : ${clientName}`, 18, 66);
+  doc.text(`Téléphone Notifié : ${clientPhone}`, 18, 72);
+  doc.text(`Email Enregistré : ${clientEmail}`, 18, 78);
+  doc.text(`Statut Foncier : ${landStatus}`, 18, 84);
+
+  let scopeLabel = "Tous Corps d'État (TCE)";
+  if (scope === 'go_seul') scopeLabel = "Gros Œuvre Seul";
+  if (scope === 'clos_couvert') scopeLabel = "Clos & Couvert";
+
+  doc.text(`Localisation : ${location}`, 110, 66);
+  doc.text(`Réf. Cadastrale / Lot : ${lotNumber}`, 110, 72);
+  doc.text(`Périmètre Audité : ${scopeLabel}`, 110, 78);
+  doc.text(`Configuration : R+${levels} (${totalLevelsCount} niveaux) • SDP : ${surface} m²`, 110, 84);
+
+  let currentY = 93;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("I. VERDICT DE COHÉRENCE FINANCIÈRE & POSITIONNEMENT MARCHÉ DAKAR 2026", 14, currentY);
+
+  // Encadré verdict
+  doc.setFillColor(...COLOR_BG_LIGHT);
+  doc.roundedRect(14, currentY + 3, 182, 24, 2, 2, 'F');
+  doc.setDrawColor(...verdictCouleur);
+  doc.setLineWidth(0.8);
+  doc.roundedRect(14, currentY + 3, 182, 24, 2, 2, 'D');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(...verdictCouleur);
+  doc.text(verdictTitre, 18, currentY + 10);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(51, 65, 85);
+  const splitAvis = doc.splitTextToSize(verdictAvis, 174);
+  doc.text(splitAvis, 18, currentY + 16);
+
+  currentY = currentY + 32;
+
+  const comparaisonRows = [
+    ["Montant Total du Devis Soumis", formatFCFA(quotedAmount), `Ratio unitaire : env. ${formatFCFA(ratioM2Soumis)} / m² de plancher`],
+    ["Fourchette Normale Marché Dakar 2026", `${formatFCFA(refTotalMin)} à ${formatFCFA(refTotalMax)}`, `Ratio de référence : ${formatFCFA(baseMin)} à ${formatFCFA(baseMax)} / m²`],
+    ["Écart Constaté par rapport à la Médiane", `${ecartPourcent > 0 ? '+' : ''}${ecartPourcent} %`, ecartPourcent > 10 ? "Surévaluation nette détectée" : (ecartPourcent < -15 ? "Sous-évaluation dangereuse" : "Parfaitement aligné")],
+    ["Avance au Démarrage Demandée", `${advanceRequested} % du montant total`, advanceRequested > 20 ? "AVANCE EXCESSIVE : Risque majeur de cavalerie financière" : "Avance prudente et conforme aux règles de l'art"],
+    ["Couverture Assurantielle / Garanties", hasGuarantee === 'aucune' ? "ZÉRO garantie spécifiée" : (hasGuarantee === 'retenue_5' ? "Retenue de 5% actée" : "Décennale officielle"), hasGuarantee === 'aucune' ? "ALERTE : Absence totale de recours contractuel en cas de sinistre" : "Protection juridique minimale assurée"]
+  ];
+
+  doc.autoTable({
+    startY: currentY,
+    head: [['Indicateur Financier Clé', 'Valeur Analysée', 'Constat & Arbitrage d\'Ingénierie']],
+    body: comparaisonRows,
+    theme: 'grid',
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+    styles: { fontSize: 7.2, cellPadding: 2.2 },
+    columnStyles: { 1: { fontStyle: 'bold', textColor: COLOR_NAVY } },
+    margin: { left: 14, right: 14 }
+  });
+
+  currentY = doc.lastAutoTable.finalY + 8;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("II. RÉPARTITION THÉORIQUE DU BUDGET PAR MACRO-LOT (RÉFÉRENTIEL BET)", 14, currentY);
+
+  const partGo = Math.round(quotedAmount * (scope === 'go_seul' ? 1.0 : (scope === 'clos_couvert' ? 0.68 : 0.48)));
+  const partSo = scope === 'go_seul' ? 0 : Math.round(quotedAmount * (scope === 'clos_couvert' ? 0.22 : 0.38));
+  const partEtancheite = scope === 'go_seul' ? 0 : Math.round(quotedAmount * 0.07);
+  const partMarge = Math.round(quotedAmount * 0.07);
+
+  const repartitionRows = [
+    ["Gros Œuvre & Structure BAEL", formatFCFA(partGo), "Terrassements, semelles, poteaux, poutres, planchers et agglos"],
+    ["Second Œuvre & Finitions", scope === 'go_seul' ? "Exclu du devis" : formatFCFA(partSo), "Plomberie, électricité, carrelage grès cérame, étanchéités intérieures"],
+    ["Étanchéité Toiture & Acrotères", scope === 'go_seul' ? "Exclu du devis" : formatFCFA(partEtancheite), "Complexe multicouche 4mm bitumineux avec relevés de solin"],
+    ["Provision Aléas & Marge Entrepreneur", formatFCFA(partMarge), "Marge bénéficiaire normale estimée à 7-10% du coût direct"]
+  ];
+
+  doc.autoTable({
+    startY: currentY + 3,
+    head: [['Poste Technique', 'Quote-Part Estimative', 'Périmètre Normal des Prestations']],
+    body: repartitionRows,
+    theme: 'striped',
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+    styles: { fontSize: 7.2, cellPadding: 2.2 },
+    columnStyles: { 1: { halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY } },
+    margin: { left: 14, right: 14 }
+  });
+
+  // =========================================================================
+  // PAGE 2 : PIÈGES TECHNIQUES & LES 7 OMISSIONS FRÉQUENTES
+  // =========================================================================
+  doc.addPage();
+  drawAuditHeader("Rapport de Contre-Expertise & Audit Devis", "Partie II : Détection des Pièges Techniques, Ratios Incohérents & Omissions");
+
+  currentY = 54;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("III. AUDIT DES RATIOS STRUCTURAUX & PIÈGES TECHNIQUES COURANTS", 14, currentY);
+
+  const piegesRows = [
+    ["Dosage du Béton Armé", "Mention imprécise 'Béton Armé'", "Exiger : CEM II 42.5R dosé à 350 kg/m³. Refuser formellement le ciment 32.5 pour les dalles et poteaux."],
+    ["Qualité & Diamètre des Aciers", "Aciers non spécifiés ou lisses", "Imposer : Aciers Haute Adhérence FeE500 certifiés. Interdire les fers déclassés ou de récupération."],
+    ["Épaisseur de Table de Compression", "Table réduite à 2 ou 3 cm", "Norme BAEL 91 : Épaisseur minimale absolue de 4 cm armée d'un treillis soudé pour éviter le poinçonnement."],
+    ["Enrobage des Armatures", "Absence totale de cales béton", "Exiger cales de 4,5 cm en milieu marin (Dakar Littoral) et 3 cm en zone intérieure sous peine de rouille expansive."],
+    ["Nature des Agrégats", "Gravier calcaire tendre", "Prescrire obligatoirement le concassé de basalte des carrières de Diack pour toute la structure porteuse."]
+  ];
+
+  doc.autoTable({
+    startY: currentY + 3,
+    head: [['Composant Structurel', 'Piège / Formule Trompeuse Constatée', 'Exigence Rectificative ChantierSur']],
+    body: piegesRows,
+    theme: 'grid',
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+    styles: { fontSize: 7.2, cellPadding: 2.2 },
+    columnStyles: { 0: { cellWidth: 45, fontStyle: 'bold' } },
+    margin: { left: 14, right: 14 }
+  });
+
+  currentY = doc.lastAutoTable.finalY + 8;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("IV. LES 7 OMISSIONS STRATÉGIQUES DES ENTREPRENEURS À DAKAR", 14, currentY);
+
+  const omissionsRows = [
+    ["1. L'Arase Étanche de Soubassement", "Oubliée dans 65% des devis", "Absence de feutre bitumé sous longrines = remontées capillaires sur 1,50 m de mur."],
+    ["2. La Cure du Béton pendant 7 jours", "Considérée à tort comme accessoire", "Béton non arrosé sous le soleil de Dakar = microfissuration et perte de 30% de résistance."],
+    ["3. L'Évacuation des Déblais et Gravois", "Reportée en supplément de fin de chantier", "Imposer contractuellement le nettoyage continu et l'évacuation en décharge autorisée."],
+    ["4. Les Essais d'Écrasement d'Éprouvettes", "Absents des devis tâcherons", "Recommandé pour R+2 et plus pour certifier la résistance fc28 >= 25 MPa du béton."],
+    ["5. Le Cuvelage des Fosses et Bâches", "Chiffré en maçonnerie simple poreuse", "Les bâches Sen'Eau et fosses doivent être en béton armé étanche avec adjuvant hydrofuge."],
+    ["6. Les Étaiements & Délais de Décoffrage", "Non formalisés au devis", "Risque d'affaissement si décoffrage sous 7 à 10 jours pour réutiliser les étais ailleurs."],
+    ["7. La Prise de Terre en Fond de Fouille", "Omise au profit d'un simple piquet", "Exiger le câble cuivre nu 25 mm² ceinturé sous semelle pour conformité NF C 15-100."]
+  ];
+
+  doc.autoTable({
+    startY: currentY + 3,
+    head: [['Poste Couramment Omis', 'Impact / Risque Financier Réel', 'Correction Obligatoire à Porter au Devis']],
+    body: omissionsRows,
+    theme: 'striped',
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+    styles: { fontSize: 7.2, cellPadding: 2.2 },
+    columnStyles: { 0: { cellWidth: 50, fontStyle: 'bold' } },
+    margin: { left: 14, right: 14 }
+  });
+
+  // =========================================================================
+  // PAGE 3 : ÉCHELONNEMENT DES PAIEMENTS & GRILLE DE NÉGOCIATION
+  // =========================================================================
+  doc.addPage();
+  drawAuditHeader("Rapport de Contre-Expertise & Audit Devis", "Partie III : Échéancier de Paiement Sécurisé & Grille de Négociation Chiffrée");
+
+  currentY = 54;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("V. CALENDRIER DE DÉCAISSEMENT RECOMMANDÉ (INDEXÉ SUR POINTS D'ARRÊT)", 14, currentY);
+
+  const tranche1 = Math.round(quotedAmount * 0.15); // Avance démarrage
+  const tranche2 = Math.round(quotedAmount * 0.25); // Fondations achevées
+  const tranche3 = Math.round(quotedAmount * 0.25); // Plancher RDC / R+1
+  const tranche4 = Math.round(quotedAmount * 0.20); // Toiture et élévations
+  const tranche5 = Math.round(quotedAmount * 0.10); // Réception provisoire
+  const retenue = Math.round(quotedAmount * 0.05);  // Retenue de garantie 5%
+
+  const echeancierRows = [
+    ["Tranche 1 : Démarrage & Approvisionnement", "15 %", formatFCFA(tranche1), "Installation chantier, premières commandes aciers FeE500 et fouilles"],
+    ["Tranche 2 : Réception des Fondations", "25 %", formatFCFA(tranche2), "Coulage des semelles, longrines et dallage RDC validés sur PV"],
+    ["Tranche 3 : Superstructure & Dalles Mi-Parcours", "25 %", formatFCFA(tranche3), "Poteaux, poutres et dalles d'étages achevés sans désaffleurement"],
+    ["Tranche 4 : Toiture Terrasse & Maçonneries", "20 %", formatFCFA(tranche4), "Étanchéité toiture éprouvée 48h en eau + agglos entièrement montés"],
+    ["Tranche 5 : Réception Provisoire des Travaux", "10 %", formatFCFA(tranche5), "Remise des clés et signature du Procès-Verbal de Réception Provisoire"],
+    ["Garantie Légale COCC (Bloquée 1 an)", "5 %", formatFCFA(retenue), "Libérée UNIQUEMENT à la réception définitive après levée des réserves"]
+  ];
+
+  doc.autoTable({
+    startY: currentY + 3,
+    head: [['Étape Contractuelle de Décaissement', 'Quote-Part', 'Montant Associé', 'Condition Impérative de Déblocage des Fonds']],
+    body: echeancierRows,
+    theme: 'grid',
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+    styles: { fontSize: 7.2, cellPadding: 2.2 },
+    columnStyles: { 
+      0: { cellWidth: 55, fontStyle: 'bold' },
+      2: { halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY }
+    },
+    margin: { left: 14, right: 14 }
+  });
+
+  currentY = doc.lastAutoTable.finalY + 8;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("VI. GRILLE D'ARGUMENTS DE NÉGOCIATION FACE À L'ENTREPRENEUR", 14, currentY);
+
+  const negoRows = [
+    ["Sur l'Acompte Initial Élevé", "Refuser toute avance > 20%", "Argument : 'Les matériaux seront livrés par tranches sur le site et payés directement aux fournisseurs certifiés.'"],
+    ["Sur la Fluctuation des Prix", "Imposer le prix forfaitaire et ferme", "Argument : 'Le contrat est signé sur une base globale forfaitaire non révisable. Le stockage initial sécurise le prix.'"],
+    ["Sur les Travaux Supplémentaires", "Avenant écrit obligatoire", "Argument : 'Aucun supplément de prix ne sera recevable s'il n'a pas fait l'objet d'un ordre écrit signé du maître d'ouvrage.'"],
+    ["Sur les Délais de Livraison", "Acter 25 000 FCFA/jour de retard", "Argument : 'Le respect du calendrier engage des coûts de loyer pour le maître d'ouvrage, les pénalités sont de droit.'"]
+  ];
+
+  doc.autoTable({
+    startY: currentY + 3,
+    head: [['Sujet de Friction Fréquent', 'Position Ferme à Tenir', 'Formulation d\'Ingénierie à Imposer']],
+    body: negoRows,
+    theme: 'striped',
+    headStyles: { fillColor: COLOR_NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 7.5 },
+    styles: { fontSize: 7.2, cellPadding: 2.2 },
+    columnStyles: { 0: { cellWidth: 45, fontStyle: 'bold' } },
+    margin: { left: 14, right: 14 }
+  });
+
+  // =========================================================================
+  // PAGE 4 : LES 5 CLAUSES DU COCC & VISA DE L'EXPERT
+  // =========================================================================
+  doc.addPage();
+  drawAuditHeader("Rapport de Contre-Expertise & Audit Devis", "Partie IV : Clauses Contractuelles Impératives (COCC) & Visa de Clôture");
+
+  currentY = 54;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("VII. LES 5 CLAUSES JURIDIQUES DE SAUVEGARDE DU CODE DES OBLIGATIONS (COCC)", 14, currentY);
+
+  const clausesCOCC = [
+    {
+      titre: "1. Clause de Retenue de Garantie Légale de 5% (Article 768 du COCC)",
+      texte: "Une retenue de 5% est systématiquement déduite de chaque acompte payé à l'entrepreneur. Cette somme est consignée et ne sera débloquée qu'à l'issue du délai de garantie d'un an suivant le Procès-Verbal de Réception Définitive, après levée complète de toutes les réserves éventuelles."
+    },
+    {
+      titre: "2. Clause de Forfaitisation Ferme et Non Révisable (Article 767 du COCC)",
+      texte: "Le montant convenu au présent marché est réputé forfaitaire, ferme et définitif pour l'intégralité des prestations décrites. Aucune majoration pour augmentation du coût de la main d'œuvre, du carburant ou des matériaux (fer, ciment) ne pourra être opposée au maître d'ouvrage."
+    },
+    {
+      titre: "3. Clause de Conditionnement des Décaissements aux Points d'Arrêt",
+      texte: "Aucun paiement ne peut être exigé sur simple constat de temps écoulé. Chaque acompte est formellement subordonné à la présentation du Procès-Verbal de Point d'Arrêt signé par le technicien mandataire du maître d'ouvrage (armatures semelles, hourdis, décoffrage)."
+    },
+    {
+      titre: "4. Clause de Pénalités de Retard Journalières",
+      texte: "En cas de retard dans l'exécution des travaux par rapport au délai convenu, et hors cas de force majeure prouvée par voie d'huissier, l'entrepreneur sera redevable d'office d'une pénalité de 25 000 FCFA par jour de retard, directement compensable sur le solde de fin de chantier."
+    },
+    {
+      titre: "5. Clause de Résolution de Plein Droit en Cas d'Abandon de Chantier",
+      texte: "Tout arrêt injustifié des travaux supérieur à 14 jours calendaires consécutifs entraînera la résiliation immédiate du contrat aux torts exclusifs de l'entrepreneur après mise en demeure par exploit d'huissier restée sans effet sous 8 jours, sans préjudice de poursuites en dommages et intérêts."
+    }
+  ];
+
+  let clauseTop = currentY + 4;
+  clausesCOCC.forEach((c) => {
+    doc.setFillColor(...COLOR_BG_LIGHT);
+    doc.rect(14, clauseTop, 182, 23, 'F');
+    doc.setDrawColor(203, 213, 225);
+    doc.rect(14, clauseTop, 182, 23, 'D');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.8);
+    doc.setTextColor(...COLOR_NAVY);
+    doc.text(c.titre, 18, clauseTop + 5.5);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.1);
+    doc.setTextColor(51, 65, 85);
+    const splitC = doc.splitTextToSize(c.texte, 174);
+    doc.text(splitC, 18, clauseTop + 11);
+
+    clauseTop += 25.5;
+  });
+
+  currentY = clauseTop + 3;
+
+  // Bloc de validation technique officiel
+  doc.setFillColor(...COLOR_BG_LIGHT);
+  doc.rect(14, currentY, 182, 21, 'F');
+  doc.setDrawColor(203, 213, 225);
+  doc.rect(14, currentY, 182, 21, 'D');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(...COLOR_NAVY);
+  doc.text("VISA TECHNIQUE & JURIDIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", 18, currentY + 5.5);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.8);
+  doc.setTextColor(...COLOR_SLATE);
+  doc.text("Rapport d'expertise et d'arbitrage financier de devis établi en conformité avec les règles de l'art du bâtiment et le Code des Obligations Civiles et Commerciales.", 18, currentY + 11);
+  doc.text(`Dossier certifié nominatif n° ${refDoc} • Émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}.`, 18, currentY + 16);
+}
+
+
   function renderOtherServices(doc, data, service, refDoc, currentDate) {
     const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
     const surface = parseFloat(data.surface) || 200;
