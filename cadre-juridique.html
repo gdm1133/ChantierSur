@@ -11,15 +11,20 @@
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
-    <main class="max-w-3xl w-full bg-slate-900/60 p-8 md:p-12 rounded-2xl border border-slate-800 shadow-2xl space-y-8 mb-12 mx-4">
+    <main class="max-w-3xl w-full bg-slate-900/60 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden mb-12 mx-4">
         
-        <header class="space-y-3 border-b border-slate-800 pb-6">
-            <a href="/" class="text-xs font-bold tracking-widest text-[#F59E0B] uppercase hover:underline inline-block mb-2">&larr; Retour à l'accueil</a>
-            <h1 class="text-3xl md:text-4xl font-black text-white">Cadre Juridique & Contrat COCC</h1>
-            <p class="text-sm text-slate-400">Analyse légale, régime du louage d'ouvrage et délimitation des compétences ordinales.</p>
-        </header>
+        <div class="h-64 w-full relative">
+            <img src="assets/img/img_juridique.jpg" alt="Cadre Juridique & Contrat COCC" class="w-full h-full object-cover opacity-80" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+            <a href="/" class="absolute top-6 left-6 text-xs font-bold tracking-widest text-[#F59E0B] uppercase bg-slate-900/80 px-4 py-2 rounded-lg border border-amber-500/30 hover:bg-amber-500 hover:text-slate-900 transition-all">&larr; Retour à l'accueil</a>
+            <div class="absolute bottom-6 left-8 right-8">
+                <h1 class="text-3xl md:text-4xl font-black text-white">Cadre Juridique & Contrat COCC</h1>
+                <p class="text-sm text-slate-300 mt-2">Analyse légale, régime du louage d'ouvrage et délimitation des compétences ordinales.</p>
+            </div>
+        </div>
 
-        <section class="space-y-4">
+        <div class="p-8 md:p-12 space-y-8">
+                    <section class="space-y-4">
             <h2 class="text-xl font-bold text-[#F59E0B] border-l-4 border-[#F59E0B] pl-3">Régime du Contrat de Tâcheronnerie (COCC)</h2>
             <div class="space-y-4 text-sm text-slate-300 leading-relaxed bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
                 <p>Analyse des <span class="font-semibold text-white">articles 729 et suivants du Code des Obligations Civiles et Commerciales</span> (Loi n° 66-104) encadrant le louage d'ouvrage et d'industrie.</p>
@@ -36,7 +41,7 @@
                 <p>Rôle de contrôle et de <span class="font-semibold text-white">médiation préventive</span> avant tout contentieux devant le Tribunal de Grande Instance de Dakar.</p>
             </div>
         </section>
-
+        </div>
     </main>
 
     <div class="w-full">
@@ -166,6 +171,8 @@
 
   </div>
 </div>
+
+
 
 
     </div>
