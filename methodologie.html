@@ -1,143 +1,67 @@
 ﻿<!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Méthodologie & Normes BAEL - ChantierSur.com</title>
+    <title>Méthodologie & Normes BAEL - ChantierSur Technologies SARL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0B1325; color: #F8FAFC; font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
-    <!-- TOPBAR RÉGLEMENTAIRE -->
-  <div class="bg-slate-950 border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
-    <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
-          Conformité BAEL 91 R99
-        </span>
-        <span class="hidden sm:inline">•</span>
-        <span class="whitespace-nowrap">Droit COCC Sénégal</span>
-        <span class="hidden sm:inline">•</span>
-        <span class="whitespace-nowrap">Données Protégées CDP</span>
-      </div>
-      <div class="flex items-center space-x-4">
-        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
-        <div class="flex items-center space-x-2">
-          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
-          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-slate-900 border border-slate-700 text-[#F59E0B] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
-            <option value="XOF" selected>FCFA (XOF)</option>
-            <option value="EUR">Euro (€)</option>
-            <option value="USD">Dollar US ($)</option>
-            <option value="CAD">Dollar Canadien ($ CAD)</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
+<body class="min-h-screen pt-12 flex flex-col items-center w-full">
+    <main class="max-w-3xl w-full bg-slate-900/60 p-8 md:p-12 rounded-2xl border border-slate-800 shadow-2xl space-y-8 mb-12 mx-4">
+        
+        <header class="space-y-3 border-b border-slate-800 pb-6">
+            <a href="/" class="text-xs font-bold tracking-widest text-[#F59E0B] uppercase hover:underline inline-block mb-2">&larr; Retour à l'accueil</a>
+            <h1 class="text-3xl md:text-4xl font-black text-white">Méthodologie & Normes BAEL</h1>
+            <p class="text-sm text-slate-400">Référentiels de dimensionnement et d'encadrement technique appliqués par notre système expert.</p>
+        </header>
 
-  <!-- Header / Navbar -->
-      <!-- NAVIGATION HEADER -->
-  <header class="sticky top-0 z-40 bg-[#0B1325]/95 backdrop-blur-md border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      
-      <!-- LOGO SANS SOUS-TITRE -->
-      <a href="index.html" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center p-2 border border-slate-700/80 shadow-md group-hover:border-[#F59E0B] transition-colors">
-          <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-[#F59E0B]" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M9 12l2 2 4-4"/>
-          </svg>
-        </div>
-        <span class="text-2xl font-black tracking-tight text-white leading-none">
-          Chantier<span class="text-[#F59E0B]">Sur.com</span>
-        </span>
-      </a>
-
-      <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
-      <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
-        <a href="index.html#services-section" class="text-slate-200 hover:text-[#F59E0B] transition-colors">Simulateur & Services</a>
-        <a href="methodologie.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Méthodologie BAEL 91</a>
-        <a href="cadre-juridique.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Cadre Juridique</a>
-        <a href="a-propos.html" class="text-slate-300 hover:text-[#F59E0B] transition-colors">Qui Sommes-Nous</a>
-      </nav>
-
-      <!-- MENU BURGER MOBILE -->
-      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-800 focus:outline-none" aria-label="Menu Mobile">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- TIROIR DÉROULANT MOBILE -->
-    <div id="mobile-drawer" class="hidden md:hidden bg-slate-950 border-b border-slate-800 px-6 py-5 space-y-4">
-      <a href="index.html#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#F59E0B] font-semibold py-1">Simulateur & Services</a>
-      <a href="methodologie.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Méthodologie BAEL 91</a>
-      <a href="cadre-juridique.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Cadre Juridique</a>
-      <a href="a-propos.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Qui Sommes-Nous</a>
-    </div>
-  </header>
-      </div>
-    </div>
-
-    <main class="max-w-4xl mx-auto px-4 py-12">
-        <h1 class="text-3xl font-black text-amber-500 mb-8">Méthodologie & Normes BAEL</h1>
-
-        <section class="mb-10 bg-slate-800 p-6 rounded-xl border border-slate-700">
-            <h2 class="text-2xl font-bold text-white mb-3">Le Référentiel de Calcul Structurel</h2>
-            <p class="text-slate-300 mb-3">Le dimensionnement aux états limites (ELU / ELS) selon le <strong>BAEL 91 R99</strong> garantit la stabilité de l'ouvrage sous toutes les sollicitations.</p>
-            <p class="text-slate-300 mb-3">Le dosage en ciment pour les bétons armés porteurs est fixé à <strong>350 kg/m³</strong> de <strong>CEM II 42.5R</strong> (résistance mécanique à 28 jours ≥ 42,5 MPa).</p>
-            <p class="text-slate-300">Nous imposons l'utilisation d'armatures à Haute Adhérence <strong>FeE500</strong>. L'utilisation de fers lisses de récupération est absolument proscrite pour les structures porteuses.</p>
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-[#F59E0B] border-l-4 border-[#F59E0B] pl-3">Référentiel de Calcul Structurel</h2>
+            <div class="space-y-3 text-sm text-slate-300 leading-relaxed bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
+                <p>La sécurité et la pérennité de l'ouvrage sont garanties par un dimensionnement strict aux États Limites Ultimes et de Service (ELU / ELS) selon le corpus de règles <span class="font-semibold text-white">BAEL 91 (révisé 99)</span>.</p>
+                <ul class="list-disc list-inside space-y-1.5 ml-2">
+                    <li>Dosage en ciment pour les bétons armés porteurs imposé à <span class="font-semibold text-white">350 kg/m³</span> (Ciment CEM II 42.5R).</li>
+                    <li>Utilisation exclusive d'armatures à Haute Adhérence <span class="font-semibold text-white">FeE500</span> pour les éléments de structure.</li>
+                    <li>L'utilisation de fers lisses (ronds lisses) est formellement exclue de nos modèles de ferraillage porteur.</li>
+                </ul>
+            </div>
         </section>
 
-        <section class="mb-10">
-            <h2 class="text-2xl font-bold text-amber-500 mb-4">Les Contraintes Géotechniques du Sénégal</h2>
-            <div class="space-y-4">
-                <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                    <h3 class="font-bold text-white mb-1">Zone Littorale et Presqu'île de Cap-Vert</h3>
-                    <p class="text-sm text-slate-400">Exposition sévère aux embruns salins et aux chlorures marins. Enrobage obligatoire des aciers porté à 4,5 cm (au lieu des 3 cm standard) et cales préfabriquées étanches.</p>
-                </div>
-                <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                    <h3 class="font-bold text-white mb-1">Sols Latéritiques et Calcaires (Thiès, Mbour)</h3>
-                    <p class="text-sm text-slate-400">Ratios de portance et dimensionnement des semelles superficielles avec longrines de liaison rigides pour neutraliser les tassements différentiels.</p>
-                </div>
-                <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
-                    <h3 class="font-bold text-white mb-1">Sols Compressibles & Gonflants (Rufisque, Keur Massar)</h3>
-                    <p class="text-sm text-slate-400">Dispositions parasismiques et chaînages continus obligatoires.</p>
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-[#F59E0B] border-l-4 border-[#F59E0B] pl-3">Paramétrage Géotechnique (Sénégal)</h2>
+            <div class="space-y-4 text-sm text-slate-300 leading-relaxed bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
+                <p>Nos algorithmes de chiffrage adaptent systématiquement les quantités selon le zonage géographique renseigné :</p>
+                <div class="space-y-2">
+                    <p><span class="font-semibold text-white">Zone Littorale (ex: Presqu'île du Cap-Vert) :</span> Application d'un enrobage majoré des aciers (4,5 cm) et préconisation de cales étanches contre les chlorures marins.</p>
+                    <p><span class="font-semibold text-white">Sols Latéritiques & Calcaires (ex: Thiès, Mbour) :</span> Ratios de portance ajustés pour des semelles superficielles armées et longrines de liaison rigides.</p>
+                    <p><span class="font-semibold text-white">Sols Compressibles & Gonflants (ex: Rufisque, Diamniadio) :</span> Intégration systématique de dispositions parasismiques (chaînages continus obligatoires).</p>
                 </div>
             </div>
         </section>
 
-        <section class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-            <h2 class="text-2xl font-bold text-white mb-4">Le Protocole des 6 Points d'Arrêt Incompressibles</h2>
-            <p class="text-slate-300 mb-4 text-sm">Le maître d'ouvrage doit bloquer tout coulage sans visa sur les étapes suivantes :</p>
-            <ol class="list-decimal list-inside space-y-2 text-slate-400 font-medium">
-                <li>Fond de fouille et sol d'assise</li>
-                <li>Armatures des semelles et calage d'enrobage</li>
-                <li>Ferraillage des poteaux et longueurs de recouvrement (50 × Ø)</li>
-                <li>Étaiement et treillis soudé du plancher hourdis</li>
-                <li>Vibration mécanique et consistance du béton</li>
-                <li>Décoffrage à 21 jours fermes et cure humide continue</li>
-            </ol>
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-[#F59E0B] border-l-4 border-[#F59E0B] pl-3">Protocole de Contrôle (Les 6 Points d'Arrêt)</h2>
+            <div class="space-y-3 text-sm text-slate-300 leading-relaxed bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
+                <p>Pour garantir que l'exécution sur le chantier correspond aux préconisations de nos rapports, nous recommandons le blocage du coulage sans visa préalable sur 6 étapes incompressibles :</p>
+                <ol class="list-decimal list-inside space-y-1.5 ml-2 font-medium text-slate-400">
+                    <li>Réception du fond de fouille et vérification du sol d'assise.</li>
+                    <li>Conformité des armatures de semelles et calage de l'enrobage.</li>
+                    <li>Ferraillage des poteaux (longueurs de recouvrement : 50 × Ø).</li>
+                    <li>Étaiement et positionnement du treillis soudé des planchers.</li>
+                    <li>Vibration mécanique et contrôle de consistance du béton.</li>
+                    <li>Respect du délai de décoffrage (21 jours) et de la cure humide.</li>
+                </ol>
+            </div>
         </section>
+
     </main>
 
-    <!-- Footer Institutionnel -->
+    <div class="w-full">
+<!-- Footer Institutionnel -->
     <footer class="bg-[#0B1325] border-t border-slate-800 pt-12 pb-8 mt-12 text-slate-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
@@ -263,5 +187,8 @@
 
   </div>
 </div>
+
+
+    </div>
 </body>
 </html>
