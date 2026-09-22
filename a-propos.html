@@ -25,7 +25,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --text-on-light-main: #0B1325;
+            --text-on-light-body: #1E293B;
+            --text-on-light-muted: #334155;
+            --text-on-light-accent: #B45309;
+            --text-on-dark-main: #FFFFFF;
+            --text-on-dark-body: #F1F5F9;
+            --text-on-dark-muted: #CBD5E1;
+            --text-on-dark-accent: #F59E0B;
+        }
         body { background-color: #F8FAFC; color: #0F172A; font-family: 'Inter', sans-serif; }
+        input::placeholder, select::placeholder, textarea::placeholder {
+            color: #475569 !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
@@ -37,14 +51,14 @@
             <a href="/" class="absolute top-6 left-6 text-xs font-bold tracking-widest text-[#F59E0B] uppercase bg-slate-900/80 px-4 py-2 rounded-lg border border-amber-500/30 hover:bg-amber-500 hover:text-slate-900 transition-all">&larr; Retour à l'accueil</a>
             <div class="absolute bottom-6 left-8 right-8">
                 <h1 class="text-3xl md:text-4xl font-black text-white">Qui Sommes-Nous</h1>
-                <p class="text-sm text-slate-700 mt-2">Premier bureau d'études technique automatisé du Sénégal.</p>
+                <p class="text-sm text-slate-200 font-medium mt-2">Premier bureau d'études technique automatisé du Sénégal.</p>
             </div>
         </div>
 
         <div class="p-8 md:p-12 space-y-8">
                     <section class="text-center mb-8">
             <h2 class="text-2xl font-black text-[#0B1325] mb-3">L'Ingénierie Indépendante au Service des Bâtisseurs</h2>
-            <p class="text-base text-slate-600 leading-relaxed">ChantierSur.com est le premier bureau d'études technique automatisé dédié à la sécurisation des investissements immobiliers au Sénégal.</p>
+            <p class="text-base text-slate-700 leading-relaxed">ChantierSur.com est le premier bureau d'études technique automatisé dédié à la sécurisation des investissements immobiliers au Sénégal.</p>
         </section>
 
         <section class="space-y-4">
@@ -65,28 +79,28 @@
             <h2 class="text-xl font-bold text-[#0B1325] mb-4">Nos 4 Piliers Inviolables</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                    <h3 class="font-bold text-[#F59E0B] mb-2">1. Indépendance Absolue</h3>
-                    <p class="text-sm text-slate-600">Nous ne commercialisons aucun matériau et ne percevons aucun pourcentage des tâcherons ou promoteurs. Notre seul engagement est envers le maître d'ouvrage.</p>
+                    <h3 class="font-bold text-[#0B1325] mb-2">1. Indépendance Absolue</h3>
+                    <p class="text-sm text-slate-700">Nous ne commercialisons aucun matériau et ne percevons aucun pourcentage des tâcherons ou promoteurs. Notre seul engagement est envers le maître d'ouvrage.</p>
                 </div>
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                    <h3 class="font-bold text-[#F59E0B] mb-2">2. Rigueur Normative</h3>
-                    <p class="text-sm text-slate-600">Tous nos métrés dérivent strictement des équations de descente de charges aux états limites ultimes (BAEL 91 R99).</p>
+                    <h3 class="font-bold text-[#0B1325] mb-2">2. Rigueur Normative</h3>
+                    <p class="text-sm text-slate-700">Tous nos métrés dérivent strictement des équations de descente de charges aux états limites ultimes (BAEL 91 R99).</p>
                 </div>
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                    <h3 class="font-bold text-[#F59E0B] mb-2">3. Souveraineté Juridique</h3>
-                    <p class="text-sm text-slate-600">Nos outils sont enracinés dans le Code des Obligations Civiles et Commerciales (COCC) du Sénégal.</p>
+                    <h3 class="font-bold text-[#0B1325] mb-2">3. Souveraineté Juridique</h3>
+                    <p class="text-sm text-slate-700">Nos outils sont enracinés dans le Code des Obligations Civiles et Commerciales (COCC) du Sénégal.</p>
                 </div>
                 <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                    <h3 class="font-bold text-[#F59E0B] mb-2">4. Protection Diaspora</h3>
-                    <p class="text-sm text-slate-600">Transformer la distance en force grâce à des protocoles de contrôle visuel simples, opposables aux artisans.</p>
+                    <h3 class="font-bold text-[#0B1325] mb-2">4. Protection Diaspora</h3>
+                    <p class="text-sm text-slate-700">Transformer la distance en force grâce à des protocoles de contrôle visuel simples, opposables aux artisans.</p>
                 </div>
             </div>
         </section>
 
         <section class="mt-8 bg-amber-50 border border-amber-200 p-6 rounded-xl text-center">
             <h2 class="text-lg font-bold text-[#0B1325] mb-2">Le Manifeste d'Indépendance</h2>
-            <p class="text-slate-600 text-sm mb-4">Nous jurons solennellement de protéger les intérêts de nos clients sans conflit d'intérêt.</p>
-            <div class="inline-block border-2 border-[#F59E0B] text-[#F59E0B] px-4 py-2 font-bold uppercase tracking-widest rounded rotate-[-2deg]">
+            <p class="text-slate-700 text-sm mb-4">Nous jurons solennellement de protéger les intérêts de nos clients sans conflit d'intérêt.</p>
+            <div class="inline-block border-2 border-[#B45309] text-[#B45309] px-4 py-2 font-bold uppercase tracking-widest rounded rotate-[-2deg]">
                 Visé & Approuvé
             </div>
         </section>

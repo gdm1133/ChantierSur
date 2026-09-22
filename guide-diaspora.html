@@ -25,7 +25,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --text-on-light-main: #0B1325;
+            --text-on-light-body: #1E293B;
+            --text-on-light-muted: #334155;
+            --text-on-light-accent: #B45309;
+            --text-on-dark-main: #FFFFFF;
+            --text-on-dark-body: #F1F5F9;
+            --text-on-dark-muted: #CBD5E1;
+            --text-on-dark-accent: #F59E0B;
+        }
         body { background-color: #F8FAFC; color: #0F172A; font-family: 'Inter', sans-serif; }
+        input::placeholder, select::placeholder, textarea::placeholder {
+            color: #475569 !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
@@ -37,7 +51,7 @@
             <a href="/" class="absolute top-6 left-6 text-xs font-bold tracking-widest text-[#F59E0B] uppercase bg-slate-900/80 px-4 py-2 rounded-lg border border-amber-500/30 hover:bg-amber-500 hover:text-slate-900 transition-all">&larr; Retour à l'accueil</a>
             <div class="absolute bottom-6 left-8 right-8">
                 <h1 class="text-3xl md:text-4xl font-black text-white">Guide Diaspora & WhatsApp</h1>
-                <p class="text-sm text-slate-700 mt-2">Gérez et auditez votre chantier à distance avec une rigueur d'ingénieur.</p>
+                <p class="text-sm text-slate-200 font-medium mt-2">Gérez et auditez votre chantier à distance avec une rigueur d'ingénieur.</p>
             </div>
         </div>
 
@@ -59,16 +73,16 @@
                 
                 <div class="mt-4 grid gap-4">
                     <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                        <h4 class="font-bold text-[#F59E0B]">Étape 1 : Le Contrat Clair</h4>
-                        <p class="mt-1 text-slate-600">Intégrez notre clause de "Points d'Arrêt" dans votre contrat de tâcheronnerie. Le chef de chantier s'engage à ne jamais couler de béton sans vous avoir envoyé la preuve visuelle du ferraillage au préalable.</p>
+                        <h4 class="font-bold text-[#0B1325]">Étape 1 : Le Contrat Clair</h4>
+                        <p class="mt-1 text-slate-700">Intégrez notre clause de "Points d'Arrêt" dans votre contrat de tâcheronnerie. Le chef de chantier s'engage à ne jamais couler de béton sans vous avoir envoyé la preuve visuelle du ferraillage au préalable.</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                        <h4 class="font-bold text-[#F59E0B]">Étape 2 : Le Rapport ChantierSur</h4>
-                        <p class="mt-1 text-slate-600">Achetez votre rapport d'ingénierie sur notre plateforme. Vous obtiendrez exactement les quantités de matériaux nécessaires et les plans de ferraillage théoriques.</p>
+                        <h4 class="font-bold text-[#0B1325]">Étape 2 : Le Rapport ChantierSur</h4>
+                        <p class="mt-1 text-slate-700">Achetez votre rapport d'ingénierie sur notre plateforme. Vous obtiendrez exactement les quantités de matériaux nécessaires et les plans de ferraillage théoriques.</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm hover:border-[#F59E0B] transition-colors">
-                        <h4 class="font-bold text-[#F59E0B]">Étape 3 : Validation WhatsApp</h4>
-                        <p class="mt-1 text-slate-600">Lorsqu'un point d'arrêt est atteint (ex: fondations prêtes), le chantier s'arrête. Le tâcheron vous envoie une courte vidéo et des photos grand-angle via WhatsApp. Vous comparez visuellement avec votre rapport ChantierSur. Si c'est conforme, vous donnez le "Go" pour le coulage.</p>
+                        <h4 class="font-bold text-[#0B1325]">Étape 3 : Validation WhatsApp</h4>
+                        <p class="mt-1 text-slate-700">Lorsqu'un point d'arrêt est atteint (ex: fondations prêtes), le chantier s'arrête. Le tâcheron vous envoie une courte vidéo et des photos grand-angle via WhatsApp. Vous comparez visuellement avec votre rapport ChantierSur. Si c'est conforme, vous donnez le "Go" pour le coulage.</p>
                     </div>
                 </div>
 

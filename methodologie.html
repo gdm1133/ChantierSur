@@ -25,7 +25,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --text-on-light-main: #0B1325;
+            --text-on-light-body: #1E293B;
+            --text-on-light-muted: #334155;
+            --text-on-light-accent: #B45309;
+            --text-on-dark-main: #FFFFFF;
+            --text-on-dark-body: #F1F5F9;
+            --text-on-dark-muted: #CBD5E1;
+            --text-on-dark-accent: #F59E0B;
+        }
         body { background-color: #F8FAFC; color: #0F172A; font-family: 'Inter', sans-serif; }
+        input::placeholder, select::placeholder, textarea::placeholder {
+            color: #475569 !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
@@ -37,7 +51,7 @@
             <a href="/" class="absolute top-6 left-6 text-xs font-bold tracking-widest text-[#F59E0B] uppercase bg-slate-900/80 px-4 py-2 rounded-lg border border-amber-500/30 hover:bg-amber-500 hover:text-slate-900 transition-all">&larr; Retour à l'accueil</a>
             <div class="absolute bottom-6 left-8 right-8">
                 <h1 class="text-3xl md:text-4xl font-black text-white">Méthodologie BAEL 91 R99</h1>
-                <p class="text-sm text-slate-700 mt-2">L'ingénierie structurelle au service de votre sérénité.</p>
+                <p class="text-sm text-slate-200 font-medium mt-2">L'ingénierie structurelle au service de votre sérénité.</p>
             </div>
         </div>
 
@@ -63,15 +77,15 @@
                 <div class="space-y-3 mt-4">
                     <div class="pl-4 border-l border-slate-300">
                         <h4 class="font-bold text-[#0B1325]">1. Zone Littorale (Presqu'île du Cap-Vert, Almadies, Ngor)</h4>
-                        <p class="text-slate-600 mt-1">L'agression par les chlorures marins provoque la corrosion accélérée du ferraillage. Nous imposons un <span class="text-[#0B1325] font-semibold">enrobage majoré à 4,5 cm</span> et des cales d'espacement étanches.</p>
+                        <p class="text-slate-700 mt-1">L'agression par les chlorures marins provoque la corrosion accélérée du ferraillage. Nous imposons un <span class="text-[#0B1325] font-semibold">enrobage majoré à 4,5 cm</span> et des cales d'espacement étanches.</p>
                     </div>
                     <div class="pl-4 border-l border-slate-300">
                         <h4 class="font-bold text-[#0B1325]">2. Sols Latéritiques & Calcaires (Thiès, Mbour)</h4>
-                        <p class="text-slate-600 mt-1">Nécessite des ratios de portance affinés. Intégration de semelles superficielles armées et de longrines de liaison extrêmement rigides pour parer aux tassements différentiels.</p>
+                        <p class="text-slate-700 mt-1">Nécessite des ratios de portance affinés. Intégration de semelles superficielles armées et de longrines de liaison extrêmement rigides pour parer aux tassements différentiels.</p>
                     </div>
                     <div class="pl-4 border-l border-slate-300">
                         <h4 class="font-bold text-[#0B1325]">3. Sols Compressibles & Gonflants (Rufisque, Diamniadio)</h4>
-                        <p class="text-slate-600 mt-1">Risques majeurs de fissuration structurelle. Nos devis intègrent automatiquement le coût des dispositions parasismiques et des chaînages continus pour rigidifier la structure.</p>
+                        <p class="text-slate-700 mt-1">Risques majeurs de fissuration structurelle. Nos devis intègrent automatiquement le coût des dispositions parasismiques et des chaînages continus pour rigidifier la structure.</p>
                     </div>
                 </div>
             </div>

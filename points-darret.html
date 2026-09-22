@@ -25,7 +25,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --text-on-light-main: #0B1325;
+            --text-on-light-body: #1E293B;
+            --text-on-light-muted: #334155;
+            --text-on-light-accent: #B45309;
+            --text-on-dark-main: #FFFFFF;
+            --text-on-dark-body: #F1F5F9;
+            --text-on-dark-muted: #CBD5E1;
+            --text-on-dark-accent: #F59E0B;
+        }
         body { background-color: #F8FAFC; color: #0F172A; font-family: 'Inter', sans-serif; }
+        input::placeholder, select::placeholder, textarea::placeholder {
+            color: #475569 !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
@@ -37,7 +51,7 @@
             <a href="/" class="absolute top-6 left-6 text-xs font-bold tracking-widest text-[#F59E0B] uppercase bg-slate-900/80 px-4 py-2 rounded-lg border border-amber-500/30 hover:bg-amber-500 hover:text-slate-900 transition-all">&larr; Retour à l'accueil</a>
             <div class="absolute bottom-6 left-8 right-8">
                 <h1 class="text-3xl md:text-4xl font-black text-white">Les 6 Points d'Arrêt</h1>
-                <p class="text-sm text-slate-700 mt-2">Le protocole de contrôle intraitable pour un chantier sans malfaçon.</p>
+                <p class="text-sm text-slate-200 font-medium mt-2">Le protocole de contrôle intraitable pour un chantier sans malfaçon.</p>
             </div>
         </div>
 
@@ -56,32 +70,32 @@
                 
                 <div>
                     <h3 class="font-bold text-[#0B1325] text-base">1. Réception du fond de fouille</h3>
-                    <p class="text-slate-600 mt-1">Validation de la profondeur des trous et de la nature du "bon sol". Un sol meuble non purgé entraînera l'affaissement de la villa entière.</p>
+                    <p class="text-slate-700 mt-1">Validation de la profondeur des trous et de la nature du "bon sol". Un sol meuble non purgé entraînera l'affaissement de la villa entière.</p>
                 </div>
                 
                 <div>
                     <h3 class="font-bold text-[#0B1325] text-base">2. Conformité des armatures de semelles et calage</h3>
-                    <p class="text-slate-600 mt-1">Le ferraillage des fondations ne doit jamais toucher la terre (risque de rouille immédiate). On vérifie la présence de béton de propreté et de cales à béton.</p>
+                    <p class="text-slate-700 mt-1">Le ferraillage des fondations ne doit jamais toucher la terre (risque de rouille immédiate). On vérifie la présence de béton de propreté et de cales à béton.</p>
                 </div>
 
                 <div>
                     <h3 class="font-bold text-[#0B1325] text-base">3. Ferraillage des poteaux & longueurs de recouvrement</h3>
-                    <p class="text-slate-600 mt-1">Le fer de l'étage inférieur doit s'imbriquer dans celui de l'étage supérieur sur une longueur minimale (généralement 50 fois le diamètre de la barre). Un recouvrement trop court = risque d'effondrement en "château de cartes".</p>
+                    <p class="text-slate-700 mt-1">Le fer de l'étage inférieur doit s'imbriquer dans celui de l'étage supérieur sur une longueur minimale (généralement 50 fois le diamètre de la barre). Un recouvrement trop court = risque d'effondrement en "château de cartes".</p>
                 </div>
 
                 <div>
                     <h3 class="font-bold text-[#0B1325] text-base">4. Étaiement et positionnement du treillis des planchers</h3>
-                    <p class="text-slate-600 mt-1">Avant de couler la dalle, on vérifie la solidité des étais (supports) et le bon levage du treillis soudé (il ne doit pas être collé aux hourdis).</p>
+                    <p class="text-slate-700 mt-1">Avant de couler la dalle, on vérifie la solidité des étais (supports) et le bon levage du treillis soudé (il ne doit pas être collé aux hourdis).</p>
                 </div>
 
                 <div>
                     <h3 class="font-bold text-[#0B1325] text-base">5. Vibration mécanique et consistance du béton</h3>
-                    <p class="text-slate-600 mt-1">Pendant le coulage, interdiction d'ajouter trop d'eau "pour faciliter le travail". Le béton doit être vibré mécaniquement (aiguille vibrante) pour chasser l'air et éviter les "nids de gravier".</p>
+                    <p class="text-slate-700 mt-1">Pendant le coulage, interdiction d'ajouter trop d'eau "pour faciliter le travail". Le béton doit être vibré mécaniquement (aiguille vibrante) pour chasser l'air et éviter les "nids de gravier".</p>
                 </div>
 
                 <div>
                     <h3 class="font-bold text-[#0B1325] text-base">6. Respect du décoffrage et de la cure humide</h3>
-                    <p class="text-slate-600 mt-1">Les étais d'une dalle ne s'enlèvent pas avant <strong>21 jours fermes</strong>. De plus, la dalle fraîche doit être inondée d'eau quotidiennement pendant les premiers jours (la cure) pour éviter les fissures de retrait thermique.</p>
+                    <p class="text-slate-700 mt-1">Les étais d'une dalle ne s'enlèvent pas avant <strong>21 jours fermes</strong>. De plus, la dalle fraîche doit être inondée d'eau quotidiennement pendant les premiers jours (la cure) pour éviter les fissures de retrait thermique.</p>
                 </div>
 
             </div>
