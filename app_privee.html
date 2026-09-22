@@ -905,7 +905,7 @@
       </div> 
     </div> 
     
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6"> 
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"> 
       <div> 
         <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Revêtement des Sols</label> 
         <select name="tile_type" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
@@ -931,6 +931,10 @@
           <option value="economique">Économique / Locatif standard</option> 
           <option value="haut">Haut Standing / Prestations de luxe</option> 
         </select> 
+      </div> 
+      <div> 
+        <label class="block text-xs font-bold text-slate-300 uppercase mb-2">Délai Levée Réserves (Jours)</label> 
+        <input type="number" name="delai_reserves" value="15" min="7" max="90" placeholder="15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-[#F59E0B] outline-none"> 
       </div> 
     </div> 
     
@@ -1162,7 +1166,7 @@
                 });
               });
 
-              // Fermer lors d'un clic Ã  l'extÃ©rieur
+              // Fermer lors d'un clic à l'extérieur
               document.addEventListener('click', (e) => {
                 if (!menuDrawer.contains(e.target) && !menuToggle.contains(e.target) && !menuDrawer.classList.contains('hidden')) {
                   menuDrawer.classList.add('hidden');
@@ -1243,8 +1247,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
-  <!-- 2. Script Métier ChantierSur -->
-  <script src="pdf-generator.js?v=2.5"></script>
+  <!-- 2. Polices vectorielles Unicode Noto Sans -->
+  <script src="noto-sans-vfs.js"></script>
+
+  <!-- 3. Script Métier ChantierSur -->
+  <script src="pdf-generator.js?v=3.1"></script>
   <script>
     window.handleParcelConfigChange = function(val) {
       const f2Container = document.getElementById('facade-2-container');
@@ -1427,9 +1434,9 @@
 
         if (usageCheck === 'unifamilial' && (sdpEstimeeCheck > 500 || nivCheck > 2)) {
           incoherences.push(
-            'âš ï¸ INCOHÃ‰RENCE : La destination "RÃ©sidentiel Unifamilial" est incompatible avec un bÃ¢timent de R+' + nivCheck +
-            ' (â‰ˆ' + sdpEstimeeCheck + ' mÂ² de SDP).\n' +
-            'VÃ©rifiez la destination rÃ©elle (habitat collectif, mixte, bureaux ?).'
+            'âš ï¸ INCOHÉRENCE : La destination "Résidentiel Unifamilial" est incompatible avec un bâtiment de R+' + nivCheck +
+            ' (â‰ˆ' + sdpEstimeeCheck + ' m² de SDP).\n' +
+            'Vérifiez la destination réelle (habitat collectif, mixte, bureaux ?).'
           );
         }
 
@@ -1437,17 +1444,17 @@
           const depM = (hauteurFaitageCheck - hMaxCheck).toFixed(1);
           const depPct = Math.round(((hauteurFaitageCheck - hMaxCheck) / hMaxCheck) * 100);
           incoherences.push(
-            'âš ï¸ GABARIT : Hauteur projet â‰ˆ' + hauteurFaitageCheck.toFixed(1) + ' m > max lÃ©gal ' + hMaxCheck.toFixed(1) +
-            ' m (dÃ©passement : ' + depM + ' m / ' + depPct + '%).\nLe permis de construire sera refusable en lâ€™Ã©tat.'
+            'âš ï¸ GABARIT : Hauteur projet â‰ˆ' + hauteurFaitageCheck.toFixed(1) + ' m > max légal ' + hMaxCheck.toFixed(1) +
+            ' m (dépassement : ' + depM + ' m / ' + depPct + '%).\nLe permis de construire sera refusable en l’état.'
           );
         }
 
         if (incoherences.length > 0) {
           const continuer = confirm(
-            'CONTRÃ”LE DE COHÃ‰RENCE â€” ' + incoherences.length + ' alerte(s) :\n\n' +
+            'CONTRÔLE DE COHÉRENCE — ' + incoherences.length + ' alerte(s) :\n\n' +
             incoherences.join('\n\n---\n\n') +
-            '\n\nâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”\n' +
-            'OK = continuer (les alertes seront dans le PDF)\nAnnuler = corriger les donnÃ©es'
+            '\n\n———————————————\n' +
+            'OK = continuer (les alertes seront dans le PDF)\nAnnuler = corriger les données'
           );
           if (!continuer) return;
         }
@@ -1483,6 +1490,7 @@
         lot_number: (fd.get('lot_number') || '').trim() || 'Non spécifié',
         // Spécifiques Finitions
         water_rooms: parseInt(fd.get('water_rooms'), 10) || 4,
+        delai_reserves: parseInt(fd.get('delai_reserves'), 10) || 15,
         tile_type: fd.get('tile_type') || 'gres_cerame_60',
         joinery_type: fd.get('joinery_type') || 'alu_vitre',
         terrace_usage: fd.get('terrace_usage') || 'accessible_carrelee',
