@@ -131,7 +131,6 @@
       };
 
       const jsPDFClass = window.jspdf.jsPDF;
-      const MANDATORY_TEST_STRING = "Éléments vérifiés : façade, coût, brûlé, naïf, Noël, où, ça, fenêtre — 100 % conforme (cœur, sœur, forêt).";
 
       // Pour chaque service, intercepter et analyser
       for (const [key, payload] of Object.entries(payloads)) {
@@ -198,7 +197,7 @@
             doc.setFont(fontName, 'normal');
             doc.setFontSize(6.4);
             doc.setTextColor(100, 116, 139);
-            doc.text(`ChantierSur.com • Bureau d'Études Numérique • ${MANDATORY_TEST_STRING}`, 20, pageHeight - 11);
+            doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", 20, pageHeight - 11);
             if (key === 'finitions') {
               doc.text("Document généré automatiquement à titre indicatif • Normes DTU Second Œuvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", 20, pageHeight - 7);
             } else {
@@ -229,11 +228,24 @@
             record(key.toUpperCase(), "Exclusion stricte du BAEL 91 en Second Œuvre", !hasBaelInFinitions, `Mention BAEL: ${hasBaelInFinitions}`);
           }
 
-          // PARTIE 1 : Test obligatoire d'encodage et détection de mojibake
-          const hasMandatoryString = fullJoinedText.includes(MANDATORY_TEST_STRING);
+          // Contrôle du retrait complet de la phrase de test UTF-8 (toutes variantes)
+          const testFragments = [
+            "Éléments vérifiés", "Elements verifies", "façade, coût", "brûlé", "brul",
+            "naïf, Noël", "Noel", "fenêtre — 100 % conforme", "100 % conforme",
+            "cœur, sœur, forêt", "coeur, soeur"
+          ];
+          let foundFragment = null;
+          for (const frag of testFragments) {
+            if (fullJoinedText.toLowerCase().includes(frag.toLowerCase())) {
+              foundFragment = frag;
+              break;
+            }
+          }
+          record(key.toUpperCase(), "Retrait complet de la phrase de test UTF-8 (toutes variantes)", !foundFragment, foundFragment ? `✗ ÉCHEC : fragment "${foundFragment}" détecté` : "✓ Aucun fragment de test résiduel (retrait 100 % propre)");
+          
+          // Contrôle de non-altération du pipeline UTF-8
           const hasMojibake = /[\u00C3][\u0080-\u00BF]|Ã|â€”|â€¢|Å“|Ã©|Ã¨|Ã |Ãª/.test(fullJoinedText);
-          record(key.toUpperCase(), "Partie 1 : Présence exacte de la chaîne de test obligatoire (accents, ligatures œ, tiret —)", hasMandatoryString, hasMandatoryString ? "✓ Chaîne 100% conforme détectée" : "✗ Chaîne manquante ou altérée");
-          record(key.toUpperCase(), "Partie 1 : Zéro caractère déformé / absence totale de mojibake", !hasMojibake, hasMojibake ? "✗ Séquence mojibake détectée !" : "✓ Zéro mojibake, UTF-8 pur");
+          record(key.toUpperCase(), "Encodage UTF-8 : Zéro caractère déformé / absence totale de mojibake", !hasMojibake, hasMojibake ? "✗ Séquence mojibake détectée !" : "✓ Zéro mojibake, UTF-8 pur");
 
           // PARTIE 2 : Contrôle automatique d'espacement des tableaux
           let minTableGapPT = 999;

@@ -192,7 +192,6 @@
     doc.setFontSize(6.2);
     doc.setFont(getFontFamily(doc), 'italic');
     doc.setTextColor(100, 116, 139);
-    noticeText += " • Éléments vérifiés : façade, coût, brûlé, naïf, Noël, où, ça, fenêtre — 100 % conforme (cœur, sœur, forêt).";
     const splitNotice = doc.splitTextToSize(noticeText, USABLE_WIDTH);
     doc.text(splitNotice, MARGIN_LEFT, 43);
   }
@@ -1838,7 +1837,7 @@
       doc.setFont(getFontFamily(doc), 'normal');
       doc.setFontSize(6.8);
       doc.setTextColor(148, 163, 184);
-      doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Éléments vérifiés : façade, coût, brûlé, naïf, Noël, où, ça, fenêtre — 100 % conforme (cœur, sœur, forêt).", MARGIN_LEFT, pageHeight - 11);
+      doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", MARGIN_LEFT, pageHeight - 11);
       if (service === 'finitions') {
         doc.text("Document généré automatiquement à titre indicatif • Normes DTU Second œuvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", MARGIN_LEFT, pageHeight - 7);
       } else {

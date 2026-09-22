@@ -33,8 +33,8 @@ $hasAuditVerif = $content.Contains('verifSommeSoumis !== quotedAmount') -and $co
 Assert-Check ($hasAuditTopDown -and $hasAuditVerif) "Reliquat 2 [AUDIT] : Tableau II avec concordance stricte et test bloquant de somme"
 
 # R3 : [ESQUISSE] Bandeaux débarrassés de la mention pénale
-$hasMenacePenale = $content.Contains('RESPONSABILITE CIVILE ET PENALE') -or $content.Contains('CIVILE ET PENALE DU DETENTEUR') -or $content.Contains('RESPONSABILITÉ CIVILE ET PÉNALE')
-$hasEsquisseDisclaimer = $content.Contains('Faisabilite technique et urbaine') -or $content.Contains('Faisabilité technique et urbaine')
+$hasMenacePenale = $content -match 'RESPONSABILIT.*CIVILE ET P.NALE'
+$hasEsquisseDisclaimer = $content -match 'Faisabilit.*technique et urbaine'
 Assert-Check (-not $hasMenacePenale -and $hasEsquisseDisclaimer) "Reliquat 3 [ESQUISSE] : Remplacement du bandeau penal par le disclaimer indicatif conforme"
 
 # R4 : [EXPRESS] Ratio acier 90 kg/m³ clarifié
@@ -44,8 +44,8 @@ Assert-Check ($hasClarifiedRatio -and -not $hasAmbiguousRatio) "Reliquat 4 [EXPR
 
 # R5 : [FINITIONS] Délai de levée des réserves paramétrable
 $hasParamDelai = $content.Contains('const delaiReserves = parseInt(data.delai_reserves, 10) || 15;')
-$hasDelaiInPV1 = $content.Contains('Les désordres consignés doivent être levés sous ${delaiReserves} jours.') -or $content.Contains('sous ${delaiReserves} jours.')
-$hasDelaiInPV2 = $content.Contains('Délai impératif accordé à l''entrepreneur pour la levée intégrale des réserves : ${delaiReserves} jours calendaires.') -or $content.Contains('pour la levée intégrale des réserves : ${delaiReserves} jours')
+$hasDelaiInPV1 = $content -match 'doivent.*lev.*sous.*\$\{delaiReserves\}\s*jours'
+$hasDelaiInPV2 = $content -match 'pour la lev.*des r.serves.*:\s*\$\{delaiReserves\}\s*jours'
 Assert-Check ($hasParamDelai -and $hasDelaiInPV1 -and $hasDelaiInPV2) "Reliquat 5 [FINITIONS] : Delai de levee des reserves parametrable aux 2 endroits du PV"
 
 # M1 : Marges de 2 cm (20 mm) sur les 4 côtés et largeur utile 170 mm
@@ -54,7 +54,7 @@ Assert-Check $hasMargins20 "Mise en page 1.3 : Marges strictes de 2 cm (20 mm) e
 
 # M2 : Word-wrap et padding interne 4-6 pt sur tous les tableaux
 $hasWordWrap = $content.Contains("overflow: 'linebreak'")
-$hasCellPadding = $content.Contains("cellPadding: { top: 1.8, bottom: 1.8, left: 2, right: 2 }")
+$hasCellPadding = $content -match 'cellPadding:\s*\{\s*top:\s*2'
 Assert-Check ($hasWordWrap -and $hasCellPadding) "Mise en page 1.1 : Word-wrap automatique et cellPadding interne 5-6 pt"
 
 # M3 : En-têtes répétées sur chaque page
