@@ -1,0 +1,13 @@
+# Fichiers temporaires et scripts de patch locaux
+*.patch
+diff.patch
+step12.txt
+payment.txt
+apply_*.ps1
+update_*.ps1
+patch.py
+patch.js
+sync_layout.py
+update_pdf.py
+new_esquisse.js
+new_pagination.js

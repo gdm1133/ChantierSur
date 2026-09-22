@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -1412,6 +1412,48 @@
         return;
       }
 
+      // --- CORRECTION 11 : Contrôle de cohérence des données d'entrée ---
+      if (serviceKey === 'esquisse') {
+        const nivCheck = parseInt(fd.get('exact_levels'), 10) || 1;
+        const surfCheck = parseFloat(fd.get('surface')) || 200;
+        const usageCheck = fd.get('building_usage') || 'unifamilial';
+        const streetWidthCheck = parseFloat(fd.get('street_width')) || 12;
+        const reculCheck = streetWidthCheck >= 15 ? 4.0 : 3.0;
+        const sdpEstimeeCheck = Math.round(surfCheck * 0.65 * (nivCheck + 1) * 0.90);
+        const hauteurFaitageCheck = (nivCheck + 1) * 3.10 + 1.20;
+        const hMaxCheck = streetWidthCheck + reculCheck;
+
+        let incoherences = [];
+
+        if (usageCheck === 'unifamilial' && (sdpEstimeeCheck > 500 || nivCheck > 2)) {
+          incoherences.push(
+            'âš ï¸ INCOHÃ‰RENCE : La destination "RÃ©sidentiel Unifamilial" est incompatible avec un bÃ¢timent de R+' + nivCheck +
+            ' (â‰ˆ' + sdpEstimeeCheck + ' mÂ² de SDP).\n' +
+            'VÃ©rifiez la destination rÃ©elle (habitat collectif, mixte, bureaux ?).'
+          );
+        }
+
+        if (hauteurFaitageCheck > hMaxCheck * 1.10) {
+          const depM = (hauteurFaitageCheck - hMaxCheck).toFixed(1);
+          const depPct = Math.round(((hauteurFaitageCheck - hMaxCheck) / hMaxCheck) * 100);
+          incoherences.push(
+            'âš ï¸ GABARIT : Hauteur projet â‰ˆ' + hauteurFaitageCheck.toFixed(1) + ' m > max lÃ©gal ' + hMaxCheck.toFixed(1) +
+            ' m (dÃ©passement : ' + depM + ' m / ' + depPct + '%).\nLe permis de construire sera refusable en lâ€™Ã©tat.'
+          );
+        }
+
+        if (incoherences.length > 0) {
+          const continuer = confirm(
+            'CONTRÃ”LE DE COHÃ‰RENCE â€” ' + incoherences.length + ' alerte(s) :\n\n' +
+            incoherences.join('\n\n---\n\n') +
+            '\n\nâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”\n' +
+            'OK = continuer (les alertes seront dans le PDF)\nAnnuler = corriger les donnÃ©es'
+          );
+          if (!continuer) return;
+        }
+      }
+      // --- FIN CORRECTION 11 ---
+
       // Nettoyage téléphonique universel anti-dédoublement
       const prefixDigits = rawPrefix.replace(/\D/g, '');
       rawPhone = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
@@ -1446,10 +1488,19 @@
         terrace_usage: fd.get('terrace_usage') || 'accessible_carrelee',
         ac_system: fd.get('ac_system') || 'split_individuel',
         standing: fd.get('standing') || 'moyen',
+        building_usage: fd.get('building_usage') || 'unifamilial',
+        parcel_config: fd.get('parcel_config') || 'bande',
+        facade_width: parseFloat(fd.get('facade_width')) || 10,
+        facade_width_2: parseFloat(fd.get('facade_width_2')) || 0,
+        street_width: parseFloat(fd.get('street_width')) || 12,
+        sanitation_type: fd.get('sanitation_type') || 'autonome',
+        neighbor_status: fd.get('neighbor_status') || 'vide',
+        has_basement: fd.get('has_basement') || 'non',
+        energy_backup: fd.get('energy_backup') || 'standard',
         client_name: clientName,
         client_email: clientEmail,
         phone_prefix: rawPrefix,
-        client_phone: rawPhone, // Uniquement les chiffres locaux
+        client_phone: rawPhone,
         exact_amount: exactAmount,
         timestamp: Date.now()
       };
@@ -1470,7 +1521,7 @@
 
       // 2. Appel PayTech ou bascule directe
       try {
-                const response = await fetch('/.netlify/functions/paytech', {
+        const response = await fetch('/.netlify/functions/paytech', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
