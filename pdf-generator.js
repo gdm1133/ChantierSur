@@ -145,6 +145,10 @@
     const tw = doc.getTextWidth("Chantier");
     doc.setTextColor(...COLOR_AMBER);
     doc.text("Sur.com", MARGIN_LEFT + tw, 11);
+    // Séparateur textuel entre le logo et la zone métadonnées (évite la concaténation PDF)
+    const twSur = doc.getTextWidth("Sur.com");
+    doc.setTextColor(255, 255, 255);
+    doc.text(" — ", MARGIN_LEFT + tw + twSur, 11);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.8);
@@ -478,12 +482,17 @@
     currentY = 52;
     drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ (BAEL 91 R99)");
 
+    // Fonction locale : virgule décimale française
+    const fr1 = v => v.toFixed(1).replace('.', ',');
+    const fr2 = v => v.toFixed(2).replace('.', ',');
+    const frQ = v => v.toString().replace('.', ',');
+
     const descenteRows = [
       ["Surface d'Influence du Poteau Central", `${surfaceInfluence} m²`, "Trame structurelle courante 4,00 m — 4,00 m"],
-      ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (env. ${(gTotal / 9.81).toFixed(1)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
-      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${(qTotal / 9.81).toFixed(1)} T)`, `Norme NF P 06-001 selon usage : ${qUnit} kN/m² par niveau`],
-      ["Effort Normal Total de Service (N_ser)", `${nSer} kN (env. ${(nSer / 9.81).toFixed(1)} Tonnes)`, "N_ser = G + Q (Dimensionnement du sol sous semelle)"],
-      ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (env. ${(nUltime / 9.81).toFixed(1)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure)"]
+      ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (env. ${fr1(gTotal / 9.81)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
+      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${fr1(qTotal / 9.81)} T)`, `Norme NF P 06-001 selon usage : ${frQ(qUnit)} kN/m² par niveau`],
+      ["Effort Normal Total de Service (N_ser)", `${nSer} kN (env. ${fr1(nSer / 9.81)} Tonnes)`, "N_ser = G + Q (Dimensionnement du sol sous semelle)"],
+      ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (env. ${fr1(nUltime / 9.81)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure)"]
     ];
 
     doc.autoTable(createTableOptions(
@@ -501,9 +510,9 @@
     drawSectionTitle(doc, currentY, "IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE");
 
     const semelleRows = [
-      ["Capacité Portante Admissible du Sol (q_adm)", `${portanceSolBars} bars (${qAdmkNm2} kN/m²)`, "Valeur estimative — étude géotechnique obligatoire avant dimensionnement définitif."],
-      ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise} m²`, "Formule DTU 13.12 : S >= 1,05 — N_ser / q_adm"],
-      ["Dimensionnement Semelle Carrée (A — B)", `${coteSemelleCarrer.toFixed(2)} m — ${coteSemelleCarrer.toFixed(2)} m`, "Section d'assise au sol sous le poteau le plus chargé"],
+      ["Capacité Portante Admissible du Sol (q_adm)", `${frQ(portanceSolBars)} bars (${qAdmkNm2} kN/m²)`, "Valeur estimative — étude géotechnique obligatoire avant dimensionnement définitif."],
+      ["Surface Portante Minimale Requise (S)", `${fr2(parseFloat(surfaceSemelleRequise))} m²`, "Formule DTU 13.12 : S >= 1,05 — N_ser / q_adm"],
+      ["Dimensionnement Semelle Carrée (A — B)", `${fr2(coteSemelleCarrer)} m — ${fr2(coteSemelleCarrer)} m`, "Section d'assise au sol sous le poteau le plus chargé"],
       ["Épaisseur Minimale de la Semelle (H)", `${epaisseurSemelle} cm (d >= ${(epaisseurSemelle - 5)} cm)`, "Condition de rigidité : d >= (A - a)/4 pour éviter le poinçonnement"],
       ["Enrobage Réglementaire des Aciers", enrobageAciers, "Obligation BAEL 91 R99 pour prévenir la corrosion des armatures"],
       ["Nature Stratigraphique du Terrain", natureSol, "Profil géologique dominant dans la zone choisie"],
@@ -530,7 +539,7 @@
     const occupantsEstimes = totalLevelsCount * (usage === 'unifamilial' ? 8 : (usage === 'locatif' ? 14 : 20));
     const consoJournaliereLitres = occupantsEstimes * 150;
     const bacheLitres = Math.round(consoJournaliereLitres * 2.5);
-    const surpresseurPuissance = totalLevelsCount >= 3 ? "Surpresseur double pompe 1.5 kW" : "Groupe de surpression compact 0.75 kW";
+    const surpresseurPuissance = totalLevelsCount >= 3 ? "Surpresseur double pompe 1,5 kW" : "Groupe de surpression compact 0,75 kW";
     const kvaEstimes = Math.max(6, Math.round((sdpTotale * 35) / 1000));
     const sectionCable = kvaEstimes > 18 ? "Câble cuivre 4×25 mm² Armé" : (kvaEstimes > 10 ? "Câble cuivre 4×16 mm²" : "Câble cuivre 2×10 mm²");
 
@@ -543,7 +552,7 @@
     drawSectionTitle(doc, currentY, "V. RÉSERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT (NS 17-074)");
 
     const fluidesRows = [
-      ["Bâche à Eau & Autonomie Coupure", `${formatNum(bacheLitres)} Litres (env. ${(bacheLitres / 1000).toFixed(1)} m³)`, "Réserve tampon 48h à 72h avec cuve enterrée béton étanche + surpresseur"],
+      ["Bâche à Eau & Autonomie Coupure", `${formatNum(bacheLitres)} Litres (env. ${fr1(bacheLitres / 1000)} m³)`, "Réserve tampon 48h à 72h avec cuve enterrée béton étanche + surpresseur"],
       ["Système de Pompage Recommandé", surpresseurPuissance, "Alimentation continue des étages sans perte de pression au robinet"],
       ["Puissance Souscrite Senelec Cible", `${kvaEstimes} kVA (${kvaEstimes > 9 ? 'Triphasé 380V' : 'Monophasé 220V'})`, "Dimensionnement standard pour climatisation inverter et équipements"],
       ["Section Colonne Montante Électrique", sectionCable, "Chute de tension < 3% entre coffret compteur et tableau général"],
@@ -662,7 +671,7 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(255, 255, 255);
-    doc.text("VISA TECHNIQUE — Bureau d'Études Indépendant ChantierSur.com :", MARGIN_LEFT + 4, currentY + 5);
+    doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
 
     // Corps du disclaimer : texte blanc normal
     doc.setFont(getFontFamily(doc), 'normal');
