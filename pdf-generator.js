@@ -1,7 +1,7 @@
-/**
- * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
- * Version 3.0 — Perfectionnement Visuel & Rigueur Fonctionnelle
- * Conforme : BAEL 91 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit COCC • Normes DTU
+﻿/**
+ * ChantierSur.com - Moteur Officiel de GÃ©nÃ©ration des Livrables BTP & Juridiques
+ * Version 3.0 â€” Perfectionnement Visuel & Rigueur Fonctionnelle
+ * Conforme : BAEL 91 RÃ©visÃ© 99 â€¢ Code de l'Urbanisme du SÃ©nÃ©gal â€¢ Droit COCC â€¢ Normes DTU
  */
 
 (function() {
@@ -14,7 +14,7 @@
   const COLOR_BG_LIGHT = [248, 250, 252]; // #F8FAFC
   const COLOR_BORDER = [226, 232, 240];   // #E2E8F0
 
-  // Constantes de géométrie (Marges strictes 20 mm sur les 4 côtés)
+  // Constantes de gÃ©omÃ©trie (Marges strictes 20 mm sur les 4 cÃ´tÃ©s)
   const MARGIN_LEFT = 20;
   const MARGIN_RIGHT = 20;
   const PAGE_WIDTH = 210;
@@ -28,7 +28,7 @@
     return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
 
-  // Formatteur monétaire sécurisé FCFA
+  // Formatteur monÃ©taire sÃ©curisÃ© FCFA
   function formatFCFA(val) {
     if (val === undefined || val === null || isNaN(val)) return "0 FCFA";
     const num = Math.round(val).toString();
@@ -74,12 +74,12 @@
     return null;
   }
 
-  // Référentiel juridique certifié (Sénégal)
+  // RÃ©fÃ©rentiel juridique certifiÃ© (SÃ©nÃ©gal)
   const REFERENCES_JURIDIQUES = {
-    loiUrbanisme: "Loi n° 2023-20 du 29 décembre 2023 portant Code de l'urbanisme",
-    decretUrbanisme: "Décret n° 2025-1194 du 17 juillet 2025 portant partie réglementaire du Code de l'urbanisme",
-    decretConstruction: "Décret n° 2024-1495 du 30 juillet 2024 portant partie réglementaire du Code de la construction",
-    decretAbroge: "Décret n° 2009-1450 abrogé par l'art. R.596 du décret n° 2025-1194",
+    loiUrbanisme: "Loi nÂ° 2023-20 du 29 dÃ©cembre 2023 portant Code de l'urbanisme",
+    decretUrbanisme: "DÃ©cret nÂ° 2025-1194 du 17 juillet 2025 portant partie rÃ©glementaire du Code de l'urbanisme",
+    decretConstruction: "DÃ©cret nÂ° 2024-1495 du 30 juillet 2024 portant partie rÃ©glementaire du Code de la construction",
+    decretAbroge: "DÃ©cret nÂ° 2009-1450 abrogÃ© par l'art. R.596 du dÃ©cret nÂ° 2025-1194",
     garantieDecennale: "Article 741 du Code des Obligations Civiles et Commerciales (COCC)",
     retenueGarantie: "Article 742 du Code des Obligations Civiles et Commerciales (COCC)",
     receptionTravaux: "Article 740 du Code des Obligations Civiles et Commerciales (COCC)",
@@ -90,32 +90,32 @@
     const articlesInvalides = [767, 768].map(n => 'Article ' + n);
     for (let art of articlesInvalides) {
       if (JSON.stringify(references).includes(art)) {
-        throw new Error(`Référence juridique erronée : ${art}. Le COCC traite du louage d'ouvrage aux articles 739 à 745.`);
+        throw new Error(`RÃ©fÃ©rence juridique erronÃ©e : ${art}. Le COCC traite du louage d'ouvrage aux articles 739 Ã  745.`);
       }
     }
     return true;
   }
   validerReferencesJuridiques(REFERENCES_JURIDIQUES);
 
-  // Seuils techniques et contractuels partagés
+  // Seuils techniques et contractuels partagÃ©s
   const SEUILS_TECHNIQUES = {
     penaliteJourRatio: 0.001,             // 1/1000e par jour
     plafondPenalitesTaux: 0.05,           // 5% du montant du contrat
-    ratioEtancheiteM2Moyen: 28000,        // 28 000 FCFA / m²
-    provisionAleasTaux: 0.05,             // 5% coût direct
-    margeEntrepreneurMoyenne: 0.085,      // 8,5% médiane
+    ratioEtancheiteM2Moyen: 28000,        // 28 000 FCFA / mÂ²
+    provisionAleasTaux: 0.05,             // 5% coÃ»t direct
+    margeEntrepreneurMoyenne: 0.085,      // 8,5% mÃ©diane
     decoffrageSousFaces: "21 jours",      // Poutres et dalles
-    decoffrageJoues: "48 h à 7 jours"    // Poteaux et joues
+    decoffrageJoues: "48 h Ã  7 jours"    // Poteaux et joues
   };
 
-  // Référentiel des normes applicables par lot
+  // RÃ©fÃ©rentiel des normes applicables par lot
   const NORMES_PAR_LOT = {
-    grosOeuvre: "BAEL 91 R99 • DTU 13.12 (Fondations) • DTU 20.1 (Maçonneries)",
-    carrelage: "NF DTU 52.1 (Revêtements de sol scellés) • NF P61-202",
-    etancheite: "NF DTU 43.1 (Toitures terrasses) • Avis Technique CSTB",
-    plomberie: "NF DTU 60.1 (Plomberie sanitaire & EU/EP) • NF DTU 60.11",
-    electricite: "NF C 15-100 (Installations basse tension) • NS 04-020",
-    peinture: "NF DTU 59.1 (Travaux de peinture) • NF T36-005"
+    grosOeuvre: "BAEL 91 R99 â€¢ DTU 13.12 (Fondations) â€¢ DTU 20.1 (MaÃ§onneries)",
+    carrelage: "NF DTU 52.1 (RevÃªtements de sol scellÃ©s) â€¢ NF P61-202",
+    etancheite: "NF DTU 43.1 (Toitures terrasses) â€¢ Avis Technique CSTB",
+    plomberie: "NF DTU 60.1 (Plomberie sanitaire & EU/EP) â€¢ NF DTU 60.11",
+    electricite: "NF C 15-100 (Installations basse tension) â€¢ NS 04-020",
+    peinture: "NF DTU 59.1 (Travaux de peinture) â€¢ NF T36-005"
   };
 
   function verifierTermesFinitions(terme) {
@@ -123,13 +123,13 @@
     const lower = (terme || '').toLowerCase();
     for (let int of interdits) {
       if (lower.includes(int)) {
-        throw new Error(`Terme interdit en second œuvre : ${int}`);
+        throw new Error(`Terme interdit en second Å“uvre : ${int}`);
       }
     }
     return true;
   }
 
-  // Bandeau d'en-tête unifié (les 4 modules partagent exactement la même structure)
+  // Bandeau d'en-tÃªte unifiÃ© (les 4 modules partagent exactement la mÃªme structure)
   function drawUnifiedHeader(doc, moduleTitle, partTitle, refDoc, currentDate, clientName, clientPhone, lotNumber, serviceType) {
     // Fond bandeau officiel
     doc.setFillColor(...COLOR_NAVY);
@@ -145,7 +145,7 @@
     const tw = doc.getTextWidth("Chantier");
     doc.setTextColor(...COLOR_AMBER);
     doc.text("Sur.com", MARGIN_LEFT + tw, 11);
-    // Séparateur textuel entre le logo et la zone métadonnées (simple espace, sans tiret)
+    // SÃ©parateur textuel entre le logo et la zone mÃ©tadonnÃ©es (simple espace, sans tiret)
     const twSur = doc.getTextWidth("Sur.com");
     doc.setTextColor(255, 255, 255);
     doc.text(" ", MARGIN_LEFT + tw + twSur, 11);
@@ -153,9 +153,9 @@
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.8);
     doc.setTextColor(148, 163, 184);
-    doc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", MARGIN_LEFT, 17);
+    doc.text("BUREAU D'Ã‰TUDES NUMÃ‰RIQUE â€¢ AUDIT TECHNIQUE BTP SÃ‰NÃ‰GAL", MARGIN_LEFT, 17);
 
-    // Métadonnées à droite
+    // MÃ©tadonnÃ©es Ã  droite
     doc.setFontSize(7.5);
     doc.setTextColor(255, 255, 255);
     doc.setFont(getFontFamily(doc), 'bold');
@@ -163,10 +163,10 @@
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setTextColor(203, 213, 225);
     doc.text(`Date : ${currentDate}`, CONTENT_RIGHT, 15, { align: 'right' });
-    const displayTitulaire = (clientName && clientName.length > 26) ? clientName.substring(0, 24) + '...' : (clientName || 'Maître d\'Ouvrage');
+    const displayTitulaire = (clientName && clientName.length > 26) ? clientName.substring(0, 24) + '...' : (clientName || 'MaÃ®tre d\'Ouvrage');
     doc.text(`Titulaire : ${displayTitulaire}`, CONTENT_RIGHT, 20, { align: 'right' });
 
-    // Titres de partie & séparateur
+    // Titres de partie & sÃ©parateur
     doc.setTextColor(...COLOR_NAVY);
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(9.5);
@@ -181,18 +181,18 @@
     doc.setLineWidth(0.4);
     doc.line(MARGIN_LEFT, 39, CONTENT_RIGHT, 39);
 
-    // Notice légale et disclaimer universel (neutre, indicatif, sans menace pénale)
+    // Notice lÃ©gale et disclaimer universel (neutre, indicatif, sans menace pÃ©nale)
     let noticeText = "";
     if (serviceType === 'esquisse') {
-      noticeText = `Document indicatif d'aide à la décision généré automatiquement. Faisabilité technique et urbaine — à confirmer par un architecte et BET agréés avant tout dépôt ou travaux. Maître d'Ouvrage : ${clientName.toUpperCase()} • Tél : ${clientPhone} • Dossier : ${refDoc}.`;
+      noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. FaisabilitÃ© technique et urbaine â€” Ã  confirmer par un architecte et BET agrÃ©Ã©s avant tout dÃ©pÃ´t ou travaux. MaÃ®tre d'Ouvrage : ${clientName.toUpperCase()} â€¢ TÃ©l : ${clientPhone} â€¢ Dossier : ${refDoc}.`;
     } else if (serviceType === 'express') {
-      noticeText = `Document indicatif d'aide à la décision généré automatiquement. Bordereau estimatif — à confirmer par BET avant toute commande. Maître d'Ouvrage : ${clientName.toUpperCase()} • Tél : ${clientPhone} • Réf : ${lotNumber}.`;
+      noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Bordereau estimatif â€” Ã  confirmer par BET avant toute commande. MaÃ®tre d'Ouvrage : ${clientName.toUpperCase()} â€¢ TÃ©l : ${clientPhone} â€¢ RÃ©f : ${lotNumber}.`;
     } else if (serviceType === 'audit') {
-      noticeText = `Document indicatif d'aide à la décision généré automatiquement. Il ne constitue ni une expertise judiciaire, ni le visa d'un bureau d'études agréé. Les fourchettes de prix doivent être confirmées par des professionnels qualifiés. Dossier : ${refDoc}.`;
+      noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Il ne constitue ni une expertise judiciaire, ni le visa d'un bureau d'Ã©tudes agrÃ©Ã©. Les fourchettes de prix doivent Ãªtre confirmÃ©es par des professionnels qualifiÃ©s. Dossier : ${refDoc}.`;
     } else if (serviceType === 'finitions') {
-      noticeText = `Document indicatif d'aide à la décision généré automatiquement. Bordereau estimatif — les quantitatifs et prix doivent être confirmés par des professionnels qualifiés avant toute commande. Ne constitue ni une note de calcul ni le visa d'un BET agréé. Dossier : ${refDoc}.`;
+      noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Bordereau estimatif â€” les quantitatifs et prix doivent Ãªtre confirmÃ©s par des professionnels qualifiÃ©s avant toute commande. Ne constitue ni une note de calcul ni le visa d'un BET agrÃ©Ã©. Dossier : ${refDoc}.`;
     } else {
-      noticeText = `Document technique indicatif d'aide à la décision généré automatiquement pour le compte de ${clientName.toUpperCase()}. Dossier : ${refDoc}.`;
+      noticeText = `Document technique indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement pour le compte de ${clientName.toUpperCase()}. Dossier : ${refDoc}.`;
     }
 
     doc.setFontSize(6.2);
@@ -202,7 +202,7 @@
     doc.text(splitNotice, MARGIN_LEFT, 43);
   }
 
-  // Titre de section stylisé avec repère ambre
+  // Titre de section stylisÃ© avec repÃ¨re ambre
   function drawSectionTitle(doc, y, title) {
     doc.setFillColor(...COLOR_AMBER);
     doc.rect(MARGIN_LEFT, y - 3.2, 2.2, 4.2, 'F');
@@ -214,12 +214,12 @@
   }
 
 
-  // Paramètres d'espacement réglementaires (Partie 2)
+  // ParamÃ¨tres d'espacement rÃ©glementaires (Partie 2)
   const TABLE_GAP_PT = 16;                                            // Espace vertical minimum de 16 pt
   const TABLE_GAP_MM = Number((TABLE_GAP_PT * 0.352778).toFixed(2)); // ~5.65 mm
   const TITLE_BEFORE_GAP_MM = 8.0;                                    // ~22.7 pt avant titre de section (au moins 16 pt net)
   const TITLE_AFTER_GAP_MM = 4.2;                                     // ~11.9 pt entre titre et tableau (norme 10-12 pt)
-  // Configuration par défaut pour autoTable (marges 20 mm, largeur 170 mm, zéro débordement)
+  // Configuration par dÃ©faut pour autoTable (marges 20 mm, largeur 170 mm, zÃ©ro dÃ©bordement)
   function createTableOptions(startY, head, body, customCols, customStyles) {
     const fontName = (typeof window !== 'undefined' && window.NOTO_SANS_REGULAR) ? 'NotoSans' : 'helvetica';
     const opts = {
@@ -269,11 +269,11 @@
   }
 
   // =========================================================================
-  // 1. LIVRABLE : ESQUISSE & FAISABILITÉ TECHNIQUE (4 PAGES)
+  // 1. LIVRABLE : ESQUISSE & FAISABILITÃ‰ TECHNIQUE (4 PAGES)
   // =========================================================================
   function renderEsquisse(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+    const clientName = (data.client_name || 'MaÃ®tre d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
@@ -290,44 +290,44 @@
     const totalLevelsCount = levels + 1;
     const location = data.project_location || 'Dakar - Zone Urbaine';
     const landStatus = data.land_status || 'Titre Foncier (TF)';
-    const lotNumber = data.lot_number || 'Non spécifié';
+    const lotNumber = data.lot_number || 'Non spÃ©cifiÃ©';
     const config = data.parcel_config || 'bande';
     const usage = data.building_usage || 'unifamilial';
     const standing = data.standing || 'moyen';
     const sanitation = data.sanitation_type || 'autonome';
     const neighbor = data.neighbor_status || 'vide';
 
-    // Ratios urbanistiques réels
+    // Ratios urbanistiques rÃ©els
     const cesMax = 0.65;
     const empriseSolMax = Math.round(surface * cesMax);
     const espacesLibres = Math.round(surface * (1 - cesMax));
     const sdpTotale = Math.round(empriseSolMax * totalLevelsCount * 0.90);
     const hauteurFaitage = ((totalLevelsCount * 3.10) + 1.20).toFixed(1);
     const reculAlignement = streetWidth >= 15 ? 4.0 : 3.0;
-    // Art. R.448 (décret n° 2025-1194) : H = 1,5L (emprise de la voie + retrait)
+    // Art. R.448 (dÃ©cret nÂ° 2025-1194) : H = 1,5L (emprise de la voie + retrait)
     const COEF_PROSPECT_R448 = 1.5;
     const hauteurMaxGabarit = +(COEF_PROSPECT_R448 * (streetWidth + reculAlignement)).toFixed(1);
 
-    // COS de référence de zone (hypothèse de travail selon le document d'urbanisme applicable)
+    // COS de rÃ©fÃ©rence de zone (hypothÃ¨se de travail selon le document d'urbanisme applicable)
     const COS_MAX_PAR_ZONE = {
       'Dakar - Zone Urbaine': 3.0, 'Dakar - Plateau': 4.0,
       'Dakar - Almadies': 1.5, 'default': 2.5
     };
     const zoneKey = Object.keys(COS_MAX_PAR_ZONE).find(k => location.includes(k)) || 'default';
     const cosMax = COS_MAX_PAR_ZONE[zoneKey];
-    // Arrondi standard (pas de troncature) : toFixed(2) à 2 décimales
+    // Arrondi standard (pas de troncature) : toFixed(2) Ã  2 dÃ©cimales
     const cosProjet = +(sdpTotale / surface).toFixed(2);
     const respecteCos = cosProjet <= cosMax;
 
-    // Prospect indicatif gradué (informatif et non bloquant)
+    // Prospect indicatif graduÃ© (informatif et non bloquant)
     const depassementGabarit = parseFloat(hauteurFaitage) - hauteurMaxGabarit;
-    let statutGabarit = `Conforme au seuil indicatif (H ≤ 1,5L) — Hauteur projetée ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m ≤ seuil ${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m`;
+    let statutGabarit = `Conforme au seuil indicatif (H â‰¤ 1,5L) â€” Hauteur projetÃ©e ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m â‰¤ seuil ${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m`;
     if (depassementGabarit > 0) {
       const depPct = Math.round((depassementGabarit / hauteurMaxGabarit) * 100);
       if (depassementGabarit <= 0.10 * hauteurMaxGabarit) {
-        statutGabarit = `Hauteur projetée ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m — dépassement de +${depassementGabarit.toFixed(1).replace('.', ',')} m du seuil de référence (${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m) — dépassement mineur, adaptation recommandée`;
+        statutGabarit = `Hauteur projetÃ©e ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m â€” dÃ©passement de +${depassementGabarit.toFixed(1).replace('.', ',')} m du seuil de rÃ©fÃ©rence (${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m) â€” dÃ©passement mineur, adaptation recommandÃ©e`;
       } else {
-        statutGabarit = `Hauteur projetée ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m — dépassement de +${depassementGabarit.toFixed(1).replace('.', ',')} m (${depPct} %) du seuil indicatif (${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m) — à vérifier avec le document d'urbanisme de la zone`;
+        statutGabarit = `Hauteur projetÃ©e ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m â€” dÃ©passement de +${depassementGabarit.toFixed(1).replace('.', ',')} m (${depPct} %) du seuil indicatif (${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m) â€” Ã  vÃ©rifier avec le document d'urbanisme de la zone`;
       }
     }
 
@@ -335,31 +335,31 @@
     const nb_logements = Math.max(1, Math.round(sdpTotale / 150));
     const N_places = Math.max(Math.ceil(sdpTotale / 100), nb_logements);
 
-    // Analyse géotechnique selon le sol
+    // Analyse gÃ©otechnique selon le sol
     const locLower = location.toLowerCase();
     const isMarine = locLower.includes('almadies') || locLower.includes('ngor') || locLower.includes('yoff') || locLower.includes('corniche') || locLower.includes('saly');
     const isWetland = locLower.includes('massar') || locLower.includes('malika') || locLower.includes('pikine') || locLower.includes('thiaroye');
-    const isClay = locLower.includes('diamniadio') || locLower.includes('bargny') || locLower.includes('sébikotane');
+    const isClay = locLower.includes('diamniadio') || locLower.includes('bargny') || locLower.includes('sÃ©bikotane');
 
     let portanceSolBars = 2.2;
-    let natureSol = "Plateau sédimentaire / Latérite compacte portante";
-    let modeFondation = "Semelles isolées reliées par longrines de rigidité croisées";
+    let natureSol = "Plateau sÃ©dimentaire / LatÃ©rite compacte portante";
+    let modeFondation = "Semelles isolÃ©es reliÃ©es par longrines de rigiditÃ© croisÃ©es";
     let enrobageAciers = "3,0 cm (Exposition standard)";
 
     if (isMarine) {
       portanceSolBars = 2.0;
       natureSol = "Sable dunaire littoral / Basalte rocheux marin";
-      modeFondation = "Semelles isolées rigides avec double nappe et longrines antisismiques";
-      enrobageAciers = "4,5 cm à 5,0 cm STRICT (Attaque saline sévère)";
+      modeFondation = "Semelles isolÃ©es rigides avec double nappe et longrines antisismiques";
+      enrobageAciers = "4,5 cm Ã  5,0 cm STRICT (Attaque saline sÃ©vÃ¨re)";
     } else if (isWetland) {
       portanceSolBars = 1.2;
       natureSol = "Sables alluvionnaires compressibles / Nappe haute en hivernage";
-      modeFondation = hasBasement ? "Radier étanche sous cuvelage" : "Radier général nervuré ou semelles filantes cuvelées";
+      modeFondation = hasBasement ? "Radier Ã©tanche sous cuvelage" : "Radier gÃ©nÃ©ral nervurÃ© ou semelles filantes cuvelÃ©es";
       enrobageAciers = "4,0 cm avec hydrofuge de masse Sika";
     } else if (isClay) {
       portanceSolBars = 1.5;
-      natureSol = "Marnes et argiles gonflantes (Retrait / Gonflement différentiel)";
-      modeFondation = "Puits courts ancrés sous la zone active (-2,20 m) ou longrines rigides";
+      natureSol = "Marnes et argiles gonflantes (Retrait / Gonflement diffÃ©rentiel)";
+      modeFondation = "Puits courts ancrÃ©s sous la zone active (-2,20 m) ou longrines rigides";
       enrobageAciers = "3,5 cm avec renfort armatures de traction";
     }
 
@@ -367,7 +367,7 @@
     const surfaceSemelleApprox8 = (nSerPoteau8 * 1.05) / (portanceSolBars * 100);
     const ratioSemelle8 = surfaceSemelleApprox8 / 16.0;
     if (totalLevelsCount > 4 || ratioSemelle8 > 0.50) {
-      modeFondation = "Type de fondation à confirmer par étude géotechnique — radier général à envisager (tassements excessifs probables).";
+      modeFondation = "Type de fondation Ã  confirmer par Ã©tude gÃ©otechnique â€” radier gÃ©nÃ©ral Ã  envisager (tassements excessifs probables).";
     }
 
     // Descente de charges BAEL 91
@@ -384,9 +384,9 @@
     const epaisseurSemelle = Math.max(35, Math.round(((coteSemelleCarrer * 100 - 30) / 4) + 5));
 
     // =========================================================================
-    // PAGE 1 : GABARIT VOLUMÉTRIQUE & ALIGNEMENT
+    // PAGE 1 : GABARIT VOLUMÃ‰TRIQUE & ALIGNEMENT
     // =========================================================================
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Prospect Volumétrique & Références Réglementaires (Loi 2023-20)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie I : Cartouche Foncier, Prospect VolumÃ©trique & RÃ©fÃ©rences RÃ©glementaires (Loi 2023-20)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     // Cartouche nominatif
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -397,42 +397,42 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(8.2);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("IDENTIFICATION NOMINATIVE DU MAÎTRE D'OUVRAGE & DU TITRE DE PROPRIÉTÉ", MARGIN_LEFT + 4, 56);
+    doc.text("IDENTIFICATION NOMINATIVE DU MAÃŽTRE D'OUVRAGE & DU TITRE DE PROPRIÃ‰TÃ‰", MARGIN_LEFT + 4, 56);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(51, 65, 85);
-    doc.text(`Maître d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
-    doc.text(`Téléphone Notifié : ${clientPhone}`, MARGIN_LEFT + 4, 69);
-    doc.text(`Email Enregistré : ${clientEmail}`, MARGIN_LEFT + 4, 75);
+    doc.text(`MaÃ®tre d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
+    doc.text(`TÃ©lÃ©phone NotifiÃ© : ${clientPhone}`, MARGIN_LEFT + 4, 69);
+    doc.text(`Email EnregistrÃ© : ${clientEmail}`, MARGIN_LEFT + 4, 75);
     doc.text(`Statut Foncier : ${landStatus}`, MARGIN_LEFT + 4, 81);
 
-    let dimTxt = `Façade ${facade1} m — Profondeur env. ${(surface / facade1).toFixed(1).replace('.', ',')} m`;
-    if (config === 'angle' && facade2 > 0) dimTxt = `Façade 1: ${facade1} m • Façade 2: ${facade2} m (Angle)`;
+    let dimTxt = `FaÃ§ade ${facade1} m â€” Profondeur env. ${(surface / facade1).toFixed(1).replace('.', ',')} m`;
+    if (config === 'angle' && facade2 > 0) dimTxt = `FaÃ§ade 1: ${facade1} m â€¢ FaÃ§ade 2: ${facade2} m (Angle)`;
 
     doc.text(`Localisation : ${location}`, 108, 63);
-    doc.text(`Réf. Cadastrale / Lot : ${lotNumber}`, 108, 69);
+    doc.text(`RÃ©f. Cadastrale / Lot : ${lotNumber}`, 108, 69);
     doc.text(`Destination Ouvrage : ${usage.toUpperCase()}`, 108, 75);
-    doc.text(`Géométrie Parcelle : ${dimTxt}`, 108, 81);
+    doc.text(`GÃ©omÃ©trie Parcelle : ${dimTxt}`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. PROSPECT URBANISTIQUE & DROITS À BÂTIR (LOI 2023-20 & DÉCRET 2025-1194)");
+    drawSectionTitle(doc, currentY, "I. PROSPECT URBANISTIQUE & DROITS Ã€ BÃ‚TIR (LOI 2023-20 & DÃ‰CRET 2025-1194)");
 
     const gabaritRows = [
-      ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
-      ["COS Projet (SDP / Surface)", cosProjet.toFixed(2).replace('.', ','), respecteCos ? `Conforme à l'hypothèse de référence de zone (${cosMax.toFixed(1).replace('.', ',')}) — à confirmer` : `Supérieur à l'hypothèse de zone (${cosMax.toFixed(1).replace('.', ',')}) — document d'urbanisme applicable à confirmer`],
-      ["Emprise au Sol Projetée (CES indicatif 0,65)", `${empriseSolMax} m²`, "Hypothèse de travail (art. R.40) — valeur exacte fixée par le document de zone"],
-      ["Espaces Libres (Hypothèse 35%)", `${espacesLibres} m²`, "Hypothèse interne d'infiltration pluviale — à confirmer selon le plan de zone"],
-      ["Surface Développée de Plancher Totale (SDP)", `env. ${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
-      ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage.replace('.', ',')} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
-      ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m (valeur indicative — à confirmer selon plan de zone)`],
-      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, statutGabarit],
-      ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Art. R.41 à R.45 (décret n° 2025-1194) : 1 pl / 100 m² SHON (min. 1 par logement). Formule tracée."]
+      ["Surface Totale Parcellaire", `${surface} mÂ²`, "Superficie de base enregistrÃ©e au cadastre"],
+      ["COS Projet (SDP / Surface)", cosProjet.toFixed(2).replace('.', ','), respecteCos ? `Conforme Ã  l'hypothÃ¨se de rÃ©fÃ©rence de zone (${cosMax.toFixed(1).replace('.', ',')}) â€” Ã  confirmer` : `SupÃ©rieur Ã  l'hypothÃ¨se de zone (${cosMax.toFixed(1).replace('.', ',')}) â€” document d'urbanisme applicable Ã  confirmer`],
+      ["Emprise au Sol ProjetÃ©e (CES indicatif 0,65)", `${empriseSolMax} mÂ²`, "HypothÃ¨se de travail (art. R.40) â€” valeur exacte fixÃ©e par le document de zone"],
+      ["Espaces Libres (HypothÃ¨se 35%)", `${espacesLibres} mÂ²`, "HypothÃ¨se interne d'infiltration pluviale â€” Ã  confirmer selon le plan de zone"],
+      ["Surface DÃ©veloppÃ©e de Plancher Totale (SDP)", `env. ${sdpTotale} mÂ²`, `Somme des planchers utiles sur R+${levels} (hors trÃ©mies)`],
+      ["Hauteur Totale du BÃ¢timent ProjetÃ©", `env. ${hauteurFaitage.replace('.', ',')} m`, "Dalle supÃ©rieure + acrotÃ¨re de terrasse de 1,20 m"],
+      ["Largeur de la Voie Publique Desservante", `${streetWidth} mÃ¨tres`, `Retrait d'alignement estimÃ© : ${reculAlignement} m (valeur indicative â€” Ã  confirmer selon plan de zone)`],
+      ["Prospect Maximal de RÃ©fÃ©rence (H â‰¤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mÃ¨tres`, statutGabarit],
+      ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Art. R.41 Ã  R.45 (dÃ©cret nÂ° 2025-1194) : 1 pl / 100 mÂ² SHON (min. 1 par logement). Formule tracÃ©e."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Indicateur d\'Urbanisme', 'Valeur Déterminée', 'Référence & Analyse Indicative (Direction de l\'Urbanisme)']],
+      [['Indicateur d\'Urbanisme', 'Valeur DÃ©terminÃ©e', 'RÃ©fÃ©rence & Analyse Indicative (Direction de l\'Urbanisme)']],
       gabaritRows,
       {
         0: { cellWidth: 58, fontStyle: 'bold' },
@@ -442,29 +442,29 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "II. CONTRAINTES D'IMPLANTATION, PAN COUPÉ D'ANGLE & PROSPECTS");
+    drawSectionTitle(doc, currentY, "II. CONTRAINTES D'IMPLANTATION, PAN COUPÃ‰ D'ANGLE & PROSPECTS");
 
     let angleDesc = "Alignement standard sur voie unique avec recul obligatoire de 3,00 m.";
     if (config === 'angle') {
-      angleDesc = `Parcelle d'Angle (${facade1}m — ${facade2}m) : Pan coupé théorique de 5 m minimum au carrefour (art. R.444, décret n° 2025-1194). Marges de recul selon document d'urbanisme.`;
+      angleDesc = `Parcelle d'Angle (${facade1}m â€” ${facade2}m) : Pan coupÃ© thÃ©orique de 5 m minimum au carrefour (art. R.444, dÃ©cret nÂ° 2025-1194). Marges de recul selon document d'urbanisme.`;
     } else if (config === 'traversante') {
-      angleDesc = "Parcelle Traversante : Accès distincts sur voies opposées. Retrait indicatif de 3,00 m sur les deux façades.";
+      angleDesc = "Parcelle Traversante : AccÃ¨s distincts sur voies opposÃ©es. Retrait indicatif de 3,00 m sur les deux faÃ§ades.";
     } else if (config === 'bande') {
-      angleDesc = "Configuration en Bande : Murs mitoyens latéraux aveugles obligatoires (coupe-feu 2h). Aucune baie sans accord écrit.";
+      angleDesc = "Configuration en Bande : Murs mitoyens latÃ©raux aveugles obligatoires (coupe-feu 2h). Aucune baie sans accord Ã©crit.";
     } else {
-      angleDesc = "Parcelle Isolée : Marge d'isolement latérale de 2,50 m minimum selon art. R.445 (ou contiguïté jusqu'à 15 m).";
+      angleDesc = "Parcelle IsolÃ©e : Marge d'isolement latÃ©rale de 2,50 m minimum selon art. R.445 (ou contiguÃ¯tÃ© jusqu'Ã  15 m).";
     }
 
     const mitoyenRows = [
-      ["Régime de Façade & Voirie", config.toUpperCase(), angleDesc],
-      ["État des Terrains Voisins", neighbor === 'vide' ? "Parcelles Voisines Nues" : "Constructions Mitoyennes Présentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-œuvre requise." : "Constat d'huissier contradictoire obligatoire avant excavation."],
-      ["Puits de Jour & Cours d'Aération", "Minimum 12 m² (Largeur min 3,00 m)", "Hypothèse interne d'aération — prescription de zone à confirmer selon document d'urbanisme."],
-      ["Régime des Eaux de Toiture", "Égout intérieur à la parcelle", "Interdiction absolue de déverser les eaux pluviales sur la voie publique."]
+      ["RÃ©gime de FaÃ§ade & Voirie", config.toUpperCase(), angleDesc],
+      ["Ã‰tat des Terrains Voisins", neighbor === 'vide' ? "Parcelles Voisines Nues" : "Constructions Mitoyennes PrÃ©sentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-Å“uvre requise." : "Constat d'huissier contradictoire obligatoire avant excavation."],
+      ["Puits de Jour & Cours d'AÃ©ration", "Minimum 12 mÂ² (Largeur min 3,00 m)", "HypothÃ¨se interne d'aÃ©ration â€” prescription de zone Ã  confirmer selon document d'urbanisme."],
+      ["RÃ©gime des Eaux de Toiture", "Ã‰gout intÃ©rieur Ã  la parcelle", "Interdiction absolue de dÃ©verser les eaux pluviales sur la voie publique."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Paramètre Spatial', 'Situation Chantier', 'Prescription d\'Ingénierie Obligatoire']],
+      [['ParamÃ¨tre Spatial', 'Situation Chantier', 'Prescription d\'IngÃ©nierie Obligatoire']],
       mitoyenRows,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -474,30 +474,30 @@
     ));
 
     // =========================================================================
-    // PAGE 2 : DESCENTE DE CHARGES & PRÉ-DIMENSIONNEMENT SEMELLE
+    // PAGE 2 : DESCENTE DE CHARGES & PRÃ‰-DIMENSIONNEMENT SEMELLE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie II : Descente de Charges (BAEL 91 R99) & Dimensionnement des Fondations", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie II : Descente de Charges (BAEL 91 R99) & Dimensionnement des Fondations", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ (BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÃ‰ORIQUE SUR LE POTEAU LE PLUS CHARGÃ‰ (BAEL 91 R99)");
 
-    // Fonction locale : virgule décimale française
+    // Fonction locale : virgule dÃ©cimale franÃ§aise
     const fr1 = v => v.toFixed(1).replace('.', ',');
     const fr2 = v => v.toFixed(2).replace('.', ',');
     const frQ = v => v.toString().replace('.', ',');
 
     const descenteRows = [
-      ["Surface d'Influence du Poteau Central", `${surfaceInfluence} m²`, "Trame structurelle courante 4,00 m — 4,00 m"],
-      ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (env. ${fr1(gTotal / 9.81)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
-      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${fr1(qTotal / 9.81)} T)`, `Norme NF P 06-001 selon usage : ${frQ(qUnit)} kN/m² par niveau`],
+      ["Surface d'Influence du Poteau Central", `${surfaceInfluence} mÂ²`, "Trame structurelle courante 4,00 m â€” 4,00 m"],
+      ["Charges Permanentes CumulÃ©es (G)", `${gTotal.toFixed(0)} kN (env. ${fr1(gTotal / 9.81)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
+      ["Charges d'Exploitation CumulÃ©es (Q)", `${qTotal.toFixed(0)} kN (env. ${fr1(qTotal / 9.81)} T)`, `Norme NF P 06-001 selon usage : ${frQ(qUnit)} kN/mÂ² par niveau`],
       ["Effort Normal Total de Service (N_ser)", `${nSer} kN (env. ${fr1(nSer / 9.81)} Tonnes)`, "N_ser = G + Q (Dimensionnement du sol sous semelle)"],
       ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (env. ${fr1(nUltime / 9.81)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure)"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Paramètre de Descente de Charges', 'Valeur Calculée', 'Hypothèse & Méthode de Calcul BAEL 91']],
+      [['ParamÃ¨tre de Descente de Charges', 'Valeur CalculÃ©e', 'HypothÃ¨se & MÃ©thode de Calcul BAEL 91']],
       descenteRows,
       {
         0: { cellWidth: 60, fontStyle: 'bold' },
@@ -507,21 +507,21 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE");
+    drawSectionTitle(doc, currentY, "IV. PRÃ‰-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÃ‰OTECHNIQUE");
 
     const semelleRows = [
-      ["Capacité Portante Admissible du Sol (q_adm)", `${frQ(portanceSolBars)} bars (${qAdmkNm2} kN/m²)`, "Valeur estimative — étude géotechnique obligatoire avant dimensionnement définitif."],
-      ["Surface Portante Minimale Requise (S)", `${fr2(parseFloat(surfaceSemelleRequise))} m²`, "Formule DTU 13.12 : S >= 1,05 — N_ser / q_adm"],
-      ["Dimensionnement Semelle Carrée (A — B)", `${fr2(coteSemelleCarrer)} m — ${fr2(coteSemelleCarrer)} m`, "Section d'assise au sol sous le poteau le plus chargé"],
-      ["Épaisseur Minimale de la Semelle (H)", `${epaisseurSemelle} cm (d >= ${(epaisseurSemelle - 5)} cm)`, "Condition de rigidité : d >= (A - a)/4 pour éviter le poinçonnement"],
-      ["Enrobage Réglementaire des Aciers", enrobageAciers, "Obligation BAEL 91 R99 pour prévenir la corrosion des armatures"],
-      ["Nature Stratigraphique du Terrain", natureSol, "Profil géologique dominant dans la zone choisie"],
-      ["Mode de Fondation Préconisé", modeFondation, hasBasement ? "Cuvelage étanche requis en sous-sol" : "Adapté pour éviter les tassements différentiels"]
+      ["CapacitÃ© Portante Admissible du Sol (q_adm)", `${frQ(portanceSolBars)} bars (${qAdmkNm2} kN/mÂ²)`, "Valeur estimative â€” Ã©tude gÃ©otechnique obligatoire avant dimensionnement dÃ©finitif."],
+      ["Surface Portante Minimale Requise (S)", `${fr2(parseFloat(surfaceSemelleRequise))} mÂ²`, "Formule DTU 13.12 : S >= 1,05 â€” N_ser / q_adm"],
+      ["Dimensionnement Semelle CarrÃ©e (A â€” B)", `${fr2(coteSemelleCarrer)} m â€” ${fr2(coteSemelleCarrer)} m`, "Section d'assise au sol sous le poteau le plus chargÃ©"],
+      ["Ã‰paisseur Minimale de la Semelle (H)", `${epaisseurSemelle} cm (d >= ${(epaisseurSemelle - 5)} cm)`, "Condition de rigiditÃ© : d >= (A - a)/4 pour Ã©viter le poinÃ§onnement"],
+      ["Enrobage RÃ©glementaire des Aciers", enrobageAciers, "Obligation BAEL 91 R99 pour prÃ©venir la corrosion des armatures"],
+      ["Nature Stratigraphique du Terrain", natureSol, "Profil gÃ©ologique dominant dans la zone choisie"],
+      ["Mode de Fondation PrÃ©conisÃ©", modeFondation, hasBasement ? "Cuvelage Ã©tanche requis en sous-sol" : "AdaptÃ© pour Ã©viter les tassements diffÃ©rentiels"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Élément de Dimensionnement', 'Prescription Déterminée', 'Justification Technique de Sécurité']],
+      [['Ã‰lÃ©ment de Dimensionnement', 'Prescription DÃ©terminÃ©e', 'Justification Technique de SÃ©curitÃ©']],
       semelleRows,
       {
         0: { cellWidth: 52, fontStyle: 'bold' },
@@ -531,37 +531,37 @@
     ));
 
     // =========================================================================
-    // PAGE 3 : RÉSEAUX (SEN'EAU, SENELEC, ONAS) & CLIMAT TROPICAL
+    // PAGE 3 : RÃ‰SEAUX (SEN'EAU, SENELEC, ONAS) & CLIMAT TROPICAL
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie III : Résilience Fluides (Sen'Eau, Senelec, ONAS) & Conception Bioclimatique", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie III : RÃ©silience Fluides (Sen'Eau, Senelec, ONAS) & Conception Bioclimatique", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     const occupantsEstimes = totalLevelsCount * (usage === 'unifamilial' ? 8 : (usage === 'locatif' ? 14 : 20));
     const consoJournaliereLitres = occupantsEstimes * 150;
     const bacheLitres = Math.round(consoJournaliereLitres * 2.5);
     const surpresseurPuissance = totalLevelsCount >= 3 ? "Surpresseur double pompe 1,5 kW" : "Groupe de surpression compact 0,75 kW";
     const kvaEstimes = Math.max(6, Math.round((sdpTotale * 35) / 1000));
-    const sectionCable = kvaEstimes > 18 ? "Câble cuivre 4×25 mm² Armé" : (kvaEstimes > 10 ? "Câble cuivre 4×16 mm²" : "Câble cuivre 2×10 mm²");
+    const sectionCable = kvaEstimes > 18 ? "CÃ¢ble cuivre 4Ã—25 mmÂ² ArmÃ©" : (kvaEstimes > 10 ? "CÃ¢ble cuivre 4Ã—16 mmÂ²" : "CÃ¢ble cuivre 2Ã—10 mmÂ²");
 
-    let assainissementDesc = "Raccordement réseau tout-à-l'égout ONAS obligatoire avec boîte de branchement siphoïde.";
+    let assainissementDesc = "Raccordement rÃ©seau tout-Ã -l'Ã©gout ONAS obligatoire avec boÃ®te de branchement siphoÃ¯de.";
     if (sanitation === 'autonome') {
-      assainissementDesc = `Fosse septique toutes eaux (${Math.max(4, Math.round(occupantsEstimes * 0.4))} m³) + Puits perdu filtrant selon NS 17-074.`;
+      assainissementDesc = `Fosse septique toutes eaux (${Math.max(4, Math.round(occupantsEstimes * 0.4))} mÂ³) + Puits perdu filtrant selon NS 17-074.`;
     }
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "V. RÉSERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT (NS 17-074)");
+    drawSectionTitle(doc, currentY, "V. RÃ‰SERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT (NS 17-074)");
 
     const fluidesRows = [
-      ["Bâche à Eau & Autonomie Coupure", `${formatNum(bacheLitres)} Litres (env. ${fr1(bacheLitres / 1000)} m³)`, "Réserve tampon 48h à 72h avec cuve enterrée béton étanche + surpresseur"],
-      ["Système de Pompage Recommandé", surpresseurPuissance, "Alimentation continue des étages sans perte de pression au robinet"],
-      ["Puissance Souscrite Senelec Cible", `${kvaEstimes} kVA (${kvaEstimes > 9 ? 'Triphasé 380V' : 'Monophasé 220V'})`, "Dimensionnement standard pour climatisation inverter et équipements"],
-      ["Section Colonne Montante Électrique", sectionCable, "Chute de tension < 3% entre coffret compteur et tableau général"],
-      ["Réseau d'Assainissement & Rejets", sanitation === 'autonome' ? "Assainissement Autonome" : "Réseau Public ONAS", assainissementDesc]
+      ["BÃ¢che Ã  Eau & Autonomie Coupure", `${formatNum(bacheLitres)} Litres (env. ${fr1(bacheLitres / 1000)} mÂ³)`, "RÃ©serve tampon 48h Ã  72h avec cuve enterrÃ©e bÃ©ton Ã©tanche + surpresseur"],
+      ["SystÃ¨me de Pompage RecommandÃ©", surpresseurPuissance, "Alimentation continue des Ã©tages sans perte de pression au robinet"],
+      ["Puissance Souscrite Senelec Cible", `${kvaEstimes} kVA (${kvaEstimes > 9 ? 'TriphasÃ© 380V' : 'MonophasÃ© 220V'})`, "Dimensionnement standard pour climatisation inverter et Ã©quipements"],
+      ["Section Colonne Montante Ã‰lectrique", sectionCable, "Chute de tension < 3% entre coffret compteur et tableau gÃ©nÃ©ral"],
+      ["RÃ©seau d'Assainissement & Rejets", sanitation === 'autonome' ? "Assainissement Autonome" : "RÃ©seau Public ONAS", assainissementDesc]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Poste Fluide & Énergie', 'Dimensionnement Calculé', 'Norme & Prescription Technique']],
+      [['Poste Fluide & Ã‰nergie', 'Dimensionnement CalculÃ©', 'Norme & Prescription Technique']],
       fluidesRows,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -571,18 +571,18 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VI. CONCEPTION BIOCLIMATIQUE SAHÉLIENNE & VENTILATION NATURELLE");
+    drawSectionTitle(doc, currentY, "VI. CONCEPTION BIOCLIMATIQUE SAHÃ‰LIENNE & VENTILATION NATURELLE");
 
     const bioclimRows = [
-      ["Orientation Solaire des Baies", "Façades Nord & Sud à privilégier", "Minimiser les ouvertures sur les façades Est et Ouest (rayonnement direct)"],
-      ["Protections Solaires Passives", "Casquettes béton (débord min 60 cm) & Brise-soleil", "Ombrage permanent des vitrages pour réduire l'apport thermique estival"],
-      ["Ventilation Naturelle Traversante", "Ouvrants opposés & cours d'aération intérieures", "Évacuation de l'air chaud par tirage thermique naturel nocturne"],
-      ["Inertie Thermique de l'Enveloppe", "Double cloison ou agglos pleins avec enduit épais", "Déphasage thermique d'au moins 6 heures pour l'abaissement des pics de chaleur"]
+      ["Orientation Solaire des Baies", "FaÃ§ades Nord & Sud Ã  privilÃ©gier", "Minimiser les ouvertures sur les faÃ§ades Est et Ouest (rayonnement direct)"],
+      ["Protections Solaires Passives", "Casquettes bÃ©ton (dÃ©bord min 60 cm) & Brise-soleil", "Ombrage permanent des vitrages pour rÃ©duire l'apport thermique estival"],
+      ["Ventilation Naturelle Traversante", "Ouvrants opposÃ©s & cours d'aÃ©ration intÃ©rieures", "Ã‰vacuation de l'air chaud par tirage thermique naturel nocturne"],
+      ["Inertie Thermique de l'Enveloppe", "Double cloison ou agglos pleins avec enduit Ã©pais", "DÃ©phasage thermique d'au moins 6 heures pour l'abaissement des pics de chaleur"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Axe de Conception Bioclimatique', 'Solution Technique Retenue', 'Impact Confort & Facture Énergétique']],
+      [['Axe de Conception Bioclimatique', 'Solution Technique Retenue', 'Impact Confort & Facture Ã‰nergÃ©tique']],
       bioclimRows,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -592,10 +592,10 @@
     ));
 
     // =========================================================================
-    // PAGE 4 : BUDGET PRÉVISIONNEL & FEUILLE DE ROUTE ADMINISTRATIVE
+    // PAGE 4 : BUDGET PRÃ‰VISIONNEL & FEUILLE DE ROUTE ADMINISTRATIVE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie IV : Évaluation Budgétaire Prévisionnelle & Démarches TELEDAC", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie IV : Ã‰valuation BudgÃ©taire PrÃ©visionnelle & DÃ©marches TELEDAC", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     const RATIOS_2026 = {
       eco: { terrassement: 18000, grosOeuvre: 110000, secondOeuvre: 85000, etancheite: 15000 },
@@ -614,21 +614,21 @@
     const pTotal = pTerrassement + pGrosOeuvre + pSecondOeuvre + pEtancheite + pIncendie + pAleas;
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "VII. ÉVALUATION FINANCIÈRE PRÉVISIONNELLE MACRO-LOTS TCE (VALEURS 2026)");
+    drawSectionTitle(doc, currentY, "VII. Ã‰VALUATION FINANCIÃˆRE PRÃ‰VISIONNELLE MACRO-LOTS TCE (VALEURS 2026)");
 
     const budgetTceRows = [
-      ["1. Terrassements, Fouilles & Fondations", formatFCFA(pTerrassement), `Ratio : ${RATIOS_2026.terrassement} FCFA/m² — ${sdpTotale} m²`],
-      ["2. Superstructure Béton Armé BAEL 91", formatFCFA(pGrosOeuvre), `Ratio : ${RATIOS_2026.grosOeuvre} FCFA/m² — ${sdpTotale} m²`],
-      ["3. Second œuvre, Fluides & Électricité", formatFCFA(pSecondOeuvre), `Ratio : ${RATIOS_2026.secondOeuvre} FCFA/m² — ${sdpTotale} m²`],
-      ["4. Étanchéité Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), `Ratio : ${RATIOS_2026.etancheite} FCFA/m² — ${sdpTotale} m²`],
+      ["1. Terrassements, Fouilles & Fondations", formatFCFA(pTerrassement), `Ratio : ${RATIOS_2026.terrassement} FCFA/mÂ² â€” ${sdpTotale} mÂ²`],
+      ["2. Superstructure BÃ©ton ArmÃ© BAEL 91", formatFCFA(pGrosOeuvre), `Ratio : ${RATIOS_2026.grosOeuvre} FCFA/mÂ² â€” ${sdpTotale} mÂ²`],
+      ["3. Second Å“uvre, Fluides & Ã‰lectricitÃ©", formatFCFA(pSecondOeuvre), `Ratio : ${RATIOS_2026.secondOeuvre} FCFA/mÂ² â€” ${sdpTotale} mÂ²`],
+      ["4. Ã‰tanchÃ©itÃ© Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), `Ratio : ${RATIOS_2026.etancheite} FCFA/mÂ² â€” ${sdpTotale} mÂ²`],
     ];
-    if (pIncendie > 0) budgetTceRows.push(["5. Équipements Sécurité Incendie (Provision)", formatFCFA(pIncendie), "Provision obligatoire IGH/4e famille — à valider BET."]);
-    budgetTceRows.push([`Provision Aléas & Marché (${formatPercent(tauxAleas)})`, formatFCFA(pAleas), `${formatPercent(tauxAleas)} — sous-total lots. Formule tracée.`]);
-    budgetTceRows.push(["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), `Ratio moyen : env. ${formatFCFA(Math.round(pTotal / sdpTotale))} / m² de plancher`]);
+    if (pIncendie > 0) budgetTceRows.push(["5. Ã‰quipements SÃ©curitÃ© Incendie (Provision)", formatFCFA(pIncendie), "Provision obligatoire IGH/4e famille â€” Ã  valider BET."]);
+    budgetTceRows.push([`Provision AlÃ©as & MarchÃ© (${formatPercent(tauxAleas)})`, formatFCFA(pAleas), `${formatPercent(tauxAleas)} â€” sous-total lots. Formule tracÃ©e.`]);
+    budgetTceRows.push(["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), `Ratio moyen : env. ${formatFCFA(Math.round(pTotal / sdpTotale))} / mÂ² de plancher`]);
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Macro-Lot Technique TCE', 'Montant Prévisionnel', 'Prestations & Matériaux Normalisés Inclus']],
+      [['Macro-Lot Technique TCE', 'Montant PrÃ©visionnel', 'Prestations & MatÃ©riaux NormalisÃ©s Inclus']],
       budgetTceRows,
       {
         0: { cellWidth: 62, fontStyle: 'bold' },
@@ -641,16 +641,16 @@
     drawSectionTitle(doc, currentY, "VIII. FEUILLE DE ROUTE ADMINISTRATIVE : INSTRUCTION DU PERMIS DE CONSTRUIRE (TELEDAC)");
 
     const etapesTeledac = [
-      ["1. Bornage Contradictoire", "Géomètre-Expert Agréé (OGES)", "Plan de bornage régulier et scellement des bornes physiques."],
-      ["2. Plans Architecturaux Visés", "Architecte inscrit à l'ODAS", "Recours à l'architecte obligatoire pour la construction ou la modification de bâtiments (art. R.407, décret n° 2025-1194)."],
-      ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections de béton et armatures selon BAEL 91 R99."],
-      ["4. Dépôt Plateforme TELEDAC", "Direction de l'Urbanisme / Mairie", "Instruction administrative préalable — arrêté signé obligatoire avant ouverture de chantier (délai estimé selon commune)."],
-      ["5. Contrat & Clauses COCC", "Entreprise Générale / Tâcheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrêt."]
+      ["1. Bornage Contradictoire", "GÃ©omÃ¨tre-Expert AgrÃ©Ã© (OGES)", "Plan de bornage rÃ©gulier et scellement des bornes physiques."],
+      ["2. Plans Architecturaux VisÃ©s", "Architecte inscrit Ã  l'ODAS", "Recours Ã  l'architecte obligatoire pour la construction ou la modification de bÃ¢timents (art. R.407, dÃ©cret nÂ° 2025-1194)."],
+      ["3. Note de Calcul de StabilitÃ©", "Bureau d'Ã‰tudes Techniques (BET)", "Justification des sections de bÃ©ton et armatures selon BAEL 91 R99."],
+      ["4. DÃ©pÃ´t Plateforme TELEDAC", "Direction de l'Urbanisme / Mairie", "Instruction administrative prÃ©alable â€” arrÃªtÃ© signÃ© obligatoire avant ouverture de chantier (dÃ©lai estimÃ© selon commune)."],
+      ["5. Contrat & Clauses COCC", "Entreprise GÃ©nÃ©rale / TÃ¢cheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrÃªt."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Étape Administrative', 'Professionnel Compétent', 'Cadre Réglementaire (Loi 2023-20 & Décret 2025-1194)']],
+      [['Ã‰tape Administrative', 'Professionnel CompÃ©tent', 'Cadre RÃ©glementaire (Loi 2023-20 & DÃ©cret 2025-1194)']],
       etapesTeledac,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -659,7 +659,7 @@
       }
     ));
 
-    // Bloc de visa technique — fond rouge, texte blanc (contraste ≥ 4,5:1)
+    // Bloc de visa technique â€” fond rouge, texte blanc (contraste â‰¥ 4,5:1)
     currentY = doc.lastAutoTable.finalY + TABLE_GAP_MM + 1.5;
     // Couleur fond : rouge profond #C0392B (R=192, G=57, B=43)
     doc.setFillColor(192, 57, 43);
@@ -671,26 +671,26 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(255, 255, 255);
-    doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
+    doc.text("VISA TECHNIQUE DU BUREAU D'Ã‰TUDES INDÃ‰PENDANT CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
 
     // Corps du disclaimer : texte blanc normal
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(255, 255, 255);
     const disclaimerLines = doc.splitTextToSize(
-      "Document indicatif d'aide à la décision généré automatiquement. Il ne constitue ni une note de calcul, ni le visa d'un bureau d'études agréé. Les valeurs réglementaires (COS max, capacité portante, ratios) doivent être confirmées par des professionnels qualifiés avant tout engagement financier ou dépôt de permis.",
+      "Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Il ne constitue ni une note de calcul, ni le visa d'un bureau d'Ã©tudes agrÃ©Ã©. Les valeurs rÃ©glementaires (COS max, capacitÃ© portante, ratios) doivent Ãªtre confirmÃ©es par des professionnels qualifiÃ©s avant tout engagement financier ou dÃ©pÃ´t de permis.",
       USABLE_WIDTH - 8
     );
     doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 11);
-    doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
+    doc.text(`Rapport Ã©mis Ã  Dakar le ${currentDate} pour le compte exclusif de ${clientName}. RÃ©f: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
   }
 
   // =========================================================================
-  // 2. LIVRABLE : BORDEREAU QUANTITATIF ESTIMATIF (BQE) GROS œUVRE EXPRESS (4 PAGES)
+  // 2. LIVRABLE : BORDEREAU QUANTITATIF ESTIMATIF (BQE) GROS Å“UVRE EXPRESS (4 PAGES)
   // =========================================================================
   function renderExpress(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+    const clientName = (data.client_name || 'MaÃ®tre d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
@@ -702,7 +702,7 @@
     const slabType = data.slab_type || 'hourdis';
     const soilType = data.soil_type || 'normal';
     const location = data.project_location || 'Dakar - Zone Urbaine';
-    const lotNumber = data.lot_number || 'Non spécifié';
+    const lotNumber = data.lot_number || 'Non spÃ©cifiÃ©';
 
     const locLower = location.toLowerCase();
     const isMarine = locLower.includes('almadies') || locLower.includes('ngor') || locLower.includes('yoff') || locLower.includes('corniche') || locLower.includes('saly');
@@ -710,7 +710,7 @@
     const enrobageCm = isMarine ? 4.5 : 3.0;
     const enrobageCmStr = isMarine ? "4,5" : "3,0";
 
-    // Formatters locaux pour virgules décimales françaises
+    // Formatters locaux pour virgules dÃ©cimales franÃ§aises
     const fr1 = v => (typeof v === 'number' ? v.toFixed(1) : parseFloat(v).toFixed(1)).replace('.', ',');
     const fr2 = v => (typeof v === 'number' ? v.toFixed(2) : parseFloat(v).toFixed(2)).replace('.', ',');
     const frQ = v => (v === undefined || v === null ? '' : v.toString().replace('.', ','));
@@ -745,7 +745,7 @@
     const kgHA6 = Math.round(kgAcierTotal * 0.08);
     const filRecuitKg = Math.round(tonnageAcierTotal * 15);
 
-    // Ciment décomposé béton + mortiers
+    // Ciment dÃ©composÃ© bÃ©ton + mortiers
     const DOSAGE_BETON_KG_M3 = 350;
     const sacsCimentBeton = Math.round(vTotalBeton * DOSAGE_BETON_KG_M3 / 50);
     const sMursEstimee = Math.round(surface * 2.8);
@@ -753,7 +753,7 @@
     const totalSacsCiment = sacsCimentBeton + sacsCimentMortiers;
     const tonnesCiment = (totalSacsCiment * 0.05).toFixed(1);
 
-    // Relevés de prix de marché Dakar 2026 (indicatifs, non officiels)
+    // RelevÃ©s de prix de marchÃ© Dakar 2026 (indicatifs, non officiels)
     const PRIX_ACIER_TONNE = 640000;
     const PRIX_CIMENT_SAC = 4100;
     const PRIX_GRAVIER_M3 = 19000;
@@ -770,7 +770,7 @@
     const totalHourdisF = nbHourdis * PRIX_HOURDIS;
     const totalFournituresTTC = totalAcierF + totalCimentF + totalGravierF + totalSableF + totalAgglosF + totalHourdisF;
 
-    // Découpage par phase
+    // DÃ©coupage par phase
     const phase1Ciment = Math.round(totalSacsCiment * 0.30);
     const phase2Ciment = Math.round(totalSacsCiment * 0.30);
     const phase3Ciment = Math.round(totalSacsCiment * 0.25);
@@ -791,9 +791,9 @@
     const h50b = nbHourdis - h50a;
 
     // =========================================================================
-    // PAGE 1 : CUBATURES & SYNTHÈSE DES RATIOS
+    // PAGE 1 : CUBATURES & SYNTHÃˆSE DES RATIOS
     // =========================================================================
-    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros œuvre", "Partie I : Métré Volumique Béton & Besoins en Matériaux Structurels (BAEL 91 R99)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
+    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros Å“uvre", "Partie I : MÃ©trÃ© Volumique BÃ©ton & Besoins en MatÃ©riaux Structurels (BAEL 91 R99)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
 
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
@@ -803,41 +803,41 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(8.2);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("PARAMÈTRES DE DIMENSIONNEMENT DU BÂTIMENT & LOCALISATION", MARGIN_LEFT + 4, 56);
+    doc.text("PARAMÃˆTRES DE DIMENSIONNEMENT DU BÃ‚TIMENT & LOCALISATION", MARGIN_LEFT + 4, 56);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(51, 65, 85);
-    doc.text(`Maître d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
-    doc.text(`Téléphone : ${clientPhone}`, MARGIN_LEFT + 4, 69);
-    doc.text(`Surface Développée (SDP) : env. ${surface} m²`, MARGIN_LEFT + 4, 75);
-    doc.text(`Élévation : R+${levels} (${totalLevelsCount} niveaux)`, MARGIN_LEFT + 4, 81);
+    doc.text(`MaÃ®tre d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
+    doc.text(`TÃ©lÃ©phone : ${clientPhone}`, MARGIN_LEFT + 4, 69);
+    doc.text(`Surface DÃ©veloppÃ©e (SDP) : env. ${surface} mÂ²`, MARGIN_LEFT + 4, 75);
+    doc.text(`Ã‰lÃ©vation : R+${levels} (${totalLevelsCount} niveaux)`, MARGIN_LEFT + 4, 81);
 
     doc.text(`Localisation : ${location}`, 108, 63);
     doc.text(`Type Plancher : ${slabType === 'dalle_pleine' ? 'Dalle Pleine BA' : 'Corps Creux 16+4'}`, 108, 69);
     doc.text(`Milieu d'Exposition : ${isMarine ? 'Marin Agressif (Cales 4,5 cm)' : 'Standard (Cales 3,0 cm)'}`, 108, 75);
-    doc.text(`Nature du Sol : ${soilType === 'rocheux' ? 'Rocheux compact' : (soilType === 'sable' ? 'Sable dunaire' : 'Normal / Latéritique')}`, 108, 81);
+    doc.text(`Nature du Sol : ${soilType === 'rocheux' ? 'Rocheux compact' : (soilType === 'sable' ? 'Sable dunaire' : 'Normal / LatÃ©ritique')}`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. SYNTHÈSE DES RATIOS D'INGÉNIERIE & CUBATURES PRINCIPALES (BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "I. SYNTHÃˆSE DES RATIOS D'INGÃ‰NIERIE & CUBATURES PRINCIPALES (BAEL 91 R99)");
 
     const ratioAcierDetail = isMarine
-      ? `Ratio effectif : ${ratioAcierM3} kg/m³ de béton (base ${ratioAcierM3 - 5} kg + 5 kg/m³ zone marine inclus)`
-      : `Ratio : ${ratioAcierM3} kg/m³ de béton armé structural`;
+      ? `Ratio effectif : ${ratioAcierM3} kg/mÂ³ de bÃ©ton (base ${ratioAcierM3 - 5} kg + 5 kg/mÂ³ zone marine inclus)`
+      : `Ratio : ${ratioAcierM3} kg/mÂ³ de bÃ©ton armÃ© structural`;
 
     const syntheseRows = [
-      ["Béton Armé Structurel (fc28 >= 25 MPa)", `${fr1(vTotalBeton)} m³`, `Ratio : ${fr2(vTotalBeton / surface)} m³/m². Fondations + poteaux + poutres + dalles.`],
-      ["Aciers Haute Adhérence FeE500", `${fr2(tonnageAcierTotal)} Tonnes (${formatNum(kgAcierTotal)} kg)`, ratioAcierDetail],
-      ["Ciment CEM II 42.5R (SOCOCIM / Dangote)", `${formatNum(totalSacsCiment)} Sacs (env. ${fr1(tonnesCiment)} T)`, `Béton (${formatNum(sacsCimentBeton)} sacs) + Mortiers (${formatNum(sacsCimentMortiers)} sacs)`],
-      ["Gravier Basalte Concassé (Carrières Diack)", `${formatNum(volGravierBasalte)} m³`, `Formule : ${fr1(vTotalBeton)} m³ béton — 0,80. Basalte Diack recommandé.`],
-      ["Sable Dunaire Lavé Propre (Kayar / Diender)", `${formatNum(volSableKayar)} m³`, `Formule : ${fr1(vTotalBeton)} m³ béton — 0,45. Sable propre sans sel.`],
-      ["Agglos Vibrés Normalisés (15 & 20)", `${formatNum(nbAgglos15 + nbAgglos20)} Unités`, `Agglos 15 (${formatNum(nbAgglos15)}) + Agglos 20 (${formatNum(nbAgglos20)}) — 12,5 U/m²`],
-      ["Plancher Hourdis Entrevous Béton", slabType === 'dalle_pleine' ? "Dalle Pleine BA" : `${formatNum(nbHourdis)} Hourdis`, slabType === 'dalle_pleine' ? "Coffrage intégral dalle pleine" : `${formatNum(nbHourdis)} U — ratio 8,5 U/m² planchers hauts`]
+      ["BÃ©ton ArmÃ© Structurel (fc28 >= 25 MPa)", `${fr1(vTotalBeton)} mÂ³`, `Ratio : ${fr2(vTotalBeton / surface)} mÂ³/mÂ². Fondations + poteaux + poutres + dalles.`],
+      ["Aciers Haute AdhÃ©rence FeE500", `${fr2(tonnageAcierTotal)} Tonnes (${formatNum(kgAcierTotal)} kg)`, ratioAcierDetail],
+      ["Ciment CEM II 42.5R (SOCOCIM / Dangote)", `${formatNum(totalSacsCiment)} Sacs (env. ${fr1(tonnesCiment)} T)`, `BÃ©ton (${formatNum(sacsCimentBeton)} sacs) + Mortiers (${formatNum(sacsCimentMortiers)} sacs)`],
+      ["Gravier Basalte ConcassÃ© (CarriÃ¨res Diack)", `${formatNum(volGravierBasalte)} mÂ³`, `Formule : ${fr1(vTotalBeton)} mÂ³ bÃ©ton â€” 0,80. Basalte Diack recommandÃ©.`],
+      ["Sable Dunaire LavÃ© Propre (Kayar / Diender)", `${formatNum(volSableKayar)} mÂ³`, `Formule : ${fr1(vTotalBeton)} mÂ³ bÃ©ton â€” 0,45. Sable propre sans sel.`],
+      ["Agglos VibrÃ©s NormalisÃ©s (15 & 20)", `${formatNum(nbAgglos15 + nbAgglos20)} UnitÃ©s`, `Agglos 15 (${formatNum(nbAgglos15)}) + Agglos 20 (${formatNum(nbAgglos20)}) â€” 12,5 U/mÂ²`],
+      ["Plancher Hourdis Entrevous BÃ©ton", slabType === 'dalle_pleine' ? "Dalle Pleine BA" : `${formatNum(nbHourdis)} Hourdis`, slabType === 'dalle_pleine' ? "Coffrage intÃ©gral dalle pleine" : `${formatNum(nbHourdis)} U â€” ratio 8,5 U/mÂ² planchers hauts`]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Désignation du Matériau', 'Quantitatif Global Calculé', 'Prescription & Ratio d\'Ingénierie']],
+      [['DÃ©signation du MatÃ©riau', 'Quantitatif Global CalculÃ©', 'Prescription & Ratio d\'IngÃ©nierie']],
       syntheseRows,
       {
         0: { cellWidth: 55, fontStyle: 'bold' },
@@ -847,18 +847,18 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "II. SPÉCIFICATIONS TECHNIQUES DU BÉTON & SÉCURITÉ DES OUVRAGES");
+    drawSectionTitle(doc, currentY, "II. SPÃ‰CIFICATIONS TECHNIQUES DU BÃ‰TON & SÃ‰CURITÃ‰ DES OUVRAGES");
 
     const securiteRows = [
-      ["Classe de Résistance Béton", "B25 (fc28 >= 25 MPa)", "Recommandé selon les règles professionnelles pour poteaux, poutres et planchers"],
-      ["Dosage usuel recommandé", "350 kg/m³ (CEM II 42.5R)", "7 sacs de 50 kg par mètre cube de béton mis en œuvre"],
-      ["Calage d'Enrobage Préconisé", `${enrobageCmStr} cm avec cales béton`, isMarine ? "Milieu marin agressif (BAEL 91 R99, art. A.7.2.4)" : "Milieu non agressif standard (recommandation BAEL 91 R99)"],
-      ["Vibration du Béton Frais", "Aiguille vibrante recommandée", "Déconseillé : risque de nids de cailloux (serrage manuel au fer à béton à proscrire)"]
+      ["Classe de RÃ©sistance BÃ©ton", "B25 (fc28 >= 25 MPa)", "RecommandÃ© selon les rÃ¨gles professionnelles pour poteaux, poutres et planchers"],
+      ["Dosage usuel recommandÃ©", "350 kg/mÂ³ (CEM II 42.5R)", "7 sacs de 50 kg par mÃ¨tre cube de bÃ©ton mis en Å“uvre"],
+      ["Calage d'Enrobage PrÃ©conisÃ©", `${enrobageCmStr} cm avec cales bÃ©ton`, isMarine ? "Milieu marin agressif (BAEL 91 R99, art. A.7.2.4)" : "Milieu non agressif standard (recommandation BAEL 91 R99)"],
+      ["Vibration du BÃ©ton Frais", "Aiguille vibrante recommandÃ©e", "DÃ©conseillÃ© : risque de nids de cailloux (serrage manuel au fer Ã  bÃ©ton Ã  proscrire)"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Composant / Phase', 'Spécification Technique', 'Norme & Règle de l\'Art']],
+      [['Composant / Phase', 'SpÃ©cification Technique', 'Norme & RÃ¨gle de l\'Art']],
       securiteRows,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -871,24 +871,24 @@
     // PAGE 2 : NOMENCLATURE DES ACIERS & BORDEREAU ESTIMATIF FOURNITURES
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros œuvre", "Partie II : Calibrage des Aciers FeE500 & Bordereau Estimatif Fournitures 2026", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
+    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros Å“uvre", "Partie II : Calibrage des Aciers FeE500 & Bordereau Estimatif Fournitures 2026", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "III. NOMENCLATURE & CALIBRAGE DES ARMATURES HAUTE ADHÉRENCE FeE500");
+    drawSectionTitle(doc, currentY, "III. NOMENCLATURE & CALIBRAGE DES ARMATURES HAUTE ADHÃ‰RENCE FeE500");
 
     const aciersRows = [
       ["Aciers HA 14 & HA 16", `${formatNum(kgHA14_16)} kg (${fr2(kgHA14_16 / 1000)} T)`, "Aciers longitudinaux des semelles de fondation et poteaux du RDC"],
-      ["Aciers HA 12", `${formatNum(kgHA12)} kg (${fr2(kgHA12 / 1000)} T)`, "Armatures principales des poutres maîtresses et poteaux des étages"],
+      ["Aciers HA 12", `${formatNum(kgHA12)} kg (${fr2(kgHA12 / 1000)} T)`, "Armatures principales des poutres maÃ®tresses et poteaux des Ã©tages"],
       ["Aciers HA 10", `${formatNum(kgHA10)} kg (${fr2(kgHA10 / 1000)} T)`, "Aciers chapeaux de dalle, poutrelles hourdis et linteaux"],
-      ["Aciers HA 8", `${formatNum(kgHA8)} kg (${fr2(kgHA8 / 1000)} T)`, "Armatures de répartition, chaînages verticaux et renforts d'angles"],
-      ["Aciers HA 6", `${formatNum(kgHA6)} kg (${fr2(kgHA6 / 1000)} T)`, "Cadres, étriers et épingles anti-flambement des poteaux et poutres"],
-      [`Fil de Recuit & Cales (${enrobageCmStr} cm)`, `${formatNum(filRecuitKg)} kg de fil + cales`, `Enrobage ${enrobageCmStr} cm ${isMarine ? '(zone côtière/saline)' : '(milieu standard)'}`],
-      ["TOTAL ACIERS HAUTE ADHÉRENCE FeE500", `${formatNum(kgAcierTotal)} kg (env. ${fr2(tonnageAcierTotal)} T)`, "Fers certifiés SOCOCIM / Senbus / Someta à haute limite élastique"]
+      ["Aciers HA 8", `${formatNum(kgHA8)} kg (${fr2(kgHA8 / 1000)} T)`, "Armatures de rÃ©partition, chaÃ®nages verticaux et renforts d'angles"],
+      ["Aciers HA 6", `${formatNum(kgHA6)} kg (${fr2(kgHA6 / 1000)} T)`, "Cadres, Ã©triers et Ã©pingles anti-flambement des poteaux et poutres"],
+      [`Fil de Recuit & Cales (${enrobageCmStr} cm)`, `${formatNum(filRecuitKg)} kg de fil + cales`, `Enrobage ${enrobageCmStr} cm ${isMarine ? '(zone cÃ´tiÃ¨re/saline)' : '(milieu standard)'}`],
+      ["TOTAL ACIERS HAUTE ADHÃ‰RENCE FeE500", `${formatNum(kgAcierTotal)} kg (env. ${fr2(tonnageAcierTotal)} T)`, "Fers certifiÃ©s SOCOCIM / Senbus / Someta Ã  haute limite Ã©lastique"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Diamètre Commercial & Type d\'Armature', 'Poids Requis', 'Destination Structurelle']],
+      [['DiamÃ¨tre Commercial & Type d\'Armature', 'Poids Requis', 'Destination Structurelle']],
       aciersRows,
       {
         0: { cellWidth: 55, fontStyle: 'bold' },
@@ -898,24 +898,24 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "IV. BORDEREAU ESTIMATIF FOURNITURES MATÉRIAUX (RELEVÉS DE PRIX DE MARCHÉ — DAKAR 2026, INDICATIFS, NON OFFICIELS)");
+    drawSectionTitle(doc, currentY, "IV. BORDEREAU ESTIMATIF FOURNITURES MATÃ‰RIAUX (RELEVÃ‰S DE PRIX DE MARCHÃ‰ â€” DAKAR 2026, INDICATIFS, NON OFFICIELS)");
 
     const bordereauRows = [
-      ["Aciers FeE500 (Barres de 12 m)", `${fr2(tonnageAcierTotal)} Tonnes`, `${formatFCFA(PRIX_ACIER_TONNE)} / T`, formatFCFA(totalAcierF), "Aciers certifiés sans rouille feuilletée"],
+      ["Aciers FeE500 (Barres de 12 m)", `${fr2(tonnageAcierTotal)} Tonnes`, `${formatFCFA(PRIX_ACIER_TONNE)} / T`, formatFCFA(totalAcierF), "Aciers certifiÃ©s sans rouille feuilletÃ©e"],
       ["Ciment CEM II 42.5R (Sacs 50 kg)", `${formatNum(totalSacsCiment)} Sacs`, `${formatFCFA(PRIX_CIMENT_SAC)} / Sac`, formatFCFA(totalCimentF), "SOCOCIM / Dangote / Sahel"],
-      ["Gravier Basalte Diack (8/16 & 16/25)", `${formatNum(volGravierBasalte)} m³`, `${formatFCFA(PRIX_GRAVIER_M3)} / m³`, formatFCFA(totalGravierF), "Basalte concassé haute compacité"],
-      ["Sable Dunaire Lavé (Kayar / Diender)", `${formatNum(volSableKayar)} m³`, `${formatFCFA(PRIX_SABLE_M3)} / m³`, formatFCFA(totalSableF), "Sable propre sans vase ni sel"],
-      ["Agglos Creux Vibrés de 15", `${formatNum(nbAgglos15)} U`, `${PRIX_AGGLO_15} FCFA / U`, formatFCFA(nbAgglos15 * PRIX_AGGLO_15), "Élévations murs extérieurs et refends"],
-      ["Agglos Pleins Vibrés de 20", `${formatNum(nbAgglos20)} U`, `${PRIX_AGGLO_20} FCFA / U`, formatFCFA(nbAgglos20 * PRIX_AGGLO_20), "Murs de soubassement sous longrines"]
+      ["Gravier Basalte Diack (8/16 & 16/25)", `${formatNum(volGravierBasalte)} mÂ³`, `${formatFCFA(PRIX_GRAVIER_M3)} / mÂ³`, formatFCFA(totalGravierF), "Basalte concassÃ© haute compacitÃ©"],
+      ["Sable Dunaire LavÃ© (Kayar / Diender)", `${formatNum(volSableKayar)} mÂ³`, `${formatFCFA(PRIX_SABLE_M3)} / mÂ³`, formatFCFA(totalSableF), "Sable propre sans vase ni sel"],
+      ["Agglos Creux VibrÃ©s de 15", `${formatNum(nbAgglos15)} U`, `${PRIX_AGGLO_15} FCFA / U`, formatFCFA(nbAgglos15 * PRIX_AGGLO_15), "Ã‰lÃ©vations murs extÃ©rieurs et refends"],
+      ["Agglos Pleins VibrÃ©s de 20", `${formatNum(nbAgglos20)} U`, `${PRIX_AGGLO_20} FCFA / U`, formatFCFA(nbAgglos20 * PRIX_AGGLO_20), "Murs de soubassement sous longrines"]
     ];
     if (nbHourdis > 0) {
-      bordereauRows.push(["Entrevous Hourdis Béton 16 cm", `${formatNum(nbHourdis)} U`, `${PRIX_HOURDIS} FCFA / U`, formatFCFA(totalHourdisF), "Hourdis normalisés pour planchers hauts"]);
+      bordereauRows.push(["Entrevous Hourdis BÃ©ton 16 cm", `${formatNum(nbHourdis)} U`, `${PRIX_HOURDIS} FCFA / U`, formatFCFA(totalHourdisF), "Hourdis normalisÃ©s pour planchers hauts"]);
     }
-    bordereauRows.push(["TOTAL ESTIMATIF FOURNITURES MATÉRIAUX", "-", "-", formatFCFA(totalFournituresTTC), "Total indicatif matériaux rendus chantier"]);
+    bordereauRows.push(["TOTAL ESTIMATIF FOURNITURES MATÃ‰RIAUX", "-", "-", formatFCFA(totalFournituresTTC), "Total indicatif matÃ©riaux rendus chantier"]);
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Désignation Matériau', 'Quantité', 'Prix Unitaire', 'Montant Total HT', 'Observations']],
+      [['DÃ©signation MatÃ©riau', 'QuantitÃ©', 'Prix Unitaire', 'Montant Total HT', 'Observations']],
       bordereauRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -926,7 +926,7 @@
       }
     ));
 
-    // Note d'encadré sur les relevés de prix & tendance conjoncturelle
+    // Note d'encadrÃ© sur les relevÃ©s de prix & tendance conjoncturelle
     currentY = doc.lastAutoTable.finalY + TABLE_GAP_MM + 1.0;
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.roundedRect(MARGIN_LEFT, currentY, USABLE_WIDTH, 23, 2, 2, 'F');
@@ -936,36 +936,36 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.2);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("NOTE SUR LES RELEVÉS DE PRIX & TENDANCE CONJONCTURELLE :", MARGIN_LEFT + 4, currentY + 5);
+    doc.text("NOTE SUR LES RELEVÃ‰S DE PRIX & TENDANCE CONJONCTURELLE :", MARGIN_LEFT + 4, currentY + 5);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.4);
     doc.setTextColor(51, 65, 85);
     const notePrixLines = doc.splitTextToSize(
-      "• Ciment type 32.5 : prix plafonné à 3 550 FCFA le sac de 50 kg à Dakar (arrêté n° 09852 du 24 juin 2024). Le CEM II 42.5 n'est pas couvert par cet arrêté : le prix indiqué ci-dessus est un relevé de marché.\n• Indice ANSD des coûts des BTP (IBTP), T2 2026 : +1,0 % sur le trimestre (bâtiments +1,4 %).",
+      "â€¢ Ciment type 32.5 : prix plafonnÃ© Ã  3 550 FCFA le sac de 50 kg Ã  Dakar (arrÃªtÃ© nÂ° 09852 du 24 juin 2024). Le CEM II 42.5 n'est pas couvert par cet arrÃªtÃ© : le prix indiquÃ© ci-dessus est un relevÃ© de marchÃ©.\nâ€¢ Indice ANSD des coÃ»ts des BTP (IBTP), T2 2026 : +1,0 % sur le trimestre (bÃ¢timents +1,4 %).",
       USABLE_WIDTH - 8
     );
     doc.text(notePrixLines, MARGIN_LEFT + 4, currentY + 10.5);
 
     // =========================================================================
-    // PAGE 3 : PLANNING D'APPROVISIONNEMENT & CONTRÔLE CHANTIER
+    // PAGE 3 : PLANNING D'APPROVISIONNEMENT & CONTRÃ”LE CHANTIER
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros œuvre", "Partie III : Planning d'Approvisionnement par Phase & Recettes de Bétonnage", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
+    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros Å“uvre", "Partie III : Planning d'Approvisionnement par Phase & Recettes de BÃ©tonnage", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
 
     currentY = 52;
     drawSectionTitle(doc, currentY, "V. PLANNING D'APPROVISIONNEMENT PAR PHASE (ANTI-VOL & ANTI-GASPILLAGE)");
 
     const planningRows = [
-      ["Phase 1 : Fouilles, Fondations & Soubassement", `${formatNum(phase1Ciment)} Sacs`, `${fr2(phase1Acier)} T (HA16, HA14, HA12)`, `${formatNum(p1Gravier)} m³`, `${formatNum(nbAgglos20)} agglos pleins de 20 + sable`],
-      ["Phase 2 : Poteaux RDC & Plancher Haut", `${formatNum(phase2Ciment)} Sacs`, `${fr2(phase2Acier)} T (HA14, HA12, HA8)`, `${formatNum(p2Gravier)} m³`, `${formatNum(h50a)} hourdis + ${formatNum(Math.round(nbAgglos15 * 0.3))} agglos 15`],
-      [`Phase 3 : Élévations & Planchers Étages (R+${levels})`, `${formatNum(phase3Ciment)} Sacs`, `${fr2(phase3Acier)} T (HA12, HA10, HA8)`, `${formatNum(p3Gravier)} m³`, `${formatNum(h50b)} hourdis + ${formatNum(Math.round(nbAgglos15 * 0.4))} agglos 15`],
-      ["Phase 4 : Toiture Terrasse, Acrotères & Enduits", `${formatNum(phase4Ciment)} Sacs`, `${fr2(phase4Acier)} T (HA10, HA8, HA6)`, `${formatNum(p4Gravier)} m³`, `${formatNum(Math.round(nbAgglos15 * 0.3))} agglos 15 + sable enduits`]
+      ["Phase 1 : Fouilles, Fondations & Soubassement", `${formatNum(phase1Ciment)} Sacs`, `${fr2(phase1Acier)} T (HA16, HA14, HA12)`, `${formatNum(p1Gravier)} mÂ³`, `${formatNum(nbAgglos20)} agglos pleins de 20 + sable`],
+      ["Phase 2 : Poteaux RDC & Plancher Haut", `${formatNum(phase2Ciment)} Sacs`, `${fr2(phase2Acier)} T (HA14, HA12, HA8)`, `${formatNum(p2Gravier)} mÂ³`, `${formatNum(h50a)} hourdis + ${formatNum(Math.round(nbAgglos15 * 0.3))} agglos 15`],
+      [`Phase 3 : Ã‰lÃ©vations & Planchers Ã‰tages (R+${levels})`, `${formatNum(phase3Ciment)} Sacs`, `${fr2(phase3Acier)} T (HA12, HA10, HA8)`, `${formatNum(p3Gravier)} mÂ³`, `${formatNum(h50b)} hourdis + ${formatNum(Math.round(nbAgglos15 * 0.4))} agglos 15`],
+      ["Phase 4 : Toiture Terrasse, AcrotÃ¨res & Enduits", `${formatNum(phase4Ciment)} Sacs`, `${fr2(phase4Acier)} T (HA10, HA8, HA6)`, `${formatNum(p4Gravier)} mÂ³`, `${formatNum(Math.round(nbAgglos15 * 0.3))} agglos 15 + sable enduits`]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Étape des Travaux', 'Quota Ciment 42.5R', 'Quota Aciers FeE500', 'Quota Gravier Diack', 'Matériaux Complémentaires']],
+      [['Ã‰tape des Travaux', 'Quota Ciment 42.5R', 'Quota Aciers FeE500', 'Quota Gravier Diack', 'MatÃ©riaux ComplÃ©mentaires']],
       planningRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -976,24 +976,24 @@
       }
     ));
 
-    // Contrôle technique bloquant de concordance des phases
+    // ContrÃ´le technique bloquant de concordance des phases
     const checkCimentPhases = phase1Ciment + phase2Ciment + phase3Ciment + phase4Ciment;
     const checksPhases = (checkCimentPhases === totalSacsCiment);
-    if (!checksPhases) throw new Error("Incohérence somme approvisionnement ciment");
+    if (!checksPhases) throw new Error("IncohÃ©rence somme approvisionnement ciment");
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VI. CONTRÔLE DES RATIOS DE BÉTONNAGE & RECETTES CHANTIER (DOSAGE 350 KG)");
+    drawSectionTitle(doc, currentY, "VI. CONTRÃ”LE DES RATIOS DE BÃ‰TONNAGE & RECETTES CHANTIER (DOSAGE 350 KG)");
 
     const recettesRows = [
-      ["Composition par Gâchée (1 Sac de Ciment)", "1 sac ciment (50 kg) + 1 brouette sable (env. 40 L) + 2 brouettes gravier (env. 80 L) + 22 à 25 L d'eau propre", "Interdire formellement l'excès d'eau pour faciliter la mise en œuvre (chute drastique de résistance)."],
-      ["Contrôle d'Affaissement au Cône d'Abrams", "Affaissement prescrit : 6 à 9 cm (Béton plastique à très maniable)", "Mesure systématique à l'arrivée de chaque toupie ou première gâchée de la journée."],
-      ["Surveillance des Armatures avant Coulage", "Vérification des cales d'enrobage, ligature croisée et recouvrement minimal (50 diamètres)", "Point d'arrêt obligatoire : coulage strictement interdit sans visa de ferraillage."],
-      ["Cure du Béton Jeune sous Climat Sahélien", "Arrosage abondant 2 fois par jour pendant 7 jours minimum ou produit de cure agréé", "Évite la dessiccation prématurée et les fissures de retrait plastique."]
+      ["Composition par GÃ¢chÃ©e (1 Sac de Ciment)", "1 sac ciment (50 kg) + 1 brouette sable (env. 40 L) + 2 brouettes gravier (env. 80 L) + 22 Ã  25 L d'eau propre", "Interdire formellement l'excÃ¨s d'eau pour faciliter la mise en Å“uvre (chute drastique de rÃ©sistance)."],
+      ["ContrÃ´le d'Affaissement au CÃ´ne d'Abrams", "Affaissement prescrit : 6 Ã  9 cm (BÃ©ton plastique Ã  trÃ¨s maniable)", "Mesure systÃ©matique Ã  l'arrivÃ©e de chaque toupie ou premiÃ¨re gÃ¢chÃ©e de la journÃ©e."],
+      ["Surveillance des Armatures avant Coulage", "VÃ©rification des cales d'enrobage, ligature croisÃ©e et recouvrement minimal (50 diamÃ¨tres)", "Point d'arrÃªt obligatoire : coulage strictement interdit sans visa de ferraillage."],
+      ["Cure du BÃ©ton Jeune sous Climat SahÃ©lien", "Arrosage abondant 2 fois par jour pendant 7 jours minimum ou produit de cure agrÃ©Ã©", "Ã‰vite la dessiccation prÃ©maturÃ©e et les fissures de retrait plastique."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Paramètre de Bétonnage', 'Exigence ChantierSur', 'Conséquence en Cas de Non-Respect']],
+      [['ParamÃ¨tre de BÃ©tonnage', 'Exigence ChantierSur', 'ConsÃ©quence en Cas de Non-Respect']],
       recettesRows,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -1003,28 +1003,28 @@
     ));
 
     // =========================================================================
-    // PAGE 4 : RÉCAPITULATIF BUDGÉTAIRE & CLAUSES DE DÉCOFFRAGE
+    // PAGE 4 : RÃ‰CAPITULATIF BUDGÃ‰TAIRE & CLAUSES DE DÃ‰COFFRAGE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros œuvre", "Partie IV : Synthèse Budgétaire Gros œuvre & Clauses de Sécurité au Décoffrage", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
+    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros Å“uvre", "Partie IV : SynthÃ¨se BudgÃ©taire Gros Å“uvre & Clauses de SÃ©curitÃ© au DÃ©coffrage", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
 
     const moRatioM2 = levels >= 4 ? 38000 : (levels >= 2 ? 34000 : 28000);
     const totalMainOeuvre = Math.round(surface * moRatioM2);
     const totalGrosOeuvreHT = totalFournituresTTC + totalMainOeuvre;
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "VII. RÉCAPITULATIF BUDGÉTAIRE GROS œUVRE & CLÉS DE PAIEMENT CONTRAT COCC");
+    drawSectionTitle(doc, currentY, "VII. RÃ‰CAPITULATIF BUDGÃ‰TAIRE GROS Å“UVRE & CLÃ‰S DE PAIEMENT CONTRAT COCC");
 
     const recapRows = [
-      ["Fournitures Matériaux de Base", formatFCFA(totalFournituresTTC), `${Math.round((totalFournituresTTC / totalGrosOeuvreHT) * 100)} %`, "Approvisionnements échelonnés selon les 4 phases"],
-      ["Main d'œuvre Tâcheron / Entreprise", formatFCFA(totalMainOeuvre), `${Math.round((totalMainOeuvre / totalGrosOeuvreHT) * 100)} %`, "Paiement lié exclusivement à la validation des 6 points d'arrêt"],
-      ["BUDGET TOTAL GROS œUVRE ESTIMATIF", formatFCFA(totalGrosOeuvreHT), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalGrosOeuvreHT / surface))} / m² SDP`],
-      ["Retenue de garantie contractuelle (5 %)", formatFCFA(Math.round(totalGrosOeuvreHT * 0.05)), "5 %", "Clause convenue entre les parties, consignée jusqu'à la réception définitive. En droit sénégalais, la règle des 5 % n'existe que pour les marchés publics (décret n° 2022-2295, art. 118-119) ; pour un chantier privé, elle résulte du contrat, pas de la loi."]
+      ["Fournitures MatÃ©riaux de Base", formatFCFA(totalFournituresTTC), `${Math.round((totalFournituresTTC / totalGrosOeuvreHT) * 100)} %`, "Approvisionnements Ã©chelonnÃ©s selon les 4 phases"],
+      ["Main d'Å“uvre TÃ¢cheron / Entreprise", formatFCFA(totalMainOeuvre), `${Math.round((totalMainOeuvre / totalGrosOeuvreHT) * 100)} %`, "Paiement liÃ© exclusivement Ã  la validation des 6 points d'arrÃªt"],
+      ["BUDGET TOTAL GROS Å“UVRE ESTIMATIF", formatFCFA(totalGrosOeuvreHT), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalGrosOeuvreHT / surface))} / mÂ² SDP`],
+      ["Retenue de garantie contractuelle (5 %)", formatFCFA(Math.round(totalGrosOeuvreHT * 0.05)), "5 %", "Clause convenue entre les parties, consignÃ©e jusqu'Ã  la rÃ©ception dÃ©finitive. En droit sÃ©nÃ©galais, la rÃ¨gle des 5 % n'existe que pour les marchÃ©s publics (dÃ©cret nÂ° 2022-2295, art. 118-119) ; pour un chantier privÃ©, elle rÃ©sulte du contrat, pas de la loi."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Poste de Dépense', 'Montant Estimatif', 'Quote-Part', 'Condition de Déblocage']],
+      [['Poste de DÃ©pense', 'Montant Estimatif', 'Quote-Part', 'Condition de DÃ©blocage']],
       recapRows,
       {
         0: { cellWidth: 50, fontStyle: 'bold' },
@@ -1035,17 +1035,17 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VIII. DÉLAIS DE DÉCOFFRAGE RECOMMANDÉS (RÈGLES PROFESSIONNELLES BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "VIII. DÃ‰LAIS DE DÃ‰COFFRAGE RECOMMANDÃ‰S (RÃˆGLES PROFESSIONNELLES BAEL 91 R99)");
 
     const clausesRows = [
-      ["Joues de Poutres & Faces de Poteaux", SEUILS_TECHNIQUES.decoffrageJoues, "Décoffrage possible sans mise en charge. Arrosage immédiat pour cure."],
-      ["Sous-faces de Poutres & Dalles", SEUILS_TECHNIQUES.decoffrageSousFaces, "Décoffrage déconseillé avant 21 jours sans note de calcul de résistance."],
-      ["Étais de Sécurité sous Poutres Maîtresses", "Maintien 28 jours", "Conserver 1 étai de soulagement sur deux jusqu'à résistance nominale fc28."]
+      ["Joues de Poutres & Faces de Poteaux", SEUILS_TECHNIQUES.decoffrageJoues, "DÃ©coffrage possible sans mise en charge. Arrosage immÃ©diat pour cure."],
+      ["Sous-faces de Poutres & Dalles", SEUILS_TECHNIQUES.decoffrageSousFaces, "DÃ©coffrage dÃ©conseillÃ© avant 21 jours sans note de calcul de rÃ©sistance."],
+      ["Ã‰tais de SÃ©curitÃ© sous Poutres MaÃ®tresses", "Maintien 28 jours", "Conserver 1 Ã©tai de soulagement sur deux jusqu'Ã  rÃ©sistance nominale fc28."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Élément Porteur', 'Délai Minimal Préconisé', 'Conditions & Précautions']],
+      [['Ã‰lÃ©ment Porteur', 'DÃ©lai Minimal PrÃ©conisÃ©', 'Conditions & PrÃ©cautions']],
       clausesRows,
       {
         0: { cellWidth: 45, fontStyle: 'bold' },
@@ -1054,7 +1054,7 @@
       }
     ));
 
-    // Encadré « RÉFÉRENCES » (Style ESQUISSE, articles propres à EXPRESS)
+    // EncadrÃ© Â« RÃ‰FÃ‰RENCES Â» (Style ESQUISSE, articles propres Ã  EXPRESS)
     currentY = doc.lastAutoTable.finalY + TABLE_GAP_MM + 1.0;
     const refBoxHeight = 30;
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -1065,17 +1065,17 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("RÉFÉRENCES RÉGLEMENTAIRES, NORMATIVES & SOURCES VÉRIFIÉES :", MARGIN_LEFT + 4, currentY + 5.2);
+    doc.text("RÃ‰FÃ‰RENCES RÃ‰GLEMENTAIRES, NORMATIVES & SOURCES VÃ‰RIFIÃ‰ES :", MARGIN_LEFT + 4, currentY + 5.2);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.4);
     doc.setTextColor(51, 65, 85);
     const refSources = [
-      "• Arrêté n° 09852 du 24 juin 2024 (prix du ciment type 32.5) ;",
-      "• Décret n° 2022-2295, art. 118-119 (retenue de garantie — marchés publics uniquement) ;",
-      "• ANSD, Indice des coûts des BTP (IBTP), T2 2026 ;",
-      "• BAEL 91 R99 (règles professionnelles, référence technique) ;",
-      "• NF P 06-001 (charges d'exploitation — norme d'usage courant)."
+      "â€¢ ArrÃªtÃ© nÂ° 09852 du 24 juin 2024 (prix du ciment type 32.5) ;",
+      "â€¢ DÃ©cret nÂ° 2022-2295, art. 118-119 (retenue de garantie â€” marchÃ©s publics uniquement) ;",
+      "â€¢ ANSD, Indice des coÃ»ts des BTP (IBTP), T2 2026 ;",
+      "â€¢ BAEL 91 R99 (rÃ¨gles professionnelles, rÃ©fÃ©rence technique) ;",
+      "â€¢ NF P 06-001 (charges d'exploitation â€” norme d'usage courant)."
     ];
     let refY = currentY + 9.8;
     for (const source of refSources) {
@@ -1083,7 +1083,7 @@
       refY += 3.9;
     }
 
-    // Bandeau VISA technique — fond rouge #BF382B, texte blanc #FFFFFF, pleine largeur
+    // Bandeau VISA technique â€” fond rouge #BF382B, texte blanc #FFFFFF, pleine largeur
     currentY = currentY + refBoxHeight + TABLE_GAP_MM;
     const visaHeight = 22;
     doc.setFillColor(191, 56, 43); // #BF382B
@@ -1094,17 +1094,17 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(255, 255, 255);
-    doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
+    doc.text("VISA TECHNIQUE DU BUREAU D'Ã‰TUDES INDÃ‰PENDANT CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(255, 255, 255);
     const disclaimerLines = doc.splitTextToSize(
-      "Document indicatif d'aide à la décision généré automatiquement. Il ne constitue ni une note de calcul, ni le visa d'un bureau d'études agréé. Les quantitatifs, sections d'acier et ratios doivent être confirmés par des professionnels qualifiés avant tout engagement financier ou commande de matériaux.",
+      "Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Il ne constitue ni une note de calcul, ni le visa d'un bureau d'Ã©tudes agrÃ©Ã©. Les quantitatifs, sections d'acier et ratios doivent Ãªtre confirmÃ©s par des professionnels qualifiÃ©s avant tout engagement financier ou commande de matÃ©riaux.",
       USABLE_WIDTH - 8
     );
     doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 11);
-    doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
+    doc.text(`Rapport Ã©mis Ã  Dakar le ${currentDate} pour le compte exclusif de ${clientName}. RÃ©f: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
   }
 
   // =========================================================================
@@ -1112,472 +1112,320 @@
   // =========================================================================
   function renderAudit(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+    const clientName = (data.client_name || 'MaÃ®tre d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
-    const clientPhone = `${rawPrefix} ${rawPhone}`;
-
-    const quotedAmount = parseFloat(data.quoted_amount) || 45000000;
+    const clientPhone = ${rawPrefix} ;
     const surface = parseFloat(data.surface) || 250;
     const levels = parseInt(data.exact_levels, 10) || 1;
-    const totalLevelsCount = levels + 1;
-    const scope = data.contract_scope || 'tce';
     const location = data.project_location || 'Dakar - Zone Urbaine';
-    const lotNumber = data.lot_number || 'Non spécifié';
+    const buildingUsage = data.building_usage || 'unifamilial';
 
-    const sToiture = Math.max(20, Math.round(surface / totalLevelsCount));
-    const partEtancheiteRef = sToiture * SEUILS_TECHNIQUES.ratioEtancheiteM2Moyen;
-
-    // Référentiel BET Dakar 2026
-    const ratioBetMoyen = scope === 'go_seul' ? 145000 : (scope === 'clos_couvert' ? 210000 : 277500);
-    const refMoyen = Math.round(surface * ratioBetMoyen);
-    const refBas = Math.round(refMoyen * 0.88);
-    const refHaut = Math.round(refMoyen * 1.15);
-    const contractAmount = parseFloat(data.contract_amount) || refMoyen;
-
-    const penaliteJournaliere = Math.round(contractAmount * SEUILS_TECHNIQUES.penaliteJourRatio);
-    const plafondPenalites = Math.round(contractAmount * SEUILS_TECHNIQUES.plafondPenalitesTaux);
-
-    const diffMontant = quotedAmount - refMoyen;
-    const ecartPourcent = Math.round((diffMontant / refMoyen) * 100);
-
-    let diagnosticGeneral = "";
-    if (ecartPourcent < -25) {
-      diagnosticGeneral = "DEVIS ANORMALEMENT BAS : Risque critique d'abandon de chantier, malfaçons sévères ou sous-dosage du ciment.";
-    } else if (ecartPourcent < -10) {
-      diagnosticGeneral = "DEVIS TRÈS COMPÉTITIF : Vérifier scrupuleusement la qualité des aciers (FeE500 certifiés) et l'épaisseur du dallage.";
-    } else if (ecartPourcent <= 15) {
-      diagnosticGeneral = "DEVIS CONFORME AU MARCHÉ : Tarifs en cohérence avec les mercuriales professionnelles du BTP à Dakar.";
-    } else {
-      diagnosticGeneral = "DEVIS SURÉVALUÉ : Marges excessives ou quantitatifs gonflés. Fort potentiel de renégociation.";
-    }
-
-    // =========================================================================
-    // PAGE 1 : CONFRONTATION GLOBALE & RÉPARTITION PAR MACRO-LOT
-    // =========================================================================
-    drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie I : Confrontation Globale au Référentiel BET & Audit par Macro-Lot", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
-
-    doc.setFillColor(...COLOR_BG_LIGHT);
-    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 42, 2, 2, 'F');
-    doc.setDrawColor(203, 213, 225);
-    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 42, 2, 2, 'D');
-
-    doc.setFont(getFontFamily(doc), 'bold');
-    doc.setFontSize(8.2);
-    doc.setTextColor(...COLOR_NAVY);
-    doc.text("SYNTHÈSE DE L'AUDIT & IDENTIFICATION DU DEVIS ANALYSÉ", MARGIN_LEFT + 4, 56);
-
-    doc.setFont(getFontFamily(doc), 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(51, 65, 85);
-    const company = data.devis_company ? ` (Entr: ${data.devis_company})` : '';
-    const dNum = data.devis_number ? `N° ${data.devis_number}` : 'Non spécifié';
-    const dDate = data.devis_date ? ` du ${data.devis_date}` : '';
+    // 1. Process Devis Lines
+    const lines = data.devis_lines || [];
+    let totalDevisTTC = 0;
     
-    doc.text(`Maître d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
-    doc.text(`Devis analysé : ${dNum}${dDate}${company}`, MARGIN_LEFT + 4, 69);
-    doc.text(`Projet : ${data.building_usage || 'Bâtiment'} (R+${levels}) à ${location}`, MARGIN_LEFT + 4, 75);
-    doc.text(`Montant Devis Soumis : ${formatFCFA(quotedAmount)}`, MARGIN_LEFT + 4, 81);
-    doc.text(`Périmètre Travaux : ${scope.toUpperCase()}`, MARGIN_LEFT + 4, 87);
+    // Macro-lots structure
+    const macroLots = {
+      'Gros Å“uvre & structure': { total: 0, keywords: ['terrassement', 'fondation', 'bÃ©ton', 'bÃ©t', 'maÃ§onnerie', 'dalle', 'poteau', 'poutre', 'enduit', 'chape', 'fouille'] },
+      'Ã‰tanchÃ©itÃ© & toiture': { total: 0, keywords: ['Ã©tanch', 'etanch', 'toiture', 'acrotÃ¨re', 'acrotere'] },
+      'Second Å“uvre & finitions': { total: 0, keywords: ['menuiserie', 'porte', 'fenÃªtre', 'fenetre', 'garde-corps', 'carrelage', 'faÃ¯ence', 'faience', 'peinture', 'plomberie', 'sanitaire', 'Ã©lectricitÃ©', 'electricite', 'forage'] },
+      'Installation & travaux prÃ©paratoires': { total: 0, keywords: ['installation', 'chantier', 'base vie', 'clÃ´ture', 'cloture'] }
+    };
 
-    doc.text(`Budget Cible Recommandé : ${formatFCFA(refMoyen)}`, 108, 69);
-    doc.text(`Écart Global : ${ecartPourcent > 0 ? '+' : ''}${ecartPourcent} % (${formatFCFA(diffMontant)})`, 108, 75);
-    doc.text(`Diagnostic Global : ${diagnosticGeneral.substring(0, 32)}...`, 108, 81);
-
-    let currentY = 98;
-    drawSectionTitle(doc, currentY, "I. CONFRONTATION GLOBALE DU DEVIS AU RÉFÉRENTIEL DAKAR 2026");
-
-    const auditGlobalRows = [
-      ["Montant Total Devis Soumis", formatFCFA(quotedAmount), `${formatFCFA(Math.round(quotedAmount / surface))} / m²`, "Montant TTC saisi par le maître d'ouvrage"],
-      ["Fourchette Référentiel Basse", formatFCFA(refBas), `${formatFCFA(Math.round(refBas / surface))} / m²`, "Seuil minimum en dessous duquel la qualité est compromise"],
-      ["Budget de Référence Médian BET", formatFCFA(refMoyen), `${formatFCFA(Math.round(refMoyen / surface))} / m²`, "Budget objectif recommandé pour la négociation"],
-      ["Fourchette Référentiel Haute", formatFCFA(refHaut), `${formatFCFA(Math.round(refHaut / surface))} / m²`, "Prix plafond pour prestations d'entreprise générale de standing"],
-      ["Écart Constaté vs Référence", `${ecartPourcent > 0 ? '+' : ''}${ecartPourcent} %`, formatFCFA(diffMontant), diagnosticGeneral]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Indicateur d\'Analyse', 'Devis Soumis Artisan', 'Référentiel BET ChantierSur', 'Écart & Diagnostic']],
-      auditGlobalRows,
-      {
-        0: { cellWidth: 42, fontStyle: 'bold' },
-        1: { cellWidth: 30, halign: 'right' },
-        2: { cellWidth: 30, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        3: { cellWidth: 68 }
-      }
-    ));
-
-    // SECTION II : TABLEAU II CONCORDANCE STRICTE
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "II. RÉPARTITION COMPARATIVE PAR MACRO-LOT (DEVIS SOUMIS VS RÉFÉRENTIEL BET)");
-
-    const coefGo = scope === 'go_seul' ? 0.88 : (scope === 'clos_couvert' ? 0.60 : 0.48);
-    const coefSo = scope === 'go_seul' ? 0 : (scope === 'clos_couvert' ? 0.25 : 0.38);
-    const tauxAleas = SEUILS_TECHNIQUES.provisionAleasTaux;            // 0.05
-    const tauxMarge = SEUILS_TECHNIQUES.margeEntrepreneurMoyenne;    // 0.085
-    const facteurTotal = 1.0 + tauxAleas + tauxMarge;                // 1.135
-
-    // Décomposition 100% concordante de Ref BET (Somme des lignes = refMoyen)
-    const coutDirectRef = Math.round(refMoyen / facteurTotal);
-    const partAleasRef = Math.round(coutDirectRef * tauxAleas);
-    const partMargeRef = refMoyen - coutDirectRef - partAleasRef;
-
-    const partEtancheiteRefCalculee = scope === 'go_seul' ? 0 : partEtancheiteRef;
-    const remDirectRef = coutDirectRef - partEtancheiteRefCalculee;
-    const partGoRef = Math.round(remDirectRef * (coefGo / (coefGo + coefSo)));
-    const partSoRef = scope === 'go_seul' ? 0 : (remDirectRef - partGoRef);
-
-    // Décomposition 100% concordante de Devis Soumis (Somme des lignes = quotedAmount)
-    const coutDirectSoumis = Math.round(quotedAmount / facteurTotal);
-    const partAleasSoumis = Math.round(coutDirectSoumis * tauxAleas);
-    const partMargeSoumis = quotedAmount - coutDirectSoumis - partAleasSoumis;
-
-    const partEtancheiteSoumis = scope === 'go_seul' ? 0 : Math.round(partEtancheiteRefCalculee * (quotedAmount / refMoyen));
-    const remDirectSoumis = coutDirectSoumis - partEtancheiteSoumis;
-    const partGoSoumis = Math.round(remDirectSoumis * (coefGo / (coefGo + coefSo)));
-    const partSoSoumis = scope === 'go_seul' ? 0 : (remDirectSoumis - partGoSoumis);
-
-    // Écarts ligne par ligne
-    const ecartGo = partGoSoumis - partGoRef;
-    const ecartSo = partSoSoumis - partSoRef;
-    const ecartEtancheite = partEtancheiteSoumis - partEtancheiteRefCalculee;
-    const ecartAleas = partAleasSoumis - partAleasRef;
-    const ecartMarge = partMargeSoumis - partMargeRef;
-
-    // Test bloquant d'intégrité comptable
-    const verifSommeSoumis = partGoSoumis + partSoSoumis + partEtancheiteSoumis + partAleasSoumis + partMargeSoumis;
-    const verifSommeRef = partGoRef + partSoRef + partEtancheiteRefCalculee + partAleasRef + partMargeRef;
-    const verifSommeEcarts = ecartGo + ecartSo + ecartEtancheite + ecartAleas + ecartMarge;
-
-    if (verifSommeSoumis !== quotedAmount || verifSommeRef !== refMoyen || verifSommeEcarts !== (quotedAmount - refMoyen)) {
-      throw new Error("Discordance critique dans la décomposition du Tableau II d'Audit");
-    }
-
-    function fmtEcart(val) {
-      if (val === 0) return "0 FCFA";
-      return (val > 0 ? "+" : "") + formatFCFA(val);
-    }
-
-    const repartitionRows = [
-      [
-        "Gros œuvre & Structure BAEL",
-        formatFCFA(partGoSoumis),
-        formatFCFA(partGoRef),
-        fmtEcart(ecartGo),
-        "Terrassements, fondations, poteaux, poutres, dalles, maçonneries"
-      ],
-      [
-        "Second œuvre & Finitions",
-        scope === 'go_seul' ? "Exclu" : formatFCFA(partSoSoumis),
-        scope === 'go_seul' ? "Exclu" : formatFCFA(partSoRef),
-        scope === 'go_seul' ? "-" : fmtEcart(ecartSo),
-        scope === 'go_seul' ? "Hors périmètre contrat" : "Plomberie, électricité, carrelage, menuiseries int./ext."
-      ],
-      [
-        "Étanchéité Toiture & Acrotères",
-        scope === 'go_seul' ? "Exclu" : formatFCFA(partEtancheiteSoumis),
-        scope === 'go_seul' ? "Exclu" : formatFCFA(partEtancheiteRefCalculee),
-        scope === 'go_seul' ? "-" : fmtEcart(ecartEtancheite),
-        `Complexe bitumineux (${sToiture} m² toiture — 28 000 F/m² — à valider BET)`
-      ],
-      [
-        "Provision pour Aléas (5% direct)",
-        formatFCFA(partAleasSoumis),
-        formatFCFA(partAleasRef),
-        fmtEcart(ecartAleas),
-        "Couverture des sujétions imprévues et aléas de sol"
-      ],
-      [
-        "Marge Entrepreneur (8,5% direct)",
-        formatFCFA(partMargeSoumis),
-        formatFCFA(partMargeRef),
-        fmtEcart(ecartMarge),
-        "Marge bénéficiaire normale estimée (base médiane : 8,5%)"
-      ],
-      [
-        "TOTAL MACRO-LOTS CONFRONTÉ",
-        formatFCFA(quotedAmount),
-        formatFCFA(refMoyen),
-        `${ecartPourcent > 0 ? '+' : ''}${ecartPourcent} % (${fmtEcart(quotedAmount - refMoyen)})`,
-        "Confrontation globale concordante du devis vs budget repère BET"
-      ]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Macro-Lot Technique', 'Devis Soumis', 'Budget Réf. BET', 'Écart Constaté', 'Base & Observations']],
-      repartitionRows,
-      {
-        0: { cellWidth: 42, fontStyle: 'bold' },
-        1: { cellWidth: 26, halign: 'right' },
-        2: { cellWidth: 26, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        3: { cellWidth: 28, halign: 'right' },
-        4: { cellWidth: 48 }
-      }
-    ));
-
-    // =========================================================================
-    // PAGE 1 BIS : TABLEAU DÉTAILLÉ DES LIGNES AUDITÉES
-    // =========================================================================
-    if (data.devis_lines && data.devis_lines.length > 0) {
-      doc.addPage();
-      drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie II : Audit Détaillé des Lignes du Devis", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
-      
-      currentY = 52;
-      drawSectionTitle(doc, currentY, "III. TABLEAU DÉTAILLÉ DES LIGNES AUDITÉES");
-      
-      const lignesRows = data.devis_lines.map(line => {
-        const totalDeclaré = parseFloat(line.totalDeclared) || 0;
-        const totalCalculé = parseFloat(line.totalCalculated) || 0;
-        const ecart = totalDeclaré - totalCalculé;
-        let ecartStr = "Conforme";
-        if (Math.abs(ecart) > 1) {
-          ecartStr = ecart > 0 ? `+${formatFCFA(ecart)} (Surfact.)` : `${formatFCFA(ecart)} (Sous-fact.)`;
+    function mapMacroLot(designation, lotName) {
+      const text = ${designation || ''} .toLowerCase();
+      for (const [mlName, mlData] of Object.entries(macroLots)) {
+        if (mlData.keywords.some(kw => text.includes(kw))) {
+          return mlName;
         }
-        return [
-          `${line.num} - ${line.designation}\nLot: ${line.lot} | ${line.nature}`,
-          `${line.qty} ${line.unit}`,
-          formatFCFA(line.pu),
-          formatFCFA(totalDeclaré),
-          formatFCFA(totalCalculé),
-          ecartStr
-        ];
-      });
+      }
+      return 'Second Å“uvre & finitions'; // fallback
+    }
 
-      doc.autoTable(createTableOptions(
-        currentY + TITLE_AFTER_GAP_MM,
-        [['Désignation & Lot', 'Qté', 'PU HT', 'Total Déclaré', 'Total Recalculé', 'Écart']],
-        lignesRows,
-        {
-          0: { cellWidth: 55 },
-          1: { cellWidth: 15, halign: 'right' },
-          2: { cellWidth: 20, halign: 'right' },
-          3: { cellWidth: 25, halign: 'right' },
-          4: { cellWidth: 25, halign: 'right', textColor: COLOR_NAVY, fontStyle: 'bold' },
-          5: { cellWidth: 30, halign: 'right' }
+    // Process each line to calculate Theoretical values
+    const processedLines = lines.map(line => {
+      const designation = line.designation || 'Ligne non spÃ©cifiÃ©e';
+      const qteDevis = parseFloat(line.qty) || 0;
+      const puDevis = parseFloat(line.pu) || 0;
+      const montantDevis = parseFloat(line.total) || 0;
+      totalDevisTTC += montantDevis;
+      
+      const lotName = line.lot || '';
+      const mLot = mapMacroLot(designation, lotName);
+      macroLots[mLot].total += montantDevis;
+
+      let qteTheo = "N/A";
+      let formule = "-";
+      let puRef = "Hors Base";
+      let sourceRef = "-";
+      let montantTheo = null;
+      
+      const text = designation.toLowerCase();
+      
+      // Heuristics for Theoretical Quantities & PU based on Dakar 2026 Mercuriales
+      if (text.includes('bÃ©ton') || text.includes('beton')) {
+        qteTheo = (surface * (levels + 1) * 0.35).toFixed(1);
+        formule = "V = SDP Ã— 0.35 mÂ³/mÂ² (BAEL 91 R99)";
+        puRef = "130000 - 160000";
+        sourceRef = "ANSD IBTP T2 2026";
+        montantTheo = parseFloat(qteTheo) * 145000;
+      } else if (text.includes('maÃ§onnerie') || text.includes('agglo') || text.includes('parpaing')) {
+        qteTheo = (surface * 2.5 * (levels + 1)).toFixed(1);
+        formule = "S = SDP Ã— 2.5 (DTU 20.1)";
+        puRef = "7000 - 9000";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 8000;
+      } else if (text.includes('enduit')) {
+        qteTheo = (surface * 5 * (levels + 1)).toFixed(1);
+        formule = "S â‰ˆ 2 Ã— surf. maÃ§onnerie (DTU 26.2)";
+        puRef = "3500 - 5000";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 4000;
+      } else if (text.includes('Ã©tanchÃ©itÃ©') || text.includes('etancheite')) {
+        qteTheo = (surface / (levels + 1)).toFixed(1);
+        formule = "Emprise toiture estimÃ©e (DTU 43.1)";
+        puRef = "15000 - 20000";
+        sourceRef = "ANSD IBTP T2 2026";
+        montantTheo = parseFloat(qteTheo) * 17500;
+      } else if (text.includes('carrelage')) {
+        qteTheo = (surface * (levels + 1) * 0.9).toFixed(1);
+        formule = "S â‰ˆ SDP Ã— coeff circ.";
+        puRef = "12000 - 18000";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 15000;
+      } else if (text.includes('acier') || text.includes('fer')) {
+        qteTheo = (surface * (levels + 1) * 0.35 * 90).toFixed(1);
+        formule = "Ratio kg/mÂ³ bÃ©ton (Pratique BET)";
+        puRef = "750 - 900";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 800;
+      }
+
+      // Calcul des Ã©carts
+      let ecartPct = 0;
+      let ecartMontant = 0;
+      let verdict = "Non vÃ©rifiable en l'Ã©tat";
+      
+      const diffArith = Math.abs(montantDevis - (qteDevis * puDevis));
+      if (diffArith > 1.0) {
+        verdict = "Erreur arithmÃ©tique";
+      } else if (montantTheo !== null && montantTheo > 0) {
+        ecartMontant = montantDevis - montantTheo;
+        ecartPct = (ecartMontant / montantTheo) * 100;
+        
+        if (montantDevis < montantTheo * 0.5) {
+          verdict = "Sous-Ã©valuÃ© â€” risque qualitÃ©/abandon";
+        } else if (Math.abs(ecartPct) <= 10) {
+          verdict = "CohÃ©rent";
+        } else if (ecartPct > 10 && ecartPct <= 25) {
+          verdict = "Ã€ nÃ©gocier";
+        } else if (ecartPct > 25) {
+          verdict = "SurcoÃ»t significatif";
         }
-      ));
+      } else if (qteDevis === 0) {
+        verdict = "Demander le dÃ©tail du forfait";
+      }
+
+      return {
+        num: line.num || '-',
+        designation: designation,
+        u: line.unit || '-',
+        qteDevis: qteDevis,
+        puDevis: puDevis,
+        montantDevis: montantDevis,
+        qteTheo: qteTheo,
+        formule: formule,
+        puRef: puRef,
+        sourceRef: sourceRef,
+        montantTheo: montantTheo,
+        ecart: montantTheo ? (ecartPct > 0 ? '+' : '') + ecartPct.toFixed(1) + '%' : '-',
+        verdict: verdict
+      };
+    });
+
+    const devisAmountTTC = totalDevisTTC;
+    const ratioTTC = (surface > 0) ? (devisAmountTTC / surface) : 0;
+
+    // --------------
+    // PAGE 1: SYNTHÃˆSE
+    // --------------
+    addPageBorder(doc);
+    addHeader(doc, "RAPPORT D'AUDIT TECHNIQUE & FINANCIER", "VÃ‰RIFICATION DE COHÃ‰RENCE DU DEVIS", refDoc);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(11, 19, 37);
+    doc.text(Projet :  | Localisation :  | SDP :  mÂ² | Niveaux : R+, 15, 45);
+    doc.text(Client :  | TÃ©lÃ©phone : , 15, 50);
+
+    // Box: RÃ©sultats Globaux
+    doc.setDrawColor(200, 200, 200);
+    doc.setFillColor(250, 250, 250);
+    doc.roundedRect(15, 55, 180, 25, 3, 3, 'FD');
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(11);
+    doc.text("RÃ‰SULTAT GLOBAL DU DEVIS SOUMIS", 20, 65);
+    doc.setFont('NotoSans', 'normal');
+    doc.setFontSize(10);
+    doc.text(Montant TTC (somme des lignes validÃ©es) : , 20, 72);
+    doc.text(Ratio TTC par mÂ² de SDP :  / mÂ², 110, 72);
+
+    // Box: Ventilation par Macro-Lots (from devis directly)
+    doc.setFillColor(245, 247, 250);
+    doc.roundedRect(15, 85, 180, 50, 3, 3, 'FD');
+    doc.setFont('NotoSans', 'bold');
+    doc.text("RÃ‰PARTITION PAR MACRO-LOT (Issus du Devis)", 20, 95);
+    
+    let yPos = 105;
+    doc.setFont('NotoSans', 'normal');
+    for (const [mlName, mlData] of Object.entries(macroLots)) {
+      doc.text(mlName, 20, yPos);
+      const val = mlData.total > 0 ? formatFCFA(mlData.total) : "Non renseignÃ©";
+      doc.text(val, 140, yPos);
+      yPos += 8;
     }
 
-    // =========================================================================
-    // PAGE 2 : PIÈGES TECHNIQUES & LES 7 OMISSIONS FRÉQUENTES
-    // =========================================================================
-    doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie II : Détection des Pièges Techniques, Ratios Incohérents & Omissions", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Note : Ces totaux sont l'agrÃ©gation stricte des lignes du devis que vous avez validÃ©es.", 15, 145);
 
-    currentY = 52;
-    drawSectionTitle(doc, currentY, "III. AUDIT DES RATIOS STRUCTURAUX & PIÈGES TECHNIQUES COURANTS");
-
-    const piegesRows = [
-      ["Dosage du Béton Armé", "Mention imprécise 'Béton Armé'", "Privilégier le CEM II 42.5R dosé à 350 kg/m³ pour les éléments porteurs (marge de sécurité sur fc28 = 25 MPa). Ciment 32.5N admissible uniquement sous réserve d'essais."],
-      ["Qualité & Diamètre des Aciers", "Aciers non spécifiés ou lisses", "Imposer : Aciers Haute Adhérence FeE500 certifiés. Interdire les fers déclassés ou de récupération."],
-      ["Épaisseur Table de Compression", "Table réduite à 2 ou 3 cm", "Norme BAEL 91 : Épaisseur minimale de 4 cm armée d'un treillis soudé (exigence BAEL : flexion locale et fonctionnement en diaphragme horizontal)."],
-      ["Enrobage des Armatures", "Absence totale de cales béton", "Exiger cales de 4,5 cm en milieu marin (Dakar Littoral) et 3 cm en zone intérieure sous peine de rouille expansive."],
-      ["Nature des Agrégats", "Gravier calcaire tendre", "Prescrire obligatoirement le concassé de basalte des carrières de Diack pour toute la structure porteuse."]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Composant Structurel', 'Piège / Formule Trompeuse Constatée', 'Recommandation']],
-      piegesRows,
-      {
-        0: { cellWidth: 42, fontStyle: 'bold' },
-        1: { cellWidth: 53 },
-        2: { cellWidth: 75 }
-      }
-    ));
-
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "IV. LES 7 OMISSIONS FRÉQUENTES DANS LES DEVIS SÉNÉGALAIS");
-
-    const omissionsRows = [
-      ["Étanchéité Toiture & Acrotères", "Complexe monocouche bâclé", "Imposer complexe bitumineux bicouche 4 mm sablé + relevés d'étanchéité 15 cm (DTU 43.1)."],
-      ["Canalisations EU/EP & Regards", "Réseau d'évacuation non chiffré", "Intégrer tubes PVC évacuation normalisés + regards de visite siphoïdes à chaque angle."],
-      ["Tableau Électrique & Terre", "Prise de terre absente du devis", "Piquet de terre obligatoire avec mesure < 100 Ohms (50V max) + différentiels 30 mA (NF C 15-100)."],
-      ["Nettoyage & Évacuation Gravats", "Non mentionné au devis", "Stipuler que le repli de chantier et l'évacuation à la décharge autorisée incombent à l'entrepreneur."],
-      ["Arase Étanche sous Soubassement", "Absente sur les devis courants", "Barrière d'arase étanche obligatoire pour stopper les remontées capillaires (DTU 20.1)."],
-      ["Réservation Gaines & Fourreaux", "Forages facturés en suppléments", "Imposer la pose préalable des fourreaux avant coulage des dalles et poutres."],
-      ["Étais & Sécurité de Coulage", "Coffrages sous-dimensionnés", "Exiger étaiement certifié tous les 80 cm sous poutres et maintien 21 jours minimum."]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Poste Oublié ou Minimisé', 'Impact Financier Imprévu', 'Source Normative & Recommandation']],
-      omissionsRows,
-      {
-        0: { cellWidth: 42, fontStyle: 'bold' },
-        1: { cellWidth: 33, halign: 'right' },
-        2: { cellWidth: 95 }
-      }
-    ));
-
-    // =========================================================================
-    // PAGE 3 : ÉCHÉANCIER DE PAIEMENT & ENCADREMENT CONTRACTUEL COCC
-    // =========================================================================
-    doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Échéancier de Paiement Sécurisé & Clauses Juridiques COCC", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
-
-    const acomptePct = data.devis_acompte || 15;
+    // --------------
+    // PAGE 2: TABLEAU LIGNE PAR LIGNE (LANDSCAPE)
+    // --------------
+    doc.addPage('a4', 'landscape');
+    addPageBorderLandscape(doc);
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(11, 19, 37);
+    doc.text("TABLEAU COMPARATIF LIGNE PAR LIGNE", 15, 25);
     
-    // Si acomptePct dépasse 20%, on lève une alerte dans le tableau
-    let acompteDesc = "Après implantation validée par géomètre et approvisionnement des premiers aciers.";
-    if (acomptePct > 20) {
-      acompteDesc = "⚠️ ATTENTION : L'acompte de " + acomptePct + "% est trop élevé et fait peser un risque sur votre trésorerie ! Maximum recommandé : 15% à 20%.";
+    doc.setFontSize(8);
+    doc.setTextColor(80, 80, 80);
+    doc.text("Les quantitÃ©s thÃ©oriques sont des estimations indicatives de prÃ©dimensionnement â€” ce n'est pas un mÃ©trÃ©.", 15, 30);
+    doc.text("Les fourchettes de prix sont indicatives, issues des mercuriales BTP Dakar 2026, Ã  confirmer par des professionnels qualifiÃ©s.", 15, 34);
+
+    const tableBody = processedLines.map(l => [
+      l.num,
+      l.designation.substring(0, 35) + (l.designation.length > 35 ? '...' : ''),
+      l.u,
+      l.qteDevis,
+      formatFCFA(l.puDevis),
+      formatFCFA(l.montantDevis),
+      l.qteTheo,
+      l.formule,
+      l.puRef,
+      l.sourceRef,
+      l.montantTheo ? formatFCFA(l.montantTheo) : '-',
+      l.ecart,
+      l.verdict
+    ]);
+
+    doc.autoTable({
+      startY: 40,
+      head: [['NÂ°', 'DÃ©signation (devis)', 'U', 'QtÃ© Devis', 'PU Devis', 'Montant Devis', 'QtÃ© ThÃ©o.', 'Formule / Norme', 'PU RÃ©f.', 'Source', 'Montant ThÃ©o.', 'Ã‰cart', 'Verdict']],
+      body: tableBody,
+      theme: 'grid',
+      styles: { font: 'NotoSans', fontSize: 7, cellPadding: 1, textColor: [30, 30, 30] },
+      headStyles: { fillColor: [11, 19, 37], textColor: 255, fontStyle: 'bold' },
+      columnStyles: {
+        1: { cellWidth: 35 },
+        7: { cellWidth: 25 },
+        8: { cellWidth: 20 },
+        12: { cellWidth: 25, fontStyle: 'bold' }
+      },
+      didParseCell: function(data) {
+        if (data.section === 'body' && data.column.index === 12) {
+          const v = data.cell.raw;
+          if (v.includes('SurcoÃ»t') || v.includes('Erreur')) {
+            data.cell.styles.textColor = [220, 38, 38]; // Red
+          } else if (v.includes('Sous-Ã©valuÃ©')) {
+            data.cell.styles.textColor = [234, 88, 12]; // Orange
+          } else if (v.includes('CohÃ©rent')) {
+            data.cell.styles.textColor = [5, 150, 105]; // Green
+          }
+        }
+      }
+    });
+
+    // --------------
+    // PAGE 3: RECOMMANDATIONS JURIDIQUES ET Ã‰CHÃ‰ANCIER
+    // --------------
+    doc.addPage('a4', 'portrait');
+    addPageBorder(doc);
+    addHeader(doc, "CLAUSES CONTRACTUELLES & CONDITIONS DE PAIEMENT", "RECOMMANDATIONS JURIDIQUES", refDoc);
+
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(11, 19, 37);
+    doc.text("Ã‰CHÃ‰ANCIER DE PAIEMENT NORMALISÃ‰ (TOTAL = 100%)", 15, 45);
+    
+    doc.autoTable({
+      startY: 50,
+      head: [['Tranche', 'Phase d\'avancement', '%']],
+      body: [
+        ['Acompte', 'DÃ©marrage (Installation de chantier)', '15%'],
+        ['Tranche 1', 'AchÃ¨vement des fondations et dalle RDC', '25%'],
+        ['Tranche 2', 'AchÃ¨vement du gros Å“uvre / mise hors d\'eau', '25%'],
+        ['Tranche 3', 'AchÃ¨vement du second Å“uvre', '20%'],
+        ['Tranche 4', 'RÃ©ception provisoire (remise des clÃ©s)', '10%'],
+        ['Retenue', 'Retenue de garantie contractuelle (5 %)', '5%']
+      ],
+      theme: 'grid',
+      headStyles: { fillColor: [40, 50, 80], textColor: 255 },
+      styles: { font: 'NotoSans', fontSize: 10 }
+    });
+
+    // Alert Acompte if needed
+    const acompteDemande = parseFloat(data.devis_acompte) || 0;
+    if (acompteDemande > 20) {
+      doc.setFillColor(254, 242, 242);
+      doc.setDrawColor(252, 165, 165);
+      const finalY = doc.lastAutoTable.finalY + 5;
+      doc.roundedRect(15, finalY, 180, 15, 2, 2, 'FD');
+      doc.setTextColor(220, 38, 38);
+      doc.setFontSize(9);
+      doc.text(ATTENTION : L'acompte demandÃ© de % dÃ©passe la limite recommandÃ©e (15-20%)., 20, finalY + 8);
     }
 
-    const tranche1 = Math.round(contractAmount * (acomptePct / 100));
-    const restAfterAcompte = contractAmount - tranche1;
-    // On répartit le reste: 5% retenue de garantie, et le reste sur les autres tranches
-    // On va faire T2 = 30%, T3= 30%, T4= 20%, T5= 10%, T6= 5% proportionnellement
-    const ratioT2 = 0.30;
-    const ratioT3 = 0.30;
-    const ratioT4 = 0.20;
-    const ratioT5 = 0.15; // +5% garantie
-    
-    // Repartition simple
-    const tranche6 = Math.round(contractAmount * 0.05); // 5% retenue
-    const toDistribute = contractAmount - tranche1 - tranche6;
-    
-    const tranche2 = Math.round(toDistribute * 0.35);
-    const tranche3 = Math.round(toDistribute * 0.35);
-    const tranche4 = Math.round(toDistribute * 0.20);
-    const tranche5 = toDistribute - tranche2 - tranche3 - tranche4;
+    const startYClauses = doc.lastAutoTable.finalY + 25;
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(11, 19, 37);
+    doc.text("LES 5 CLAUSES CONTRACTUELLES RECOMMANDÃ‰ES (Ã  faire valider par un juriste avant signature)", 15, startYClauses);
 
-    currentY = 52;
-    drawSectionTitle(doc, currentY, "ÉCHÉANCIER DE PAIEMENT SÉCURISÉ & CLÉS D'AVANCEMENT (BASE NÉGOCIÉE)");
-
-    const echeancierRows = [
-      [`Tranche 1 : Démarrage & Approvisionnement`, formatFCFA(tranche1), `${acomptePct} %`, acompteDesc],
-      ["Tranche 2 : Fondations & Plancher Bas", formatFCFA(tranche2), `${Math.round((tranche2/contractAmount)*100)} %`, "Après coulage semelles, longrines, soubassement et dallage (point d'arrêt 1 & 2)."],
-      ["Tranche 3 : Poteaux & Dalle RDC", formatFCFA(tranche3), `${Math.round((tranche3/contractAmount)*100)} %`, "Après coulage de la dalle supérieure et validation du ferraillage (point d'arrêt 3)."],
-      ["Tranche 4 : Élévations & Dalles Étages", formatFCFA(tranche4), `${Math.round((tranche4/contractAmount)*100)} %`, "Après achèvement des maçonneries d'étages et coulage toiture (point d'arrêt 4 & 5)."],
-      ["Tranche 5 : Réception Provisoire avec Réserves", formatFCFA(tranche5), `${Math.round((tranche5/contractAmount)*100)} %`, "Après visite contradictoire et signature du PV de réception (Article 740 COCC)."],
-      ["Tranche 6 : Retenue de Garantie Légale (COCC)", formatFCFA(tranche6), "5 %", "Libérable 1 an après réception définitive sans désordre (Article 742 COCC)."]
+    doc.setFont('NotoSans', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(50, 50, 50);
+    const clauses = [
+      "1. ConformitÃ© : Les travaux doivent respecter les normes (BAEL 91 R99, DTU 20.1, NF C 15-100) sous peine de reprise aux frais de l'entrepreneur.",
+      "2. Prix ferme et dÃ©finitif : Le devis est forfaitaire (Art. L.88 Code de la construction). Aucun supplÃ©ment non approuvÃ© par avenant Ã©crit ne sera payÃ©.",
+      "3. PÃ©nalitÃ©s de retard : FixÃ©es Ã  25 000 FCFA par jour de retard, exigibles aprÃ¨s mise en demeure (Art. 153/154 du COCC).",
+      "4. SÃ©curitÃ© : L'entrepreneur est seul responsable de la sÃ©curitÃ© sur le chantier (DÃ©cret 2022-2295 art. 118-119).",
+      "5. Garanties : Retenue de garantie contractuelle de 5% libÃ©rÃ©e Ã  la levÃ©e des rÃ©serves (si elle est convenue entre les parties)."
     ];
 
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Tranche de Paiement', 'Montant Cible Négocié', 'Quote-Part', 'Condition Impérative de Déblocage']],
-      echeancierRows,
-      {
-        0: { cellWidth: 46, fontStyle: 'bold' },
-        1: { cellWidth: 30, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        2: { cellWidth: 20, halign: 'right' },
-        3: { cellWidth: 74 }
-      }
-    ));
+    let cY = startYClauses + 10;
+    clauses.forEach(c => {
+      const lines = doc.splitTextToSize(c, 180);
+      doc.text(lines, 15, cY);
+      cY += (lines.length * 5) + 3;
+    });
 
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VI. ENCADREMENT CONTRACTUEL COCC & PÉNALITÉS DE RETARD");
-
-    const clausesRows = [
-      ["Clause de Pénalités de Retard Journalières", `Pénalité de 1/1000e par jour de retard calendaire (${formatFCFA(penaliteJournaliere)} / jour), plafonnée à 5% (${formatFCFA(plafondPenalites)}).`, REFERENCES_JURIDIQUES.penalitesRetard],
-      ["Clause de Retenue de Garantie 5%", "Déduction systématique de 5% sur chaque décompte mensuel, consignée jusqu'à la levée de toutes les réserves.", REFERENCES_JURIDIQUES.retenueGarantie],
-      ["Points d'Arrêt & Contrôle Technique", "Interdiction absolue de couler sans visa formel de ferraillage du BET. Tout béton non visé sera refusé.", REFERENCES_JURIDIQUES.receptionTravaux],
-      ["Garantie Décennale des Gros Ouvrages", "Responsabilité de plein droit de l'entrepreneur pendant 10 ans sur la solidité et l'étanchéité.", REFERENCES_JURIDIQUES.garantieDecennale]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Clause Contractuelle Obligatoire', 'Formulation Protectrice Recommandée', 'Réf. Juridique COCC']],
-      clausesRows,
-      {
-        0: { cellWidth: 45, fontStyle: 'bold' },
-        1: { cellWidth: 85 },
-        2: { cellWidth: 40 }
-      }
-    ));
-
-    // =========================================================================
-    // PAGE 4 : STRATÉGIE DE NÉGOCIATION & FEUILLE DE ROUTE CONTRACTUELLE
-    // =========================================================================
-    doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie IV : Stratégie de Négociation & Argumentaire Technique ChantierSur", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
-
-    currentY = 52;
-    drawSectionTitle(doc, currentY, "VII. GRILLE DE NÉGOCIATION & ARGUMENTAIRE CHANTIERSUR");
-
-    const negociationRows = [
-      ["Fourniture des Aciers FeE500", "L'artisan surfacture souvent l'acier", "Acheter soi-même les aciers auprès d'usines agréées (SOCOCIM/Someta) et payer la façon", "Économie : 10% à 15% sur le lot armatures"],
-      ["Dosage & Qualité du Ciment", "L'artisan propose du ciment 32.5N standard", "Exiger contractuellement le CEM II 42.5R avec bon de livraison usine", "Protection vitale contre l'effondrement précoce"],
-      ["Étanchéité Toiture-Terrasse", "L'artisan sous-estime la surface de toiture", `Imposer les ${sToiture} m² réels calculés au ratio DTU 43.1`, "Protection totale contre les infiltrations d'hivernage"],
-      ["Acomptes & Trésorerie Chantier", "L'artisan exige 40% à 50% d'avance", "Plafonner strictement l'avance à 15% contre approvisionnement effectif sur le site", "Zéro risque de fuite de l'artisan avec la trésorerie"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Sujet de Négociation', 'Position Fréquente de l\'Artisan', 'Contre-Proposition ChantierSur', 'Économie / Protection']],
-      negociationRows,
-      {
-        0: { cellWidth: 38, fontStyle: 'bold' },
-        1: { cellWidth: 38 },
-        2: { cellWidth: 56 },
-        3: { cellWidth: 38 }
-      }
-    ));
-
-    currentY = doc.lastAutoTable.finalY + TABLE_GAP_MM + 1.5;
-    doc.setFillColor(...COLOR_BG_LIGHT);
-    doc.rect(MARGIN_LEFT, currentY, USABLE_WIDTH, 20, 'F');
-    doc.setDrawColor(203, 213, 225);
-    doc.rect(MARGIN_LEFT, currentY, USABLE_WIDTH, 20, 'D');
-
-    doc.setFont(getFontFamily(doc), 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...COLOR_NAVY);
-    doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES NUMÉRIQUE CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
-
-    doc.setFont(getFontFamily(doc), 'normal');
-    doc.setFontSize(6.5);
-    doc.setTextColor(...COLOR_SLATE);
-    const disclaimerAudit = doc.splitTextToSize(
-      "Cet audit est un rapport indicatif d'aide à la décision établi selon les mercuriales moyennes du BTP à Dakar (valeurs 2026). Il ne constitue ni une expertise judiciaire ni une garantie de prix fixe. Il appartient au maître d'ouvrage de formaliser son contrat avec l'assistance d'un juriste ou d'un BET agréé.",
-      USABLE_WIDTH - 8
-    );
-    doc.text(disclaimerAudit, MARGIN_LEFT + 4, currentY + 10);
-    doc.text(`Rapport de contre-expertise émis à Dakar le ${currentDate}. Dossier Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 17.5);
+    // VISA
+    doc.setDrawColor(11, 19, 37);
+    doc.setLineWidth(1);
+    doc.line(15, 260, 195, 260);
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(9);
+    doc.text("VISA TECHNIQUE DU BUREAU D'Ã‰TUDES INDÃ‰PENDANT CHANTIERSUR.COM :", 15, 270);
+    doc.setFont('NotoSans', 'normal');
+    doc.text("Ce document est un audit de cohÃ©rence indicatif. Il ne constitue ni une certification lÃ©gale ni un arbitrage.", 15, 275);
+    doc.text(GÃ©nÃ©rÃ© le  | RÃ©f: , 15, 280);
   }
-
-  // =========================================================================
-  // 4. LIVRABLE : PRESTATIONS TRANSVERSES
-  // =========================================================================
-  function renderOtherServices(doc, data, service, refDoc, currentDate) {
-    setupDocumentFonts(doc);
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
-    const surface = parseFloat(data.surface) || 200;
-    const location = data.project_location || 'Dakar';
-
-    drawUnifiedHeader(doc, `Rapport Spécialisé : ${service.toUpperCase()}`, "Dossier Technique & Recommandations Réglementaires BTP Sénégal", refDoc, currentDate, clientName, '', '', service);
-
-    let currentY = 52;
-    drawSectionTitle(doc, currentY, "I. SYNTHÈSE DES DISPOSITIONS TECHNIQUES & RÉGLEMENTAIRES");
-
-    const rows = [
-      ["Formule Souscrite", service.toUpperCase(), "Module de conseil technique ChantierSur.com"],
-      ["Surface Déclarée", `${surface} m²`, "Surface utile du projet analysé"],
-      ["Zone Géographique", location, "Contexte urbain et environnemental"],
-      ["Dispositions Applicables", "Code de l'Urbanisme & COCC", "Cadre légal de la République du Sénégal"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Paramètre d\'Étude', 'Valeur / Référence', 'Observations & Prescriptions']],
-      rows,
-      {
-        0: { cellWidth: 50, fontStyle: 'bold' },
-        1: { cellWidth: 45 },
-        2: { cellWidth: 75 }
-      }
-    ));
-  }
-
-  // =========================================================================
-  // 5. LIVRABLE : BORDEREAU TECHNIQUE FINITIONS & SECOND œUVRE (4 PAGES)
-  // =========================================================================
   function renderFinitions(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+    const clientName = (data.client_name || 'MaÃ®tre d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
@@ -1590,10 +1438,10 @@
     const tileType = data.tile_type || 'gres_cerame_60';
     const joineryType = data.joinery_type || 'alu_vitre';
     const location = data.project_location || 'Dakar - Zone Urbaine';
-    const lotNumber = data.lot_number || 'Non spécifié';
+    const lotNumber = data.lot_number || 'Non spÃ©cifiÃ©';
     const delaiReserves = parseInt(data.delai_reserves, 10) || 15;
 
-    // Ratios second œuvre 2026
+    // Ratios second Å“uvre 2026
     const sSolCarrelee = Math.round(surface * 0.82);
     const sMursFaience = Math.round(surface * 0.35);
     const sToitureTerrasse = Math.max(25, Math.round(surface / totalLevelsCount));
@@ -1612,13 +1460,13 @@
 
     const totalLotCarrelageF = totalCarrelageSolF + totalColleF + totalJointF;
     const checkSommeCarrelage = totalCarrelageSolF + totalColleF + totalJointF;
-    if (checkSommeCarrelage !== totalLotCarrelageF) throw new Error("Incohérence somme carrelage");
+    if (checkSommeCarrelage !== totalLotCarrelageF) throw new Error("IncohÃ©rence somme carrelage");
 
     const totalEtancheiteF = Math.round(sToitureTerrasse * prixEtancheiteM2);
     const nbSallesEau = Math.max(2, Math.round(surface / 65));
     const totalEtancheiteHumideF = nbSallesEau * 120000;
 
-    // Plomberie EU/EP décomposée
+    // Plomberie EU/EP dÃ©composÃ©e
     const qSanitaires = nbSallesEau * 2;
     const puSanitaires = 185000;
     const montantSanitaires = qSanitaires * puSanitaires;
@@ -1630,7 +1478,7 @@
     const montantAlim = qAlim * puAlim;
     const totalPlomberieF = montantSanitaires + montantMitigeurs + montantAlim;
 
-    // Électricité NF C 15-100 (0,55 pt/m²)
+    // Ã‰lectricitÃ© NF C 15-100 (0,55 pt/mÂ²)
     const nbPointsElec = Math.round(surface * 0.55);
     const puPointElec = 16000;
     const montantPoints = nbPointsElec * puPointElec;
@@ -1642,7 +1490,7 @@
     const montantClim = qClim * puClim;
     const totalElectriciteF = montantPoints + montantTableaux + montantClim;
 
-    // Menuiseries décomposées
+    // Menuiseries dÃ©composÃ©es
     const qPortesInt = Math.max(4, Math.round(surface / 30));
     const puPorteInt = 85000;
     const montantPortesInt = qPortesInt * puPorteInt;
@@ -1657,7 +1505,7 @@
     const montantPorteBlindee = qPorteBlindee * puPorteBlindee;
     const totalMenuiseriesF = montantPortesInt + montantChassisAlu + montantBaies + montantPorteBlindee;
 
-    // Peinture décomposée
+    // Peinture dÃ©composÃ©e
     const sMursEnduit = Math.round(surface * 2.8);
     const puEnduit = 1600;
     const montantEnduit = sMursEnduit * puEnduit;
@@ -1674,9 +1522,9 @@
     const totalTCEFinitions = totalSecondOeuvreFournitures + totalMainOeuvreF;
 
     // =========================================================================
-    // PAGE 1 : CARRELAGE & ÉTANCHÉITÉ TOITURE
+    // PAGE 1 : CARRELAGE & Ã‰TANCHÃ‰ITÃ‰ TOITURE
     // =========================================================================
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie I : Revêtements de Sol, Faïences Murales & Étanchéité Toiture", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie I : RevÃªtements de Sol, FaÃ¯ences Murales & Ã‰tanchÃ©itÃ© Toiture", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
 
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
@@ -1686,35 +1534,35 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(8.2);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("PARAMÈTRES DES FINITIONS & SPÉCIFICATIONS DU STANDING", MARGIN_LEFT + 4, 56);
+    doc.text("PARAMÃˆTRES DES FINITIONS & SPÃ‰CIFICATIONS DU STANDING", MARGIN_LEFT + 4, 56);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(51, 65, 85);
-    doc.text(`Maître d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
-    doc.text(`Téléphone : ${clientPhone}`, MARGIN_LEFT + 4, 69);
-    doc.text(`Surface Développée : env. ${surface} m²`, MARGIN_LEFT + 4, 75);
+    doc.text(`MaÃ®tre d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
+    doc.text(`TÃ©lÃ©phone : ${clientPhone}`, MARGIN_LEFT + 4, 69);
+    doc.text(`Surface DÃ©veloppÃ©e : env. ${surface} mÂ²`, MARGIN_LEFT + 4, 75);
     doc.text(`Standing Choisi : ${standing.toUpperCase()}`, MARGIN_LEFT + 4, 81);
 
     doc.text(`Localisation : ${location}`, 108, 63);
-    doc.text(`Revêtement Sol : ${tileType.replace(/_/g, ' ').toUpperCase()}`, 108, 69);
+    doc.text(`RevÃªtement Sol : ${tileType.replace(/_/g, ' ').toUpperCase()}`, 108, 69);
     doc.text(`Menuiseries : ${joineryType.replace(/_/g, ' ').toUpperCase()}`, 108, 75);
-    doc.text(`Délai Levée Réserves : ${delaiReserves} jours calendaires`, 108, 81);
+    doc.text(`DÃ©lai LevÃ©e RÃ©serves : ${delaiReserves} jours calendaires`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. LOT REVÊTEMENTS DE SOL & FAÏENCES MURALES (DTU 52.1)");
+    drawSectionTitle(doc, currentY, "I. LOT REVÃŠTEMENTS DE SOL & FAÃENCES MURALES (DTU 52.1)");
 
     const carrelageRows = [
-      ["Carrelage Sol Séjour & Chambres", `${sSolCarrelee} m²`, `${formatFCFA(prixCarrelageM2)} / m²`, formatFCFA(totalCarrelageSolF), "Grès cérame émaillé antidérapant R10"],
-      ["Faïences Murales Cuisines & Salles d'Eau", `${sMursFaience} m²`, `${formatFCFA(prixFaienceM2)} / m²`, formatFCFA(totalFaienceF), "Carreaux muraux jusqu'à 2,10 m de hauteur"],
-      ["Mortier-Colle C2TE Spécial Fortes Chaleurs", `${sacsColleRequis} Sacs (25 kg)`, "4 500 FCFA / Sac", formatFCFA(totalColleF), "Rendement indicatif : 6,5 m² / sac (double encollage)"],
-      ["Joint de Carrelage Hydrofuge & Anti-Moisissures", `${sacsJointRequis} Sacs (5 kg)`, "3 500 FCFA / Sac", formatFCFA(totalJointF), "Rendement indicatif : 22 m² / sac (largeur 3 mm)"],
-      ["TOTAL FOURNITURES CARRELAGE & FAÏENCE", "-", "-", formatFCFA(totalLotCarrelageF + totalFaienceF), "Fournitures complètes avec colles et joints"]
+      ["Carrelage Sol SÃ©jour & Chambres", `${sSolCarrelee} mÂ²`, `${formatFCFA(prixCarrelageM2)} / mÂ²`, formatFCFA(totalCarrelageSolF), "GrÃ¨s cÃ©rame Ã©maillÃ© antidÃ©rapant R10"],
+      ["FaÃ¯ences Murales Cuisines & Salles d'Eau", `${sMursFaience} mÂ²`, `${formatFCFA(prixFaienceM2)} / mÂ²`, formatFCFA(totalFaienceF), "Carreaux muraux jusqu'Ã  2,10 m de hauteur"],
+      ["Mortier-Colle C2TE SpÃ©cial Fortes Chaleurs", `${sacsColleRequis} Sacs (25 kg)`, "4 500 FCFA / Sac", formatFCFA(totalColleF), "Rendement indicatif : 6,5 mÂ² / sac (double encollage)"],
+      ["Joint de Carrelage Hydrofuge & Anti-Moisissures", `${sacsJointRequis} Sacs (5 kg)`, "3 500 FCFA / Sac", formatFCFA(totalJointF), "Rendement indicatif : 22 mÂ² / sac (largeur 3 mm)"],
+      ["TOTAL FOURNITURES CARRELAGE & FAÃENCE", "-", "-", formatFCFA(totalLotCarrelageF + totalFaienceF), "Fournitures complÃ¨tes avec colles et joints"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Désignation du Poste', 'Surface / Quantité', 'Fourniture & Pose', 'Montant Estimatif HT', 'Prescription DTU']],
+      [['DÃ©signation du Poste', 'Surface / QuantitÃ©', 'Fourniture & Pose', 'Montant Estimatif HT', 'Prescription DTU']],
       carrelageRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -1726,18 +1574,18 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "II. LOT ÉTANCHÉITÉ TOITURE-TERRASSE & PIÈCES HUMIDES (DTU 43.1)");
+    drawSectionTitle(doc, currentY, "II. LOT Ã‰TANCHÃ‰ITÃ‰ TOITURE-TERRASSE & PIÃˆCES HUMIDES (DTU 43.1)");
 
     const etancheiteRows = [
-      ["Complexe Toiture Terrasse Accessible", `${sToitureTerrasse} m²`, "Bicouche bitumineux élastomère SBS 4 mm", formatFCFA(totalEtancheiteF), "Relevés d'étanchéité 15 cm + chape de protection"],
-      ["Étanchéité sous Carrelage Salles d'Eau", `${nbSallesEau} Salles d'eau`, "Système d'Étanchéité Liquide (SEL)", formatFCFA(totalEtancheiteHumideF), "Traitement rigoureux des siphons et pieds de cloisons"],
-      ["Forme de Pente & Évacuations Pluviales", `${sToitureTerrasse} m²`, "Pente minimale 1,5% vers gargouilles", "Inclus gros œuvre", "Deux moignons d'évacuation par terrasse au minimum"],
-      ["TOTAL ESTIMATIF ÉTANCHÉITÉ OUVRAGES", "-", "-", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), "Protection vitale contre les sinistres d'hivernage"]
+      ["Complexe Toiture Terrasse Accessible", `${sToitureTerrasse} mÂ²`, "Bicouche bitumineux Ã©lastomÃ¨re SBS 4 mm", formatFCFA(totalEtancheiteF), "RelevÃ©s d'Ã©tanchÃ©itÃ© 15 cm + chape de protection"],
+      ["Ã‰tanchÃ©itÃ© sous Carrelage Salles d'Eau", `${nbSallesEau} Salles d'eau`, "SystÃ¨me d'Ã‰tanchÃ©itÃ© Liquide (SEL)", formatFCFA(totalEtancheiteHumideF), "Traitement rigoureux des siphons et pieds de cloisons"],
+      ["Forme de Pente & Ã‰vacuations Pluviales", `${sToitureTerrasse} mÂ²`, "Pente minimale 1,5% vers gargouilles", "Inclus gros Å“uvre", "Deux moignons d'Ã©vacuation par terrasse au minimum"],
+      ["TOTAL ESTIMATIF Ã‰TANCHÃ‰ITÃ‰ OUVRAGES", "-", "-", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), "Protection vitale contre les sinistres d'hivernage"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Ouvrage d\'Étanchéité', 'Surface Traitée', 'Système Préconisé', 'Montant Estimatif HT', 'Règle Normative']],
+      [['Ouvrage d\'Ã‰tanchÃ©itÃ©', 'Surface TraitÃ©e', 'SystÃ¨me PrÃ©conisÃ©', 'Montant Estimatif HT', 'RÃ¨gle Normative']],
       etancheiteRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -1749,25 +1597,25 @@
     ));
 
     // =========================================================================
-    // PAGE 2 : PLOMBERIE EU/EP & ÉLECTRICITÉ
+    // PAGE 2 : PLOMBERIE EU/EP & Ã‰LECTRICITÃ‰
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie II : Plomberie Sanitaire (EU/EP) & Électricité Basse Tension (NF C 15-100)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie II : Plomberie Sanitaire (EU/EP) & Ã‰lectricitÃ© Basse Tension (NF C 15-100)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "III. LOT PLOMBERIE SANITAIRE & ÉVACUATIONS EU/EP (DTU 60.1)");
+    drawSectionTitle(doc, currentY, "III. LOT PLOMBERIE SANITAIRE & Ã‰VACUATIONS EU/EP (DTU 60.1)");
 
     const plomberieRows = [
-      ["Appareils Sanitaires (WC suspendus / Lavabos)", `${qSanitaires} Ensembles`, `${formatFCFA(puSanitaires)} / Ens.`, formatFCFA(montantSanitaires), "Cuvettes céramique NF avec mécanisme silencieux"],
-      ["Robinetterie & Mitigeurs Céramiques", `${qMitigeurs} Pièces`, `${formatFCFA(puMitigeurs)} / U`, formatFCFA(montantMitigeurs), "Mitigeurs chromés cartouche céramique 35 mm"],
-      ["Réseaux Alimentation PER/Multicouche", `${qAlim} Salles de bain`, `${formatFCFA(puAlim)} / Ens.`, formatFCFA(montantAlim), "Tubes sous gaine anti-corrosion sans raccord encastré"],
-      ["Évacuations Eaux Usées / Eaux Pluviales (EU/EP)", "Ensemble réseau", "Forfait calibré", "Inclus aux postes", "Tubes PVC NF évacuation de 50, 100 et 110 mm"],
-      ["TOTAL ESTIMATIF PLOMBERIE EU/EP", "-", "-", formatFCFA(totalPlomberieF), "Fourniture des équipements et collecteurs"]
+      ["Appareils Sanitaires (WC suspendus / Lavabos)", `${qSanitaires} Ensembles`, `${formatFCFA(puSanitaires)} / Ens.`, formatFCFA(montantSanitaires), "Cuvettes cÃ©ramique NF avec mÃ©canisme silencieux"],
+      ["Robinetterie & Mitigeurs CÃ©ramiques", `${qMitigeurs} PiÃ¨ces`, `${formatFCFA(puMitigeurs)} / U`, formatFCFA(montantMitigeurs), "Mitigeurs chromÃ©s cartouche cÃ©ramique 35 mm"],
+      ["RÃ©seaux Alimentation PER/Multicouche", `${qAlim} Salles de bain`, `${formatFCFA(puAlim)} / Ens.`, formatFCFA(montantAlim), "Tubes sous gaine anti-corrosion sans raccord encastrÃ©"],
+      ["Ã‰vacuations Eaux UsÃ©es / Eaux Pluviales (EU/EP)", "Ensemble rÃ©seau", "Forfait calibrÃ©", "Inclus aux postes", "Tubes PVC NF Ã©vacuation de 50, 100 et 110 mm"],
+      ["TOTAL ESTIMATIF PLOMBERIE EU/EP", "-", "-", formatFCFA(totalPlomberieF), "Fourniture des Ã©quipements et collecteurs"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Équipement Sanitaire / Réseau', 'Quantitatif', 'Prix Unitaire Estimé', 'Montant Total HT', 'Prescription DTU 60.1']],
+      [['Ã‰quipement Sanitaire / RÃ©seau', 'Quantitatif', 'Prix Unitaire EstimÃ©', 'Montant Total HT', 'Prescription DTU 60.1']],
       plomberieRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -1779,19 +1627,19 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "IV. LOT ÉLECTRICITÉ & COURANTS FAIBLES (NORME NF C 15-100)");
+    drawSectionTitle(doc, currentY, "IV. LOT Ã‰LECTRICITÃ‰ & COURANTS FAIBLES (NORME NF C 15-100)");
 
     const electriciteRows = [
-      ["Points Électriques Calibrés (0,55 pt/m²)", `${nbPointsElec} Points`, `${formatFCFA(puPointElec)} / Pt`, formatFCFA(montantPoints), "Prises de courant, éclairages LED, interrupteurs Legrand"],
-      ["Tableaux Divisionnaires avec Différentiels 30mA", `${qTableaux} Tableau(x)`, `${formatFCFA(puTableaux)} / U`, formatFCFA(montantTableaux), "Protection par disjoncteurs magnétothermiques normalisés"],
-      ["Lignes Climatisation Dédiées (Courbe C)", `${qClim} Lignes`, `${formatFCFA(puClim)} / Ligne`, formatFCFA(montantClim), "Lignes séparées 2.5 mm² sous disjoncteur courbe C 16A/20A"],
-      ["Réseau de Terre & Liaison Équipotentielle", "1 Réseau complet", "Seuil normatif < 100 Ohms", "Inclus au lot", "Tension de sécurité 50V max pour locaux humides"],
-      ["TOTAL ESTIMATIF ÉLECTRICITÉ NF C 15-100", "-", "-", formatFCFA(totalElectriciteF), "Conforme aux normes de sécurité électrique"]
+      ["Points Ã‰lectriques CalibrÃ©s (0,55 pt/mÂ²)", `${nbPointsElec} Points`, `${formatFCFA(puPointElec)} / Pt`, formatFCFA(montantPoints), "Prises de courant, Ã©clairages LED, interrupteurs Legrand"],
+      ["Tableaux Divisionnaires avec DiffÃ©rentiels 30mA", `${qTableaux} Tableau(x)`, `${formatFCFA(puTableaux)} / U`, formatFCFA(montantTableaux), "Protection par disjoncteurs magnÃ©tothermiques normalisÃ©s"],
+      ["Lignes Climatisation DÃ©diÃ©es (Courbe C)", `${qClim} Lignes`, `${formatFCFA(puClim)} / Ligne`, formatFCFA(montantClim), "Lignes sÃ©parÃ©es 2.5 mmÂ² sous disjoncteur courbe C 16A/20A"],
+      ["RÃ©seau de Terre & Liaison Ã‰quipotentielle", "1 RÃ©seau complet", "Seuil normatif < 100 Ohms", "Inclus au lot", "Tension de sÃ©curitÃ© 50V max pour locaux humides"],
+      ["TOTAL ESTIMATIF Ã‰LECTRICITÃ‰ NF C 15-100", "-", "-", formatFCFA(totalElectriciteF), "Conforme aux normes de sÃ©curitÃ© Ã©lectrique"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Composant de l\'Installation', 'Quantitatif Calibré', 'Prix Unitaire Estimé', 'Montant Total HT', 'Exigence Normative']],
+      [['Composant de l\'Installation', 'Quantitatif CalibrÃ©', 'Prix Unitaire EstimÃ©', 'Montant Total HT', 'Exigence Normative']],
       electriciteRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -1803,25 +1651,25 @@
     ));
 
     // =========================================================================
-    // PAGE 3 : MENUISERIES & PEINTURE (DÉCOMPOSITION Q — PU)
+    // PAGE 3 : MENUISERIES & PEINTURE (DÃ‰COMPOSITION Q â€” PU)
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie III : Menuiseries Int./Ext. (Q — PU) & Peintures Normalisées (DTU 59.1)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie III : Menuiseries Int./Ext. (Q â€” PU) & Peintures NormalisÃ©es (DTU 59.1)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "V. LOT MENUISERIES EXTÉRIEURES & INTÉRIEURES (DÉCOMPOSITION Q — PU)");
+    drawSectionTitle(doc, currentY, "V. LOT MENUISERIES EXTÃ‰RIEURES & INTÃ‰RIEURES (DÃ‰COMPOSITION Q â€” PU)");
 
     const menuiseriesRows = [
-      ["Portes Intérieures Isoplanes Gravées", `${qPortesInt} Blocs`, `${formatFCFA(puPorteInt)} / U`, formatFCFA(montantPortesInt), "Huisseries métalliques traitées anti-corrosion + serrures"],
-      ["Châssis Coulissants Alu Vitré (Fenêtres)", `${qChassisAlu} Châssis`, `${formatFCFA(puChassisAlu)} / U`, formatFCFA(montantChassisAlu), "Alu laqué 1.4 mm avec vitrage Stopsol 6 mm"],
-      ["Grandes Baies Vitrées Coulissantes Salon", `${qBaiesVitrees} Baie(s)`, `${formatFCFA(puBaieVitree)} / U`, formatFCFA(montantBaies), "Profilés alu renforcés et roulements à billes inox étanches"],
-      ["Porte d'Entrée Principale Sécurisée", `${qPorteBlindee} Porte`, `${formatFCFA(puPorteBlindee)} / U`, formatFCFA(montantPorteBlindee), "Porte blindée acier 7 points ou bois massif traité"],
-      ["TOTAL ESTIMATIF LOT MENUISERIES", "-", "-", formatFCFA(totalMenuiseriesF), "Fourniture et pose complète des menuiseries"]
+      ["Portes IntÃ©rieures Isoplanes GravÃ©es", `${qPortesInt} Blocs`, `${formatFCFA(puPorteInt)} / U`, formatFCFA(montantPortesInt), "Huisseries mÃ©talliques traitÃ©es anti-corrosion + serrures"],
+      ["ChÃ¢ssis Coulissants Alu VitrÃ© (FenÃªtres)", `${qChassisAlu} ChÃ¢ssis`, `${formatFCFA(puChassisAlu)} / U`, formatFCFA(montantChassisAlu), "Alu laquÃ© 1.4 mm avec vitrage Stopsol 6 mm"],
+      ["Grandes Baies VitrÃ©es Coulissantes Salon", `${qBaiesVitrees} Baie(s)`, `${formatFCFA(puBaieVitree)} / U`, formatFCFA(montantBaies), "ProfilÃ©s alu renforcÃ©s et roulements Ã  billes inox Ã©tanches"],
+      ["Porte d'EntrÃ©e Principale SÃ©curisÃ©e", `${qPorteBlindee} Porte`, `${formatFCFA(puPorteBlindee)} / U`, formatFCFA(montantPorteBlindee), "Porte blindÃ©e acier 7 points ou bois massif traitÃ©"],
+      ["TOTAL ESTIMATIF LOT MENUISERIES", "-", "-", formatFCFA(totalMenuiseriesF), "Fourniture et pose complÃ¨te des menuiseries"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Type de Menuiserie', 'Nombre / Dimensions', 'Prix Unitaire Estimé', 'Montant Total HT', 'Spécification Technique']],
+      [['Type de Menuiserie', 'Nombre / Dimensions', 'Prix Unitaire EstimÃ©', 'Montant Total HT', 'SpÃ©cification Technique']],
       menuiseriesRows,
       {
         0: { cellWidth: 42, fontStyle: 'bold' },
@@ -1833,18 +1681,18 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VI. LOT PEINTURE, ENDUITS & FINITIONS DÉCORATIVES (DTU 59.1)");
+    drawSectionTitle(doc, currentY, "VI. LOT PEINTURE, ENDUITS & FINITIONS DÃ‰CORATIVES (DTU 59.1)");
 
     const peintureRows = [
-      ["Enduit de Rebouchage & Ratissage Complet", `${sMursEnduit} m²`, `${formatFCFA(puEnduit)} / m²`, formatFCFA(montantEnduit), "Deux passes croisées avec ponçage fin anti-rayures"],
-      ["Couche d'Impression Fixatrice Régulatrice", `${sImpression} m²`, `${formatFCFA(puImpression)} / m²`, formatFCFA(montantImpression), "Sous-couche hydrofuge acrylique régulatrice de fond"],
-      ["Peinture Intérieure Acrylique Veloutée", `${sPeintureInt} m²`, `${formatFCFA(puPeintureInt)} / m²`, formatFCFA(montantPeintureInt), "Deux couches lavables haute résistance Seigneurie / Astral"],
-      ["TOTAL ESTIMATIF LOT PEINTURE", "-", "-", formatFCFA(totalPeintureF), "Application soignée sur murs et plafonds"]
+      ["Enduit de Rebouchage & Ratissage Complet", `${sMursEnduit} mÂ²`, `${formatFCFA(puEnduit)} / mÂ²`, formatFCFA(montantEnduit), "Deux passes croisÃ©es avec ponÃ§age fin anti-rayures"],
+      ["Couche d'Impression Fixatrice RÃ©gulatrice", `${sImpression} mÂ²`, `${formatFCFA(puImpression)} / mÂ²`, formatFCFA(montantImpression), "Sous-couche hydrofuge acrylique rÃ©gulatrice de fond"],
+      ["Peinture IntÃ©rieure Acrylique VeloutÃ©e", `${sPeintureInt} mÂ²`, `${formatFCFA(puPeintureInt)} / mÂ²`, formatFCFA(montantPeintureInt), "Deux couches lavables haute rÃ©sistance Seigneurie / Astral"],
+      ["TOTAL ESTIMATIF LOT PEINTURE", "-", "-", formatFCFA(totalPeintureF), "Application soignÃ©e sur murs et plafonds"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Phase & Support de Peinture', 'Surface Traitée', 'Prix au m² Estimé', 'Montant Total HT', 'Prescription DTU 59.1']],
+      [['Phase & Support de Peinture', 'Surface TraitÃ©e', 'Prix au mÂ² EstimÃ©', 'Montant Total HT', 'Prescription DTU 59.1']],
       peintureRows,
       {
         0: { cellWidth: 44, fontStyle: 'bold' },
@@ -1856,32 +1704,32 @@
     ));
 
     // =========================================================================
-    // PAGE 4 : RÉCAPITULATIF BUDGÉTAIRE & PV DE RÉCEPTION CONTRADICTOIRE
+    // PAGE 4 : RÃ‰CAPITULATIF BUDGÃ‰TAIRE & PV DE RÃ‰CEPTION CONTRADICTOIRE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie IV : Synthèse Budgétaire TCE & Procès-Verbal de Réception Contradictoire (COCC)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie IV : SynthÃ¨se BudgÃ©taire TCE & ProcÃ¨s-Verbal de RÃ©ception Contradictoire (COCC)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "VII. RÉCAPITULATIF BUDGÉTAIRE GLOBAL SECOND œUVRE TCE");
+    drawSectionTitle(doc, currentY, "VII. RÃ‰CAPITULATIF BUDGÃ‰TAIRE GLOBAL SECOND Å“UVRE TCE");
 
     const recapTceRows = [
-      ["Lot 1 : Carrelages, Faïences, Colles & Joints", formatFCFA(totalLotCarrelageF + totalFaienceF), `${Math.round(((totalLotCarrelageF + totalFaienceF) / totalTCEFinitions) * 100)} %`, "Grès cérame, colles C2TE et joints hydrofuges inclus"],
-      ["Lot 2 : Étanchéité Toiture Terrasse & Pièces Humides", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), `${Math.round(((totalEtancheiteF + totalEtancheiteHumideF) / totalTCEFinitions) * 100)} %`, "Complexe bicouche 4 mm sablé et SEL salles d'eau"],
-      ["Lot 3 : Plomberie Sanitaire & Réseau Évacuations EU/EP", formatFCFA(totalPlomberieF), `${Math.round((totalPlomberieF / totalTCEFinitions) * 100)} %`, "Sanitaires, mitigeurs et réseaux sans soudure encastrée"],
-      ["Lot 4 : Électricité, Tableaux & Lignes Clim (NF C 15-100)", formatFCFA(totalElectriciteF), `${Math.round((totalElectriciteF / totalTCEFinitions) * 100)} %`, `${nbPointsElec} points électriques, disjoncteurs et réseau terre`],
-      ["Lot 5 : Menuiseries Intérieures & Extérieures", formatFCFA(totalMenuiseriesF), `${Math.round((totalMenuiseriesF / totalTCEFinitions) * 100)} %`, "Portes isoplanes, châssis alu et baie vitrée salon"],
-      ["Lot 6 : Peinture Intérieure & Enduits Ratissés", formatFCFA(totalPeintureF), `${Math.round((totalPeintureF / totalTCEFinitions) * 100)} %`, "Enduits croisés et 2 couches acrylique veloutée"],
-      ["Main d'œuvre Spécialisée Pose & Finitions", formatFCFA(totalMainOeuvreF), `${Math.round((totalMainOeuvreF / totalTCEFinitions) * 100)} %`, "Artisans qualifiés avec assurance et respect des DTU"],
-      ["BUDGET TOTAL ESTIMATIF SECOND œUVRE TCE", formatFCFA(totalTCEFinitions), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalTCEFinitions / surface))} / m² SDP`]
+      ["Lot 1 : Carrelages, FaÃ¯ences, Colles & Joints", formatFCFA(totalLotCarrelageF + totalFaienceF), `${Math.round(((totalLotCarrelageF + totalFaienceF) / totalTCEFinitions) * 100)} %`, "GrÃ¨s cÃ©rame, colles C2TE et joints hydrofuges inclus"],
+      ["Lot 2 : Ã‰tanchÃ©itÃ© Toiture Terrasse & PiÃ¨ces Humides", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), `${Math.round(((totalEtancheiteF + totalEtancheiteHumideF) / totalTCEFinitions) * 100)} %`, "Complexe bicouche 4 mm sablÃ© et SEL salles d'eau"],
+      ["Lot 3 : Plomberie Sanitaire & RÃ©seau Ã‰vacuations EU/EP", formatFCFA(totalPlomberieF), `${Math.round((totalPlomberieF / totalTCEFinitions) * 100)} %`, "Sanitaires, mitigeurs et rÃ©seaux sans soudure encastrÃ©e"],
+      ["Lot 4 : Ã‰lectricitÃ©, Tableaux & Lignes Clim (NF C 15-100)", formatFCFA(totalElectriciteF), `${Math.round((totalElectriciteF / totalTCEFinitions) * 100)} %`, `${nbPointsElec} points Ã©lectriques, disjoncteurs et rÃ©seau terre`],
+      ["Lot 5 : Menuiseries IntÃ©rieures & ExtÃ©rieures", formatFCFA(totalMenuiseriesF), `${Math.round((totalMenuiseriesF / totalTCEFinitions) * 100)} %`, "Portes isoplanes, chÃ¢ssis alu et baie vitrÃ©e salon"],
+      ["Lot 6 : Peinture IntÃ©rieure & Enduits RatissÃ©s", formatFCFA(totalPeintureF), `${Math.round((totalPeintureF / totalTCEFinitions) * 100)} %`, "Enduits croisÃ©s et 2 couches acrylique veloutÃ©e"],
+      ["Main d'Å“uvre SpÃ©cialisÃ©e Pose & Finitions", formatFCFA(totalMainOeuvreF), `${Math.round((totalMainOeuvreF / totalTCEFinitions) * 100)} %`, "Artisans qualifiÃ©s avec assurance et respect des DTU"],
+      ["BUDGET TOTAL ESTIMATIF SECOND Å“UVRE TCE", formatFCFA(totalTCEFinitions), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalTCEFinitions / surface))} / mÂ² SDP`]
     ];
 
-    // Vérification de la somme des lignes récapitulatives
+    // VÃ©rification de la somme des lignes rÃ©capitulatives
     const sommeLignesRecap = (totalLotCarrelageF + totalFaienceF) + (totalEtancheiteF + totalEtancheiteHumideF) + totalPlomberieF + totalElectriciteF + totalMenuiseriesF + totalPeintureF + totalMainOeuvreF;
-    if (sommeLignesRecap !== totalTCEFinitions) throw new Error("Incohérence somme récapitulative finitions");
+    if (sommeLignesRecap !== totalTCEFinitions) throw new Error("IncohÃ©rence somme rÃ©capitulative finitions");
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Lot Technique Second œuvre', 'Montant Estimatif HT', 'Quote-Part TCE', 'Observations & Priorités']],
+      [['Lot Technique Second Å“uvre', 'Montant Estimatif HT', 'Quote-Part TCE', 'Observations & PrioritÃ©s']],
       recapTceRows,
       {
         0: { cellWidth: 50, fontStyle: 'bold' },
@@ -1892,9 +1740,9 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VIII. PROCÈS-VERBAL DE RÉCEPTION CONTRADICTOIRE DES TRAVAUX (COCC)");
+    drawSectionTitle(doc, currentY, "VIII. PROCÃˆS-VERBAL DE RÃ‰CEPTION CONTRADICTOIRE DES TRAVAUX (COCC)");
 
-    // Cadre officiel PV de réception
+    // Cadre officiel PV de rÃ©ception
     const pvBoxY = currentY + TITLE_AFTER_GAP_MM;
     const pvBoxHeight = 56;
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -1905,40 +1753,40 @@
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.8);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("ACTE JURIDIQUE DE RÉCEPTION DES TRAVAUX (ARTICLE 740 DU COCC)", MARGIN_LEFT + 4, pvBoxY + 5.5);
+    doc.text("ACTE JURIDIQUE DE RÃ‰CEPTION DES TRAVAUX (ARTICLE 740 DU COCC)", MARGIN_LEFT + 4, pvBoxY + 5.5);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.8);
     doc.setTextColor(51, 65, 85);
-    doc.text(`Maître d'Ouvrage : ${clientName} • Réf Dossier : ${refDoc} • Date de visite : ${currentDate}`, MARGIN_LEFT + 4, pvBoxY + 11.5);
-    doc.text(`Entrepreneur / Tâcheron en charge des travaux : ....................................................................................................`, MARGIN_LEFT + 4, pvBoxY + 16.5);
+    doc.text(`MaÃ®tre d'Ouvrage : ${clientName} â€¢ RÃ©f Dossier : ${refDoc} â€¢ Date de visite : ${currentDate}`, MARGIN_LEFT + 4, pvBoxY + 11.5);
+    doc.text(`Entrepreneur / TÃ¢cheron en charge des travaux : ....................................................................................................`, MARGIN_LEFT + 4, pvBoxY + 16.5);
 
     doc.setFont(getFontFamily(doc), 'bold');
-    doc.text("DÉCISION CONTRADICTOIRE DES PARTIES :", MARGIN_LEFT + 4, pvBoxY + 22.5);
+    doc.text("DÃ‰CISION CONTRADICTOIRE DES PARTIES :", MARGIN_LEFT + 4, pvBoxY + 22.5);
     doc.setFont(getFontFamily(doc), 'normal');
-    doc.text("[ ] RÉCEPTION PRONONCÉE SANS RÉSERVE : L'ouvrage est conforme aux règles de l'art.", MARGIN_LEFT + 8, pvBoxY + 27.5);
-    doc.text(`[ ] RÉCEPTION PRONONCÉE AVEC RÉSERVES : Les désordres consignés doivent être levés sous ${delaiReserves} jours.`, MARGIN_LEFT + 8, pvBoxY + 32.5);
+    doc.text("[ ] RÃ‰CEPTION PRONONCÃ‰E SANS RÃ‰SERVE : L'ouvrage est conforme aux rÃ¨gles de l'art.", MARGIN_LEFT + 8, pvBoxY + 27.5);
+    doc.text(`[ ] RÃ‰CEPTION PRONONCÃ‰E AVEC RÃ‰SERVES : Les dÃ©sordres consignÃ©s doivent Ãªtre levÃ©s sous ${delaiReserves} jours.`, MARGIN_LEFT + 8, pvBoxY + 32.5);
 
-    doc.text(`Délai impératif accordé à l'entrepreneur pour la levée intégrale des réserves : ${delaiReserves} jours calendaires.`, MARGIN_LEFT + 4, pvBoxY + 38.5);
-    doc.text("La retenue de garantie contractuelle de 5% (COCC) demeure consignée jusqu'au PV de levée des réserves.", MARGIN_LEFT + 4, pvBoxY + 43);
+    doc.text(`DÃ©lai impÃ©ratif accordÃ© Ã  l'entrepreneur pour la levÃ©e intÃ©grale des rÃ©serves : ${delaiReserves} jours calendaires.`, MARGIN_LEFT + 4, pvBoxY + 38.5);
+    doc.text("La retenue de garantie contractuelle de 5% (COCC) demeure consignÃ©e jusqu'au PV de levÃ©e des rÃ©serves.", MARGIN_LEFT + 4, pvBoxY + 43);
 
     // Signatures
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(6.8);
-    doc.text("Signature Maître d'Ouvrage :", MARGIN_LEFT + 15, pvBoxY + 49);
-    doc.text("Signature Entrepreneur / Tâcheron :", 115, pvBoxY + 49);
+    doc.text("Signature MaÃ®tre d'Ouvrage :", MARGIN_LEFT + 15, pvBoxY + 49);
+    doc.text("Signature Entrepreneur / TÃ¢cheron :", 115, pvBoxY + 49);
     doc.setDrawColor(148, 163, 184);
     doc.line(MARGIN_LEFT + 10, pvBoxY + 53, MARGIN_LEFT + 65, pvBoxY + 53);
     doc.line(110, pvBoxY + 53, 165, pvBoxY + 53);
   }
 
   // =========================================================================
-  // EXPORTATION GLOBALE & GESTIONNAIRE DE TÉLÉCHARGEMENT
+  // EXPORTATION GLOBALE & GESTIONNAIRE DE TÃ‰LÃ‰CHARGEMENT
   // =========================================================================
   window.generateProjectPDF = function(projectData) {
     const jsPDFClass = getJsPDF();
     if (!jsPDFClass) {
-      alert("Erreur critique : La bibliothèque jsPDF n'a pas pu être chargée.");
+      alert("Erreur critique : La bibliothÃ¨que jsPDF n'a pas pu Ãªtre chargÃ©e.");
       return;
     }
 
@@ -1978,11 +1826,11 @@
       doc.setFont(getFontFamily(doc), 'normal');
       doc.setFontSize(6.8);
       doc.setTextColor(148, 163, 184);
-      doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", MARGIN_LEFT, pageHeight - 11);
+      doc.text("ChantierSur.com â€¢ Bureau d'Ã‰tudes NumÃ©rique IndÃ©pendant â€¢ Dakar, RÃ©publique du SÃ©nÃ©gal.", MARGIN_LEFT, pageHeight - 11);
       if (service === 'finitions') {
-        doc.text("Document généré automatiquement à titre indicatif • Normes DTU Second œuvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", MARGIN_LEFT, pageHeight - 7);
+        doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ Normes DTU Second Å“uvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", MARGIN_LEFT, pageHeight - 7);
       } else {
-        doc.text("Document généré automatiquement à titre indicatif • BAEL 91 R99 & Code des Obligations Civiles et Commerciales.", MARGIN_LEFT, pageHeight - 7);
+        doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ BAEL 91 R99 & Code des Obligations Civiles et Commerciales.", MARGIN_LEFT, pageHeight - 7);
       }
 
       doc.setFont(getFontFamily(doc), 'bold');
@@ -1994,7 +1842,7 @@
     doc.save(fileName);
   };
 
-  // Fonctions de rendu directes pour intégrations et tests
+  // Fonctions de rendu directes pour intÃ©grations et tests
   window.renderEsquisse = renderEsquisse;
   window.renderExpress = renderExpress;
   window.renderAudit = renderAudit;
@@ -2011,3 +1859,4 @@
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
