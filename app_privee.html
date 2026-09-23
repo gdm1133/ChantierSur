@@ -28,6 +28,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <!-- PDF.js for frontend PDF parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+
   <style>
     .tab-card { transition: all 0.2s ease-in-out; }
   </style>
@@ -1932,59 +1936,166 @@
       }
     };
 
-    // 7. LECTURE AUTOMATIQUE DU DEVIS (SIMULATION API)
-    window.handleDevisUpload = function(files) {
+    // 7. LECTURE AUTOMATIQUE DU DEVIS (VIA PDF.JS)
+    window.handleDevisUpload = async function(files) {
       if (!files || files.length === 0) return;
       const file = files[0];
+      if (file.type !== 'application/pdf') {
+          alert('Veuillez sélectionner un fichier PDF.');
+          return;
+      }
+      
       const btn = document.getElementById('btn-upload-devis');
       const status = document.getElementById('upload-status');
       
       btn.disabled = true;
       btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-slate-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Analyse IA en cours...`;
       
-      // Simulation d'un appel API (devis_parser.py)
-      setTimeout(() => {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        
+        let fullText = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          const pageText = content.items.map(item => item.str).join(" ");
+          fullText += pageText + "\\n";
+        }
+        
+        // Simple extraction logic (simulate python regex parser in JS)
+        const linesParsed = [];
+        
+        // Parse metadata (simplified)
+        let numDevis = "DEV-2026-UNKNOWN";
+        const devisMatch = fullText.match(/(?:DEVIS N°|N° DEVIS)\s*([A-Z0-9\-_]+)/i);
+        if (devisMatch) numDevis = devisMatch[1];
+        
+        let dateDevis = "2026-01-01";
+        const dateMatch = fullText.match(/(\d{2}\/\d{2}\/\d{4})/);
+        if (dateMatch) {
+            const parts = dateMatch[1].split('/');
+            dateDevis = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+        
+        document.querySelector('input[name="devis_number"]').value = numDevis;
+        document.querySelector('input[name="devis_date"]').value = dateDevis;
+        document.querySelector('input[name="devis_company"]').value = "Entreprise extraite (Auto)";
+        document.querySelector('input[name="devis_object"]').value = "Audit Chantier - Extrait (Auto)";
+        
+        // Parse lines: Look for patterns of numbers representing Qty, PU, Montant
+        // e.g., "Béton armé m3 12.5 145000 1812500"
+        const potentialLines = fullText.split('\\n');
+        
+        let currentLot = "Lot Général";
+        let numLinesDetected = 0;
+        
+        // Clean up UI existing lines before adding parsed ones
+        const devisList = document.getElementById('devis-lines-list');
+        devisList.innerHTML = '';
+        devisLineCount = 0;
+        
+        const parseMontant = (str) => {
+            if (!str) return null;
+            let clean = str.replace(/FCFA|F CFA|CFA|F|€/gi, '').trim();
+            clean = clean.replace(/[\s\u00a0\u202f]+/g, '');
+            if (clean.includes(',') && clean.includes('.')) {
+                clean = clean.replace(/\./g, '').replace(/,/g, '.');
+            } else if (clean.includes(',')) {
+                clean = clean.replace(/,/g, '.');
+            }
+            const val = parseFloat(clean);
+            return isNaN(val) ? null : val;
+        };
+
+        const inferNature = (str) => {
+            const s = str.toLowerCase();
+            if (s.match(/fournit.*pose|fourni.*pos|f\/p/)) return "Fourniture et pose";
+            if (s.match(/fourniture.*seule/)) return "Fourniture seule";
+            if (s.match(/main d|pose seule/)) return "Main d'œuvre seule";
+            return "Fourniture et pose";
+        };
+        
+        for (let l of potentialLines) {
+            const lotMatch = l.match(/^\s*LOT\s*(?:\d+)?\s*[:\-]?\s*(.*)$/i);
+            if (lotMatch) {
+                currentLot = lotMatch[1].trim() || "Lot Général";
+                continue;
+            }
+            
+            // Look for minimum 3 numbers in a string that might be a line
+            const numWords = l.split(/\s+/).filter(w => parseMontant(w) !== null);
+            if (numWords.length >= 3 && l.length > 20 && !l.toUpperCase().includes('TOTAL')) {
+                const words = l.split(/\s+/);
+                // Last 3 numericals: Qty, PU, Total
+                let nums = [];
+                for (let i = words.length - 1; i >= 0; i--) {
+                    if (parseMontant(words[i]) !== null) nums.unshift(parseMontant(words[i]));
+                }
+                
+                if (nums.length >= 3) {
+                    const montant = nums[nums.length - 1];
+                    const pu = nums[nums.length - 2];
+                    const qte = nums[nums.length - 3];
+                    
+                    // Simple designation extraction: everything before the first number
+                    let designation = "Désignation extraite";
+                    const firstNumIdx = words.findIndex(w => parseMontant(w) === qte);
+                    if (firstNumIdx > 0) {
+                        // Exclude possible units
+                        let endIdx = firstNumIdx;
+                        const lastWord = words[firstNumIdx - 1];
+                        let unit = "U";
+                        if (['m2','m³','m3','ml','ff','kg','tonne','u','l'].includes(lastWord.toLowerCase())) {
+                            unit = lastWord;
+                            endIdx--;
+                        }
+                        designation = words.slice(0, endIdx).join(" ");
+                        
+                        // Add line
+                        addDevisLine();
+                        const linesItems = document.querySelectorAll('.devis-line-item');
+                        const newLine = linesItems[linesItems.length - 1];
+                        
+                        newLine.querySelector('.dl-lot').value = currentLot;
+                        newLine.querySelector('.dl-num').value = `1.${numLinesDetected + 1}`;
+                        newLine.querySelector('.dl-designation').value = designation;
+                        newLine.querySelector('.dl-nature').value = inferNature(designation);
+                        newLine.querySelector('.dl-unit').value = unit;
+                        newLine.querySelector('.dl-qty').value = qte;
+                        newLine.querySelector('.dl-pu').value = pu;
+                        newLine.querySelector('.dl-total').value = montant;
+                        recalcDevisLine(newLine.id);
+                        
+                        numLinesDetected++;
+                    }
+                }
+            }
+        }
+        
+        // If 0 lines, add fallback
+        if (numLinesDetected === 0) {
+            addDevisLine();
+            numLinesDetected = 1;
+            status.innerText = `⚠ Le PDF a été lu mais le format tableau n'a pas pu être décomposé. Saisie manuelle requise.`;
+            status.classList.replace('text-emerald-600', 'text-amber-600');
+        } else {
+            status.innerText = `✓ ${numLinesDetected} lignes détectées et pré-remplies. Veuillez vérifier à l'étape suivante.`;
+        }
+        
         btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Devis Analysé !</span>`;
         btn.classList.replace('bg-amber-500', 'bg-emerald-400');
         btn.classList.replace('hover:bg-amber-600', 'hover:bg-emerald-500');
         status.classList.remove('hidden');
-        status.innerText = "✓ 5 lignes détectées et pré-remplies. Veuillez vérifier à l'étape suivante.";
         
-        // Pré-remplissage Etape 1
-        document.querySelector('input[name="devis_number"]').value = "DEV-2026-0042";
-        document.querySelector('input[name="devis_date"]').value = "2026-09-20";
-        document.querySelector('input[name="devis_company"]').value = "Sénégal BTP Construction";
-        document.querySelector('input[name="devis_object"]').value = "Construction Villa R+1 Almadies";
-        
-        // Pré-remplissage Etape 2 (Lignes)
-        // On supprime d'abord les lignes existantes si on veut, ou on ajoute
-        // Pour la simulation, on ajoute 2 lignes
-        addDevisLine();
-        const lines = document.querySelectorAll('.devis-line-item');
-        const lastLine1 = lines[lines.length - 1];
-        lastLine1.querySelector('.dl-lot').value = "Gros Œuvre";
-        lastLine1.querySelector('.dl-num').value = "2.1";
-        lastLine1.querySelector('.dl-designation').value = "Béton armé pour semelles filantes dosé à 350kg/m3";
-        lastLine1.querySelector('.dl-nature').value = "Fourniture et pose";
-        lastLine1.querySelector('.dl-unit').value = "m³";
-        lastLine1.querySelector('.dl-qty').value = "12.5";
-        lastLine1.querySelector('.dl-pu').value = "145000";
-        lastLine1.querySelector('.dl-total').value = "1812500";
-        recalcDevisLine(lastLine1.id);
-        
-        addDevisLine();
-        const lastLine2 = document.querySelectorAll('.devis-line-item')[lines.length];
-        lastLine2.querySelector('.dl-lot').value = "Maçonnerie";
-        lastLine2.querySelector('.dl-num').value = "3.4";
-        lastLine2.querySelector('.dl-designation').value = "Agglos pleins de 20cm";
-        lastLine2.querySelector('.dl-nature').value = "Fourniture et pose";
-        lastLine2.querySelector('.dl-unit').value = "m²";
-        lastLine2.querySelector('.dl-qty').value = "150";
-        lastLine2.querySelector('.dl-pu').value = "8500";
-        lastLine2.querySelector('.dl-total').value = "1500000"; // Erreur volontaire de l'artisan (150*8500 = 1275000)
-        recalcDevisLine(lastLine2.id);
-        
-      }, 2500);
+      } catch (err) {
+          console.error("PDF Parsing Error: ", err);
+          status.innerText = `✖ Erreur lors de la lecture du PDF : ${err.message}`;
+          status.classList.remove('hidden');
+          status.classList.replace('text-emerald-600', 'text-red-600');
+          btn.innerHTML = `Sélectionner mon Devis`;
+          btn.disabled = false;
+      }
     };
   </script>
 </body>
