@@ -311,18 +311,19 @@
     };
     const zoneKey = Object.keys(COS_MAX_PAR_ZONE).find(k => location.includes(k)) || 'default';
     const cosMax = COS_MAX_PAR_ZONE[zoneKey];
-    const cosProjet = +(sdpTotale / surface).toFixed(2);
+    // Arrondi standard (pas de troncature) : Math.round à 2 décimales
+    const cosProjet = Math.round((sdpTotale / surface) * 100) / 100;
     const respecteCos = cosProjet <= cosMax;
 
     // Prospect indicatif gradué (informatif et non bloquant)
     const depassementGabarit = parseFloat(hauteurFaitage) - hauteurMaxGabarit;
-    let statutGabarit = "Conforme au seuil indicatif (H ≤ 1,5L)";
+    let statutGabarit = `Conforme au seuil indicatif (H ≤ 1,5L) — Hauteur projetée ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m ≤ seuil ${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m`;
     if (depassementGabarit > 0) {
       const depPct = Math.round((depassementGabarit / hauteurMaxGabarit) * 100);
       if (depassementGabarit <= 0.10 * hauteurMaxGabarit) {
-        statutGabarit = `Dépassement indicatif mineur (+${depassementGabarit.toFixed(1).replace('.', ',')} m / ${depPct} %) — adaptation recommandée`;
+        statutGabarit = `Hauteur projetée ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m — dépassement de +${depassementGabarit.toFixed(1).replace('.', ',')} m du seuil de référence (${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m) — dépassement mineur, adaptation recommandée`;
       } else {
-        statutGabarit = `Dépassement indicatif de +${depassementGabarit.toFixed(1).replace('.', ',')} m (${depPct} %) du prospect usuel R.448 — à confirmer selon document de zone`;
+        statutGabarit = `Hauteur projetée ${parseFloat(hauteurFaitage).toFixed(1).replace('.', ',')} m — dépassement de +${depassementGabarit.toFixed(1).replace('.', ',')} m (${depPct} %) du seuil indicatif (${hauteurMaxGabarit.toFixed(1).replace('.', ',')} m) — à vérifier avec le document d'urbanisme de la zone`;
       }
     }
 
@@ -415,13 +416,13 @@
 
     const gabaritRows = [
       ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
-      ["COS Projet (SDP / Surface)", cosProjet.toFixed(2), respecteCos ? `Conforme à l'hypothèse de référence de zone (${cosMax.toFixed(1).replace('.', ',')}) — à confirmer` : `Supérieur à l'hypothèse de zone (${cosMax.toFixed(1).replace('.', ',')}) — document d'urbanisme applicable à confirmer`],
+      ["COS Projet (SDP / Surface)", cosProjet.toFixed(2).replace('.', ','), respecteCos ? `Conforme à l'hypothèse de référence de zone (${cosMax.toFixed(1).replace('.', ',')}) — à confirmer` : `Supérieur à l'hypothèse de zone (${cosMax.toFixed(1).replace('.', ',')}) — document d'urbanisme applicable à confirmer`],
       ["Emprise au Sol Projetée (CES indicatif 0,65)", `${empriseSolMax} m²`, "Hypothèse de travail (art. R.40) — valeur exacte fixée par le document de zone"],
       ["Espaces Libres (Hypothèse 35%)", `${espacesLibres} m²`, "Hypothèse interne d'infiltration pluviale — à confirmer selon le plan de zone"],
       ["Surface Développée de Plancher Totale (SDP)", `env. ${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
       ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage.replace('.', ',')} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
-      ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m (art. R.448)`],
-      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, `Art. R.448 (décret n° 2025-1194) : H = 1,5 × (${streetWidth} m + ${reculAlignement} m) — seuil indicatif`],
+      ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m (valeur indicative — à confirmer selon plan de zone)`],
+      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, `Décret n° 2025-1194, art. R.448 : H = 1,5 × (${streetWidth} m + ${reculAlignement} m) — seuil indicatif à vérifier avec le document d'urbanisme applicable`],
       ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Art. R.41 à R.45 (décret n° 2025-1194) : 1 pl / 100 m² SHON (min. 1 par logement). Formule tracée."]
     ];
 
@@ -531,7 +532,7 @@
     const bacheLitres = Math.round(consoJournaliereLitres * 2.5);
     const surpresseurPuissance = totalLevelsCount >= 3 ? "Surpresseur double pompe 1.5 kW" : "Groupe de surpression compact 0.75 kW";
     const kvaEstimes = Math.max(6, Math.round((sdpTotale * 35) / 1000));
-    const sectionCable = kvaEstimes > 18 ? "Câble cuivre 4 — 25 mm² Armé" : (kvaEstimes > 10 ? "Câble cuivre 4 — 16 mm²" : "Câble cuivre 2 — 10 mm²");
+    const sectionCable = kvaEstimes > 18 ? "Câble cuivre 4×25 mm² Armé" : (kvaEstimes > 10 ? "Câble cuivre 4×16 mm²" : "Câble cuivre 2×10 mm²");
 
     let assainissementDesc = "Raccordement réseau tout-à-l'égout ONAS obligatoire avec boîte de branchement siphoïde.";
     if (sanitation === 'autonome') {
@@ -649,27 +650,30 @@
       }
     ));
 
-    // Bloc de visa technique
+    // Bloc de visa technique — fond rouge, texte blanc (contraste ≥ 4,5:1)
     currentY = doc.lastAutoTable.finalY + TABLE_GAP_MM + 1.5;
-    doc.setFillColor(...COLOR_BG_LIGHT);
-    doc.rect(MARGIN_LEFT, currentY, USABLE_WIDTH, 20, 'F');
-    doc.setDrawColor(203, 213, 225);
-    doc.rect(MARGIN_LEFT, currentY, USABLE_WIDTH, 20, 'D');
+    // Couleur fond : rouge profond #C0392B (R=192, G=57, B=43)
+    doc.setFillColor(192, 57, 43);
+    doc.rect(MARGIN_LEFT, currentY, USABLE_WIDTH, 22, 'F');
+    doc.setDrawColor(150, 30, 20);
+    doc.rect(MARGIN_LEFT, currentY, USABLE_WIDTH, 22, 'D');
 
+    // Titre : texte blanc gras
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(7.5);
-    doc.setTextColor(...COLOR_NAVY);
-    doc.text("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", MARGIN_LEFT + 4, currentY + 5);
+    doc.setTextColor(255, 255, 255);
+    doc.text("VISA TECHNIQUE — Bureau d'Études Indépendant ChantierSur.com :", MARGIN_LEFT + 4, currentY + 5);
 
+    // Corps du disclaimer : texte blanc normal
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.5);
-    doc.setTextColor(...COLOR_SLATE);
+    doc.setTextColor(255, 255, 255);
     const disclaimerLines = doc.splitTextToSize(
       "Document indicatif d'aide à la décision généré automatiquement. Il ne constitue ni une note de calcul, ni le visa d'un bureau d'études agréé. Les valeurs réglementaires (COS max, capacité portante, ratios) doivent être confirmées par des professionnels qualifiés avant tout engagement financier ou dépôt de permis.",
       USABLE_WIDTH - 8
     );
-    doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 10);
-    doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 17.5);
+    doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 11);
+    doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
   }
 
   // =========================================================================
