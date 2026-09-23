@@ -1991,8 +1991,8 @@
         let numLinesDetected = 0;
         
         // Clean up UI existing lines before adding parsed ones
-        const devisList = document.getElementById('devis-lines-list');
-        devisList.innerHTML = '';
+        const devisList = document.getElementById('devis-lines-container');
+        if (devisList) devisList.innerHTML = '';
         devisLineCount = 0;
         
         const parseMontant = (str) => {
