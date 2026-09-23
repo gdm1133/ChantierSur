@@ -655,6 +655,29 @@
 
   <!-- ÉTAPE 1 : En-tête du devis -->
   <div class="step-container step-1 space-y-6">
+    <!-- UPLOAD ZONE (LECTURE AUTOMATIQUE) -->
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-8 text-center relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-amber-200/50 rounded-full blur-2xl"></div>
+      <h4 class="text-amber-900 font-bold text-base mb-2 flex items-center justify-center space-x-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+        <span>Lecture Automatique du Devis PDF</span>
+      </h4>
+      <p class="text-xs text-amber-800 mb-4">Téléchargez votre devis. Notre IA l'analyse et pré-remplit le formulaire automatiquement.</p>
+      
+      <input type="file" id="devis_pdf_upload" accept=".pdf,image/*" class="hidden" onchange="handleDevisUpload(this.files)">
+      <button type="button" onclick="document.getElementById('devis_pdf_upload').click()" id="btn-upload-devis" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-xl transition-all shadow-md text-sm inline-flex items-center space-x-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+        <span>Sélectionner mon Devis</span>
+      </button>
+      <div id="upload-status" class="hidden mt-3 text-xs font-bold text-emerald-600"></div>
+    </div>
+    
+    <div class="flex items-center space-x-4 my-2">
+      <hr class="flex-grow border-slate-200">
+      <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">OU SAISIE MANUELLE</span>
+      <hr class="flex-grow border-slate-200">
+    </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">N° du devis</label>
@@ -1907,6 +1930,61 @@
       } else {
         alert.classList.add('hidden');
       }
+    };
+
+    // 7. LECTURE AUTOMATIQUE DU DEVIS (SIMULATION API)
+    window.handleDevisUpload = function(files) {
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      const btn = document.getElementById('btn-upload-devis');
+      const status = document.getElementById('upload-status');
+      
+      btn.disabled = true;
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-slate-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Analyse IA en cours...`;
+      
+      // Simulation d'un appel API (devis_parser.py)
+      setTimeout(() => {
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Devis Analysé !</span>`;
+        btn.classList.replace('bg-amber-500', 'bg-emerald-400');
+        btn.classList.replace('hover:bg-amber-600', 'hover:bg-emerald-500');
+        status.classList.remove('hidden');
+        status.innerText = "✓ 5 lignes détectées et pré-remplies. Veuillez vérifier à l'étape suivante.";
+        
+        // Pré-remplissage Etape 1
+        document.querySelector('input[name="devis_number"]').value = "DEV-2026-0042";
+        document.querySelector('input[name="devis_date"]').value = "2026-09-20";
+        document.querySelector('input[name="devis_company"]').value = "Sénégal BTP Construction";
+        document.querySelector('input[name="devis_object"]').value = "Construction Villa R+1 Almadies";
+        
+        // Pré-remplissage Etape 2 (Lignes)
+        // On supprime d'abord les lignes existantes si on veut, ou on ajoute
+        // Pour la simulation, on ajoute 2 lignes
+        addDevisLine();
+        const lines = document.querySelectorAll('.devis-line-item');
+        const lastLine1 = lines[lines.length - 1];
+        lastLine1.querySelector('.dl-lot').value = "Gros Œuvre";
+        lastLine1.querySelector('.dl-num').value = "2.1";
+        lastLine1.querySelector('.dl-designation').value = "Béton armé pour semelles filantes dosé à 350kg/m3";
+        lastLine1.querySelector('.dl-nature').value = "Fourniture et pose";
+        lastLine1.querySelector('.dl-unit').value = "m³";
+        lastLine1.querySelector('.dl-qty').value = "12.5";
+        lastLine1.querySelector('.dl-pu').value = "145000";
+        lastLine1.querySelector('.dl-total').value = "1812500";
+        recalcDevisLine(lastLine1.id);
+        
+        addDevisLine();
+        const lastLine2 = document.querySelectorAll('.devis-line-item')[lines.length];
+        lastLine2.querySelector('.dl-lot').value = "Maçonnerie";
+        lastLine2.querySelector('.dl-num').value = "3.4";
+        lastLine2.querySelector('.dl-designation').value = "Agglos pleins de 20cm";
+        lastLine2.querySelector('.dl-nature').value = "Fourniture et pose";
+        lastLine2.querySelector('.dl-unit').value = "m²";
+        lastLine2.querySelector('.dl-qty').value = "150";
+        lastLine2.querySelector('.dl-pu').value = "8500";
+        lastLine2.querySelector('.dl-total').value = "1500000"; // Erreur volontaire de l'artisan (150*8500 = 1275000)
+        recalcDevisLine(lastLine2.id);
+        
+      }, 2500);
     };
   </script>
 </body>
