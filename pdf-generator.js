@@ -145,10 +145,10 @@
     const tw = doc.getTextWidth("Chantier");
     doc.setTextColor(...COLOR_AMBER);
     doc.text("Sur.com", MARGIN_LEFT + tw, 11);
-    // Séparateur textuel entre le logo et la zone métadonnées (évite la concaténation PDF)
+    // Séparateur textuel entre le logo et la zone métadonnées (simple espace, sans tiret)
     const twSur = doc.getTextWidth("Sur.com");
     doc.setTextColor(255, 255, 255);
-    doc.text(" — ", MARGIN_LEFT + tw + twSur, 11);
+    doc.text(" ", MARGIN_LEFT + tw + twSur, 11);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(6.8);
@@ -407,7 +407,7 @@
     doc.text(`Email Enregistré : ${clientEmail}`, MARGIN_LEFT + 4, 75);
     doc.text(`Statut Foncier : ${landStatus}`, MARGIN_LEFT + 4, 81);
 
-    let dimTxt = `Façade ${facade1} m — Profondeur env. ${(surface / facade1).toFixed(1)} m`;
+    let dimTxt = `Façade ${facade1} m — Profondeur env. ${(surface / facade1).toFixed(1).replace('.', ',')} m`;
     if (config === 'angle' && facade2 > 0) dimTxt = `Façade 1: ${facade1} m • Façade 2: ${facade2} m (Angle)`;
 
     doc.text(`Localisation : ${location}`, 108, 63);
@@ -426,7 +426,7 @@
       ["Surface Développée de Plancher Totale (SDP)", `env. ${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
       ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage.replace('.', ',')} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
       ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m (valeur indicative — à confirmer selon plan de zone)`],
-      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, `Décret n° 2025-1194, art. R.448 : H = 1,5 × (${streetWidth} m + ${reculAlignement} m) — seuil indicatif à vérifier avec le document d'urbanisme applicable`],
+      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, statutGabarit],
       ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Art. R.41 à R.45 (décret n° 2025-1194) : 1 pl / 100 m² SHON (min. 1 par logement). Formule tracée."]
     ];
 
