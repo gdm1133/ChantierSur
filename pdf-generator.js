@@ -74,10 +74,12 @@
     return null;
   }
 
-  // Référentiel juridique COCC certifié (Sénégal)
+  // Référentiel juridique certifié (Sénégal)
   const REFERENCES_JURIDIQUES = {
-    decretPermis: "Décret n° 2009-1450 du 30 décembre 2009 portant Code de l'Urbanisme",
-    loiUrbanisme: "Loi n° 2008-43 du 20 août 2008 portant Code de l'Urbanisme",
+    loiUrbanisme: "Loi n° 2023-20 du 29 décembre 2023 portant Code de l'urbanisme",
+    decretUrbanisme: "Décret n° 2025-1194 du 17 juillet 2025 portant partie réglementaire du Code de l'urbanisme",
+    decretConstruction: "Décret n° 2024-1495 du 30 juillet 2024 portant partie réglementaire du Code de la construction",
+    decretAbroge: "Décret n° 2009-1450 abrogé par l'art. R.596 du décret n° 2025-1194",
     garantieDecennale: "Article 741 du Code des Obligations Civiles et Commerciales (COCC)",
     retenueGarantie: "Article 742 du Code des Obligations Civiles et Commerciales (COCC)",
     receptionTravaux: "Article 740 du Code des Obligations Civiles et Commerciales (COCC)",
@@ -298,9 +300,11 @@
     const sdpTotale = Math.round(empriseSolMax * totalLevelsCount * 0.90);
     const hauteurFaitage = ((totalLevelsCount * 3.10) + 1.20).toFixed(1);
     const reculAlignement = streetWidth >= 15 ? 4.0 : 3.0;
-    const hauteurMaxGabarit = +(streetWidth + reculAlignement).toFixed(1);
+    // Art. R.448 (décret n° 2025-1194) : H = 1,5L (emprise de la voie + retrait)
+    const COEF_PROSPECT_R448 = 1.5;
+    const hauteurMaxGabarit = +(COEF_PROSPECT_R448 * (streetWidth + reculAlignement)).toFixed(1);
 
-    // Correction 1 - COS
+    // COS de référence de zone (hypothèse de travail selon le document d'urbanisme applicable)
     const COS_MAX_PAR_ZONE = {
       'Dakar - Zone Urbaine': 3.0, 'Dakar - Plateau': 4.0,
       'Dakar - Almadies': 1.5, 'default': 2.5
@@ -310,15 +314,15 @@
     const cosProjet = +(sdpTotale / surface).toFixed(2);
     const respecteCos = cosProjet <= cosMax;
 
-    // Correction 2 - Gabarit gradué
+    // Prospect indicatif gradué (informatif et non bloquant)
     const depassementGabarit = parseFloat(hauteurFaitage) - hauteurMaxGabarit;
-    let statutGabarit = "Conforme";
+    let statutGabarit = "Conforme au seuil indicatif (H ≤ 1,5L)";
     if (depassementGabarit > 0) {
+      const depPct = Math.round((depassementGabarit / hauteurMaxGabarit) * 100);
       if (depassementGabarit <= 0.10 * hauteurMaxGabarit) {
-        statutGabarit = "Non-conformité mineure — dérogation à étudier auprès de la DUA";
+        statutGabarit = `Dépassement indicatif mineur (+${depassementGabarit.toFixed(1).replace('.', ',')} m / ${depPct} %) — adaptation recommandée`;
       } else {
-        const depPct = Math.round((depassementGabarit / hauteurMaxGabarit) * 100);
-        statutGabarit = `NON CONFORME : Dépassement de ${depassementGabarit.toFixed(1)} m (${depPct} %). Dérogation exceptionnelle requise.`;
+        statutGabarit = `Dépassement indicatif de +${depassementGabarit.toFixed(1).replace('.', ',')} m (${depPct} %) du prospect usuel R.448 — à confirmer selon document de zone`;
       }
     }
 
@@ -377,7 +381,7 @@
     // =========================================================================
     // PAGE 1 : GABARIT VOLUMÉTRIQUE & ALIGNEMENT
     // =========================================================================
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Gabarit Volumétrique & Conformité au Code de l'Urbanisme", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Prospect Volumétrique & Références Réglementaires (Loi 2023-20)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     // Cartouche nominatif
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -407,23 +411,23 @@
     doc.text(`Géométrie Parcelle : ${dimTxt}`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. GABARIT URBANISTIQUE & DROITS À BÂTIR (DÉCRET 2009-1450 & PDU DAKAR)");
+    drawSectionTitle(doc, currentY, "I. PROSPECT URBANISTIQUE & DROITS À BÂTIR (LOI 2023-20 & DÉCRET 2025-1194)");
 
     const gabaritRows = [
       ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
-      ["COS Projet (SDP / Surface)", cosProjet.toFixed(2), respecteCos ? `CONFORME (Max PDU: ${cosMax})` : `NON CONFORME : COS ${cosProjet} > ${cosMax} — permis refusable.`],
-      ["Emprise au Sol Maximale (CES = 0,65)", `${empriseSolMax} m²`, "Limite légale de projection au sol des constructions"],
-      ["Espaces Libres Perméables (35%)", `${espacesLibres} m²`, "Zone perméable requise pour l'infiltration pluviale"],
+      ["COS Projet (SDP / Surface)", cosProjet.toFixed(2), respecteCos ? `Conforme à l'hypothèse de référence de zone (${cosMax.toFixed(1).replace('.', ',')}) — à confirmer` : `Supérieur à l'hypothèse de zone (${cosMax.toFixed(1).replace('.', ',')}) — document d'urbanisme applicable à confirmer`],
+      ["Emprise au Sol Projetée (CES indicatif 0,65)", `${empriseSolMax} m²`, "Hypothèse de travail (art. R.40) — valeur exacte fixée par le document de zone"],
+      ["Espaces Libres (Hypothèse 35%)", `${espacesLibres} m²`, "Hypothèse interne d'infiltration pluviale — à confirmer selon le plan de zone"],
       ["Surface Développée de Plancher Totale (SDP)", `env. ${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
-      ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
-      ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Recul légal d'alignement exigé : ${reculAlignement} m`],
-      ["Gabarit Légal sur Rue (H <= L + R)", `${hauteurMaxGabarit} mètres`, statutGabarit],
-      ["Places de Stationnement Obligatoires", `${N_places} place(s)`, "Règle: max(SDP/100, nb_logements). Formule tracée."]
+      ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage.replace('.', ',')} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
+      ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m (art. R.448)`],
+      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, `Art. R.448 (décret n° 2025-1194) : H = 1,5 × (${streetWidth} m + ${reculAlignement} m) — seuil indicatif`],
+      ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Art. R.41 à R.45 (décret n° 2025-1194) : 1 pl / 100 m² SHON (min. 1 par logement). Formule tracée."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Indicateur d\'Urbanisme', 'Valeur Déterminée', 'Exigence Légale (Direction de l\'Urbanisme)']],
+      [['Indicateur d\'Urbanisme', 'Valeur Déterminée', 'Référence & Analyse Indicative (Direction de l\'Urbanisme)']],
       gabaritRows,
       {
         0: { cellWidth: 58, fontStyle: 'bold' },
@@ -437,19 +441,19 @@
 
     let angleDesc = "Alignement standard sur voie unique avec recul obligatoire de 3,00 m.";
     if (config === 'angle') {
-      angleDesc = `Parcelle d'Angle (${facade1}m — ${facade2}m) : Pan coupé de 3,50 m au carrefour. Double recul sur les deux rues.`;
+      angleDesc = `Parcelle d'Angle (${facade1}m — ${facade2}m) : Pan coupé théorique de 5 m minimum au carrefour (art. R.444, décret n° 2025-1194). Marges de recul selon document d'urbanisme.`;
     } else if (config === 'traversante') {
-      angleDesc = "Parcelle Traversante : Accès distincts sur voies opposées. Recul réglementaire de 3,00 m sur les deux façades.";
+      angleDesc = "Parcelle Traversante : Accès distincts sur voies opposées. Retrait indicatif de 3,00 m sur les deux façades.";
     } else if (config === 'bande') {
       angleDesc = "Configuration en Bande : Murs mitoyens latéraux aveugles obligatoires (coupe-feu 2h). Aucune baie sans accord écrit.";
     } else {
-      angleDesc = "Parcelle Isolée : Recul minimal de 2,00 m imposé sur toutes les limites séparatives.";
+      angleDesc = "Parcelle Isolée : Marge d'isolement latérale de 2,50 m minimum selon art. R.445 (ou contiguïté jusqu'à 15 m).";
     }
 
     const mitoyenRows = [
       ["Régime de Façade & Voirie", config.toUpperCase(), angleDesc],
       ["État des Terrains Voisins", neighbor === 'vide' ? "Parcelles Voisines Nues" : "Constructions Mitoyennes Présentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-œuvre requise." : "Constat d'huissier contradictoire obligatoire avant excavation."],
-      ["Puits de Jour & Cours d'Aération", "Minimum 12 m² (Largeur min 3,00 m)", "Obligatoire pour les pièces aveugles centrales selon le règlement sanitaire."],
+      ["Puits de Jour & Cours d'Aération", "Minimum 12 m² (Largeur min 3,00 m)", "Hypothèse interne d'aération — prescription de zone à confirmer selon document d'urbanisme."],
       ["Régime des Eaux de Toiture", "Égout intérieur à la parcelle", "Interdiction absolue de déverser les eaux pluviales sur la voie publique."]
     ];
 
@@ -624,19 +628,19 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VIII. FEUILLE DE ROUTE LÉGALE : OBTENTION DU PERMIS DE CONSTRUIRE (TELEDAC)");
+    drawSectionTitle(doc, currentY, "VIII. FEUILLE DE ROUTE ADMINISTRATIVE : INSTRUCTION DU PERMIS DE CONSTRUIRE (TELEDAC)");
 
     const etapesTeledac = [
       ["1. Bornage Contradictoire", "Géomètre-Expert Agréé (OGES)", "Plan de bornage régulier et scellement des bornes physiques."],
-      ["2. Plans Architecturaux Visés", "Architecte Ordre (OAAS)", "Obligation légale pour toute surface > 80 m² ou tout R+1 et plus."],
+      ["2. Plans Architecturaux Visés", "Architecte inscrit à l'ODAS", "Recours à l'architecte obligatoire pour la construction ou la modification de bâtiments (art. R.407, décret n° 2025-1194)."],
       ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections de béton et armatures selon BAEL 91 R99."],
-      ["4. Dépôt Plateforme TELEDAC", "Commission Mairie / DUA", "Délai légal de 28 à 40 jours. Interdiction formelle d'ouvrir le chantier sans arrêté signé."],
+      ["4. Dépôt Plateforme TELEDAC", "Direction de l'Urbanisme / Mairie", "Instruction administrative préalable — arrêté signé obligatoire avant ouverture de chantier (délai estimé selon commune)."],
       ["5. Contrat & Clauses COCC", "Entreprise Générale / Tâcheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrêt."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Étape Administrative', 'Professionnel Compétent', 'Exigence Légale Impérative (Code de l\'Urbanisme)']],
+      [['Étape Administrative', 'Professionnel Compétent', 'Cadre Réglementaire (Loi 2023-20 & Décret 2025-1194)']],
       etapesTeledac,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
