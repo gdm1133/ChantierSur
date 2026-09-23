@@ -1159,9 +1159,9 @@
     drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie I : Confrontation Globale au Référentiel BET & Audit par Macro-Lot", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
 
     doc.setFillColor(...COLOR_BG_LIGHT);
-    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
+    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 42, 2, 2, 'F');
     doc.setDrawColor(203, 213, 225);
-    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'D');
+    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 42, 2, 2, 'D');
 
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(8.2);
@@ -1171,17 +1171,21 @@
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(51, 65, 85);
+    const company = data.devis_company ? ` (Entr: ${data.devis_company})` : '';
+    const dNum = data.devis_number ? `N° ${data.devis_number}` : 'Non spécifié';
+    const dDate = data.devis_date ? ` du ${data.devis_date}` : '';
+    
     doc.text(`Maître d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
-    doc.text(`Téléphone : ${clientPhone}`, MARGIN_LEFT + 4, 69);
-    doc.text(`Montant Devis Soumis : ${formatFCFA(quotedAmount)}`, MARGIN_LEFT + 4, 75);
-    doc.text(`Périmètre Travaux : ${scope.toUpperCase()}`, MARGIN_LEFT + 4, 81);
+    doc.text(`Devis analysé : ${dNum}${dDate}${company}`, MARGIN_LEFT + 4, 69);
+    doc.text(`Projet : ${data.building_usage || 'Bâtiment'} (R+${levels}) à ${location}`, MARGIN_LEFT + 4, 75);
+    doc.text(`Montant Devis Soumis : ${formatFCFA(quotedAmount)}`, MARGIN_LEFT + 4, 81);
+    doc.text(`Périmètre Travaux : ${scope.toUpperCase()}`, MARGIN_LEFT + 4, 87);
 
-    doc.text(`Localisation : ${location}`, 108, 63);
     doc.text(`Budget Cible Recommandé : ${formatFCFA(refMoyen)}`, 108, 69);
     doc.text(`Écart Global : ${ecartPourcent > 0 ? '+' : ''}${ecartPourcent} % (${formatFCFA(diffMontant)})`, 108, 75);
     doc.text(`Diagnostic Global : ${diagnosticGeneral.substring(0, 32)}...`, 108, 81);
 
-    let currentY = 90;
+    let currentY = 98;
     drawSectionTitle(doc, currentY, "I. CONFRONTATION GLOBALE DU DEVIS AU RÉFÉRENTIEL DAKAR 2026");
 
     const auditGlobalRows = [
@@ -1314,6 +1318,49 @@
     ));
 
     // =========================================================================
+    // PAGE 1 BIS : TABLEAU DÉTAILLÉ DES LIGNES AUDITÉES
+    // =========================================================================
+    if (data.devis_lines && data.devis_lines.length > 0) {
+      doc.addPage();
+      drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie II : Audit Détaillé des Lignes du Devis", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
+      
+      currentY = 52;
+      drawSectionTitle(doc, currentY, "III. TABLEAU DÉTAILLÉ DES LIGNES AUDITÉES");
+      
+      const lignesRows = data.devis_lines.map(line => {
+        const totalDeclaré = parseFloat(line.totalDeclared) || 0;
+        const totalCalculé = parseFloat(line.totalCalculated) || 0;
+        const ecart = totalDeclaré - totalCalculé;
+        let ecartStr = "Conforme";
+        if (Math.abs(ecart) > 1) {
+          ecartStr = ecart > 0 ? `+${formatFCFA(ecart)} (Surfact.)` : `${formatFCFA(ecart)} (Sous-fact.)`;
+        }
+        return [
+          `${line.num} - ${line.designation}\nLot: ${line.lot} | ${line.nature}`,
+          `${line.qty} ${line.unit}`,
+          formatFCFA(line.pu),
+          formatFCFA(totalDeclaré),
+          formatFCFA(totalCalculé),
+          ecartStr
+        ];
+      });
+
+      doc.autoTable(createTableOptions(
+        currentY + TITLE_AFTER_GAP_MM,
+        [['Désignation & Lot', 'Qté', 'PU HT', 'Total Déclaré', 'Total Recalculé', 'Écart']],
+        lignesRows,
+        {
+          0: { cellWidth: 55 },
+          1: { cellWidth: 15, halign: 'right' },
+          2: { cellWidth: 20, halign: 'right' },
+          3: { cellWidth: 25, halign: 'right' },
+          4: { cellWidth: 25, halign: 'right', textColor: COLOR_NAVY, fontStyle: 'bold' },
+          5: { cellWidth: 30, halign: 'right' }
+        }
+      ));
+    }
+
+    // =========================================================================
     // PAGE 2 : PIÈGES TECHNIQUES & LES 7 OMISSIONS FRÉQUENTES
     // =========================================================================
     doc.addPage();
@@ -1369,24 +1416,43 @@
     // PAGE 3 : ÉCHÉANCIER DE PAIEMENT & ENCADREMENT CONTRACTUEL COCC
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Partie III : Échéancier de Paiement Sécurisé & Clauses Juridiques COCC", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
+    drawUnifiedHeader(doc, "Rapport d'Audit de Devis", "Échéancier de Paiement Sécurisé & Clauses Juridiques COCC", refDoc, currentDate, clientName, clientPhone, lotNumber, 'audit');
 
-    const tranche1 = Math.round(contractAmount * 0.15);
-    const tranche2 = Math.round(contractAmount * 0.25);
-    const tranche3 = Math.round(contractAmount * 0.25);
-    const tranche4 = Math.round(contractAmount * 0.20);
-    const tranche5 = Math.round(contractAmount * 0.10);
-    const tranche6 = contractAmount - (tranche1 + tranche2 + tranche3 + tranche4 + tranche5); // 5% retenue
+    const acomptePct = data.devis_acompte || 15;
+    
+    // Si acomptePct dépasse 20%, on lève une alerte dans le tableau
+    let acompteDesc = "Après implantation validée par géomètre et approvisionnement des premiers aciers.";
+    if (acomptePct > 20) {
+      acompteDesc = "⚠️ ATTENTION : L'acompte de " + acomptePct + "% est trop élevé et fait peser un risque sur votre trésorerie ! Maximum recommandé : 15% à 20%.";
+    }
+
+    const tranche1 = Math.round(contractAmount * (acomptePct / 100));
+    const restAfterAcompte = contractAmount - tranche1;
+    // On répartit le reste: 5% retenue de garantie, et le reste sur les autres tranches
+    // On va faire T2 = 30%, T3= 30%, T4= 20%, T5= 10%, T6= 5% proportionnellement
+    const ratioT2 = 0.30;
+    const ratioT3 = 0.30;
+    const ratioT4 = 0.20;
+    const ratioT5 = 0.15; // +5% garantie
+    
+    // Repartition simple
+    const tranche6 = Math.round(contractAmount * 0.05); // 5% retenue
+    const toDistribute = contractAmount - tranche1 - tranche6;
+    
+    const tranche2 = Math.round(toDistribute * 0.35);
+    const tranche3 = Math.round(toDistribute * 0.35);
+    const tranche4 = Math.round(toDistribute * 0.20);
+    const tranche5 = toDistribute - tranche2 - tranche3 - tranche4;
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "V. ÉCHÉANCIER DE PAIEMENT SÉCURISÉ & CLÉS D'AVANCEMENT (BASE NÉGOCIÉE)");
+    drawSectionTitle(doc, currentY, "ÉCHÉANCIER DE PAIEMENT SÉCURISÉ & CLÉS D'AVANCEMENT (BASE NÉGOCIÉE)");
 
     const echeancierRows = [
-      ["Tranche 1 : Démarrage & Approvisionnement", formatFCFA(tranche1), "15 %", "Après implantation validée par géomètre et approvisionnement des premiers aciers."],
-      ["Tranche 2 : Fondations & Plancher Bas", formatFCFA(tranche2), "25 %", "Après coulage semelles, longrines, soubassement et dallage (point d'arrêt 1 & 2)."],
-      ["Tranche 3 : Poteaux & Dalle RDC", formatFCFA(tranche3), "25 %", "Après coulage de la dalle supérieure et validation du ferraillage (point d'arrêt 3)."],
-      ["Tranche 4 : Élévations & Dalles Étages", formatFCFA(tranche4), "20 %", "Après achèvement des maçonneries d'étages et coulage toiture (point d'arrêt 4 & 5)."],
-      ["Tranche 5 : Réception Provisoire avec Réserves", formatFCFA(tranche5), "10 %", "Après visite contradictoire et signature du PV de réception (Article 740 COCC)."],
+      [`Tranche 1 : Démarrage & Approvisionnement`, formatFCFA(tranche1), `${acomptePct} %`, acompteDesc],
+      ["Tranche 2 : Fondations & Plancher Bas", formatFCFA(tranche2), `${Math.round((tranche2/contractAmount)*100)} %`, "Après coulage semelles, longrines, soubassement et dallage (point d'arrêt 1 & 2)."],
+      ["Tranche 3 : Poteaux & Dalle RDC", formatFCFA(tranche3), `${Math.round((tranche3/contractAmount)*100)} %`, "Après coulage de la dalle supérieure et validation du ferraillage (point d'arrêt 3)."],
+      ["Tranche 4 : Élévations & Dalles Étages", formatFCFA(tranche4), `${Math.round((tranche4/contractAmount)*100)} %`, "Après achèvement des maçonneries d'étages et coulage toiture (point d'arrêt 4 & 5)."],
+      ["Tranche 5 : Réception Provisoire avec Réserves", formatFCFA(tranche5), `${Math.round((tranche5/contractAmount)*100)} %`, "Après visite contradictoire et signature du PV de réception (Article 740 COCC)."],
       ["Tranche 6 : Retenue de Garantie Légale (COCC)", formatFCFA(tranche6), "5 %", "Libérable 1 an après réception définitive sans désordre (Article 742 COCC)."]
     ];
 

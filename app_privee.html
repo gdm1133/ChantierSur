@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -669,44 +669,71 @@
         <input type="text" name="devis_company" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
       </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA / RCCM (si fournis)</label>
-        <input type="text" name="devis_ninea" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Téléphone</label>
-        <input type="tel" name="devis_phone" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
-      </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet des travaux</label>
         <input type="text" name="devis_object" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
       </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA / RCCM (si fournis)</label>
+        <input type="text" name="devis_ninea" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Type de bâtiment</label>
-        <select name="devis_building_type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-          <option value="villa">Villa / Résidentiel</option>
-          <option value="immeuble">Immeuble locatif</option>
-          <option value="bureau">Bureaux / Commercial</option>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
+        <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all">
+          <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
+          <option value="locatif">Immeuble locatif / Appartements</option>
+          <option value="mixte">Mixte (Commerce RDC + Logements)</option>
+          <option value="bureaux">Bureaux tertiaires / Professionnel</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (élévation)</label>
+        <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all" required>
+          <option value="0">RDC Simple (Villa plain-pied)</option>
+          <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+          <option value="2">R+2 (Immeuble R+2)</option>
+          <option value="3">R+3 (Immeuble R+3)</option>
+          <option value="4">R+4 (Immeuble R+4)</option>
+          <option value="5">R+5 (Immeuble R+5)</option>
+          <option value="6">R+6 (Immeuble R+6)</option>
+          <option value="7">R+7 (Immeuble R+7)</option>
+          <option value="8">R+8 (Immeuble R+8)</option>
+          <option value="9">R+9 (Immeuble R+9)</option>
+          <option value="10">R+10 (Tour / Immeuble R+10)</option>
         </select>
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface de plancher - SDP (m²)</label>
         <input type="number" name="surface" value="2000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
       </div>
+    </div>
+    <div class="grid grid-cols-1 gap-6">
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation</label>
-        <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
-          <optgroup label="📍 Dakar">
-            <option value="Dakar">Dakar / Banlieue</option>
-            <option value="Regions">Régions</option>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
+        <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all" required>
+          <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+            <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Zone rocheuse/marine - Enrobage 4,5 cm)</option>
+            <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+            <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+          </optgroup>
+          <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+            <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Cuvelage/Drainage)</option>
+            <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+          </optgroup>
+          <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+            <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+            <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+          </optgroup>
+          <optgroup label="📍 Régions & Petite Côte">
+            <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+            <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique stable)</option>
+            <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
           </optgroup>
         </select>
       </div>
-    </div>
-    <div class="grid grid-cols-1 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Pièce jointe (Photo / PDF du devis)</label>
         <input type="file" name="devis_file" accept=".pdf,image/*" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
@@ -745,47 +772,10 @@
         <input type="number" id="devis_total_ht" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:border-[#0B1325] outline-none">
       </div>
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">TVA appliquée</label>
-        <div class="flex gap-2">
-          <select id="devis_tva_yn" class="w-1/3 bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
-            <option value="non">Non</option>
-            <option value="oui">Oui</option>
-          </select>
-          <input type="number" id="devis_tva_rate" placeholder="Taux %" value="18" class="w-2/3 bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
-        </div>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total TTC</label>
-        <input type="number" id="devis_total_ttc" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:border-[#0B1325] outline-none">
-      </div>
-      <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Acompte demandé (%)</label>
         <input type="number" id="devis_acompte" value="30" oninput="checkAcompte()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
         <p id="acompte-alert" class="text-xs text-red-600 font-bold hidden mt-1">Seuil de vigilance : > 20%</p>
       </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Délai d'exécution</label>
-        <input type="text" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Validité du devis</label>
-        <input type="text" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Montant arrêté en lettres ?</label>
-        <select class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
-          <option value="oui">Oui</option>
-          <option value="non">Non</option>
-        </select>
-      </div>
-    </div>
-    <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assurances / Garanties déclarées</label>
-        <input type="text" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none">
     </div>
     <div class="flex justify-between pt-4">
       <button type="button" onclick="goToStep(3, 2)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200">&larr; Retour</button>
@@ -840,7 +830,24 @@
     </div>
     <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Téléphone</label>
-        <input type="tel" name="client_phone" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 outline-none" required>
+        <div class="flex">
+          <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+            <option value="+221" selected>🇸🇳 SN (+221)</option>
+            <option value="+33">🇫🇷 FR (+33)</option>
+            <option value="+1">🇺🇸 US/CA (+1)</option>
+            <option value="+44">🇬🇧 UK (+44)</option>
+            <option value="+39">🇮🇹 IT (+39)</option>
+            <option value="+34">🇪🇸 ES (+34)</option>
+            <option value="+49">🇩🇪 DE (+49)</option>
+            <option value="+32">🇧🇪 BE (+32)</option>
+            <option value="+41">🇨🇭 CH (+41)</option>
+            <option value="+212">🇲🇦 MA (+212)</option>
+            <option value="+225">🇨🇮 CI (+225)</option>
+            <option value="+223">🇲🇱 ML (+223)</option>
+            <option value="+971">🇦🇪 AE (+971)</option>
+          </select>
+          <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
+        </div>
         <p class="text-[11px] text-slate-700 font-medium mt-1">Ce numéro figurera sur le rapport pour authentifier la propriété du dossier.</p>
     </div>
 
@@ -1636,14 +1643,21 @@
         street_width: parseFloat(fd.get('street_width')) || 12,
         sanitation_type: fd.get('sanitation_type') || 'autonome',
         neighbor_status: fd.get('neighbor_status') || 'vide',
-        has_basement: fd.get('has_basement') || 'non',
         energy_backup: fd.get('energy_backup') || 'standard',
         client_name: clientName,
         client_email: clientEmail,
         phone_prefix: rawPrefix,
         client_phone: rawPhone,
         exact_amount: exactAmount,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        // Nouveaux champs pour Audit
+        devis_number: (fd.get('devis_number') || '').trim(),
+        devis_date: (fd.get('devis_date') || '').trim(),
+        devis_company: (fd.get('devis_company') || '').trim(),
+        devis_object: (fd.get('devis_object') || '').trim(),
+        devis_total_ht: parseFloat(fd.get('devis_total_ht')) || 0,
+        devis_acompte: parseInt(fd.get('devis_acompte'), 10) || 30,
+        devis_lines: window.getDevisLines ? window.getDevisLines() : []
       };
 
       // 1. Sauvegarde immédiate dans les stockages du navigateur
@@ -1775,6 +1789,125 @@
         setTimeout(triggerPDF, 800);
       }
     });
+    // 6. GESTION DES LIGNES DU DEVIS (MODULE AUDIT)
+    let devisLineCount = 0;
+    
+    window.addDevisLine = function() {
+      devisLineCount++;
+      const container = document.getElementById('devis-lines-container');
+      if (!container) return;
+      
+      const lineId = 'devis-line-' + devisLineCount;
+      const html = `
+        <div id="${lineId}" class="devis-line-item relative bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+          <button type="button" onclick="deleteDevisLine('${lineId}')" class="absolute top-2 right-2 text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 p-1.5 rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+          
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Lot / Corps d'état</label>
+              <input type="text" class="dl-lot w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]" placeholder="Gros Œuvre">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">N° de prix</label>
+              <input type="text" class="dl-num w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]" placeholder="1.1">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Désignation exacte</label>
+              <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]" placeholder="Béton armé pour semelles...">
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nature du prix</label>
+              <select class="dl-nature w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]">
+                <option value="Fourniture et pose">Fourniture et pose</option>
+                <option value="Fourniture seule">Fourniture seule</option>
+                <option value="Pose seule">Main-d'œuvre seule</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Unité</label>
+              <input type="text" class="dl-unit w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]" placeholder="m³">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Quantité</label>
+              <input type="number" step="0.01" class="dl-qty w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]" placeholder="0" oninput="recalcDevisLine('${lineId}')">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">PU HT</label>
+              <input type="number" class="dl-pu w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325]" placeholder="0" oninput="recalcDevisLine('${lineId}')">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Montant indiqué</label>
+              <input type="number" class="dl-total w-full bg-amber-50 border border-amber-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0B1325] font-bold" placeholder="0" oninput="recalcDevisLine('${lineId}')">
+            </div>
+          </div>
+          <div id="${lineId}-alert" class="hidden mt-2 text-xs font-bold text-rose-600 bg-rose-50 p-2 rounded-md border border-rose-200">
+            ⚠️ Écart détecté : Qte × PU = <span class="calc-res"></span> FCFA. L'entrepreneur a surfacturé de <span class="calc-diff"></span> FCFA.
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', html);
+    };
+
+    window.deleteDevisLine = function(lineId) {
+      const el = document.getElementById(lineId);
+      if (el) el.remove();
+    };
+
+    window.recalcDevisLine = function(lineId) {
+      const el = document.getElementById(lineId);
+      if (!el) return;
+      const qty = parseFloat(el.querySelector('.dl-qty').value) || 0;
+      const pu = parseFloat(el.querySelector('.dl-pu').value) || 0;
+      const totalDeclared = parseFloat(el.querySelector('.dl-total').value) || 0;
+      const alertBox = document.getElementById(lineId + '-alert');
+      
+      const realTotal = qty * pu;
+      if (qty > 0 && pu > 0 && totalDeclared > 0 && Math.abs(realTotal - totalDeclared) > 1) { // marge erreur 1 fcfa
+        alertBox.classList.remove('hidden');
+        alertBox.querySelector('.calc-res').textContent = realTotal.toLocaleString('fr-FR');
+        alertBox.querySelector('.calc-diff').textContent = Math.abs(realTotal - totalDeclared).toLocaleString('fr-FR');
+        if (realTotal < totalDeclared) {
+          alertBox.innerHTML = `⚠️ Surfacturation de ligne (erreur mathématique) : Le total exact devrait être de <strong>${realTotal.toLocaleString('fr-FR')} FCFA</strong>.`;
+        } else {
+          alertBox.innerHTML = `⚠️ Sous-facturation (erreur mathématique) : Le total exact devrait être de <strong>${realTotal.toLocaleString('fr-FR')} FCFA</strong>.`;
+        }
+      } else {
+        alertBox.classList.add('hidden');
+      }
+    };
+
+    window.getDevisLines = function() {
+      const lines = [];
+      document.querySelectorAll('.devis-line-item').forEach(el => {
+        lines.push({
+          lot: el.querySelector('.dl-lot').value,
+          num: el.querySelector('.dl-num').value,
+          designation: el.querySelector('.dl-designation').value,
+          nature: el.querySelector('.dl-nature').value,
+          unit: el.querySelector('.dl-unit').value,
+          qty: parseFloat(el.querySelector('.dl-qty').value) || 0,
+          pu: parseFloat(el.querySelector('.dl-pu').value) || 0,
+          totalDeclared: parseFloat(el.querySelector('.dl-total').value) || 0,
+          totalCalculated: (parseFloat(el.querySelector('.dl-qty').value) || 0) * (parseFloat(el.querySelector('.dl-pu').value) || 0)
+        });
+      });
+      return lines;
+    };
+
+    window.checkAcompte = function() {
+      const acompte = parseFloat(document.getElementById('devis_acompte').value) || 0;
+      const alert = document.getElementById('acompte-alert');
+      if (acompte > 20) {
+        alert.classList.remove('hidden');
+      } else {
+        alert.classList.add('hidden');
+      }
+    };
   </script>
 </body>
 </html>
