@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Version 3.0 — Perfectionnement Visuel & Rigueur Fonctionnelle
  * Conforme : BAEL 91 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit COCC • Normes DTU
@@ -49,9 +49,9 @@
         const fontList = doc.getFontList ? doc.getFontList() : {};
         if (!fontList['NotoSans']) {
           doc.addFileToVFS('NotoSans-Regular.ttf', window.NOTO_SANS_REGULAR);
-          doc.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal');
+          doc.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal', 'Identity-H');
           doc.addFileToVFS('NotoSans-Bold.ttf', window.NOTO_SANS_BOLD);
-          doc.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold');
+          doc.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold', 'Identity-H');
         }
         doc.setFont('NotoSans', 'normal');
         return 'NotoSans';
