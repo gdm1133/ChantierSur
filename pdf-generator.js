@@ -1116,7 +1116,7 @@
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
-    const clientPhone = ${rawPrefix} ;
+    const clientPhone = `${rawPrefix} ${rawPhone}`;
     const surface = parseFloat(data.surface) || 250;
     const levels = parseInt(data.exact_levels, 10) || 1;
     const location = data.project_location || 'Dakar - Zone Urbaine';
@@ -1135,7 +1135,7 @@
     };
 
     function mapMacroLot(designation, lotName) {
-      const text = ${designation || ''} .toLowerCase();
+      const text = `${designation || ''} ${lotName || ''}`.toLowerCase();
       for (const [mlName, mlData] of Object.entries(macroLots)) {
         if (mlData.keywords.some(kw => text.includes(kw))) {
           return mlName;
@@ -1256,8 +1256,8 @@
     
     doc.setFontSize(10);
     doc.setTextColor(11, 19, 37);
-    doc.text(Projet :  | Localisation :  | SDP :  mÂ² | Niveaux : R+, 15, 45);
-    doc.text(Client :  | TÃ©lÃ©phone : , 15, 50);
+    doc.text(`Projet : ${buildingUsage.toUpperCase()} | Localisation : ${location} | SDP : ${surface} mÂ² | Niveaux : R+${levels}`, 15, 45);
+    doc.text(`Client : ${clientName} | TÃ©lÃ©phone : ${clientPhone}`, 15, 50);
 
     // Box: RÃ©sultats Globaux
     doc.setDrawColor(200, 200, 200);
@@ -1268,8 +1268,8 @@
     doc.text("RÃ‰SULTAT GLOBAL DU DEVIS SOUMIS", 20, 65);
     doc.setFont('NotoSans', 'normal');
     doc.setFontSize(10);
-    doc.text(Montant TTC (somme des lignes validÃ©es) : , 20, 72);
-    doc.text(Ratio TTC par mÂ² de SDP :  / mÂ², 110, 72);
+    doc.text(`Montant TTC (somme des lignes validÃ©es) : ${formatFCFA(devisAmountTTC)}`, 20, 72);
+    doc.text(`Ratio TTC par mÂ² de SDP : ${formatFCFA(ratioTTC)} / mÂ²`, 110, 72);
 
     // Box: Ventilation par Macro-Lots (from devis directly)
     doc.setFillColor(245, 247, 250);
@@ -1385,7 +1385,7 @@
       doc.roundedRect(15, finalY, 180, 15, 2, 2, 'FD');
       doc.setTextColor(220, 38, 38);
       doc.setFontSize(9);
-      doc.text(ATTENTION : L'acompte demandÃ© de % dÃ©passe la limite recommandÃ©e (15-20%)., 20, finalY + 8);
+      doc.text(`ATTENTION : L'acompte demandÃ© de ${acompteDemande}% dÃ©passe la limite recommandÃ©e (15-20%).`, 20, finalY + 8);
     }
 
     const startYClauses = doc.lastAutoTable.finalY + 25;
@@ -1421,7 +1421,7 @@
     doc.text("VISA TECHNIQUE DU BUREAU D'Ã‰TUDES INDÃ‰PENDANT CHANTIERSUR.COM :", 15, 270);
     doc.setFont('NotoSans', 'normal');
     doc.text("Ce document est un audit de cohÃ©rence indicatif. Il ne constitue ni une certification lÃ©gale ni un arbitrage.", 15, 275);
-    doc.text(GÃ©nÃ©rÃ© le  | RÃ©f: , 15, 280);
+    doc.text(`GÃ©nÃ©rÃ© le ${currentDate} | RÃ©f: ${refDoc}`, 15, 280);
   }
   function renderFinitions(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
@@ -1859,4 +1859,5 @@
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
 
