@@ -636,6 +636,7 @@
 <div id="audit-v3-container" class="space-y-6">
   <!-- Screen 1: Dépôt -->
   <div id="ocr-screen-1" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 text-center space-y-6">
+    <div id="ocr-error-banner" class="hidden bg-rose-50 text-rose-600 border border-rose-200 p-4 rounded-xl text-sm font-bold mb-4"></div>
     <div class="w-16 h-16 bg-[#0B1325]/5 text-[#0B1325] rounded-full flex items-center justify-center mx-auto mb-4">
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
     </div>
@@ -643,15 +644,18 @@
     <p class="text-slate-600 max-w-md mx-auto text-sm">Notre algorithme va lire votre devis et préparer le brouillon d'audit. Vous pourrez valider et corriger chaque ligne.</p>
     
     <div class="space-y-4 max-w-md mx-auto mt-8">
-      <button type="button" onclick="window.startAuditOCR('photo')" class="w-full py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center gap-3">
+      <input type="file" id="ocr-image-input" accept="image/*" capture="environment" multiple class="hidden" onchange="handleImageUpload(event)">
+      <input type="file" id="ocr-pdf-input" accept="application/pdf" class="hidden" onchange="handlePDFUpload(event)">
+      
+      <button type="button" onclick="triggerFileInput('ocr-image-input')" class="w-full py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center gap-3">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
         Photographier le devis
       </button>
-      <button type="button" onclick="window.startAuditOCR('pdf')" class="w-full py-3 bg-white hover:bg-slate-50 text-[#0B1325] font-bold rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-3">
+      <button type="button" onclick="triggerFileInput('ocr-pdf-input')" class="w-full py-3 bg-white hover:bg-slate-50 text-[#0B1325] font-bold rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-3">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
         Importer un PDF
       </button>
-      <button type="button" onclick="window.startAuditOCR('text')" class="w-full py-3 bg-white hover:bg-slate-50 text-[#0B1325] font-bold rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-3">
+      <button type="button" onclick="openTextModal()" class="w-full py-3 bg-white hover:bg-slate-50 text-[#0B1325] font-bold rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-3">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
         Coller le texte du devis
       </button>
@@ -673,13 +677,16 @@
     </div>
     <div>
       <h3 class="text-xl font-bold text-slate-900 mb-2">Lecture de votre devis en cours…</h3>
-      <p class="text-sm text-slate-500">Extraction des lignes, quantités et prix. Veuillez patienter.</p>
+      <p class="text-sm text-slate-500">Extraction automatique des lignes, quantités et prix. Veuillez patienter.</p>
     </div>
   </div>
 
   <!-- Screen 3: Validation -->
   <div id="ocr-screen-3" class="hidden space-y-6">
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+      
+      <div id="ocr-reconciliation"></div>
+
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h3 class="text-xl font-bold text-slate-900">Validation des lignes</h3>
@@ -702,6 +709,19 @@
         Continuer vers l'Audit
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Coller Texte -->
+<div id="ocr-text-modal" class="hidden fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl">
+    <h3 class="text-xl font-bold text-slate-900 mb-2">Coller le texte de votre devis</h3>
+    <p class="text-sm text-slate-500 mb-4">Copiez les lignes de votre devis (depuis Word, Excel ou un PDF) et collez-les ici.</p>
+    <textarea id="ocr-paste-textarea" class="w-full h-64 p-4 border border-slate-300 rounded-xl text-sm focus:border-[#0B1325] outline-none" placeholder="Lot Gros Œuvre&#10;Exemple de ligne 15 m³ 120000 1800000&#10;..."></textarea>
+    <div class="flex justify-end gap-3 mt-4">
+      <button type="button" onclick="closeTextModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors">Annuler</button>
+      <button type="button" onclick="processTextPaste()" class="px-6 py-2 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors shadow-lg">Analyser le texte</button>
     </div>
   </div>
 </div>
@@ -2069,7 +2089,7 @@
       
       <div class="w-full md:w-3/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Désignation</label>
-        <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" placeholder="Ex: Béton armé en fondations..." required>
+        <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" placeholder="Ex: Exemple de lignes..." required>
       </div>
 
       <div class="w-full md:w-2/12">
@@ -2248,31 +2268,175 @@
     document.getElementById('recap-total-ttc').textContent = totalTTC.toLocaleString('fr-FR') + ' FCFA';
   };
 
-  // --- MODULE AUDIT V3 : OCR & VALIDATION ---
-window.auditOcrLines = [];
+  // --- MODULE AUDIT V3.1 : OCR & VALIDATION REEL ---
 
-window.startAuditOCR = function(type) {
+// Inject OCR libraries
+(function() {
+  const tesseractScript = document.createElement('script');
+  tesseractScript.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+  document.head.appendChild(tesseractScript);
+
+  const pdfScript = document.createElement('script');
+  pdfScript.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  document.head.appendChild(pdfScript);
+})();
+
+window.auditOcrLines = [];
+window.auditOcrMetadata = { pages: 0, totalExtrait: 0, totalDoc: 0 };
+
+window.triggerFileInput = function(id) {
+  document.getElementById(id).click();
+};
+
+window.openTextModal = function() {
+  document.getElementById('ocr-text-modal').classList.remove('hidden');
+};
+window.closeTextModal = function() {
+  document.getElementById('ocr-text-modal').classList.add('hidden');
+};
+
+window.processTextPaste = function() {
+  const text = document.getElementById('ocr-paste-textarea').value;
+  if (!text || text.trim().length === 0) return;
+  closeTextModal();
+  showLoadingScreen();
+  
+  // Simulate processing time for UX
+  setTimeout(() => {
+    processExtractedText(text, 1);
+  }, 500);
+};
+
+window.handleImageUpload = async function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  showLoadingScreen();
+  try {
+    const result = await Tesseract.recognize(file, 'fra');
+    processExtractedText(result.data.text, 1);
+  } catch(e) {
+    showError("Échec de la lecture de l'image. Veuillez réessayer avec une photo plus nette.");
+  }
+};
+
+window.handlePDFUpload = async function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  showLoadingScreen();
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+    let fullText = '';
+    
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + '\n';
+    }
+    
+    processExtractedText(fullText, pdf.numPages);
+  } catch(e) {
+    showError("Échec de la lecture du PDF. Le fichier est peut-être protégé ou illisible.");
+  }
+};
+
+function showLoadingScreen() {
+  document.getElementById('ocr-error-banner').classList.add('hidden');
   document.getElementById('ocr-screen-1').classList.add('hidden');
   document.getElementById('ocr-screen-2').classList.remove('hidden');
-  
-  // Simulate OCR extraction delay
-  setTimeout(() => {
-    // Generate mock data according to test cases
-    window.auditOcrLines = [
-      { id: Date.now()+1, lot: 'Gros œuvre', des: 'Béton armé en fondation', u: 'm³', q: 15, pu: 120000, conf: 'high', status: 'pending' },
-      { id: Date.now()+2, lot: 'Gros œuvre', des: 'Maçonnerie agglos creux 15cm', u: 'm²', q: 120, pu: 6000, conf: 'high', status: 'pending' },
-      { id: Date.now()+3, lot: 'Second œuvre', des: 'Peinture vinylique intérieure', u: 'm²', q: 350, pu: 2500, conf: 'low', status: 'pending' },
-      { id: Date.now()+4, lot: 'Plomberie', des: 'illisible', u: 'illisible', q: 0, pu: 0, conf: 'low', status: 'pending' }
-    ];
-    
-    if (type === 'pdf') {
-      window.auditOcrLines.push({ id: Date.now()+5, lot: 'Électricité', des: 'Forfait électricité RDC', u: 'forfait', q: '-', pu: '-', total: 1500000, conf: 'high', status: 'pending' });
-    }
+}
 
-    renderOCRLines();
-    document.getElementById('ocr-screen-2').classList.add('hidden');
-    document.getElementById('ocr-screen-3').classList.remove('hidden');
-  }, 2500);
+function showError(msg) {
+  document.getElementById('ocr-screen-2').classList.add('hidden');
+  document.getElementById('ocr-screen-1').classList.remove('hidden');
+  const banner = document.getElementById('ocr-error-banner');
+  banner.classList.remove('hidden');
+  banner.innerText = msg;
+  // reset inputs
+  document.getElementById('ocr-image-input').value = "";
+  document.getElementById('ocr-pdf-input').value = "";
+}
+
+window.processExtractedText = function(text, numPages) {
+  const lines = text.split('\n');
+  const extractedLines = [];
+  let currentLot = 'Gros œuvre';
+  let totalExtracted = 0;
+  
+  lines.forEach((lineText, idx) => {
+    lineText = lineText.trim();
+    if (!lineText) return;
+    
+    if (lineText.length < 50 && (lineText.toUpperCase().includes('LOT') || lineText.toUpperCase() === lineText)) {
+      if (lineText.length > 3) currentLot = lineText; 
+    }
+    
+    const numRegex = /([\d\s,\.]+)/g;
+    const matches = [...lineText.matchAll(numRegex)].map(m => m[0].replace(/\s/g, '').replace(',', '.')).filter(m => !isNaN(parseFloat(m)) && parseFloat(m) > 0);
+    
+    if (matches.length >= 2) {
+      const total = parseFloat(matches[matches.length - 1]);
+      const pu = parseFloat(matches[matches.length - 2]);
+      let q = matches.length >= 3 ? parseFloat(matches[matches.length - 3]) : 1;
+      
+      if (Math.abs((q * pu) - total) < (total * 0.15)) {
+        let des = lineText;
+        matches.forEach(m => des = des.replace(m, ''));
+        des = des.replace(/m2|m3|m²|m³|ml|u|ens|forfait/gi, '').replace(/[^a-zA-ZÀ-ÿ\s-]/g, '').trim(); 
+        
+        let u = 'u';
+        if (/m2|m²/i.test(lineText)) u = 'm²';
+        else if (/m3|m³/i.test(lineText)) u = 'm³';
+        else if (/ml/i.test(lineText)) u = 'ml';
+        else if (/ens|forfait/i.test(lineText)) u = 'forfait';
+        
+        let conf = (des.length > 5 && q > 0 && pu > 0) ? 'high' : 'low';
+        if (des.length < 3) {
+          des = 'illisible';
+          conf = 'low';
+        }
+        
+        extractedLines.push({
+          id: Date.now() + idx,
+          lot: currentLot,
+          des: des,
+          u: u,
+          q: q,
+          pu: pu,
+          total: total,
+          conf: conf,
+          status: 'pending'
+        });
+        totalExtracted += total;
+      }
+    }
+  });
+  
+  // Total doc heuristic
+  const totalDocMatch = text.match(/(?:total|net\s*à\s*payer|montant)[\s\S]{0,50}?([\d\s,\.]+)/i);
+  let totalDoc = totalExtracted; // fallback
+  if (totalDocMatch) {
+    const val = parseFloat(totalDocMatch[1].replace(/\s/g, '').replace(',', '.'));
+    if (!isNaN(val) && val > 0) totalDoc = val;
+  }
+
+  if (extractedLines.length === 0) {
+    showError("Aucune ligne détectée. Veuillez réessayer avec un document plus lisible ou saisir manuellement.");
+    return;
+  }
+
+  window.auditOcrLines = extractedLines;
+  window.auditOcrMetadata = { pages: numPages, totalExtrait: totalExtracted, totalDoc: totalDoc };
+  
+  renderOCRLines();
+  document.getElementById('ocr-screen-2').classList.add('hidden');
+  document.getElementById('ocr-screen-3').classList.remove('hidden');
 };
 
 window.skipAuditOCR = function() {
@@ -2284,6 +2448,8 @@ window.resetAuditOCR = function() {
   document.getElementById('ocr-screen-3').classList.add('hidden');
   document.getElementById('ocr-screen-1').classList.remove('hidden');
   window.auditOcrLines = [];
+  document.getElementById('ocr-image-input').value = "";
+  document.getElementById('ocr-pdf-input').value = "";
 };
 
 window.renderOCRLines = function() {
@@ -2364,6 +2530,25 @@ window.renderOCRLines = function() {
     
     container.innerHTML += html;
   });
+  
+  // Render Reconciliation Header
+  const recEl = document.getElementById('ocr-reconciliation');
+  if (recEl) {
+    const formatF = num => new Intl.NumberFormat('fr-FR').format(num);
+    const ecart = Math.abs(window.auditOcrMetadata.totalExtrait - window.auditOcrMetadata.totalDoc);
+    recEl.innerHTML = `
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-sm text-blue-900">
+          <p class="font-bold">Réconciliation du document</p>
+          <p>${window.auditOcrMetadata.pages} page(s) traitée(s) • ${window.auditOcrLines.length} ligne(s) détectée(s)</p>
+        </div>
+        <div class="text-sm text-right">
+          <p class="text-blue-900">Total extrait : <span class="font-bold">${formatF(window.auditOcrMetadata.totalExtrait)} FCFA</span></p>
+          ${ecart > (window.auditOcrMetadata.totalDoc * 0.05) ? `<p class="text-rose-600 font-bold">Écart avec le document : ${formatF(ecart)} FCFA</p>` : `<p class="text-emerald-600 font-bold">Total cohérent avec le document</p>`}
+        </div>
+      </div>
+    `;
+  }
 
   const btn = document.getElementById('btn-continue-audit');
   btn.disabled = !allValidated || !hasLines;
@@ -2373,10 +2558,17 @@ window.updateOCRLine = function(id, field, value) {
   const line = window.auditOcrLines.find(l => l.id === id);
   if (line) {
     line[field] = value;
-    line.status = 'pending'; // any edit requires re-validation
+    line.status = 'pending'; 
     if (line.des !== 'illisible' && line.u !== 'illisible') {
-      line.conf = 'high'; // manual fix upgrades confidence
+      line.conf = 'high'; 
     }
+    
+    if (field === 'q' || field === 'pu') {
+       line.total = line.q * line.pu;
+    }
+    
+    // update totalextrait
+    window.auditOcrMetadata.totalExtrait = window.auditOcrLines.reduce((acc, curr) => acc + curr.total, 0);
     renderOCRLines();
   }
 };
@@ -2395,6 +2587,7 @@ window.validateOCRLine = function(id) {
 
 window.deleteOCRLine = function(id) {
   window.auditOcrLines = window.auditOcrLines.filter(l => l.id !== id);
+  window.auditOcrMetadata.totalExtrait = window.auditOcrLines.reduce((acc, curr) => acc + curr.total, 0);
   renderOCRLines();
 };
 
@@ -2406,6 +2599,7 @@ window.addBlankOCRLine = function() {
     u: 'm²',
     q: 0,
     pu: 0,
+    total: 0,
     conf: 'high',
     status: 'pending'
   });
@@ -2413,7 +2607,6 @@ window.addBlankOCRLine = function() {
 };
 
 window.finishOCRValidation = function() {
-  // Transfer validated lines to the manual form container (for compatibility with existing engine)
   const manualContainer = document.getElementById('devis-lines-container');
   manualContainer.innerHTML = '';
   
@@ -2432,16 +2625,15 @@ window.finishOCRValidation = function() {
     window.recalcDevisLine(lastRow.querySelector('.dl-qty'));
   });
 
-  // Switch to the standard 6-step form
   window.skipAuditOCR();
-  
-  // Jump to step 1 (Client info)
   window.goToStep(3, 1);
 };
 
 </script>
 </body>
 </html>
+
+
 
 
 
