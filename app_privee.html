@@ -761,10 +761,6 @@
           </optgroup>
         </select>
       </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Pièce jointe (Photo / PDF du devis)</label>
-        <input type="file" name="devis_file" accept=".pdf,image/*" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-      </div>
     </div>
     <div class="flex justify-end pt-4">
       <button type="button" onclick="goToStep(3, 2)" class="px-8 py-3.5 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2">
@@ -1415,8 +1411,26 @@
       if (activeStep) {
         const currentStepNum = activeStep.classList.contains('step-1') ? 1 : (activeStep.classList.contains('step-2') ? 2 : 3);
         if (targetStep > currentStepNum) {
+          // Hook for Audit Step 2 -> 3 (Sanitize lines)
+          if (paneId === 3 && currentStepNum === 2) {
+             const lines = activeStep.querySelectorAll('.devis-line-item');
+             lines.forEach(line => {
+                const des = line.querySelector('.dl-designation').value.trim();
+                const qte = parseFloat(line.querySelector('.dl-qty').value) || 0;
+                const total = parseFloat(line.querySelector('.dl-total').value) || 0;
+                // Supprimer les lignes vides ou sans données chiffrées pertinentes
+                if (!des || (qte === 0 && total === 0)) {
+                    line.remove();
+                }
+             });
+             if(window.updateDevisTotal) window.updateDevisTotal();
+          }
+
           const fields = activeStep.querySelectorAll('input, select, textarea');
           for (let field of fields) {
+            // Prevent silent validation failure on hidden fields
+            if (field.offsetParent === null || field.type === 'hidden' || field.closest('.hidden')) continue;
+            
             if (!field.checkValidity()) {
               field.reportValidity();
               return;
@@ -1974,11 +1988,11 @@
         }
         
         // Extract Metadata
-        let numDevis = "DEV-2026-UNKNOWN";
+        let numDevis = "";
         const devisMatch = fullText.match(/(?:DEVIS N°|N° DEVIS)\s*([A-Z0-9\-_]+)/i);
         if (devisMatch) numDevis = devisMatch[1];
         
-        let dateDevis = "2026-01-01";
+        let dateDevis = "";
         const dateMatch = fullText.match(/(\d{2}\/\d{2}\/\d{4})/);
         if (dateMatch) {
             const parts = dateMatch[1].split('/');
@@ -1987,8 +2001,8 @@
         
         document.querySelector('input[name="devis_number"]').value = numDevis;
         document.querySelector('input[name="devis_date"]').value = dateDevis;
-        document.querySelector('input[name="devis_company"]').value = "Entreprise extraite (Auto)";
-        document.querySelector('input[name="devis_object"]').value = "Audit Chantier - Extrait (Auto)";
+        document.querySelector('input[name="devis_company"]').value = "";
+        document.querySelector('input[name="devis_object"]').value = "";
         
         const devisList = document.getElementById('devis-lines-container');
         if (devisList) devisList.innerHTML = '';
@@ -2005,7 +2019,9 @@
                 clean = clean.replace(/,/g, '.');
             }
             const val = parseFloat(clean);
-            return isNaN(val) ? null : val;
+            if (isNaN(val)) return null;
+            if (val >= 1e9) return null; // Reject phone numbers parsed as huge amounts
+            return val;
         };
 
         const inferNature = (str) => {
@@ -2022,6 +2038,12 @@
         let pendingDesignation = "";
         
         for (let l of potentialLines) {
+            const l_upper = l.toUpperCase();
+            // Filter noise
+            if (l_upper.includes('NINEA') || l_upper.includes('TVA') || l_upper.includes('TTC') || l_upper.includes('TELEPHONE') || l_upper.includes('RC ') || l_upper.includes('TOTAL HT')) {
+                continue;
+            }
+
             const lotMatch = l.match(/^\s*LOT\s*(?:\d+)?\s*[:\-—]?\s*(.*)$/i);
             if (lotMatch) {
                 currentLot = lotMatch[1].trim() || "Lot Général";
@@ -2032,7 +2054,7 @@
             const words = l.split(/\s+/);
             const numWords = words.filter(w => parseMontant(w) !== null);
             
-            if (numWords.length >= 3 && !l.toUpperCase().includes('TOTAL HT') && !l.toUpperCase().includes('TVA')) {
+            if (numWords.length >= 3) {
                 let nums = [];
                 for (let i = words.length - 1; i >= 0; i--) {
                     if (parseMontant(words[i]) !== null) nums.unshift(parseMontant(words[i]));
