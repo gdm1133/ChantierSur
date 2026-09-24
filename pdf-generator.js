@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ChantierSur.com - Moteur Officiel de GÃ©nÃ©ration des Livrables BTP & Juridiques
  * Version 3.0 â€” Perfectionnement Visuel & Rigueur Fonctionnelle
  * Conforme : BAEL 91 RÃ©visÃ© 99 â€¢ Code de l'Urbanisme du SÃ©nÃ©gal â€¢ Droit COCC â€¢ Normes DTU
@@ -1424,12 +1424,12 @@ function renderAudit(doc, data, refDoc, currentDate) {
     y += 3;
 
     const contractRows = [
-        ['Prix (Ferme / Révisable)', prixFerme === 'ferme' ? 'Prix ferme' : (prixFerme === 'revisable' ? 'Prix révisable' : 'Non précisé'), prixFerme === 'ferme' ? 'Sécurisant pour le Maître d\'Ouvrage.' : 'Exiger un indice de révision (BT01/BT02) clairement défini.'],
+        ['Prix (Ferme / Révisable)', prixFerme === 'ferme' ? 'Prix ferme' : (prixFerme === 'revisable' ? 'Prix révisable' : 'Non précisé'), prixFerme === 'ferme' ? 'Sécurisant pour le Maître d\'Ouvrage.' : 'Exiger un indice de révision clairement défini.'],
         ['Validité du devis', validiteDevis, 'Vérifier la période de validité des prix matériaux et main-d\'œuvre.'],
         ['Délai d\'exécution', delaiExecution, 'Adosser impérativement le démarrage à la signature ou à la réception de l\'acompte.'],
         ['Acompte demandé', `${acomptePct} %`, acomptePct >= 30 ? 'Acompte élevé — négocier et lier à des phases d\'avancement vérifiables.' : acomptePct > 0 ? 'Standard — adosser au démarrage des travaux.' : 'Non précisé.'],
         ['Échéancier de paiement', echeancier === 'oui' ? 'Adossé à l\'avancement' : 'Non adossé à l\'avancement', echeancier === 'oui' ? 'Conforme aux bonnes pratiques contractuelles.' : 'Payer uniquement à l\'avancement réel constaté — ne jamais payer à l\'avance.'],
-        ['Retenue de garantie', `${retenueGarantie} %`, retenueGarantie >= 5 ? 'Protecteur pour la levée des réserves.' : 'Recommandation : retenir 5 % payables à réception sans réserves (COCC, art. 743).'],
+        ['Retenue de garantie', `${retenueGarantie} %`, retenueGarantie >= 5 ? 'Protecteur pour la levée des réserves.' : 'Recommandation : retenir 5 % payables à réception sans réserves.'],
         ['Pénalités de retard', penalites === 'oui' ? 'Prévues' : 'Non prévues', penalites === 'oui' ? 'Encourage le respect du calendrier.' : 'Fixer des pénalités journalières en cas de dépassement du délai contractuel.'],
         ['Avenants / Travaux supplémentaires', avenants === 'ecrit_exige' ? 'Accord écrit exigé' : 'Non précisé', avenants === 'ecrit_exige' ? 'Conforme — aucun travail hors marché ne doit être engagé sans avenant signé.' : 'Préciser qu\'aucun travail supplémentaire ne sera réglé sans accord écrit préalable.'],
         ['Assurances (RC & Décennale)', assurances === 'oui' ? 'Mentionnées' : 'Non mentionnées', assurances === 'oui' ? 'Demander copie de l\'attestation en cours de validité avant tout démarrage.' : 'Risque pour les garanties après réception — exiger les attestations.'],
@@ -1900,9 +1900,9 @@ function renderAudit(doc, data, refDoc, currentDate) {
       doc.setTextColor(148, 163, 184);
       doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", MARGIN_LEFT, pageHeight - 11);
       if (service === 'finitions') {
-        doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ Normes DTU Second Å“uvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", MARGIN_LEFT, pageHeight - 7);
+        doc.text("Document généré automatiquement à titre indicatif • ChantierSur.com — Bureau d'études numérique indépendant.", MARGIN_LEFT, pageHeight - 7);
       } else {
-        doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ BAEL 91 R99 & Code des Obligations Civiles et Commerciales.", MARGIN_LEFT, pageHeight - 7);
+        doc.text("Document généré automatiquement à titre indicatif • ChantierSur.com — Bureau d'études numérique indépendant.", MARGIN_LEFT, pageHeight - 7);
       }
 
       doc.setFont(getFontFamily(doc), 'bold');
@@ -1931,6 +1931,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
 
 
 
