@@ -632,477 +632,99 @@
   <!-- FORMULAIRE 3 : Audit Devis BTP -->
   <!-- ============================================== -->
   <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
-
-<div id="audit-v3-container" class="space-y-6">
-  <!-- Screen 1: Dépôt -->
-  <div id="ocr-screen-1" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 text-center space-y-6">
-    <div id="ocr-error-banner" class="hidden bg-rose-50 text-rose-600 border border-rose-200 p-4 rounded-xl text-sm font-bold mb-4"></div>
-    <div class="w-16 h-16 bg-[#0B1325]/5 text-[#0B1325] rounded-full flex items-center justify-center mx-auto mb-4">
-      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-    </div>
-    <h3 class="text-2xl font-bold text-[#0B1325]">Importer votre devis</h3>
-    <p class="text-slate-600 max-w-md mx-auto text-sm">Notre algorithme va lire votre devis et préparer le brouillon d'audit. Vous pourrez valider et corriger chaque ligne.</p>
-    
-    <div class="space-y-4 max-w-md mx-auto mt-8">
-      <input type="file" id="ocr-image-input" accept="image/*" capture="environment" multiple class="hidden" onchange="handleImageUpload(event)">
-      <input type="file" id="ocr-pdf-input" accept="application/pdf" class="hidden" onchange="handlePDFUpload(event)">
-      
-      <button type="button" onclick="triggerFileInput('ocr-image-input')" class="w-full py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center gap-3">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
-        Photographier le devis
-      </button>
-      <button type="button" onclick="triggerFileInput('ocr-pdf-input')" class="w-full py-3 bg-white hover:bg-slate-50 text-[#0B1325] font-bold rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-3">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-        Importer un PDF
-      </button>
-      <button type="button" onclick="openTextModal()" class="w-full py-3 bg-white hover:bg-slate-50 text-[#0B1325] font-bold rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-3">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-        Coller le texte du devis
-      </button>
-    </div>
-
-    <div class="pt-8">
-      <button type="button" onclick="window.skipAuditOCR()" class="text-sm font-medium text-slate-500 hover:text-slate-700 underline decoration-slate-300 underline-offset-4">Saisie manuelle (formulaire classique)</button>
-    </div>
+  <!-- 2.1 Bloc Informations du client -->
+  <div class="step-container space-y-6">
+    <h4 class="text-lg font-bold text-[#0B1325]">Informations du client</h4>
+    <input type="text" name="client_name" placeholder="Nom complet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+    <input type="email" name="client_email" placeholder="Email" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+    <input type="tel" name="client_phone" placeholder="TÃ©lÃ©phone" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+    <input type="text" name="client_city" placeholder="Ville" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+    <input type="text" name="project_type" placeholder="Type de projet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+    <input type="number" name="exact_levels" placeholder="Nombre de niveaux" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
   </div>
 
-  <!-- Screen 2: Lecture -->
-  <div id="ocr-screen-2" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-10 text-center space-y-8">
-    <div class="relative w-24 h-24 mx-auto">
-      <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
-      <div class="absolute inset-0 border-4 border-[#0B1325] rounded-full border-t-transparent animate-spin"></div>
-      <div class="absolute inset-0 flex items-center justify-center text-[#0B1325]">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      </div>
-    </div>
-    <div>
-      <h3 class="text-xl font-bold text-slate-900 mb-2">Lecture de votre devis en cours…</h3>
-      <p class="text-sm text-slate-500">Extraction automatique des lignes, quantités et prix. Veuillez patienter.</p>
-    </div>
+  <!-- 2.2 Bloc Lots du devis -->
+  <div class="step-container space-y-6">
+    <h4 class="text-lg font-bold text-[#0B1325]">Lots du devis</h4>
+    <div id="v5-lots-container" class="space-y-4"></div>
+    <button type="button" onclick="window.addV5Lot()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-lg transition-colors">+ Ajouter un lot</button>
   </div>
 
-  <!-- Screen 3: Validation -->
-  <div id="ocr-screen-3" class="hidden space-y-6">
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-      
-      <div id="ocr-reconciliation"></div>
-
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <div>
-          <h3 class="text-xl font-bold text-slate-900">Validation des lignes</h3>
-          <p class="text-sm text-slate-600 mt-1">Vérifiez et validez obligatoirement chaque ligne extraite. <span class="font-bold text-rose-500">Les lignes incertaines sont surlignées.</span></p>
-        </div>
-        <button type="button" onclick="window.addBlankOCRLine()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold rounded-lg transition-colors flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-          Ajouter une ligne
-        </button>
-      </div>
-
-      <div id="ocr-lines-container" class="space-y-4">
-        <!-- Lines will be injected here -->
-      </div>
+  <!-- 2.3 Bloc Totaux -->
+  <div class="step-container space-y-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+    <h4 class="text-lg font-bold text-[#0B1325]">Totaux</h4>
+    <div class="flex justify-between"><span>Total HT :</span><span id="v5-total-ht">0</span></div>
+    <div class="flex justify-between items-center">
+      <span>TVA (%) :</span>
+      <input type="number" id="v5-tva-rate" value="18" oninput="window.calcV5Totals()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1 text-right">
     </div>
-
-    <div class="flex justify-between items-center pt-4">
-      <button type="button" onclick="window.resetAuditOCR()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 transition-colors">Recommencer</button>
-      <button type="button" id="btn-continue-audit" onclick="window.finishOCRValidation()" disabled class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center gap-3">
-        Continuer vers l'Audit
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-      </button>
-    </div>
+    <div class="flex justify-between font-bold text-lg border-t border-slate-300 pt-2 mt-2"><span>Total TTC :</span><span id="v5-total-ttc">0</span></div>
   </div>
-</div>
 
-<!-- Modal Coller Texte -->
-<div id="ocr-text-modal" class="hidden fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl">
-    <h3 class="text-xl font-bold text-slate-900 mb-2">Coller le texte de votre devis</h3>
-    <p class="text-sm text-slate-500 mb-4">Copiez les lignes de votre devis (depuis Word, Excel ou un PDF) et collez-les ici.</p>
-    <textarea id="ocr-paste-textarea" class="w-full h-64 p-4 border border-slate-300 rounded-xl text-sm focus:border-[#0B1325] outline-none" placeholder="Lot Gros Œuvre&#10;Exemple de ligne 15 m³ 120000 1800000&#10;..."></textarea>
-    <div class="flex justify-end gap-3 mt-4">
-      <button type="button" onclick="closeTextModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors">Annuler</button>
-      <button type="button" onclick="processTextPaste()" class="px-6 py-2 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors shadow-lg">Analyser le texte</button>
-    </div>
+  <!-- 2.4 Bloc Conditions contractuelles -->
+  <div class="step-container space-y-6">
+    <h4 class="text-lg font-bold text-[#0B1325]">Conditions contractuelles</h4>
+    <input type="text" name="acompte" placeholder="Acompte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="echeancier" placeholder="EchÃ©ancier de paiement" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="retenue" placeholder="Retenue de garantie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="penalites" placeholder="PÃ©nalitÃ©s de retard" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="avenants" placeholder="Gestion des avenants" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="assurances" placeholder="Assurances" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
   </div>
-</div>
 
-
-  <div id="audit-manual-form" class="hidden space-y-8">
-    <!-- EN-TÊTE & STEPPER (6 étapes) -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-6 gap-4">
-      <div>
-        <h3 class="text-xl font-bold text-[#0B1325]">3. Audit Technique de Devis BTP</h3>
-        <p class="text-xs text-slate-700 font-medium mt-0.5">Vérification algorithmique • Base Mercuriale & DTU</p>
-      </div>
-      <div class="flex items-center space-x-3 overflow-x-auto pb-2 sm:pb-0">
-        <div class="bullet-1 w-8 h-8 rounded-full bg-[#0B1325] text-white font-bold flex items-center justify-center text-sm shadow shrink-0">1</div>
-        <div class="w-4 sm:w-8 h-0.5 bg-slate-300 shrink-0"></div>
-        <div class="bullet-2 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm shrink-0">2</div>
-        <div class="w-4 sm:w-8 h-0.5 bg-slate-300 shrink-0"></div>
-        <div class="bullet-3 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm shrink-0">3</div>
-        <div class="w-4 sm:w-8 h-0.5 bg-slate-300 shrink-0"></div>
-        <div class="bullet-4 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm shrink-0">4</div>
-        <div class="w-4 sm:w-8 h-0.5 bg-slate-300 shrink-0"></div>
-        <div class="bullet-5 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm shrink-0">5</div>
-        <div class="w-4 sm:w-8 h-0.5 bg-slate-300 shrink-0"></div>
-        <div class="bullet-6 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm shrink-0">6</div>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 1 : ENTREPRISE & PROJET -->
-    <div class="step-container step-1 space-y-6">
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl mb-6">
-        <div class="flex items-start">
-          <svg class="h-5 w-5 text-amber-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-          <p class="text-sm text-amber-800">
-            <strong>Étape 1 sur 6 :</strong> Saisissez les coordonnées de l'entreprise et les informations du projet. Ces éléments permettront de vérifier l'existence légale de l'entreprise et de paramétrer le calcul des ratios.
-          </p>
-        </div>
-      </div>
-
-      <h4 class="font-bold text-slate-800 border-b pb-2">A. Identification de l'entreprise (ou tâcheron)</h4>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom de l'entreprise / artisan <span class="text-red-500">*</span></label>
-          <input type="text" name="company_name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA</label>
-          <input type="text" name="company_ninea" placeholder="Facultatif" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">RCCM</label>
-          <input type="text" name="company_rccm" placeholder="Facultatif" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Téléphone</label>
-          <input type="tel" name="company_phone" placeholder="Ex: 77 000 00 00" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none">
-        </div>
-        <div class="sm:col-span-2">
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Adresse</label>
-          <input type="text" name="company_address" placeholder="Facultatif" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none">
-        </div>
-      </div>
-
-      <h4 class="font-bold text-slate-800 border-b pb-2 mt-8">B. Informations du projet & du devis</h4>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet du devis <span class="text-red-500">*</span></label>
-          <input type="text" name="devis_objet" placeholder="Ex: Construction villa R+1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">N° du devis</label>
-          <input type="text" name="devis_number" placeholder="Facultatif" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Date du devis</label>
-          <input type="date" name="devis_date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Type de bâtiment <span class="text-red-500">*</span></label>
-          <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-            <option value="unifamilial" selected>Habitation Unifamiliale (Villa)</option>
-            <option value="locatif">Immeuble de Rapport (Locatif)</option>
-            <option value="mixte">Usage Mixte (Commerces + Habitations)</option>
-            <option value="bureaux">Bureaux & ERP</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Zone du projet <span class="text-red-500">*</span></label>
-          <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-            <option value="Dakar - Almadies / Ngor">Dakar - Almadies / Ngor / Virage</option>
-            <option value="Dakar - Plateau / Fann">Dakar - Plateau / Fann / Point E</option>
-            <option value="Dakar - Mamelles / Ouakam">Dakar - Mamelles / Ouakam / Mermoz</option>
-            <option value="Dakar - VDN / Liberté">Dakar - VDN / Liberté / Sacré-Cœur</option>
-            <option value="Dakar - Zone Urbaine" selected>Dakar - Autre Zone Urbaine</option>
-            <option value="Banlieue - Pikine / Guédiawaye">Banlieue - Pikine / Guédiawaye</option>
-            <option value="Banlieue - Rufisque / Diamniadio">Banlieue - Rufisque / Diamniadio</option>
-            <option value="Thiès / Mbour / Saly">Région de Thiès / Mbour / Saly</option>
-            <option value="Autre Région">Autre Région au Sénégal</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">SDP Totale (m²) <span class="text-red-500">*</span></label>
-          <input type="number" name="surface" placeholder="Surface totale cumulée" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation) <span class="text-red-500">*</span></label>
-          <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
-            <option value="0">RDC Simple (Plain-pied)</option>
-            <option value="1" selected>R+1 (Villa duplex)</option>
-            <option value="2">R+2 (Immeuble R+2)</option>
-            <option value="3">R+3 (Immeuble R+3)</option>
-            <option value="4">R+4 (Immeuble R+4)</option>
-            <option value="5">R+5 (Immeuble R+5)</option>
-            <option value="6">R+6 (Immeuble R+6)</option>
-            <option value="7">R+7 (Immeuble R+7)</option>
-            <option value="8">R+8 (Immeuble R+8)</option>
-            <option value="9">R+9 (Immeuble R+9)</option>
-            <option value="10">R+10 (Tour R+10)</option>
-          </select>
-        </div>
-        
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Votre nom (Maître d'Ouvrage) <span class="text-red-500">*</span></label>
-          <input type="text" name="client_name" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-        </div>
-                <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Votre adresse email <span class="text-red-500">*</span></label>
-          <input type="email" name="client_email" placeholder="contact@exemple.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Votre téléphone <span class="text-red-500">*</span></label>
-          <div class="flex">
-            <select name="phone_prefix" class="bg-slate-50 border border-slate-300 border-r-0 rounded-l-xl px-3 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none w-24">
-              <option value="+221">+221</option>
-              <option value="+33">+33</option>
-              <option value="+1">+1</option>
-            </select>
-            <input type="tel" name="client_phone" placeholder="Numéro" pattern="[0-9\s]{8,15}" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex justify-end pt-6">
-        <button type="button" onclick="window.goToStep(3, 2)" class="bg-[#0B1325] text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors flex items-center group">
-          Continuer
-          <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 2 : LIGNES DU DEVIS -->
-    <div class="step-container step-2 hidden space-y-6">
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl mb-4">
-        <p class="text-sm text-amber-800">
-          <strong>Étape 2 sur 6 :</strong> Recopiez les lignes de votre devis ci-dessous. Le total se calculera automatiquement. Si la ligne est un forfait, choisissez "Forfait" comme unité et laissez la quantité vide.
-        </p>
-      </div>
-
-      <!-- Compteur et Total provisoire -->
-      <div class="flex justify-between items-center bg-slate-50 border border-slate-200 p-4 rounded-xl">
-        <span class="font-bold text-slate-700" id="devis-line-counter">0 ligne(s)</span>
-        <span class="font-bold text-[#0B1325] text-lg">Total provisoire : <span id="devis-total-provisoire">0</span> FCFA</span>
-      </div>
-
-      <div id="devis-lines-container" class="space-y-4">
-        <!-- Lignes ajoutées dynamiquement via JS -->
-      </div>
-
-      <div class="pt-2 pb-6 border-b border-slate-200">
-        <button type="button" onclick="window.addDevisLine()" class="text-[#F59E0B] font-bold text-sm flex items-center hover:text-amber-600 transition-colors bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
-          <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-          Ajouter une ligne au devis
-        </button>
-      </div>
-
-      <div class="flex justify-between pt-6">
-        <button type="button" onclick="window.goToStep(3, 1)" class="text-slate-500 hover:text-slate-800 font-bold px-6 py-3 transition-colors">Retour</button>
-        <button type="button" onclick="window.goToStep(3, 3)" class="bg-[#0B1325] text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors flex items-center group">
-          Continuer
-          <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 3 : CONDITIONS CONTRACTUELLES -->
-    <div class="step-container step-3 hidden space-y-6">
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl mb-6">
-        <p class="text-sm text-amber-800">
-          <strong>Étape 3 sur 6 :</strong> Indiquez les conditions contractuelles mentionnées sur le devis (délais, acomptes, pénalités). Laissez vide si le devis n'en parle pas.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total HT indiqué (FCFA)</label>
-          <input type="number" name="total_ht_indique" placeholder="Ex: 45000000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">TVA Applicable</label>
-          <select name="tva_applicable" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="oui">Oui (18%)</option>
-            <option value="non">Non</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total TTC indiqué (FCFA)</label>
-          <input type="number" name="total_ttc_indique" placeholder="Ex: 53100000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Montant arrêté en lettres ?</label>
-          <select name="montant_lettres" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="non">Non précisé</option>
-            <option value="oui">Oui</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Prix ferme ou révisable</label>
-          <select name="prix_ferme" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="non_precise">Non précisé</option>
-            <option value="ferme">Ferme et non révisable</option>
-            <option value="revisable">Révisable</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Validité du devis</label>
-          <input type="text" name="validite_devis" placeholder="Ex: 30 jours" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Délai d'exécution</label>
-          <input type="text" name="delai_execution" placeholder="Ex: 6 mois" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Acompte demandé (%)</label>
-          <input type="number" name="acompte_pct" placeholder="Ex: 30" min="0" max="100" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Échéancier adossé à l'avancement</label>
-          <select name="echeancier" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="non_precise">Non précisé</option>
-            <option value="oui">Oui</option>
-            <option value="non">Non</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Retenue de garantie (%)</label>
-          <input type="number" name="retenue_garantie" placeholder="Ex: 5" min="0" max="100" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Pénalités de retard prévues</label>
-          <select name="penalites" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="non_precise">Non</option>
-            <option value="oui">Oui</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Travaux sup. / Avenants</label>
-          <select name="avenants" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="non_precise">Non précisé</option>
-            <option value="ecrit_exige">Avenant écrit exigé</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assurances (Décennale / RC)</label>
-          <select name="assurances" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-            <option value="non_precise">Non précisé</option>
-            <option value="oui">Mentionné</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="flex justify-between pt-6 border-t mt-8">
-        <button type="button" onclick="window.goToStep(3, 2)" class="text-slate-500 hover:text-slate-800 font-bold px-6 py-3 transition-colors">Retour</button>
-        <button type="button" onclick="window.goToStep(3, 4)" class="bg-[#0B1325] text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors flex items-center group">
-          Valider et Récapituler
-          <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 4 : RÉCAPITULATIF & VALIDATION -->
-    <div class="step-container step-4 hidden space-y-6">
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl mb-6">
-        <p class="text-sm text-amber-800">
-          <strong>Étape 4 sur 6 :</strong> Veuillez relire les lignes saisies et les totaux calculés. Toute erreur de saisie se répercutera sur l'audit final.
-        </p>
-      </div>
-
-      <div class="overflow-x-auto border border-slate-200 rounded-xl">
-        <table class="w-full text-sm text-left text-slate-700">
-          <thead class="bg-slate-50 font-bold text-slate-900 uppercase text-xs">
-            <tr>
-              <th class="px-4 py-3">Lot</th>
-              <th class="px-4 py-3">Désignation</th>
-              <th class="px-4 py-3 text-right">Qté</th>
-              <th class="px-4 py-3 text-center">U</th>
-              <th class="px-4 py-3 text-right">PU (FCFA)</th>
-              <th class="px-4 py-3 text-right">Total HT (FCFA)</th>
-            </tr>
-          </thead>
-          <tbody id="recap-table-body" class="divide-y divide-slate-100">
-            <!-- Lignes insérées par JS -->
-          </tbody>
-          <tfoot class="bg-slate-50 font-bold text-slate-900">
-            <tr>
-              <td colspan="5" class="px-4 py-3 text-right">Total HT Calculé :</td>
-              <td id="recap-total-ht" class="px-4 py-3 text-right text-lg text-[#0B1325]">0</td>
-            </tr>
-            <tr>
-              <td colspan="5" class="px-4 py-3 text-right">TVA (18%) :</td>
-              <td id="recap-total-tva" class="px-4 py-3 text-right">0</td>
-            </tr>
-            <tr>
-              <td colspan="5" class="px-4 py-3 text-right">Total TTC Calculé :</td>
-              <td id="recap-total-ttc" class="px-4 py-3 text-right text-lg text-[#0B1325]">0</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-
-      <div class="flex items-center mt-4">
-        <input type="checkbox" id="confirm-recap" class="w-5 h-5 text-[#0B1325] border-slate-300 rounded focus:ring-[#0B1325]" required>
-        <label for="confirm-recap" class="ml-3 text-sm font-bold text-slate-700">Je confirme l'exactitude des informations ci-dessus.</label>
-      </div>
-
-      <div class="flex justify-between pt-6 border-t mt-8">
-        <button type="button" onclick="window.goToStep(3, 3)" class="text-slate-500 hover:text-slate-800 font-bold px-6 py-3 transition-colors">Retour</button>
-        <button type="button" onclick="window.goToStep(3, 5)" class="bg-[#0B1325] text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors flex items-center group">
-          Procéder au paiement
-          <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 5 : PAIEMENT -->
-    <div class="step-container step-5 hidden space-y-6">
-      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center max-w-2xl mx-auto mt-8">
-        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
-          <svg class="w-8 h-8 text-[#0B1325]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900 mb-2">Paiement Sécurisé</h3>
-        <p class="text-sm text-slate-600 mb-6">Validez votre paiement pour déclencher l'analyse algorithmique de votre devis. 100% automatisé — rapport disponible immédiatement.</p>
-        
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 mb-6">
-          <div class="text-sm text-slate-500 uppercase font-bold tracking-wider mb-2">Tarif de l'Audit BTP (Base sur R+<span class="step-5-levels">1</span>)</div>
-          <div class="text-4xl font-black text-[#0B1325] mb-2" id="price-val-3">249 000 FCFA</div>
-          <div class="text-slate-400 text-sm" id="price-converted-3">(~ 380 )</div>
-        </div>
-
-        <button type="button" onclick="window.initiatePayment(3, 'audit')" class="w-full bg-[#0B1325] text-white py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all transform hover:scale-[1.02] shadow-xl flex items-center justify-center">
-          <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-          &#x2714; Payer et Générer le Rapport
-        </button>
-      </div>
-      <div class="flex justify-start pt-6">
-        <button type="button" onclick="window.goToStep(3, 4)" class="text-slate-500 hover:text-slate-800 font-bold px-6 py-3 transition-colors">Retour</button>
-      </div>
-    </div>
-
-    <!-- ÉTAPE 6 : RAPPORT -->
-    <div class="step-container step-6 hidden space-y-6">
-      <div class="bg-green-50 border border-green-200 rounded-2xl p-8 text-center max-w-2xl mx-auto mt-8">
-        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-sm mb-6">
-          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-        </div>
-        <h3 class="text-2xl font-bold text-slate-900 mb-3">Audit Généré avec Succès</h3>
-        <p class="text-slate-600 mb-8 leading-relaxed">Votre rapport d'audit détaillé — vérification arithmétique, analyse des prix et analyse contractuelle — est prêt au téléchargement.</p>
-        
-        <button type="button" id="btn-audit-download" onclick="window.triggerAuditDownload()" class="w-full sm:w-auto bg-[#0B1325] text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all transform hover:-translate-y-1 shadow-xl flex items-center justify-center mx-auto group">
-          <svg class="w-6 h-6 mr-3 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          &#x2B07; Télécharger mon Rapport PDF
-        </button>
-      </div>
-    </div>
-    </div>
+  <div id="v5-error-msg" class="text-rose-600 font-bold hidden">Veuillez saisir au moins un lot avec son montant pour lancer l'audit.</div>
+  
+  <div class="flex justify-end pt-4">
+    <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-400">Lancer l'audit</button>
+  </div>
 </form>
+<script>
+window.addV5Lot = function() {
+    const container = document.getElementById('v5-lots-container');
+    const div = document.createElement('div');
+    div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
+    div.innerHTML = 
+        <input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: MaÃ§onnerie)" oninput="window.calcV5Totals()">
+        <input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" oninput="window.calcV5Totals()">
+        <button type="button" onclick="this.parentElement.remove(); window.calcV5Totals()" class="text-rose-500 font-bold">X</button>
+    ;
+    container.appendChild(div);
+    window.calcV5Totals();
+};
+
+window.calcV5Totals = function() {
+    const rows = document.querySelectorAll('.lot-row');
+    let totalHT = 0;
+    let validLots = 0;
+    
+    rows.forEach(row => {
+        const desc = row.querySelector('.lot-desc').value.trim();
+        const montant = parseFloat(row.querySelector('.lot-montant').value) || 0;
+        if (desc.length > 0 && montant >= 0 && row.querySelector('.lot-montant').value !== '') {
+            validLots++;
+            totalHT += montant;
+        }
+    });
+    
+    document.getElementById('v5-total-ht').innerText = totalHT.toLocaleString('fr-FR') + ' FCFA';
+    const tvaRate = parseFloat(document.getElementById('v5-tva-rate').value) || 0;
+    const totalTTC = totalHT * (1 + (tvaRate / 100));
+    document.getElementById('v5-total-ttc').innerText = totalTTC.toLocaleString('fr-FR') + ' FCFA';
+    
+    const btn = document.getElementById('v5-btn-audit');
+    const msg = document.getElementById('v5-error-msg');
+    
+    if (validLots > 0) {
+        btn.disabled = false;
+        msg.classList.add('hidden');
+    } else {
+        btn.disabled = true;
+        msg.classList.remove('hidden');
+    }
+};
+// Add initial lot
+document.addEventListener('DOMContentLoaded', () => { window.addV5Lot(); });
+</script>
 
       <!-- FORMULAIRE 4 : FINITIONS & SECOND ŒUVRE        -->
       <!-- ============================================== -->
