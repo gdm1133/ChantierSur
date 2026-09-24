@@ -1979,8 +1979,7 @@
 
     const div = document.createElement('div');
     div.className = 'devis-line-item bg-white border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-4 relative';
-    div.innerHTML = 
-      <div class="absolute -top-3 -left-3 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> + idx + </div>
+    div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
       
       <div class="w-full md:w-3/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Lot / Macro-Lot</label>
@@ -2040,8 +2039,7 @@
 
       <button type="button" onclick="this.closest('.devis-line-item').remove(); window.updateDevisTotal();" class="text-slate-400 hover:text-red-500 transition-colors mt-4 md:mt-0" title="Supprimer la ligne">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-      </button>
-    ;
+      </button>`;
     container.appendChild(div);
   };
 
@@ -2116,14 +2114,12 @@
       totalHT += t;
 
       const tr = document.createElement('tr');
-      tr.innerHTML = 
-        <td class="px-4 py-2 border-b border-slate-100"> + lot + </td>
-        <td class="px-4 py-2 border-b border-slate-100 font-medium"> + des + </td>
-        <td class="px-4 py-2 border-b border-slate-100 text-right"> + (u === 'forfait' ? '-' : q) + </td>
-        <td class="px-4 py-2 border-b border-slate-100 text-center"> + u + </td>
-        <td class="px-4 py-2 border-b border-slate-100 text-right"> + (u === 'forfait' ? '-' : p.toLocaleString('fr-FR')) + </td>
-        <td class="px-4 py-2 border-b border-slate-100 text-right font-bold"> + t.toLocaleString('fr-FR') + </td>
-      ;
+      tr.innerHTML = `<td class="px-4 py-2 border-b border-slate-100"> ${lot} </td>
+        <td class="px-4 py-2 border-b border-slate-100 font-medium"> ${des} </td>
+        <td class="px-4 py-2 border-b border-slate-100 text-right"> ${u === 'forfait' ? '-' : q} </td>
+        <td class="px-4 py-2 border-b border-slate-100 text-center"> ${u} </td>
+        <td class="px-4 py-2 border-b border-slate-100 text-right"> ${u === 'forfait' ? '-' : p.toLocaleString('fr-FR')} </td>
+        <td class="px-4 py-2 border-b border-slate-100 text-right font-bold"> ${t.toLocaleString('fr-FR')} </td>`;
       tbody.appendChild(tr);
     });
 
@@ -2140,6 +2136,10 @@
   </script>
 </body>
 </html>
+
+
+
+
 
 
 
