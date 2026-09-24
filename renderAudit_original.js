@@ -286,7 +286,7 @@
     const streetWidth = parseFloat(data.street_width) || 12;
     const hasBasement = data.has_basement === 'oui';
     const energyBackup = data.energy_backup || 'standard';
-    const levels = parseInt(data.exact_levels || '1', 10);
+    const levels = parseInt(data.exact_levels, 10) || 1;
     const totalLevelsCount = levels + 1;
     const location = data.project_location || 'Dakar - Zone Urbaine';
     const landStatus = data.land_status || 'Titre Foncier (TF)';
@@ -697,7 +697,7 @@
     const clientPhone = `${rawPrefix} ${rawPhone}`;
 
     const surface = parseFloat(data.surface) || 200;
-    const levels = parseInt(data.exact_levels || '1', 10);
+    const levels = parseInt(data.exact_levels, 10) || 1;
     const totalLevelsCount = levels + 1;
     const slabType = data.slab_type || 'hourdis';
     const soilType = data.soil_type || 'normal';
@@ -1110,809 +1110,312 @@
   // =========================================================================
   // 3. LIVRABLE : CONTRE-EXPERTISE & AUDIT DEVIS BTP (4 PAGES)
   // =========================================================================
-  // =========================================================================
-  // 3. LIVRABLE : AUDIT DEVIS (4 PAGES)
-  // =========================================================================
-function renderAudit(doc, data, refDoc, currentDate) {
-    setupDocumentFonts(doc);
-
-    // Extraction des données du client
-    const clientName = (data.client_name || 'Maitre d\'Ouvrage').trim();
-    const rawPrefix = (data.phone_prefix || '+221').trim();
-    let rawPhone = (data.client_phone || '770000000').toString().trim();
-    rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
-    const clientPhone = ${rawPrefix} ;
-
-    // Données de l'entreprise
-    const companyName = data.company_name || 'Entreprise Non Identifiée';
-    const companyNinea = data.company_ninea || '';
-    const companyRccm = data.company_rccm || '';
-    const companyPhone = data.company_phone || '';
-    const companyAddress = data.company_address || '';
-
-    // Données du projet
-    const devisObjet = data.devis_objet || 'Non précisé';
-    const devisNumber = data.devis_number || 'Non précisé';
-    const devisDate = data.devis_date || currentDate;
-    const buildingUsage = data.building_usage || 'unifamilial';
-    const projectLocation = data.project_location || 'Dakar - Zone Urbaine';
-    const sdp = parseFloat(data.surface) || 0;
-    const levels = parseInt(data.exact_levels || '1', 10);
-
-    // Lignes du devis
-    let rawLines = data.devis_lines || [];
-    if (typeof rawLines === 'string') {
-        try { rawLines = JSON.parse(rawLines); } catch (e) { rawLines = []; }
-    }
-    
-    // Conditions contractuelles
-    const tvaApplicable = data.tva_applicable || 'oui';
-    const totalHtIndique = parseFloat(data.total_ht_indique) || 0;
-    const totalTtcIndique = parseFloat(data.total_ttc_indique) || 0;
-    const prixFerme = data.prix_ferme || 'non_precise';
-    const validiteDevis = data.validite_devis || 'Non précisée';
-    const delaiExecution = data.delai_execution || 'Non précisé';
-    const acomptePct = parseFloat(data.acompte_pct) || 0;
-    const echeancier = data.echeancier || 'non_precise';
-    const retenueGarantie = parseFloat(data.retenue_garantie) || 0;
-    const penalites = data.penalites || 'non_precise';
-    const avenants = data.avenants || 'non_precise';
-    const assurances = data.assurances || 'non_precise';
-    const montantLettres = data.montant_lettres || 'non';
-
-    // Calculs globaux
-    let totalHtCalcule = 0;
-    const computedLines = rawLines.map(line => {
-        const u = line.u || '';
-        const des = line.des || '';
-        const nat = line.nat || 'Fourniture et pose';
-        const lot = line.lot || '';
-        
-        let q = parseFloat(line.q) || 0;
-        let pu = parseFloat(line.pu) || 0;
-        let total = parseFloat(line.total) || 0;
-
-        if (u === 'forfait') {
-            totalHtCalcule += total;
-            return { lot, des, nat, u, q: '-', pu: '-', total, status: 'forfait' };
-        } else {
-            const rowTotal = Math.round(q * pu);
-            totalHtCalcule += rowTotal;
-            return { lot, des, nat, u, q, pu, total: rowTotal, status: 'normal' };
-        }
-    });
-
-    const tvaPct = 0.18;
-    const tvaCalculee = tvaApplicable === 'oui' ? Math.round(totalHtCalcule * tvaPct) : 0;
-    const totalTtcCalcule = totalHtCalcule + tvaCalculee;
-
-    let y = 15;
-    const leftMargin = 15;
-    const pageWidth = 210;
-
-    // Helper: Add page with footer
-    const addPage = () => {
-        const pageNum = doc.internal.getNumberOfPages();
-        doc.setFont('NotoSans', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(100, 100, 100);
-        doc.text(ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal. Page \ sur {total_pages_count_string}, pageWidth / 2, 287, { align: 'center' });
-        doc.addPage();
-        y = 20;
-    };
-
-    // Cartouche haut de page
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(11, 19, 37);
-    doc.text('ChantierSur.com', leftMargin, y);
-    doc.setFont('NotoSans', 'normal');
-    doc.text(Dossier : \ • Date : \, pageWidth - leftMargin, y, { align: 'right' });
-    y += 6;
-    doc.setFont('NotoSans', 'bold');
-    doc.setTextColor(245, 158, 11);
-    doc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", leftMargin, y);
-    y += 6;
-    doc.setTextColor(100, 100, 100);
-    doc.setFont('NotoSans', 'normal');
-    doc.text(Titulaire : \, leftMargin, y);
-    
-    // Titre
-    y += 12;
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(18);
-    doc.setTextColor(11, 19, 37);
-    doc.text('## RAPPORT D\'AUDIT DE DEVIS', leftMargin, y);
-    y += 8;
-    
-    // Disclaimer
-    doc.setFont('NotoSans', 'italic');
-    doc.setFontSize(8);
-    doc.setTextColor(150, 150, 150);
-    doc.text('Outil numérique d\'aide à la décision. Analyse automatisée indicative (sans valeur d\'expertise judiciaire).', leftMargin, y);
-    y += 10;
-
-    const drawConfidentialBanner = () => {
-        doc.setFillColor(248, 250, 252);
-        doc.rect(leftMargin, y, pageWidth - 30, 10, 'F');
-        doc.setFont('NotoSans', 'italic');
-        doc.setFontSize(8);
-        doc.setTextColor(71, 85, 105);
-        doc.text(DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : \ • TÉL : \, leftMargin + 2, y + 6);
-        y += 15;
-    };
-
-    const drawTable = (head, body) => {
-        doc.autoTable({
-            startY: y,
-            head: head,
-            body: body,
-            theme: 'grid',
-            headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 9 },
-            bodyStyles: { font: 'NotoSans', fontSize: 9, textColor: [51, 65, 85] },
-            alternateRowStyles: { fillColor: [248, 250, 252] },
-            styles: { cellPadding: 4 },
-            columnStyles: {
-                0: { fontStyle: 'bold', cellWidth: 50 },
-                1: { cellWidth: 65 },
-                2: { cellWidth: 65 }
-            },
-            margin: { left: leftMargin, right: 15 }
-        });
-        y = doc.lastAutoTable.finalY + 12;
-    };
-
-    // PARTIE I
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
-    doc.text('Partie I : Identification du devis & de l\'entreprise', leftMargin, y);
-    y += 6;
-    drawConfidentialBanner();
-
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('I. Devis analysé', leftMargin, y);
-    y += 4;
-    drawTable(
-        [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
-        [
-            ['Objet', devisObjet, 'Cadre principal de l\'analyse'],
-            ['Date & Référence', \ / N° \, 'Traçabilité documentaire'],
-            ['Bâtiment & Gabarit', \ (Niveaux: R+\), Base de calcul pour les ratios (SDP: \ m²)],
-            ['Localisation', projectLocation, 'Influence sur le coût des matériaux']
-        ]
-    );
-
-    doc.text('II. Entreprise & existence légale', leftMargin, y);
-    y += 4;
-    let rccmStatus = companyRccm ? 'Renseigné' : 'Non renseigné';
-    let nineaStatus = companyNinea ? 'Renseigné' : 'Drapeau : Entreprise non identifiée. Existence légale à vérifier.';
-    drawTable(
-        [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
-        [
-            ['Nom Entreprise', companyName, 'Identité commerciale'],
-            ['NINEA', companyNinea || 'N/A', nineaStatus],
-            ['RCCM', companyRccm || 'N/A', rccmStatus],
-            ['Téléphone / Adresse', \ / \, 'Vérification de l\'ancrage physique']
-        ]
-    );
-
-    // PARTIE II
-    if (y > 240) addPage();
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
-    doc.text('Partie II : Contrôle arithmétique du devis', leftMargin, y);
-    y += 6;
-    drawConfidentialBanner();
-
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('III. Vérification arithmétique ligne par ligne', leftMargin, y);
-    y += 4;
-    
-    const lignesBody = computedLines.map(l => {
-        if (l.status === 'forfait') {
-            return [l.des, 'Forfait', 'Demander le détail du forfait'];
-        }
-        return [l.des, \ \ x \ FCFA, = \ FCFA calculé];
-    });
-
-    doc.autoTable({
-        startY: y,
-        head: [['Désignation', 'Détail (Qté x PU)', 'Montant Calculé']],
-        body: lignesBody,
-        theme: 'grid',
-        headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 9 },
-        bodyStyles: { font: 'NotoSans', fontSize: 8 },
-        alternateRowStyles: { fillColor: [248, 250, 252] },
-        styles: { cellPadding: 3 },
-        margin: { left: leftMargin, right: 15 }
-    });
-    y = doc.lastAutoTable.finalY + 12;
-
-    if (y > 240) addPage();
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('IV. Cohérence des totaux HT, TVA, TTC', leftMargin, y);
-    y += 4;
-    
-    const diffHt = totalHtIndique > 0 ? (totalHtIndique - totalHtCalcule) : 0;
-    const diffHtStr = diffHt !== 0 ? Écart de \ FCFA : 'Conforme aux calculs';
-
-    const diffTtc = totalTtcIndique > 0 ? (totalTtcIndique - totalTtcCalcule) : 0;
-    const diffTtcStr = diffTtc !== 0 ? Écart de \ FCFA : 'Conforme aux calculs';
-
-    drawTable(
-        [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
-        [
-            ['Total HT (Indiqué vs Calculé)', Ind: \ / Calc: \, diffHtStr],
-            ['TVA Applicable', tvaApplicable === 'oui' ? '18%' : 'Non (0%)', tvaApplicable === 'oui' ? Calc: \ FCFA : 'Vérifier l\'exonération'],
-            ['Total TTC (Indiqué vs Calculé)', Ind: \ / Calc: \, diffTtcStr]
-        ]
-    );
-
-    // PARTIE III
-    if (y > 240) addPage();
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
-    doc.text('Partie III : Analyse des prix & des quantités', leftMargin, y);
-    y += 6;
-    drawConfidentialBanner();
-
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('V. Comparaison des prix aux références & VI. Plausibilité', leftMargin, y);
-    y += 4;
-    
-    const analysePrixBody = computedLines.map(l => {
-        if (l.status === 'forfait') {
-            return [l.des, 'Montant Forfaitaire', 'Non vérifiable en l\'état — demander le détail'];
-        }
-        return [l.des, PU: \ FCFA, 'Comparaison indicative (Dakar 2026). Estimations indicatives de prédimensionnement — ce n\'est pas un métré.'];
-    });
-    
-    doc.autoTable({
-        startY: y,
-        head: [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
-        body: analysePrixBody,
-        theme: 'grid',
-        headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 9 },
-        bodyStyles: { font: 'NotoSans', fontSize: 8 },
-        alternateRowStyles: { fillColor: [248, 250, 252] },
-        styles: { cellPadding: 3 },
-        margin: { left: leftMargin, right: 15 }
-    });
-    y = doc.lastAutoTable.finalY + 12;
-
-    // PARTIE IV
-    if (y > 240) addPage();
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
-    doc.text('Partie IV : Analyse contractuelle & recommandations', leftMargin, y);
-    y += 6;
-    drawConfidentialBanner();
-
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('VII. Conditions contractuelles & VIII. Drapeaux rouges', leftMargin, y);
-    y += 4;
-
-    const contractRows = [];
-    contractRows.push(['Prix (Ferme / Révisable)', prixFerme, prixFerme === 'ferme' ? 'Sécurisant pour le client' : 'Exiger un indice clair si révisable.']);
-    contractRows.push(['Validité', validiteDevis, 'Vérifier la période de validité des prix matériaux.']);
-    contractRows.push(['Délai d\'exécution', delaiExecution, 'Indispensable d\'adosser le démarrage à la signature ou acompte.']);
-    
-    let acompteRemarque = 'Standard';
-    if (acomptePct >= 30) acompteRemarque = 'Acompte élevé — à négocier et à adosser à des phases d\'avancement vérifiables.';
-    contractRows.push(['Acompte demandé', \%, acompteRemarque]);
-
-    contractRows.push(['Échéancier', echeancier === 'oui' ? 'Adossé à l\'avancement' : 'Non adossé à l\'avancement', echeancier === 'oui' ? 'Conforme aux bonnes pratiques' : 'Drapeau : Payer uniquement à l\'avancement réel constaté.']);
-    contractRows.push(['Retenue de garantie', \%, retenueGarantie >= 5 ? 'Protecteur pour la levée des réserves.' : 'Il est recommandé de retenir 5% payable à réception sans réserves.']);
-    contractRows.push(['Pénalités de retard', penalites === 'oui' ? 'Prévues' : 'Non prévues', penalites === 'oui' ? 'Encourage le respect des délais' : 'Drapeau : Fixer des pénalités journalières en cas de dépassement.']);
-    contractRows.push(['Avenants', avenants === 'ecrit_exige' ? 'Écrit exigé' : 'Non précisé', avenants === 'ecrit_exige' ? 'Conforme' : 'Préciser qu\'aucun travail sup. ne sera payé sans accord écrit préalable.']);
-    contractRows.push(['Assurances (RC / Décennale)', assurances === 'oui' ? 'Mentionnées' : 'Non mentionnées', assurances === 'oui' ? 'Demander copie de l\'attestation' : 'Risque pour les garanties après réception.']);
-    contractRows.push(['Montant en lettres', montantLettres === 'oui' ? 'Présent' : 'Absent', montantLettres === 'oui' ? 'Prévient les fraudes' : 'Remarque : Exiger le montant arrêté en lettres.']);
-
-    drawTable(
-        [['Clause', 'Constat', 'Point de vigilance']],
-        contractRows
-    );
-
-    if (y > 230) addPage();
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('IX. Recommandations & leviers de négociation', leftMargin, y);
-    y += 8;
-
-    doc.setFont('NotoSans', 'normal');
-    doc.setFontSize(9);
-    doc.text('1. Ratio global d\'estimation', leftMargin, y);
-    y += 5;
-    const sdpCalculee = sdp > 0 ? sdp : 150;
-    const ratioClient = Math.round(totalHtCalcule / sdpCalculee);
-    doc.setFont('NotoSans', 'italic');
-    doc.text(   Le devis fait ressortir un ratio global HT de \ FCFA/m² pour une SDP de \ m²., leftMargin, y);
-    y += 5;
-    doc.text('   À titre indicatif, la fourchette pour ce type de projet à Dakar (2026) varie selon les prestations.', leftMargin, y);
-    y += 8;
-
-    doc.setFont('NotoSans', 'normal');
-    doc.text('2. Leviers de négociation', leftMargin, y);
-    y += 5;
-    doc.setFont('NotoSans', 'italic');
-    doc.text('   - Exiger le détail chiffré (quantités et prix unitaires) pour tous les "forfaits".', leftMargin, y);
-    y += 5;
-    doc.text('   - Adosser systématiquement l\'échéancier de paiement à la constatation visuelle de l\'avancement.', leftMargin, y);
-    y += 5;
-    doc.text('   - Faire consigner par écrit la retenue de garantie (5%) et les pénalités de retard.', leftMargin, y);
-    y += 15;
-
-    if (y > 250) addPage();
-    doc.setFillColor(248, 250, 252);
-    doc.rect(leftMargin, y, pageWidth - 30, 25, 'F');
-    doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 19, 37);
-    doc.text('DOCUMENT GÉNÉRÉ AUTOMATIQUEMENT PAR CHANTIERSUR.COM', leftMargin + 5, y + 6);
-    doc.setFont('NotoSans', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(71, 85, 105);
-    doc.text(Référence du dossier : \ | Émis le : \, leftMargin + 5, y + 12);
-    doc.text(Destinataire exclusif : \, leftMargin + 5, y + 18);
-    
-    if (typeof doc.putTotalPages === 'function') {
-        doc.putTotalPages('{total_pages_count_string}');
-    }
-
-    doc.setPage(1);
-    doc.setFont('NotoSans', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.text(ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal. Page 1 sur {total_pages_count_string}, pageWidth / 2, 287, { align: 'center' });
-}
-
-  function renderFinitions(doc, data, refDoc, currentDate) {
+  function renderAudit(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
     const clientName = (data.client_name || 'MaÃ®tre d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
     const clientPhone = `${rawPrefix} ${rawPhone}`;
-
     const surface = parseFloat(data.surface) || 250;
-    const levels = parseInt(data.exact_levels || '1', 10);
-    const totalLevelsCount = levels + 1;
-    const standing = data.standing || 'moyen';
-    const tileType = data.tile_type || 'gres_cerame_60';
-    const joineryType = data.joinery_type || 'alu_vitre';
+    const levels = parseInt(data.exact_levels, 10) || 1;
     const location = data.project_location || 'Dakar - Zone Urbaine';
-    const lotNumber = data.lot_number || 'Non spÃ©cifiÃ©';
-    const delaiReserves = parseInt(data.delai_reserves, 10) || 15;
+    const buildingUsage = data.building_usage || 'unifamilial';
 
-    // Ratios second Å“uvre 2026
-    const sSolCarrelee = Math.round(surface * 0.82);
-    const sMursFaience = Math.round(surface * 0.35);
-    const sToitureTerrasse = Math.max(25, Math.round(surface / totalLevelsCount));
+    // 1. Process Devis Lines
+    const lines = data.devis_lines || [];
+    let totalDevisTTC = 0;
+    
+    // Macro-lots structure
+    const macroLots = {
+      'Gros Å“uvre & structure': { total: 0, keywords: ['terrassement', 'fondation', 'bÃ©ton', 'bÃ©t', 'maÃ§onnerie', 'dalle', 'poteau', 'poutre', 'enduit', 'chape', 'fouille'] },
+      'Ã‰tanchÃ©itÃ© & toiture': { total: 0, keywords: ['Ã©tanch', 'etanch', 'toiture', 'acrotÃ¨re', 'acrotere'] },
+      'Second Å“uvre & finitions': { total: 0, keywords: ['menuiserie', 'porte', 'fenÃªtre', 'fenetre', 'garde-corps', 'carrelage', 'faÃ¯ence', 'faience', 'peinture', 'plomberie', 'sanitaire', 'Ã©lectricitÃ©', 'electricite', 'forage'] },
+      'Installation & travaux prÃ©paratoires': { total: 0, keywords: ['installation', 'chantier', 'base vie', 'clÃ´ture', 'cloture'] }
+    };
 
-    const prixCarrelageM2 = tileType.includes('grand_format') ? 14500 : (tileType.includes('marbre') ? 28000 : 9500);
-    const prixFaienceM2 = 8500;
-    const prixEtancheiteM2 = 28000;
-
-    const totalCarrelageSolF = Math.round(sSolCarrelee * prixCarrelageM2);
-    const totalFaienceF = Math.round(sMursFaience * prixFaienceM2);
-
-    const sacsColleRequis = Math.ceil((sSolCarrelee + sMursFaience) / 6.5);
-    const totalColleF = sacsColleRequis * 4500;
-    const sacsJointRequis = Math.ceil((sSolCarrelee + sMursFaience) / 22);
-    const totalJointF = sacsJointRequis * 3500;
-
-    const totalLotCarrelageF = totalCarrelageSolF + totalColleF + totalJointF;
-    const checkSommeCarrelage = totalCarrelageSolF + totalColleF + totalJointF;
-    if (checkSommeCarrelage !== totalLotCarrelageF) throw new Error("IncohÃ©rence somme carrelage");
-
-    const totalEtancheiteF = Math.round(sToitureTerrasse * prixEtancheiteM2);
-    const nbSallesEau = Math.max(2, Math.round(surface / 65));
-    const totalEtancheiteHumideF = nbSallesEau * 120000;
-
-    // Plomberie EU/EP dÃ©composÃ©e
-    const qSanitaires = nbSallesEau * 2;
-    const puSanitaires = 185000;
-    const montantSanitaires = qSanitaires * puSanitaires;
-    const qMitigeurs = nbSallesEau * 3;
-    const puMitigeurs = 45000;
-    const montantMitigeurs = qMitigeurs * puMitigeurs;
-    const qAlim = nbSallesEau;
-    const puAlim = 150000;
-    const montantAlim = qAlim * puAlim;
-    const totalPlomberieF = montantSanitaires + montantMitigeurs + montantAlim;
-
-    // Ã‰lectricitÃ© NF C 15-100 (0,55 pt/mÂ²)
-    const nbPointsElec = Math.round(surface * 0.55);
-    const puPointElec = 16000;
-    const montantPoints = nbPointsElec * puPointElec;
-    const qTableaux = Math.max(1, levels);
-    const puTableaux = 320000;
-    const montantTableaux = qTableaux * puTableaux;
-    const qClim = Math.max(2, Math.round(surface / 45));
-    const puClim = 95000;
-    const montantClim = qClim * puClim;
-    const totalElectriciteF = montantPoints + montantTableaux + montantClim;
-
-    // Menuiseries dÃ©composÃ©es
-    const qPortesInt = Math.max(4, Math.round(surface / 30));
-    const puPorteInt = 85000;
-    const montantPortesInt = qPortesInt * puPorteInt;
-    const qChassisAlu = Math.max(4, Math.round(surface / 25));
-    const puChassisAlu = 160000;
-    const montantChassisAlu = qChassisAlu * puChassisAlu;
-    const qBaiesVitrees = Math.max(1, Math.round(surface / 100));
-    const puBaieVitree = 380000;
-    const montantBaies = qBaiesVitrees * puBaieVitree;
-    const qPorteBlindee = 1;
-    const puPorteBlindee = 450000;
-    const montantPorteBlindee = qPorteBlindee * puPorteBlindee;
-    const totalMenuiseriesF = montantPortesInt + montantChassisAlu + montantBaies + montantPorteBlindee;
-
-    // Peinture dÃ©composÃ©e
-    const sMursEnduit = Math.round(surface * 2.8);
-    const puEnduit = 1600;
-    const montantEnduit = sMursEnduit * puEnduit;
-    const sImpression = sMursEnduit;
-    const puImpression = 950;
-    const montantImpression = sImpression * puImpression;
-    const sPeintureInt = sMursEnduit;
-    const puPeintureInt = 1850;
-    const montantPeintureInt = sPeintureInt * puPeintureInt;
-    const totalPeintureF = montantEnduit + montantImpression + montantPeintureInt;
-
-    const totalSecondOeuvreFournitures = totalLotCarrelageF + totalFaienceF + totalEtancheiteF + totalEtancheiteHumideF + totalPlomberieF + totalElectriciteF + totalMenuiseriesF + totalPeintureF;
-    const totalMainOeuvreF = Math.round(totalSecondOeuvreFournitures * 0.38);
-    const totalTCEFinitions = totalSecondOeuvreFournitures + totalMainOeuvreF;
-
-    // =========================================================================
-    // PAGE 1 : CARRELAGE & Ã‰TANCHÃ‰ITÃ‰ TOITURE
-    // =========================================================================
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie I : RevÃªtements de Sol, FaÃ¯ences Murales & Ã‰tanchÃ©itÃ© Toiture", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
-
-    doc.setFillColor(...COLOR_BG_LIGHT);
-    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
-    doc.setDrawColor(203, 213, 225);
-    doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'D');
-
-    doc.setFont(getFontFamily(doc), 'bold');
-    doc.setFontSize(8.2);
-    doc.setTextColor(...COLOR_NAVY);
-    doc.text("PARAMÃˆTRES DES FINITIONS & SPÃ‰CIFICATIONS DU STANDING", MARGIN_LEFT + 4, 56);
-
-    doc.setFont(getFontFamily(doc), 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(51, 65, 85);
-    doc.text(`MaÃ®tre d'Ouvrage : ${clientName}`, MARGIN_LEFT + 4, 63);
-    doc.text(`TÃ©lÃ©phone : ${clientPhone}`, MARGIN_LEFT + 4, 69);
-    doc.text(`Surface DÃ©veloppÃ©e : env. ${surface} mÂ²`, MARGIN_LEFT + 4, 75);
-    doc.text(`Standing Choisi : ${standing.toUpperCase()}`, MARGIN_LEFT + 4, 81);
-
-    doc.text(`Localisation : ${location}`, 108, 63);
-    doc.text(`RevÃªtement Sol : ${tileType.replace(/_/g, ' ').toUpperCase()}`, 108, 69);
-    doc.text(`Menuiseries : ${joineryType.replace(/_/g, ' ').toUpperCase()}`, 108, 75);
-    doc.text(`DÃ©lai LevÃ©e RÃ©serves : ${delaiReserves} jours calendaires`, 108, 81);
-
-    let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. LOT REVÃŠTEMENTS DE SOL & FAÃENCES MURALES (DTU 52.1)");
-
-    const carrelageRows = [
-      ["Carrelage Sol SÃ©jour & Chambres", `${sSolCarrelee} mÂ²`, `${formatFCFA(prixCarrelageM2)} / mÂ²`, formatFCFA(totalCarrelageSolF), "GrÃ¨s cÃ©rame Ã©maillÃ© antidÃ©rapant R10"],
-      ["FaÃ¯ences Murales Cuisines & Salles d'Eau", `${sMursFaience} mÂ²`, `${formatFCFA(prixFaienceM2)} / mÂ²`, formatFCFA(totalFaienceF), "Carreaux muraux jusqu'Ã  2,10 m de hauteur"],
-      ["Mortier-Colle C2TE SpÃ©cial Fortes Chaleurs", `${sacsColleRequis} Sacs (25 kg)`, "4 500 FCFA / Sac", formatFCFA(totalColleF), "Rendement indicatif : 6,5 mÂ² / sac (double encollage)"],
-      ["Joint de Carrelage Hydrofuge & Anti-Moisissures", `${sacsJointRequis} Sacs (5 kg)`, "3 500 FCFA / Sac", formatFCFA(totalJointF), "Rendement indicatif : 22 mÂ² / sac (largeur 3 mm)"],
-      ["TOTAL FOURNITURES CARRELAGE & FAÃENCE", "-", "-", formatFCFA(totalLotCarrelageF + totalFaienceF), "Fournitures complÃ¨tes avec colles et joints"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['DÃ©signation du Poste', 'Surface / QuantitÃ©', 'Fourniture & Pose', 'Montant Estimatif HT', 'Prescription DTU']],
-      carrelageRows,
-      {
-        0: { cellWidth: 44, fontStyle: 'bold' },
-        1: { cellWidth: 24, halign: 'right' },
-        2: { cellWidth: 26, halign: 'right' },
-        3: { cellWidth: 32, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        4: { cellWidth: 44 }
+    function mapMacroLot(designation, lotName) {
+      const text = `${designation || ''} ${lotName || ''}`.toLowerCase();
+      for (const [mlName, mlData] of Object.entries(macroLots)) {
+        if (mlData.keywords.some(kw => text.includes(kw))) {
+          return mlName;
+        }
       }
-    ));
-
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "II. LOT Ã‰TANCHÃ‰ITÃ‰ TOITURE-TERRASSE & PIÃˆCES HUMIDES (DTU 43.1)");
-
-    const etancheiteRows = [
-      ["Complexe Toiture Terrasse Accessible", `${sToitureTerrasse} mÂ²`, "Bicouche bitumineux Ã©lastomÃ¨re SBS 4 mm", formatFCFA(totalEtancheiteF), "RelevÃ©s d'Ã©tanchÃ©itÃ© 15 cm + chape de protection"],
-      ["Ã‰tanchÃ©itÃ© sous Carrelage Salles d'Eau", `${nbSallesEau} Salles d'eau`, "SystÃ¨me d'Ã‰tanchÃ©itÃ© Liquide (SEL)", formatFCFA(totalEtancheiteHumideF), "Traitement rigoureux des siphons et pieds de cloisons"],
-      ["Forme de Pente & Ã‰vacuations Pluviales", `${sToitureTerrasse} mÂ²`, "Pente minimale 1,5% vers gargouilles", "Inclus gros Å“uvre", "Deux moignons d'Ã©vacuation par terrasse au minimum"],
-      ["TOTAL ESTIMATIF Ã‰TANCHÃ‰ITÃ‰ OUVRAGES", "-", "-", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), "Protection vitale contre les sinistres d'hivernage"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Ouvrage d\'Ã‰tanchÃ©itÃ©', 'Surface TraitÃ©e', 'SystÃ¨me PrÃ©conisÃ©', 'Montant Estimatif HT', 'RÃ¨gle Normative']],
-      etancheiteRows,
-      {
-        0: { cellWidth: 44, fontStyle: 'bold' },
-        1: { cellWidth: 24, halign: 'right' },
-        2: { cellWidth: 32 },
-        3: { cellWidth: 30, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        4: { cellWidth: 40 }
-      }
-    ));
-
-    // =========================================================================
-    // PAGE 2 : PLOMBERIE EU/EP & Ã‰LECTRICITÃ‰
-    // =========================================================================
-    doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie II : Plomberie Sanitaire (EU/EP) & Ã‰lectricitÃ© Basse Tension (NF C 15-100)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
-
-    currentY = 52;
-    drawSectionTitle(doc, currentY, "III. LOT PLOMBERIE SANITAIRE & Ã‰VACUATIONS EU/EP (DTU 60.1)");
-
-    const plomberieRows = [
-      ["Appareils Sanitaires (WC suspendus / Lavabos)", `${qSanitaires} Ensembles`, `${formatFCFA(puSanitaires)} / Ens.`, formatFCFA(montantSanitaires), "Cuvettes cÃ©ramique NF avec mÃ©canisme silencieux"],
-      ["Robinetterie & Mitigeurs CÃ©ramiques", `${qMitigeurs} PiÃ¨ces`, `${formatFCFA(puMitigeurs)} / U`, formatFCFA(montantMitigeurs), "Mitigeurs chromÃ©s cartouche cÃ©ramique 35 mm"],
-      ["RÃ©seaux Alimentation PER/Multicouche", `${qAlim} Salles de bain`, `${formatFCFA(puAlim)} / Ens.`, formatFCFA(montantAlim), "Tubes sous gaine anti-corrosion sans raccord encastrÃ©"],
-      ["Ã‰vacuations Eaux UsÃ©es / Eaux Pluviales (EU/EP)", "Ensemble rÃ©seau", "Forfait calibrÃ©", "Inclus aux postes", "Tubes PVC NF Ã©vacuation de 50, 100 et 110 mm"],
-      ["TOTAL ESTIMATIF PLOMBERIE EU/EP", "-", "-", formatFCFA(totalPlomberieF), "Fourniture des Ã©quipements et collecteurs"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Ã‰quipement Sanitaire / RÃ©seau', 'Quantitatif', 'Prix Unitaire EstimÃ©', 'Montant Total HT', 'Prescription DTU 60.1']],
-      plomberieRows,
-      {
-        0: { cellWidth: 44, fontStyle: 'bold' },
-        1: { cellWidth: 22, halign: 'right' },
-        2: { cellWidth: 26, halign: 'right' },
-        3: { cellWidth: 32, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        4: { cellWidth: 46 }
-      }
-    ));
-
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "IV. LOT Ã‰LECTRICITÃ‰ & COURANTS FAIBLES (NORME NF C 15-100)");
-
-    const electriciteRows = [
-      ["Points Ã‰lectriques CalibrÃ©s (0,55 pt/mÂ²)", `${nbPointsElec} Points`, `${formatFCFA(puPointElec)} / Pt`, formatFCFA(montantPoints), "Prises de courant, Ã©clairages LED, interrupteurs Legrand"],
-      ["Tableaux Divisionnaires avec DiffÃ©rentiels 30mA", `${qTableaux} Tableau(x)`, `${formatFCFA(puTableaux)} / U`, formatFCFA(montantTableaux), "Protection par disjoncteurs magnÃ©tothermiques normalisÃ©s"],
-      ["Lignes Climatisation DÃ©diÃ©es (Courbe C)", `${qClim} Lignes`, `${formatFCFA(puClim)} / Ligne`, formatFCFA(montantClim), "Lignes sÃ©parÃ©es 2.5 mmÂ² sous disjoncteur courbe C 16A/20A"],
-      ["RÃ©seau de Terre & Liaison Ã‰quipotentielle", "1 RÃ©seau complet", "Seuil normatif < 100 Ohms", "Inclus au lot", "Tension de sÃ©curitÃ© 50V max pour locaux humides"],
-      ["TOTAL ESTIMATIF Ã‰LECTRICITÃ‰ NF C 15-100", "-", "-", formatFCFA(totalElectriciteF), "Conforme aux normes de sÃ©curitÃ© Ã©lectrique"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Composant de l\'Installation', 'Quantitatif CalibrÃ©', 'Prix Unitaire EstimÃ©', 'Montant Total HT', 'Exigence Normative']],
-      electriciteRows,
-      {
-        0: { cellWidth: 44, fontStyle: 'bold' },
-        1: { cellWidth: 22, halign: 'right' },
-        2: { cellWidth: 26, halign: 'right' },
-        3: { cellWidth: 32, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        4: { cellWidth: 46 }
-      }
-    ));
-
-    // =========================================================================
-    // PAGE 3 : MENUISERIES & PEINTURE (DÃ‰COMPOSITION Q â€” PU)
-    // =========================================================================
-    doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie III : Menuiseries Int./Ext. (Q â€” PU) & Peintures NormalisÃ©es (DTU 59.1)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
-
-    currentY = 52;
-    drawSectionTitle(doc, currentY, "V. LOT MENUISERIES EXTÃ‰RIEURES & INTÃ‰RIEURES (DÃ‰COMPOSITION Q â€” PU)");
-
-    const menuiseriesRows = [
-      ["Portes IntÃ©rieures Isoplanes GravÃ©es", `${qPortesInt} Blocs`, `${formatFCFA(puPorteInt)} / U`, formatFCFA(montantPortesInt), "Huisseries mÃ©talliques traitÃ©es anti-corrosion + serrures"],
-      ["ChÃ¢ssis Coulissants Alu VitrÃ© (FenÃªtres)", `${qChassisAlu} ChÃ¢ssis`, `${formatFCFA(puChassisAlu)} / U`, formatFCFA(montantChassisAlu), "Alu laquÃ© 1.4 mm avec vitrage Stopsol 6 mm"],
-      ["Grandes Baies VitrÃ©es Coulissantes Salon", `${qBaiesVitrees} Baie(s)`, `${formatFCFA(puBaieVitree)} / U`, formatFCFA(montantBaies), "ProfilÃ©s alu renforcÃ©s et roulements Ã  billes inox Ã©tanches"],
-      ["Porte d'EntrÃ©e Principale SÃ©curisÃ©e", `${qPorteBlindee} Porte`, `${formatFCFA(puPorteBlindee)} / U`, formatFCFA(montantPorteBlindee), "Porte blindÃ©e acier 7 points ou bois massif traitÃ©"],
-      ["TOTAL ESTIMATIF LOT MENUISERIES", "-", "-", formatFCFA(totalMenuiseriesF), "Fourniture et pose complÃ¨te des menuiseries"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Type de Menuiserie', 'Nombre / Dimensions', 'Prix Unitaire EstimÃ©', 'Montant Total HT', 'SpÃ©cification Technique']],
-      menuiseriesRows,
-      {
-        0: { cellWidth: 42, fontStyle: 'bold' },
-        1: { cellWidth: 24, halign: 'right' },
-        2: { cellWidth: 28, halign: 'right' },
-        3: { cellWidth: 32, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        4: { cellWidth: 44 }
-      }
-    ));
-
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VI. LOT PEINTURE, ENDUITS & FINITIONS DÃ‰CORATIVES (DTU 59.1)");
-
-    const peintureRows = [
-      ["Enduit de Rebouchage & Ratissage Complet", `${sMursEnduit} mÂ²`, `${formatFCFA(puEnduit)} / mÂ²`, formatFCFA(montantEnduit), "Deux passes croisÃ©es avec ponÃ§age fin anti-rayures"],
-      ["Couche d'Impression Fixatrice RÃ©gulatrice", `${sImpression} mÂ²`, `${formatFCFA(puImpression)} / mÂ²`, formatFCFA(montantImpression), "Sous-couche hydrofuge acrylique rÃ©gulatrice de fond"],
-      ["Peinture IntÃ©rieure Acrylique VeloutÃ©e", `${sPeintureInt} mÂ²`, `${formatFCFA(puPeintureInt)} / mÂ²`, formatFCFA(montantPeintureInt), "Deux couches lavables haute rÃ©sistance Seigneurie / Astral"],
-      ["TOTAL ESTIMATIF LOT PEINTURE", "-", "-", formatFCFA(totalPeintureF), "Application soignÃ©e sur murs et plafonds"]
-    ];
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Phase & Support de Peinture', 'Surface TraitÃ©e', 'Prix au mÂ² EstimÃ©', 'Montant Total HT', 'Prescription DTU 59.1']],
-      peintureRows,
-      {
-        0: { cellWidth: 44, fontStyle: 'bold' },
-        1: { cellWidth: 24, halign: 'right' },
-        2: { cellWidth: 24, halign: 'right' },
-        3: { cellWidth: 32, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        4: { cellWidth: 46 }
-      }
-    ));
-
-    // =========================================================================
-    // PAGE 4 : RÃ‰CAPITULATIF BUDGÃ‰TAIRE & PV DE RÃ‰CEPTION CONTRADICTOIRE
-    // =========================================================================
-    doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second Å“uvre", "Partie IV : SynthÃ¨se BudgÃ©taire TCE & ProcÃ¨s-Verbal de RÃ©ception Contradictoire (COCC)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
-
-    currentY = 52;
-    drawSectionTitle(doc, currentY, "VII. RÃ‰CAPITULATIF BUDGÃ‰TAIRE GLOBAL SECOND Å“UVRE TCE");
-
-    const recapTceRows = [
-      ["Lot 1 : Carrelages, FaÃ¯ences, Colles & Joints", formatFCFA(totalLotCarrelageF + totalFaienceF), `${Math.round(((totalLotCarrelageF + totalFaienceF) / totalTCEFinitions) * 100)} %`, "GrÃ¨s cÃ©rame, colles C2TE et joints hydrofuges inclus"],
-      ["Lot 2 : Ã‰tanchÃ©itÃ© Toiture Terrasse & PiÃ¨ces Humides", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), `${Math.round(((totalEtancheiteF + totalEtancheiteHumideF) / totalTCEFinitions) * 100)} %`, "Complexe bicouche 4 mm sablÃ© et SEL salles d'eau"],
-      ["Lot 3 : Plomberie Sanitaire & RÃ©seau Ã‰vacuations EU/EP", formatFCFA(totalPlomberieF), `${Math.round((totalPlomberieF / totalTCEFinitions) * 100)} %`, "Sanitaires, mitigeurs et rÃ©seaux sans soudure encastrÃ©e"],
-      ["Lot 4 : Ã‰lectricitÃ©, Tableaux & Lignes Clim (NF C 15-100)", formatFCFA(totalElectriciteF), `${Math.round((totalElectriciteF / totalTCEFinitions) * 100)} %`, `${nbPointsElec} points Ã©lectriques, disjoncteurs et rÃ©seau terre`],
-      ["Lot 5 : Menuiseries IntÃ©rieures & ExtÃ©rieures", formatFCFA(totalMenuiseriesF), `${Math.round((totalMenuiseriesF / totalTCEFinitions) * 100)} %`, "Portes isoplanes, chÃ¢ssis alu et baie vitrÃ©e salon"],
-      ["Lot 6 : Peinture IntÃ©rieure & Enduits RatissÃ©s", formatFCFA(totalPeintureF), `${Math.round((totalPeintureF / totalTCEFinitions) * 100)} %`, "Enduits croisÃ©s et 2 couches acrylique veloutÃ©e"],
-      ["Main d'Å“uvre SpÃ©cialisÃ©e Pose & Finitions", formatFCFA(totalMainOeuvreF), `${Math.round((totalMainOeuvreF / totalTCEFinitions) * 100)} %`, "Artisans qualifiÃ©s avec assurance et respect des DTU"],
-      ["BUDGET TOTAL ESTIMATIF SECOND Å“UVRE TCE", formatFCFA(totalTCEFinitions), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalTCEFinitions / surface))} / mÂ² SDP`]
-    ];
-
-    // VÃ©rification de la somme des lignes rÃ©capitulatives
-    const sommeLignesRecap = (totalLotCarrelageF + totalFaienceF) + (totalEtancheiteF + totalEtancheiteHumideF) + totalPlomberieF + totalElectriciteF + totalMenuiseriesF + totalPeintureF + totalMainOeuvreF;
-    if (sommeLignesRecap !== totalTCEFinitions) throw new Error("IncohÃ©rence somme rÃ©capitulative finitions");
-
-    doc.autoTable(createTableOptions(
-      currentY + TITLE_AFTER_GAP_MM,
-      [['Lot Technique Second Å“uvre', 'Montant Estimatif HT', 'Quote-Part TCE', 'Observations & PrioritÃ©s']],
-      recapTceRows,
-      {
-        0: { cellWidth: 50, fontStyle: 'bold' },
-        1: { cellWidth: 34, halign: 'right', fontStyle: 'bold', textColor: COLOR_NAVY },
-        2: { cellWidth: 24, halign: 'right' },
-        3: { cellWidth: 62 }
-      }
-    ));
-
-    currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VIII. PROCÃˆS-VERBAL DE RÃ‰CEPTION CONTRADICTOIRE DES TRAVAUX (COCC)");
-
-    // Cadre officiel PV de rÃ©ception
-    const pvBoxY = currentY + TITLE_AFTER_GAP_MM;
-    const pvBoxHeight = 56;
-    doc.setFillColor(...COLOR_BG_LIGHT);
-    doc.roundedRect(MARGIN_LEFT, pvBoxY, USABLE_WIDTH, pvBoxHeight, 2, 2, 'F');
-    doc.setDrawColor(203, 213, 225);
-    doc.roundedRect(MARGIN_LEFT, pvBoxY, USABLE_WIDTH, pvBoxHeight, 2, 2, 'D');
-
-    doc.setFont(getFontFamily(doc), 'bold');
-    doc.setFontSize(7.8);
-    doc.setTextColor(...COLOR_NAVY);
-    doc.text("ACTE JURIDIQUE DE RÃ‰CEPTION DES TRAVAUX (ARTICLE 740 DU COCC)", MARGIN_LEFT + 4, pvBoxY + 5.5);
-
-    doc.setFont(getFontFamily(doc), 'normal');
-    doc.setFontSize(6.8);
-    doc.setTextColor(51, 65, 85);
-    doc.text(`MaÃ®tre d'Ouvrage : ${clientName} â€¢ RÃ©f Dossier : ${refDoc} â€¢ Date de visite : ${currentDate}`, MARGIN_LEFT + 4, pvBoxY + 11.5);
-    doc.text(`Entrepreneur / TÃ¢cheron en charge des travaux : ....................................................................................................`, MARGIN_LEFT + 4, pvBoxY + 16.5);
-
-    doc.setFont(getFontFamily(doc), 'bold');
-    doc.text("DÃ‰CISION CONTRADICTOIRE DES PARTIES :", MARGIN_LEFT + 4, pvBoxY + 22.5);
-    doc.setFont(getFontFamily(doc), 'normal');
-    doc.text("[ ] RÃ‰CEPTION PRONONCÃ‰E SANS RÃ‰SERVE : L'ouvrage est conforme aux rÃ¨gles de l'art.", MARGIN_LEFT + 8, pvBoxY + 27.5);
-    doc.text(`[ ] RÃ‰CEPTION PRONONCÃ‰E AVEC RÃ‰SERVES : Les dÃ©sordres consignÃ©s doivent Ãªtre levÃ©s sous ${delaiReserves} jours.`, MARGIN_LEFT + 8, pvBoxY + 32.5);
-
-    doc.text(`DÃ©lai impÃ©ratif accordÃ© Ã  l'entrepreneur pour la levÃ©e intÃ©grale des rÃ©serves : ${delaiReserves} jours calendaires.`, MARGIN_LEFT + 4, pvBoxY + 38.5);
-    doc.text("La retenue de garantie contractuelle de 5% (COCC) demeure consignÃ©e jusqu'au PV de levÃ©e des rÃ©serves.", MARGIN_LEFT + 4, pvBoxY + 43);
-
-    // Signatures
-    doc.setFont(getFontFamily(doc), 'bold');
-    doc.setFontSize(6.8);
-    doc.text("Signature MaÃ®tre d'Ouvrage :", MARGIN_LEFT + 15, pvBoxY + 49);
-    doc.text("Signature Entrepreneur / TÃ¢cheron :", 115, pvBoxY + 49);
-    doc.setDrawColor(148, 163, 184);
-    doc.line(MARGIN_LEFT + 10, pvBoxY + 53, MARGIN_LEFT + 65, pvBoxY + 53);
-    doc.line(110, pvBoxY + 53, 165, pvBoxY + 53);
-  }
-
-  // =========================================================================
-  // EXPORTATION GLOBALE & GESTIONNAIRE DE TÃ‰LÃ‰CHARGEMENT
-  // =========================================================================
-  window.generateProjectPDF = function(projectData) {
-    const jsPDFClass = getJsPDF();
-    if (!jsPDFClass) {
-      alert("Erreur critique : La bibliothÃ¨que jsPDF n'a pas pu Ãªtre chargÃ©e.");
-      return;
+      return 'Second Å“uvre & finitions'; // fallback
     }
 
-    const doc = new jsPDFClass({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
+    // Process each line to calculate Theoretical values
+    const processedLines = lines.map(line => {
+      const designation = line.designation || 'Ligne non spÃ©cifiÃ©e';
+      const qteDevis = parseFloat(line.qty) || 0;
+      const puDevis = parseFloat(line.pu) || 0;
+      const montantDevis = parseFloat(line.total) || 0;
+      totalDevisTTC += montantDevis;
+      
+      const lotName = line.lot || '';
+      const mLot = mapMacroLot(designation, lotName);
+      macroLots[mLot].total += montantDevis;
+
+      let qteTheo = "N/A";
+      let formule = "-";
+      let puRef = "Hors Base";
+      let sourceRef = "-";
+      let montantTheo = null;
+      
+      const text = designation.toLowerCase();
+      
+      // Heuristics for Theoretical Quantities & PU based on Dakar 2026 Mercuriales
+      if (text.includes('bÃ©ton') || text.includes('beton')) {
+        qteTheo = (surface * (levels + 1) * 0.35).toFixed(1);
+        formule = "V = SDP Ã— 0.35 mÂ³/mÂ² (BAEL 91 R99)";
+        puRef = "130000 - 160000";
+        sourceRef = "ANSD IBTP T2 2026";
+        montantTheo = parseFloat(qteTheo) * 145000;
+      } else if (text.includes('maÃ§onnerie') || text.includes('agglo') || text.includes('parpaing')) {
+        qteTheo = (surface * 2.5 * (levels + 1)).toFixed(1);
+        formule = "S = SDP Ã— 2.5 (DTU 20.1)";
+        puRef = "7000 - 9000";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 8000;
+      } else if (text.includes('enduit')) {
+        qteTheo = (surface * 5 * (levels + 1)).toFixed(1);
+        formule = "S â‰ˆ 2 Ã— surf. maÃ§onnerie (DTU 26.2)";
+        puRef = "3500 - 5000";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 4000;
+      } else if (text.includes('Ã©tanchÃ©itÃ©') || text.includes('etancheite')) {
+        qteTheo = (surface / (levels + 1)).toFixed(1);
+        formule = "Emprise toiture estimÃ©e (DTU 43.1)";
+        puRef = "15000 - 20000";
+        sourceRef = "ANSD IBTP T2 2026";
+        montantTheo = parseFloat(qteTheo) * 17500;
+      } else if (text.includes('carrelage')) {
+        qteTheo = (surface * (levels + 1) * 0.9).toFixed(1);
+        formule = "S â‰ˆ SDP Ã— coeff circ.";
+        puRef = "12000 - 18000";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 15000;
+      } else if (text.includes('acier') || text.includes('fer')) {
+        qteTheo = (surface * (levels + 1) * 0.35 * 90).toFixed(1);
+        formule = "Ratio kg/mÂ³ bÃ©ton (Pratique BET)";
+        puRef = "750 - 900";
+        sourceRef = "Mercuriale Dakar 2026";
+        montantTheo = parseFloat(qteTheo) * 800;
+      }
+
+      // Calcul des Ã©carts
+      let ecartPct = 0;
+      let ecartMontant = 0;
+      let verdict = "Non vÃ©rifiable en l'Ã©tat";
+      
+      const diffArith = Math.abs(montantDevis - (qteDevis * puDevis));
+      if (diffArith > 1.0) {
+        verdict = "Erreur arithmÃ©tique";
+      } else if (montantTheo !== null && montantTheo > 0) {
+        ecartMontant = montantDevis - montantTheo;
+        ecartPct = (ecartMontant / montantTheo) * 100;
+        
+        if (montantDevis < montantTheo * 0.5) {
+          verdict = "Sous-Ã©valuÃ© â€” risque qualitÃ©/abandon";
+        } else if (Math.abs(ecartPct) <= 10) {
+          verdict = "CohÃ©rent";
+        } else if (ecartPct > 10 && ecartPct <= 25) {
+          verdict = "Ã€ nÃ©gocier";
+        } else if (ecartPct > 25) {
+          verdict = "SurcoÃ»t significatif";
+        }
+      } else if (qteDevis === 0) {
+        verdict = "Demander le dÃ©tail du forfait";
+      }
+
+      return {
+        num: line.num || '-',
+        designation: designation,
+        u: line.unit || '-',
+        qteDevis: qteDevis,
+        puDevis: puDevis,
+        montantDevis: montantDevis,
+        qteTheo: qteTheo,
+        formule: formule,
+        puRef: puRef,
+        sourceRef: sourceRef,
+        montantTheo: montantTheo,
+        ecart: montantTheo ? (ecartPct > 0 ? '+' : '') + ecartPct.toFixed(1) + '%' : '-',
+        verdict: verdict
+      };
     });
 
-    const data = projectData || {};
-    const service = (data.service || 'esquisse').toLowerCase();
-    const refDoc = 'CS-' + (data.timestamp ? data.timestamp.toString().slice(-6) : Date.now().toString().slice(-6));
-    const currentDate = new Date().toLocaleDateString('fr-FR');
+    const devisAmountTTC = totalDevisTTC;
+    const ratioTTC = (surface > 0) ? (devisAmountTTC / surface) : 0;
 
-    if (service === 'esquisse') {
-      renderEsquisse(doc, data, refDoc, currentDate);
-    } else if (service === 'express') {
-      renderExpress(doc, data, refDoc, currentDate);
-    } else if (service === 'audit') {
-      renderAudit(doc, data, refDoc, currentDate);
-    } else if (service === 'finitions') {
-      renderFinitions(doc, data, refDoc, currentDate);
-    } else {
-      renderOtherServices(doc, data, service, refDoc, currentDate);
+    // --------------
+    // PAGE 1: SYNTHÃˆSE
+    // --------------
+
+    doc.setFontSize(10);
+    doc.setTextColor(11, 19, 37);
+    doc.text(`Projet : ${buildingUsage.toUpperCase()} | Localisation : ${location} | SDP : ${surface} mÂ² | Niveaux : R+${levels}`, 15, 45);
+    doc.text(`Client : ${clientName} | TÃ©lÃ©phone : ${clientPhone}`, 15, 50);
+
+    // Box: RÃ©sultats Globaux
+    doc.setDrawColor(200, 200, 200);
+    doc.setFillColor(250, 250, 250);
+    doc.roundedRect(15, 55, 180, 25, 3, 3, 'FD');
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(11);
+    doc.text("RÃ‰SULTAT GLOBAL DU DEVIS SOUMIS", 20, 65);
+    doc.setFont('NotoSans', 'normal');
+    doc.setFontSize(10);
+    doc.text(`Montant TTC (somme des lignes validÃ©es) : ${formatFCFA(devisAmountTTC)}`, 20, 72);
+    doc.text(`Ratio TTC par mÂ² de SDP : ${formatFCFA(ratioTTC)} / mÂ²`, 110, 72);
+
+    // Box: Ventilation par Macro-Lots (from devis directly)
+    doc.setFillColor(245, 247, 250);
+    doc.roundedRect(15, 85, 180, 50, 3, 3, 'FD');
+    doc.setFont('NotoSans', 'bold');
+    doc.text("RÃ‰PARTITION PAR MACRO-LOT (Issus du Devis)", 20, 95);
+    
+    let yPos = 105;
+    doc.setFont('NotoSans', 'normal');
+    for (const [mlName, mlData] of Object.entries(macroLots)) {
+      doc.text(mlName, 20, yPos);
+      const val = mlData.total > 0 ? formatFCFA(mlData.total) : "Non renseignÃ©";
+      doc.text(val, 140, yPos);
+      yPos += 8;
     }
 
-    // Pagination dynamique X sur Y
-    const totalPages = doc.internal.getNumberOfPages();
-    for (let p = 1; p <= totalPages; p++) {
-      doc.setPage(p);
-      const pageHeight = doc.internal.pageSize.height;
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Note : Ces totaux sont l'agrÃ©gation stricte des lignes du devis que vous avez validÃ©es.", 15, 145);
 
-      doc.setDrawColor(226, 232, 240);
-      doc.setLineWidth(0.4);
-      doc.line(MARGIN_LEFT, pageHeight - 16, CONTENT_RIGHT, pageHeight - 16);
+    // --------------
+    // PAGE 2: TABLEAU LIGNE PAR LIGNE (LANDSCAPE)
+    // --------------
+    doc.addPage('a4', 'landscape');
 
-      doc.setFont(getFontFamily(doc), 'normal');
-      doc.setFontSize(6.8);
-      doc.setTextColor(148, 163, 184);
-      doc.text("ChantierSur.com â€¢ Bureau d'Ã‰tudes NumÃ©rique IndÃ©pendant â€¢ Dakar, RÃ©publique du SÃ©nÃ©gal.", MARGIN_LEFT, pageHeight - 11);
-      if (service === 'finitions') {
-        doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ Normes DTU Second Å“uvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", MARGIN_LEFT, pageHeight - 7);
-      } else {
-        doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ BAEL 91 R99 & Code des Obligations Civiles et Commerciales.", MARGIN_LEFT, pageHeight - 7);
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(11, 19, 37);
+    doc.text("TABLEAU COMPARATIF LIGNE PAR LIGNE", 15, 25);
+    
+    doc.setFontSize(8);
+    doc.setTextColor(80, 80, 80);
+    doc.text("Les quantitÃ©s thÃ©oriques sont des estimations indicatives de prÃ©dimensionnement â€” ce n'est pas un mÃ©trÃ©.", 15, 30);
+    doc.text("Les fourchettes de prix sont indicatives, issues des mercuriales BTP Dakar 2026, Ã  confirmer par des professionnels qualifiÃ©s.", 15, 34);
+
+    const tableBody = processedLines.map(l => [
+      l.num,
+      l.designation.substring(0, 35) + (l.designation.length > 35 ? '...' : ''),
+      l.u,
+      l.qteDevis,
+      formatFCFA(l.puDevis),
+      formatFCFA(l.montantDevis),
+      l.qteTheo,
+      l.formule,
+      l.puRef,
+      l.sourceRef,
+      l.montantTheo ? formatFCFA(l.montantTheo) : '-',
+      l.ecart,
+      l.verdict
+    ]);
+
+    doc.autoTable({
+      startY: 40,
+      head: [['NÂ°', 'DÃ©signation (devis)', 'U', 'QtÃ© Devis', 'PU Devis', 'Montant Devis', 'QtÃ© ThÃ©o.', 'Formule / Norme', 'PU RÃ©f.', 'Source', 'Montant ThÃ©o.', 'Ã‰cart', 'Verdict']],
+      body: tableBody,
+      theme: 'grid',
+      styles: { font: 'NotoSans', fontSize: 7, cellPadding: 1, textColor: [30, 30, 30] },
+      headStyles: { fillColor: [11, 19, 37], textColor: 255, fontStyle: 'bold' },
+      columnStyles: {
+        1: { cellWidth: 35 },
+        7: { cellWidth: 25 },
+        8: { cellWidth: 20 },
+        12: { cellWidth: 25, fontStyle: 'bold' }
+      },
+      didParseCell: function(data) {
+        if (data.section === 'body' && data.column.index === 12) {
+          const v = data.cell.raw;
+          if (v.includes('SurcoÃ»t') || v.includes('Erreur')) {
+            data.cell.styles.textColor = [220, 38, 38]; // Red
+          } else if (v.includes('Sous-Ã©valuÃ©')) {
+            data.cell.styles.textColor = [234, 88, 12]; // Orange
+          } else if (v.includes('CohÃ©rent')) {
+            data.cell.styles.textColor = [5, 150, 105]; // Green
+          }
+        }
       }
+    });
 
-      doc.setFont(getFontFamily(doc), 'bold');
-      doc.setTextColor(...COLOR_NAVY);
-      doc.text(`Page ${p} sur ${totalPages}`, CONTENT_RIGHT, pageHeight - 9, { align: 'right' });
+    // --------------
+    // PAGE 3: RECOMMANDATIONS JURIDIQUES ET Ã‰CHÃ‰ANCIER
+    // --------------
+    doc.addPage('a4', 'portrait');
+
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(11, 19, 37);
+    doc.text("Ã‰CHÃ‰ANCIER DE PAIEMENT NORMALISÃ‰ (TOTAL = 100%)", 15, 45);
+    
+    doc.autoTable({
+      startY: 50,
+      head: [['Tranche', 'Phase d\'avancement', '%']],
+      body: [
+        ['Acompte', 'DÃ©marrage (Installation de chantier)', '15%'],
+        ['Tranche 1', 'AchÃ¨vement des fondations et dalle RDC', '25%'],
+        ['Tranche 2', 'AchÃ¨vement du gros Å“uvre / mise hors d\'eau', '25%'],
+        ['Tranche 3', 'AchÃ¨vement du second Å“uvre', '20%'],
+        ['Tranche 4', 'RÃ©ception provisoire (remise des clÃ©s)', '10%'],
+        ['Retenue', 'Retenue de garantie contractuelle (5 %)', '5%']
+      ],
+      theme: 'grid',
+      headStyles: { fillColor: [40, 50, 80], textColor: 255 },
+      styles: { font: 'NotoSans', fontSize: 10 }
+    });
+
+    // Alert Acompte if needed
+    const acompteDemande = parseFloat(data.devis_acompte) || 0;
+    if (acompteDemande > 20) {
+      doc.setFillColor(254, 242, 242);
+      doc.setDrawColor(252, 165, 165);
+      const finalY = doc.lastAutoTable.finalY + 5;
+      doc.roundedRect(15, finalY, 180, 15, 2, 2, 'FD');
+      doc.setTextColor(220, 38, 38);
+      doc.setFontSize(9);
+      doc.text(`ATTENTION : L'acompte demandÃ© de ${acompteDemande}% dÃ©passe la limite recommandÃ©e (15-20%).`, 20, finalY + 8);
     }
 
-    const fileName = `ChantierSur_${service.toUpperCase()}_${refDoc}.pdf`;
-    doc.save(fileName);
-  };
+    const startYClauses = doc.lastAutoTable.finalY + 25;
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(11, 19, 37);
+    doc.text("LES 5 CLAUSES CONTRACTUELLES RECOMMANDÃ‰ES (Ã  faire valider par un juriste avant signature)", 15, startYClauses);
 
-  // Fonctions de rendu directes pour intÃ©grations et tests
-  window.renderEsquisse = renderEsquisse;
-  window.renderExpress = renderExpress;
-  window.renderAudit = renderAudit;
-  window.renderFinitions = renderFinitions;
-  window.renderOtherServices = renderOtherServices;
-  window.ChantierSurPDF = {
-    renderEsquisse,
-    renderExpress,
-    renderAudit,
-    renderFinitions,
-    renderOtherServices
-  };
+    doc.setFont('NotoSans', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(50, 50, 50);
+    const clauses = [
+      "1. ConformitÃ© : Les travaux doivent respecter les normes (BAEL 91 R99, DTU 20.1, NF C 15-100) sous peine de reprise aux frais de l'entrepreneur.",
+      "2. Prix ferme et dÃ©finitif : Le devis est forfaitaire (Art. L.88 Code de la construction). Aucun supplÃ©ment non approuvÃ© par avenant Ã©crit ne sera payÃ©.",
+      "3. PÃ©nalitÃ©s de retard : FixÃ©es Ã  25 000 FCFA par jour de retard, exigibles aprÃ¨s mise en demeure (Art. 153/154 du COCC).",
+      "4. SÃ©curitÃ© : L'entrepreneur est seul responsable de la sÃ©curitÃ© sur le chantier (DÃ©cret 2022-2295 art. 118-119).",
+      "5. Garanties : Retenue de garantie contractuelle de 5% libÃ©rÃ©e Ã  la levÃ©e des rÃ©serves (si elle est convenue entre les parties)."
+    ];
 
-  // Alias universels
-  window.generatePDF = window.generateProjectPDF;
-})();
+    let cY = startYClauses + 10;
+    clauses.forEach(c => {
+      const lines = doc.splitTextToSize(c, 180);
+      doc.text(lines, 15, cY);
+      cY += (lines.length * 5) + 3;
+    });
 
-
-
-
-
+    // VISA
+    doc.setDrawColor(11, 19, 37);
+    doc.setLineWidth(1);
+    doc.line(15, 260, 195, 260);
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(9);
+    doc.text("VISA TECHNIQUE DU BUREAU D'Ã‰TUDES INDÃ‰PENDANT CHANTIERSUR.COM :", 15, 270);
+    doc.setFont('NotoSans', 'normal');
+    doc.text("Ce document est un audit de cohÃ©rence indicatif. Il ne constitue ni une certification lÃ©gale ni un arbitrage.", 15, 275);
+    doc.text(`GÃ©nÃ©rÃ© le ${currentDate} | RÃ©f: ${refDoc}`, 15, 280);
+  }

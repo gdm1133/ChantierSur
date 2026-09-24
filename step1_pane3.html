@@ -1,0 +1,92 @@
+﻿<div class="step-container step-1 space-y-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">N° du devis</label>
+        <input type="text" name="devis_number" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Date du devis</label>
+        <input type="date" name="devis_date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Entreprise / Tâcheron</label>
+        <input type="text" name="devis_company" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet des travaux</label>
+        <input type="text" name="devis_object" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA / RCCM (si fournis)</label>
+        <input type="text" name="devis_ninea" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
+        <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all">
+          <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
+          <option value="locatif">Immeuble locatif / Appartements</option>
+          <option value="mixte">Mixte (Commerce RDC + Logements)</option>
+          <option value="bureaux">Bureaux tertiaires / Professionnel</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (élévation)</label>
+        <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all" required>
+          <option value="0">RDC Simple (Villa plain-pied)</option>
+          <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+          <option value="2">R+2 (Immeuble R+2)</option>
+          <option value="3">R+3 (Immeuble R+3)</option>
+          <option value="4">R+4 (Immeuble R+4)</option>
+          <option value="5">R+5 (Immeuble R+5)</option>
+          <option value="6">R+6 (Immeuble R+6)</option>
+          <option value="7">R+7 (Immeuble R+7)</option>
+          <option value="8">R+8 (Immeuble R+8)</option>
+          <option value="9">R+9 (Immeuble R+9)</option>
+          <option value="10">R+10 (Tour / Immeuble R+10)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface de plancher - SDP (m²)</label>
+        <input type="number" name="surface" value="2000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
+        <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all" required>
+          <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+            <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Zone rocheuse/marine - Enrobage 4,5 cm)</option>
+            <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+            <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+          </optgroup>
+          <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+            <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Cuvelage/Drainage)</option>
+            <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+          </optgroup>
+          <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+            <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+            <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+          </optgroup>
+          <optgroup label="📍 Régions & Petite Côte">
+            <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+            <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique stable)</option>
+            <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
+          </optgroup>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Pièce jointe (Photo / PDF du devis)</label>
+        <input type="file" name="devis_file" accept=".pdf,image/*" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+      </div>
+    </div>
+    <div class="flex justify-end pt-4">
+      <button type="button" onclick="goToStep(3, 2)" class="px-8 py-3.5 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2">
+        <span>Suivant</span>
+        <span>&rarr;</span>
+      </button>
+    </div>
+  </div>

@@ -1,56 +1,34 @@
 import os
-import glob
 
-replacements = {
-    "MÃ©thodologie": "Méthodologie",
-    "DÃ©tection": "Détection",
-    "matÃ©riaux": "matériaux",
-    "Gros Œuvre": "Gros Œuvre",
-    "Second Œuvre": "Second Œuvre",
-    "LÃ©gales": "Légales",
-    "DonnÃ©es": "Données",
-    "Ã©": "é",
-    "Ã‰": "É",
-    "Ã¨": "è",
-    "Ãˆ": "È",
-    "Ã ": "à",
-    "Ã ": "À",
-    "Ã¢": "â",
-    "Ãª": "ê",
-    "Ã®": "î",
-    "Ã´": "ô",
-    "Ã»": "û",
-    "Ã§": "ç",
-    "Ã‡": "Ç",
-    "â€™": "’",
-    "â€¢": "•",
-    "â€“": "–",
-    "â€”": "—",
-    "Ã": "à", # fallback for leftover Ã which are usually à if not followed by ©
-    "MaÃ®tre dâ€™Ouvrage": "Maître d'Ouvrage",
-    "GÃ©nÃ©ration": "Génération",
-    "tÃ©lÃ©charge": "télécharge",
-    "SÃ©nÃ©gal": "Sénégal",
-    "dÃ©monstration": "démonstration",
-    "ValidÃ©": "Validé",
-    "â ³": "⏳",
-    "PRÃ‰CÃ‰DENT": "PRÉCÉDENT",
-    "EMPÃŠCHE": "EMPÊCHE",
-    "chargÃ©": "chargé"
-}
+file_path = 'app_privee.html'
+with open(file_path, 'r', encoding='utf-8') as f:
+    text = f.read()
 
-files = glob.glob("c:\\Users\\germa\\.gemini\\antigravity-ide\\scratch\\ChantierSur\\*.html")
-files.append("c:\\Users\\germa\\.gemini\\antigravity-ide\\scratch\\ChantierSur\\pdf-generator.js")
-
-for filepath in files:
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
-    # Run user requested exact matches first
+try:
+    # Attempt to reverse double-encoding
+    fixed_text = text.encode('latin1').decode('utf-8')
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(fixed_text)
+    print("Fix successful!")
+except Exception as e:
+    print("Failed to decode automatically:", e)
+    # Manual fallback for common mojibake
+    replacements = {
+        'Ã©': 'é', 'Ã¨': 'è', 'Ã ': 'à', 'Ã¢': 'â', 'Ãª': 'ê', 'Ã®': 'î', 'Ã´': 'ô', 'Ã»': 'û', 'Ã§': 'ç',
+        'Ã‰': 'É', 'Ãˆ': 'È', 'Ã€': 'À', 'â€™': "'", 'Å“': 'œ', 'Â°': '°', 'Ã¯': 'ï',
+        'sǸnǸgal': 'sénégal', 'SǸnǸgal': 'Sénégal', "d'%tudes": "d'Études", 'GǸnǸral': 'Général', 'NumǸrique': 'Numérique',
+        'sǸcurisez': 'sécurisez', 'SǸcurisez': 'Sécurisez', 'SǸcuritǸ': 'Sécurité', 'conformitǸ': 'conformité',
+        'Bǽtissez': 'Bâtissez', 'bǽtiment': 'bâtiment', 'SpǸcificitǸs': 'Spécificités', 'LǸgales': 'Légales',
+        'LǸgal': 'Légal', 'indǸpendante': 'indépendante', 'ingǸnierie': 'ingénierie', 'dǸcision': 'décision',
+        'prǸdimensionnement': 'prédimensionnement', 'rǸgie': 'régie', 'mǸtrǸs': 'métrés', 'financires': 'financières',
+        'gǸnǸrǸs': 'générés', 'dǸvolus': 'dévolus', 'contrle': 'contrôle', 'agrǸǸs': 'agréés', 'dǸpts': 'dépôts',
+        'ǸditǸe': 'éditée', 'propulsǸe': 'propulsée', 'tǸlǸchargement': 'téléchargement', 'dǸmarre': 'démarre',
+        'arrire-plan': 'arrière-plan', 'SǸlectionner': 'Sélectionner', 'dǸtectǸes': 'détectées', 'prǸ-remplies': 'pré-remplies',
+        'RǸsidentiel': 'Résidentiel', 'privǸe': 'privée', 'ǸlǸvation': 'élévation', 'Ǹtage': 'étage',
+        'AnalysǸ': 'Analysé', 'BǸton': 'Béton', 'armǸ': 'armé', 'dosǸ': 'dosé', 'Maonnerie': 'Maçonnerie', 'o': '✓', 'Y': '✓', '?': '!', '': 'à'
+    }
     for bad, good in replacements.items():
-        content = content.replace(bad, good)
-        
-    with open(filepath, 'w', encoding='utf-8') as f:
-        f.write(content)
-        
-print("Text fixed")
+        text = text.replace(bad, good)
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(text)
+    print("Manual fix applied.")
