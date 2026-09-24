@@ -1251,7 +1251,7 @@
     // --------------
     // PAGE 1: SYNTHÃˆSE
     // --------------
-    addPageBorder(doc);
+
     addHeader(doc, "RAPPORT D'AUDIT TECHNIQUE & FINANCIER", "VÃ‰RIFICATION DE COHÃ‰RENCE DU DEVIS", refDoc);
     
     doc.setFontSize(10);
@@ -1294,7 +1294,7 @@
     // PAGE 2: TABLEAU LIGNE PAR LIGNE (LANDSCAPE)
     // --------------
     doc.addPage('a4', 'landscape');
-    addPageBorderLandscape(doc);
+
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(14);
     doc.setTextColor(11, 19, 37);
@@ -1352,7 +1352,7 @@
     // PAGE 3: RECOMMANDATIONS JURIDIQUES ET Ã‰CHÃ‰ANCIER
     // --------------
     doc.addPage('a4', 'portrait');
-    addPageBorder(doc);
+
     addHeader(doc, "CLAUSES CONTRACTUELLES & CONDITIONS DE PAIEMENT", "RECOMMANDATIONS JURIDIQUES", refDoc);
 
     doc.setFont('NotoSans', 'bold');
@@ -1859,5 +1859,6 @@
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
 
 

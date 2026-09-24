@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO & Open Graph / Réseaux Sociaux -->
-  <meta name="keywords" content="construction sénégal, bureau d'études dakar, devis BTP sénégal, norme BAEL 91, ingénierie civile, audit chantier, construire au sénégal diaspora, contre-expertise bâtiment">
+  <meta name="keywords" content="construction sénégal, bureau d'études dakar, devis BTP sénégal, norme BAEL 91, ingénierie civile, audit chantier, construire au sénégal diaspora, Audit bâtiment">
   <meta name="author" content="ChantierSur Technologies SARL">
   
   <meta property="og:title" content="ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal">
-  <meta property="og:description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91, contre-expertise de devis et conformité juridique COCC.">
+  <meta property="og:description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91, Audit de devis et conformité juridique COCC.">
   <meta property="og:image" content="https://chantiersur.com/assets/img/img_bael.jpg">
   <meta property="og:url" content="https://chantiersur.com">
   <meta property="og:type" content="website">
@@ -23,7 +23,7 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
-  <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91 R99, contre-expertise de devis et conformité juridique COCC.">
+  <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91 R99, Audit de devis et conformité juridique COCC.">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -631,10 +631,10 @@
   </div>
 
 </form>
-      <!-- FORMULAIRE 3 : CONTRE-EXPERTISE DEVIS          -->
+      <!-- FORMULAIRE 3 : Audit Devis          -->
       <!-- ============================================== -->
       <!-- ============================================== -->
-<!-- FORMULAIRE 3 : CONTRE-EXPERTISE DEVIS BTP      -->
+<!-- FORMULAIRE 3 : Audit Devis BTP      -->
 <!-- ============================================== -->
 <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
   
@@ -718,7 +718,7 @@
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (élévation)</label>
-        <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all" required>
+        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none transition-all" required>
           <option value="0">RDC Simple (Villa plain-pied)</option>
           <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
           <option value="2">R+2 (Immeuble R+2)</option>
@@ -833,7 +833,7 @@
   <div class="step-container step-5 hidden space-y-6">
     <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl flex items-center justify-between">
       <div>
-        <p class="text-xs uppercase font-bold text-[#0B1325]">Total Forfait Contre-Expertise & Audit</p>
+        <p class="text-xs uppercase font-bold text-[#0B1325]">TOTAL FORFAIT AUDIT</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
           <span id="price-val-3" class="text-2xl font-black text-[#0B1325]">249 000 FCFA</span>
           <span id="price-converted-3" class="text-xs text-amber-800 font-bold">(≈ 227,15 €)</span>
@@ -1148,7 +1148,7 @@
                     <ul class="space-y-2 text-sm text-slate-400">
                         <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Esquisse Faisabilité</a></li>
                         <li><a href="index.html#services-section" class="hover:text-amber-500 transition">BQE Express</a></li>
-                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Contre-Expertise Devis</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Audit Devis</a></li>
                         <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Second Œuvre (Finitions)</a></li>
                     </ul>
                 </div>
@@ -1340,7 +1340,7 @@
       if (!pane) return rule.base;
       const fd = new FormData(pane);
       const levels = parseInt(fd.get('exact_levels') || '0', 10);
-      const extraLevels = Math.max(0, levels - 1);
+      const extraLevels = Math.max(0, levels);
       return rule.base + (extraLevels * rule.perLevelAbove1);
     };
 
@@ -2134,5 +2134,6 @@
   </script>
 </body>
 </html>
+
 
 
