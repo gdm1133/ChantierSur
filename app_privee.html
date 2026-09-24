@@ -2268,7 +2268,7 @@
     document.getElementById('recap-total-ttc').textContent = totalTTC.toLocaleString('fr-FR') + ' FCFA';
   };
 
-  // --- MODULE AUDIT V3.1 : OCR & VALIDATION REEL ---
+  // --- MODULE AUDIT V3.2 : OCR & VALIDATION REEL ---
 
 // Inject OCR libraries
 (function() {
@@ -2282,7 +2282,7 @@
 })();
 
 window.auditOcrLines = [];
-window.auditOcrMetadata = { pages: 0, totalExtrait: 0, totalDoc: 0 };
+window.auditOcrMetadata = { pages: 0, totalExtrait: 0, totalDoc: 0, entreprise: '', date: '', devisNum: '' };
 
 window.triggerFileInput = function(id) {
   document.getElementById(id).click();
@@ -2301,7 +2301,6 @@ window.processTextPaste = function() {
   closeTextModal();
   showLoadingScreen();
   
-  // Simulate processing time for UX
   setTimeout(() => {
     processExtractedText(text, 1);
   }, 500);
@@ -2358,7 +2357,6 @@ function showError(msg) {
   const banner = document.getElementById('ocr-error-banner');
   banner.classList.remove('hidden');
   banner.innerText = msg;
-  // reset inputs
   document.getElementById('ocr-image-input').value = "";
   document.getElementById('ocr-pdf-input').value = "";
 }
@@ -2369,57 +2367,106 @@ window.processExtractedText = function(text, numPages) {
   let currentLot = 'Gros œuvre';
   let totalExtracted = 0;
   
+  let firstValidLine = "";
+  let extractedDate = "";
+  let extractedDevisNum = "";
+  
   lines.forEach((lineText, idx) => {
     lineText = lineText.trim();
     if (!lineText) return;
     
-    if (lineText.length < 50 && (lineText.toUpperCase().includes('LOT') || lineText.toUpperCase() === lineText)) {
-      if (lineText.length > 3) currentLot = lineText; 
+    const lowLine = lineText.toLowerCase();
+    
+    // EXCLUDE HEADERS AND FOOTERS FROM LINES
+    if (lowLine.includes('page ') || lowLine.includes('fcfa') && lowLine.length < 15) return;
+    if (lowLine.includes('ninea') || lowLine.includes('rccm') || lowLine.includes('tva')) return;
+    if (/^devis\s*(n°|num)?\s*[\w\d-]+$/i.test(lowLine)) return;
+    
+    // Metadata parsing
+    if (!firstValidLine && lowLine.length > 3 && !lowLine.includes('devis') && !lowLine.includes('date')) {
+      firstValidLine = lineText; // Usually company name
+    }
+    const dateMatch = lineText.match(/\b\d{2}[\/\.-]\d{2}[\/\.-]\d{4}\b/);
+    if (dateMatch && !extractedDate) extractedDate = dateMatch[0];
+    
+    const devisMatch = lineText.match(/(?:devis|réf|facture)\s*(?:n°|num|:)?\s*([a-zA-Z0-9-]+)/i);
+    if (devisMatch && !extractedDevisNum) extractedDevisNum = devisMatch[1];
+    
+    // Lot detection
+    if (lineText.length < 50 && (lowLine.includes('lot') || lowLine.includes('chapitre') || lineText.toUpperCase() === lineText)) {
+      if (lineText.length > 3 && !lowLine.includes('total') && !lowLine.includes('tva')) {
+        currentLot = lineText; 
+        return; 
+      }
     }
     
+    // Generic line detection (Designation + Numbers)
+    // Looking for lines with at least a price (one big number at the end)
     const numRegex = /([\d\s,\.]+)/g;
     const matches = [...lineText.matchAll(numRegex)].map(m => m[0].replace(/\s/g, '').replace(',', '.')).filter(m => !isNaN(parseFloat(m)) && parseFloat(m) > 0);
     
-    if (matches.length >= 2) {
-      const total = parseFloat(matches[matches.length - 1]);
-      const pu = parseFloat(matches[matches.length - 2]);
-      let q = matches.length >= 3 ? parseFloat(matches[matches.length - 3]) : 1;
+    if (matches.length >= 1) {
+      let total = parseFloat(matches[matches.length - 1]);
+      let pu = 0;
+      let q = 1;
+      let validLine = false;
+      let conf = 'low';
       
-      if (Math.abs((q * pu) - total) < (total * 0.15)) {
+      if (matches.length >= 2) {
+        pu = parseFloat(matches[matches.length - 2]);
+        q = matches.length >= 3 ? parseFloat(matches[matches.length - 3]) : 1;
+        
+        // Strict structure check: q * pu ≈ total
+        if (Math.abs((q * pu) - total) < (total * 0.15)) {
+          validLine = true;
+          conf = 'high';
+        } else {
+          // Permissive: maybe total is just pu and q is 1
+          if (pu > 0 && Math.abs(pu - total) < (total * 0.15)) {
+             q = 1;
+             validLine = true;
+          }
+        }
+      } else if (total > 1000) {
+        // Only one number but it's large, might be a forfait
+        pu = total;
+        q = 1;
+        validLine = true;
+      }
+      
+      if (validLine && !lowLine.includes('total') && !lowLine.includes('net à payer')) {
         let des = lineText;
         matches.forEach(m => des = des.replace(m, ''));
-        des = des.replace(/m2|m3|m²|m³|ml|u|ens|forfait/gi, '').replace(/[^a-zA-ZÀ-ÿ\s-]/g, '').trim(); 
+        des = des.replace(/fcfa|f cfa/gi, '').replace(/m2|m3|m²|m³|ml|u|ens|forfait/gi, '').replace(/[^a-zA-ZÀ-ÿ\s-]/g, '').trim(); 
         
-        let u = 'u';
-        if (/m2|m²/i.test(lineText)) u = 'm²';
-        else if (/m3|m³/i.test(lineText)) u = 'm³';
-        else if (/ml/i.test(lineText)) u = 'ml';
-        else if (/ens|forfait/i.test(lineText)) u = 'forfait';
-        
-        let conf = (des.length > 5 && q > 0 && pu > 0) ? 'high' : 'low';
-        if (des.length < 3) {
-          des = 'illisible';
-          conf = 'low';
+        if (des.length > 3) {
+          let u = 'u';
+          if (/m2|m²/i.test(lineText)) u = 'm²';
+          else if (/m3|m³/i.test(lineText)) u = 'm³';
+          else if (/ml/i.test(lineText)) u = 'ml';
+          else if (/ens|forfait/i.test(lineText)) u = 'forfait';
+          
+          if (des.length < 5) conf = 'low';
+          
+          extractedLines.push({
+            id: Date.now() + idx,
+            lot: currentLot,
+            des: des,
+            u: u,
+            q: q,
+            pu: pu,
+            total: total,
+            conf: conf,
+            status: 'pending'
+          });
+          totalExtracted += total;
         }
-        
-        extractedLines.push({
-          id: Date.now() + idx,
-          lot: currentLot,
-          des: des,
-          u: u,
-          q: q,
-          pu: pu,
-          total: total,
-          conf: conf,
-          status: 'pending'
-        });
-        totalExtracted += total;
       }
     }
   });
   
   // Total doc heuristic
-  const totalDocMatch = text.match(/(?:total|net\s*à\s*payer|montant)[\s\S]{0,50}?([\d\s,\.]+)/i);
+  const totalDocMatch = text.match(/(?:total|net\s*à\s*payer|montant)[\s\S]{0,100}?([\d\s,\.]+)/i);
   let totalDoc = totalExtracted; // fallback
   if (totalDocMatch) {
     const val = parseFloat(totalDocMatch[1].replace(/\s/g, '').replace(',', '.'));
@@ -2427,12 +2474,19 @@ window.processExtractedText = function(text, numPages) {
   }
 
   if (extractedLines.length === 0) {
-    showError("Aucune ligne détectée. Veuillez réessayer avec un document plus lisible ou saisir manuellement.");
+    showError("Aucune ligne détectée. Veuillez réessayer avec un document plus net ou sans ratures.");
     return;
   }
 
   window.auditOcrLines = extractedLines;
-  window.auditOcrMetadata = { pages: numPages, totalExtrait: totalExtracted, totalDoc: totalDoc };
+  window.auditOcrMetadata = { 
+    pages: numPages, 
+    totalExtrait: totalExtracted, 
+    totalDoc: totalDoc,
+    entreprise: firstValidLine.substring(0, 50),
+    date: extractedDate,
+    devisNum: extractedDevisNum
+  };
   
   renderOCRLines();
   document.getElementById('ocr-screen-2').classList.add('hidden');
@@ -2538,11 +2592,16 @@ window.renderOCRLines = function() {
     const ecart = Math.abs(window.auditOcrMetadata.totalExtrait - window.auditOcrMetadata.totalDoc);
     recEl.innerHTML = `
       <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="text-sm text-blue-900">
+        <div class="text-sm text-blue-900 w-full md:w-1/3">
           <p class="font-bold">Réconciliation du document</p>
           <p>${window.auditOcrMetadata.pages} page(s) traitée(s) • ${window.auditOcrLines.length} ligne(s) détectée(s)</p>
         </div>
-        <div class="text-sm text-right">
+        <div class="text-sm text-blue-900 w-full md:w-1/3 border-l border-blue-200 pl-4">
+          <p class="font-bold">Métadonnées détectées</p>
+          <p class="truncate" title="${window.auditOcrMetadata.entreprise}">Entr.: ${window.auditOcrMetadata.entreprise || 'Non détectée'}</p>
+          <p>N° ${window.auditOcrMetadata.devisNum || '-'} • Date: ${window.auditOcrMetadata.date || '-'}</p>
+        </div>
+        <div class="text-sm text-right w-full md:w-1/3 border-l border-blue-200 pl-4">
           <p class="text-blue-900">Total extrait : <span class="font-bold">${formatF(window.auditOcrMetadata.totalExtrait)} FCFA</span></p>
           ${ecart > (window.auditOcrMetadata.totalDoc * 0.05) ? `<p class="text-rose-600 font-bold">Écart avec le document : ${formatF(ecart)} FCFA</p>` : `<p class="text-emerald-600 font-bold">Total cohérent avec le document</p>`}
         </div>
@@ -2567,7 +2626,6 @@ window.updateOCRLine = function(id, field, value) {
        line.total = line.q * line.pu;
     }
     
-    // update totalextrait
     window.auditOcrMetadata.totalExtrait = window.auditOcrLines.reduce((acc, curr) => acc + curr.total, 0);
     renderOCRLines();
   }
@@ -2610,6 +2668,11 @@ window.finishOCRValidation = function() {
   const manualContainer = document.getElementById('devis-lines-container');
   manualContainer.innerHTML = '';
   
+  // Populate metadata to the form
+  const inputs = document.getElementById('audit-manual-form').elements;
+  if(inputs['company_name'] && window.auditOcrMetadata.entreprise) inputs['company_name'].value = window.auditOcrMetadata.entreprise;
+  if(inputs['devis_number'] && window.auditOcrMetadata.devisNum) inputs['devis_number'].value = window.auditOcrMetadata.devisNum;
+  
   window.auditOcrLines.forEach(line => {
     window.addDevisLine();
     const rows = manualContainer.querySelectorAll('.devis-line-item');
@@ -2632,6 +2695,7 @@ window.finishOCRValidation = function() {
 </script>
 </body>
 </html>
+
 
 
 
