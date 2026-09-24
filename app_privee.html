@@ -636,7 +636,7 @@
     <!-- EN-TÊTE & STEPPER (6 étapes) -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-6 gap-4">
       <div>
-        <h3 class="text-xl font-bold text-[#0B1325]">3. Audit & Contre-Expertise de Devis</h3>
+        <h3 class="text-xl font-bold text-[#0B1325]">3. Audit Technique de Devis BTP</h3>
         <p class="text-xs text-slate-700 font-medium mt-0.5">Vérification algorithmique • Base Mercuriale & DTU</p>
       </div>
       <div class="flex items-center space-x-3 overflow-x-auto pb-2 sm:pb-0">
@@ -735,19 +735,19 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Niveaux <span class="text-red-500">*</span></label>
-          <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none" required>
-            <option value="0">RDC Simple</option>
-            <option value="1" selected>R+1</option>
-            <option value="2">R+2</option>
-            <option value="3">R+3</option>
-            <option value="4">R+4</option>
-            <option value="5">R+5</option>
-            <option value="6">R+6</option>
-            <option value="7">R+7</option>
-            <option value="8">R+8</option>
-            <option value="9">R+9</option>
-            <option value="10">R+10</option>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation) <span class="text-red-500">*</span></label>
+          <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+            <option value="0">RDC Simple (Plain-pied)</option>
+            <option value="1" selected>R+1 (Villa duplex)</option>
+            <option value="2">R+2 (Immeuble R+2)</option>
+            <option value="3">R+3 (Immeuble R+3)</option>
+            <option value="4">R+4 (Immeuble R+4)</option>
+            <option value="5">R+5 (Immeuble R+5)</option>
+            <option value="6">R+6 (Immeuble R+6)</option>
+            <option value="7">R+7 (Immeuble R+7)</option>
+            <option value="8">R+8 (Immeuble R+8)</option>
+            <option value="9">R+9 (Immeuble R+9)</option>
+            <option value="10">R+10 (Tour R+10)</option>
           </select>
         </div>
         
@@ -972,8 +972,8 @@
         <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
           <svg class="w-8 h-8 text-[#0B1325]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
         </div>
-        <h3 class="text-xl font-bold text-slate-900 mb-2">Paiement Scuris</h3>
-        <p class="text-sm text-slate-600 mb-6">Validez votre paiement pour lancer l'analyse algorithmique de votre devis. 100% automatis, rapport immdiat.</p>
+        <h3 class="text-xl font-bold text-slate-900 mb-2">Paiement Sécurisé</h3>
+        <p class="text-sm text-slate-600 mb-6">Validez votre paiement pour déclencher l'analyse algorithmique de votre devis. 100% automatisé — rapport disponible immédiatement.</p>
         
         <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100 mb-6">
           <div class="text-sm text-slate-500 uppercase font-bold tracking-wider mb-2">Tarif de l'Audit BTP (Base sur R+<span class="step-5-levels">1</span>)</div>
@@ -983,7 +983,7 @@
 
         <button type="button" onclick="window.initiatePayment(3, 'audit')" class="w-full bg-[#0B1325] text-white py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all transform hover:scale-[1.02] shadow-xl flex items-center justify-center">
           <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-          Payer et Gnrer le Rapport
+          &#x2714; Payer et Générer le Rapport
         </button>
       </div>
       <div class="flex justify-start pt-6">
@@ -997,12 +997,12 @@
         <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-sm mb-6">
           <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
         </div>
-        <h3 class="text-2xl font-bold text-slate-900 mb-3">Audit Gnr avec Succs</h3>
-        <p class="text-slate-600 mb-8 leading-relaxed">Votre rapport d'audit dtaill incluant les contre-calculs, la dtection d'carts et l'analyse contractuelle est prt au tlchargement.</p>
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">Audit Généré avec Succès</h3>
+        <p class="text-slate-600 mb-8 leading-relaxed">Votre rapport d'audit détaillé — vérification arithmétique, analyse des prix et analyse contractuelle — est prêt au téléchargement.</p>
         
-        <button type="button" onclick="window.downloadPdf(3)" class="w-full sm:w-auto bg-[#0B1325] text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all transform hover:-translate-y-1 shadow-xl flex items-center justify-center mx-auto group">
+        <button type="button" id="btn-audit-download" onclick="window.triggerAuditDownload()" class="w-full sm:w-auto bg-[#0B1325] text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all transform hover:-translate-y-1 shadow-xl flex items-center justify-center mx-auto group">
           <svg class="w-6 h-6 mr-3 transform group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          Tlcharger mon Rapport PDF
+          &#x2B07; Télécharger mon Rapport PDF
         </button>
       </div>
     </div>
@@ -2023,7 +2023,7 @@
       </div>
 
       <div class="w-full md:w-1/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Qté</label>
+        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Quantité</label>
         <input type="number" step="0.01" class="dl-qty w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" value="0" oninput="window.recalcDevisLine(this)">
       </div>
 
@@ -2097,6 +2097,40 @@
     });
     return result;
   };
+      // TÉLÉCHARGEMENT AUDIT : récupère les données stockées et lance le PDF
+    window.triggerAuditDownload = function() {
+      try {
+        const saved = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
+        let data = saved ? JSON.parse(saved) : null;
+        if (!data) {
+          data = {
+            service: 'audit',
+            client_name: 'Client non défini',
+            client_email: '',
+            client_phone: '770000000',
+            phone_prefix: '+221',
+            company_name: 'Non renseigné',
+            project_location: 'Dakar - Zone Urbaine',
+            surface: 200,
+            exact_levels: 1,
+            devis_lines: [],
+            tva_applicable: 'oui',
+            total_ht_indique: 0,
+            total_ttc_indique: 0
+          };
+        }
+        data.service = 'audit';
+        const gen = window.generateProjectPDF || window.generatePDF;
+        if (typeof gen === 'function') {
+          gen(data);
+        } else {
+          alert('Erreur : le moteur de génération PDF n'a pas pu être chargé. Rechargez la page.');
+        }
+      } catch(e) {
+        console.error('Erreur téléchargement audit:', e);
+        alert('Erreur lors de la génération du PDF : ' + e.message);
+      }
+    };
   window.populateAuditRecap = function() {
     const tbody = document.getElementById('recap-table-body');
     if (!tbody) return;
@@ -2136,6 +2170,10 @@
   </script>
 </body>
 </html>
+
+
+
+
 
 
 

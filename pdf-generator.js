@@ -1116,60 +1116,59 @@
 function renderAudit(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
 
-    // Extraction des données du client
-    const clientName = (data.client_name || 'Maitre d\'Ouvrage').trim();
-    const rawPrefix = (data.phone_prefix || '+221').trim();
-    let rawPhone = (data.client_phone || '770000000').toString().trim();
+    // ── Extraction des données du client ──
+    const clientName = (data.client_name || "Maitre d'Ouvrage").trim();
+    const rawPrefix  = (data.phone_prefix || '+221').trim();
+    let   rawPhone   = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
-    const clientPhone = ${rawPrefix} ;
+    const clientPhone = `${rawPrefix} ${rawPhone}`;
 
-    // Données de l'entreprise
-    const companyName = data.company_name || 'Entreprise Non Identifiée';
-    const companyNinea = data.company_ninea || '';
-    const companyRccm = data.company_rccm || '';
-    const companyPhone = data.company_phone || '';
+    // ── Entreprise ──
+    const companyName    = data.company_name    || 'Entreprise Non Identifiée';
+    const companyNinea   = data.company_ninea   || '';
+    const companyRccm    = data.company_rccm    || '';
+    const companyPhone2  = data.company_phone   || '';
     const companyAddress = data.company_address || '';
 
-    // Données du projet
-    const devisObjet = data.devis_objet || 'Non précisé';
-    const devisNumber = data.devis_number || 'Non précisé';
-    const devisDate = data.devis_date || currentDate;
-    const buildingUsage = data.building_usage || 'unifamilial';
+    // ── Projet & devis ──
+    const devisObjet      = data.devis_objet      || 'Non précisé';
+    const devisNumber     = data.devis_number     || 'Non précisé';
+    const devisDate       = data.devis_date       || currentDate;
+    const buildingUsage   = data.building_usage   || 'unifamilial';
     const projectLocation = data.project_location || 'Dakar - Zone Urbaine';
-    const sdp = parseFloat(data.surface) || 0;
-    const levels = parseInt(data.exact_levels || '1', 10);
+    const sdp             = parseFloat(data.surface)      || 0;
+    const levels          = parseInt(data.exact_levels || '1', 10);
 
-    // Lignes du devis
+    // ── Lignes du devis ──
     let rawLines = data.devis_lines || [];
     if (typeof rawLines === 'string') {
         try { rawLines = JSON.parse(rawLines); } catch (e) { rawLines = []; }
     }
-    
-    // Conditions contractuelles
-    const tvaApplicable = data.tva_applicable || 'oui';
-    const totalHtIndique = parseFloat(data.total_ht_indique) || 0;
-    const totalTtcIndique = parseFloat(data.total_ttc_indique) || 0;
-    const prixFerme = data.prix_ferme || 'non_precise';
-    const validiteDevis = data.validite_devis || 'Non précisée';
-    const delaiExecution = data.delai_execution || 'Non précisé';
-    const acomptePct = parseFloat(data.acompte_pct) || 0;
-    const echeancier = data.echeancier || 'non_precise';
-    const retenueGarantie = parseFloat(data.retenue_garantie) || 0;
-    const penalites = data.penalites || 'non_precise';
-    const avenants = data.avenants || 'non_precise';
-    const assurances = data.assurances || 'non_precise';
-    const montantLettres = data.montant_lettres || 'non';
 
-    // Calculs globaux
+    // ── Conditions contractuelles ──
+    const tvaApplicable   = data.tva_applicable   || 'oui';
+    const totalHtIndique  = parseFloat(data.total_ht_indique)  || 0;
+    const totalTtcIndique = parseFloat(data.total_ttc_indique) || 0;
+    const prixFerme       = data.prix_ferme       || 'non_precise';
+    const validiteDevis   = data.validite_devis   || 'Non précisée';
+    const delaiExecution  = data.delai_execution  || 'Non précisé';
+    const acomptePct      = parseFloat(data.acompte_pct)      || 0;
+    const echeancier      = data.echeancier       || 'non_precise';
+    const retenueGarantie = parseFloat(data.retenue_garantie) || 0;
+    const penalites       = data.penalites        || 'non_precise';
+    const avenants        = data.avenants         || 'non_precise';
+    const assurances      = data.assurances       || 'non_precise';
+    const montantLettres  = data.montant_lettres  || 'non';
+
+    // ── Calculs globaux ──
     let totalHtCalcule = 0;
     const computedLines = rawLines.map(line => {
-        const u = line.u || '';
+        const u   = line.u   || '';
         const des = line.des || '';
         const nat = line.nat || 'Fourniture et pose';
         const lot = line.lot || '';
-        
-        let q = parseFloat(line.q) || 0;
-        let pu = parseFloat(line.pu) || 0;
+        let q   = parseFloat(line.q)   || 0;
+        let pu  = parseFloat(line.pu)  || 0;
         let total = parseFloat(line.total) || 0;
 
         if (u === 'forfait') {
@@ -1182,297 +1181,318 @@ function renderAudit(doc, data, refDoc, currentDate) {
         }
     });
 
-    const tvaPct = 0.18;
-    const tvaCalculee = tvaApplicable === 'oui' ? Math.round(totalHtCalcule * tvaPct) : 0;
+    const tvaPct          = 0.18;
+    const tvaCalculee     = tvaApplicable === 'oui' ? Math.round(totalHtCalcule * tvaPct) : 0;
     const totalTtcCalcule = totalHtCalcule + tvaCalculee;
+
+    const fmt = (n) => n.toLocaleString('fr-FR');
 
     let y = 15;
     const leftMargin = 15;
+    const rightMargin = 15;
     const pageWidth = 210;
+    const usableWidth = pageWidth - leftMargin - rightMargin;
 
-    // Helper: Add page with footer
+    // ── Helper : nouvelle page ──
     const addPage = () => {
-        const pageNum = doc.internal.getNumberOfPages();
-        doc.setFont('NotoSans', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(100, 100, 100);
-        doc.text(ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal. Page \ sur {total_pages_count_string}, pageWidth / 2, 287, { align: 'center' });
         doc.addPage();
         y = 20;
     };
 
-    // Cartouche haut de page
+    // ── En-tête cartouche ──
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(11, 19, 37);
     doc.text('ChantierSur.com', leftMargin, y);
     doc.setFont('NotoSans', 'normal');
-    doc.text(Dossier : \ • Date : \, pageWidth - leftMargin, y, { align: 'right' });
+    doc.text(`Dossier : ${refDoc}  |  Date : ${currentDate}`, pageWidth - rightMargin, y, { align: 'right' });
     y += 6;
     doc.setFont('NotoSans', 'bold');
     doc.setTextColor(245, 158, 11);
-    doc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", leftMargin, y);
-    y += 6;
+    doc.text("BUREAU D'ÉTUDES NUMÉRIQUE INDÉPENDANT  •  AUDIT TECHNIQUE BTP — SÉNÉGAL", leftMargin, y);
+    y += 5;
     doc.setTextColor(100, 100, 100);
     doc.setFont('NotoSans', 'normal');
-    doc.text(Titulaire : \, leftMargin, y);
-    
-    // Titre
+    doc.setFontSize(8);
+    doc.text(`Maître d'Ouvrage : ${clientName}  —  Tél : ${clientPhone}`, leftMargin, y);
+
+    // ── Titre principal ──
     y += 12;
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(18);
+    doc.setFontSize(17);
     doc.setTextColor(11, 19, 37);
-    doc.text('## RAPPORT D\'AUDIT DE DEVIS', leftMargin, y);
-    y += 8;
-    
-    // Disclaimer
+    doc.text('RAPPORT D\'AUDIT TECHNIQUE DE DEVIS BTP', leftMargin, y);
+    y += 7;
+
     doc.setFont('NotoSans', 'italic');
-    doc.setFontSize(8);
+    doc.setFontSize(7.5);
     doc.setTextColor(150, 150, 150);
-    doc.text('Outil numérique d\'aide à la décision. Analyse automatisée indicative (sans valeur d\'expertise judiciaire).', leftMargin, y);
+    doc.text("Outil d'aide à la décision. Analyse automatisée indicative — sans valeur d'expertise judiciaire. Document confidentiel, usage exclusif du destinataire désigné.", leftMargin, y);
     y += 10;
 
+    // ── Bandeau confidentialité ──
     const drawConfidentialBanner = () => {
         doc.setFillColor(248, 250, 252);
-        doc.rect(leftMargin, y, pageWidth - 30, 10, 'F');
+        doc.rect(leftMargin, y, usableWidth, 9, 'F');
         doc.setFont('NotoSans', 'italic');
-        doc.setFontSize(8);
+        doc.setFontSize(7.5);
         doc.setTextColor(71, 85, 105);
-        doc.text(DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D'OUVRAGE : \ • TÉL : \, leftMargin + 2, y + 6);
-        y += 15;
+        doc.text(`DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL  —  MAÎTRE D'OUVRAGE : ${clientName}  •  TÉL : ${clientPhone}`, leftMargin + 2, y + 6);
+        y += 14;
     };
 
-    const drawTable = (head, body) => {
+    // ── Helper tableaux ──
+    const drawTable = (head, body, colStyles) => {
         doc.autoTable({
             startY: y,
             head: head,
             body: body,
             theme: 'grid',
-            headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 9 },
-            bodyStyles: { font: 'NotoSans', fontSize: 9, textColor: [51, 65, 85] },
+            headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 8.5 },
+            bodyStyles: { font: 'NotoSans', fontSize: 8.5, textColor: [51, 65, 85] },
             alternateRowStyles: { fillColor: [248, 250, 252] },
-            styles: { cellPadding: 4 },
-            columnStyles: {
-                0: { fontStyle: 'bold', cellWidth: 50 },
+            styles: { cellPadding: 3.5, overflow: 'linebreak' },
+            columnStyles: colStyles || {
+                0: { fontStyle: 'bold', cellWidth: 52 },
                 1: { cellWidth: 65 },
-                2: { cellWidth: 65 }
+                2: { cellWidth: 63 }
             },
-            margin: { left: leftMargin, right: 15 }
+            margin: { left: leftMargin, right: rightMargin }
         });
-        y = doc.lastAutoTable.finalY + 12;
+        y = doc.lastAutoTable.finalY + 10;
     };
 
-    // PARTIE I
+    // ═══════════════════════════════════════════════════════════
+    // PARTIE I — Identification du devis & de l'entreprise
+    // ═══════════════════════════════════════════════════════════
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
+    doc.setFontSize(11.5);
     doc.setTextColor(11, 19, 37);
-    doc.text('Partie I : Identification du devis & de l\'entreprise', leftMargin, y);
-    y += 6;
+    doc.text('Partie I — Identification du devis & de l\'entreprise', leftMargin, y);
+    y += 5;
     drawConfidentialBanner();
 
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.text('I. Devis analysé', leftMargin, y);
-    y += 4;
+    y += 3;
     drawTable(
         [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
         [
-            ['Objet', devisObjet, 'Cadre principal de l\'analyse'],
-            ['Date & Référence', \ / N° \, 'Traçabilité documentaire'],
-            ['Bâtiment & Gabarit', \ (Niveaux: R+\), Base de calcul pour les ratios (SDP: \ m²)],
-            ['Localisation', projectLocation, 'Influence sur le coût des matériaux']
+            ['Objet du devis', devisObjet, 'Cadre principal de l\'analyse'],
+            ['Date & Référence', `${devisDate}  /  N° ${devisNumber}`, 'Traçabilité documentaire'],
+            ['Bâtiment & Gabarit', `${buildingUsage} — R+${levels}`, `Base de calcul pour les ratios (SDP indiquée : ${sdp} m²)`],
+            ['Localisation du projet', projectLocation, 'Influence sur le coût des matériaux et de la main-d\'œuvre']
         ]
     );
 
-    doc.text('II. Entreprise & existence légale', leftMargin, y);
-    y += 4;
-    let rccmStatus = companyRccm ? 'Renseigné' : 'Non renseigné';
-    let nineaStatus = companyNinea ? 'Renseigné' : 'Drapeau : Entreprise non identifiée. Existence légale à vérifier.';
-    drawTable(
-        [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
-        [
-            ['Nom Entreprise', companyName, 'Identité commerciale'],
-            ['NINEA', companyNinea || 'N/A', nineaStatus],
-            ['RCCM', companyRccm || 'N/A', rccmStatus],
-            ['Téléphone / Adresse', \ / \, 'Vérification de l\'ancrage physique']
-        ]
-    );
-
-    // PARTIE II
     if (y > 240) addPage();
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
+    doc.setFontSize(10);
+    doc.text('II. Entreprise & existence légale', leftMargin, y);
+    y += 3;
+    const rccmStatus  = companyRccm  ? 'Renseigné — vérifier la validité au RCCM Sénégal.' : 'Non renseigné — demander le numéro RCCM avant signature.';
+    const nineaStatus = companyNinea ? 'Renseigné — vérifier l\'activité sur le portail DGID.' : 'Absent — signale une entreprise potentiellement non immatriculée. Risque fiscal.';
+    drawTable(
+        [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
+        [
+            ['Nom de l\'entreprise / artisan', companyName, 'Identité commerciale déclarée'],
+            ['NINEA (Identifiant fiscal)', companyNinea || 'Non fourni', nineaStatus],
+            ['RCCM (Registre Commerce)', companyRccm || 'Non fourni', rccmStatus],
+            ['Téléphone / Adresse', `${companyPhone2}  —  ${companyAddress || 'Non précisée'}`, 'Vérification de l\'ancrage physique de l\'entreprise']
+        ]
+    );
+
+    // ═══════════════════════════════════════════════════════════
+    // PARTIE II — Contrôle arithmétique du devis
+    // ═══════════════════════════════════════════════════════════
+    if (y > 230) addPage();
+    doc.setFont('NotoSans', 'bold');
+    doc.setFontSize(11.5);
     doc.setTextColor(11, 19, 37);
-    doc.text('Partie II : Contrôle arithmétique du devis', leftMargin, y);
-    y += 6;
+    doc.text('Partie II — Contrôle arithmétique du devis', leftMargin, y);
+    y += 5;
     drawConfidentialBanner();
 
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('III. Vérification arithmétique ligne par ligne', leftMargin, y);
-    y += 4;
-    
+    doc.setFontSize(10);
+    doc.text('III. Vérification arithmétique ligne par ligne (Q × PU = Total)', leftMargin, y);
+    y += 3;
+
     const lignesBody = computedLines.map(l => {
         if (l.status === 'forfait') {
-            return [l.des, 'Forfait', 'Demander le détail du forfait'];
+            return [l.lot || '—', l.des, 'Montant forfaitaire', `${fmt(l.total)} FCFA`, 'Demander le détail (Q × PU) pour ce forfait'];
         }
-        return [l.des, \ \ x \ FCFA, = \ FCFA calculé];
+        return [l.lot || '—', l.des, `${l.q} ${l.u} × ${fmt(l.pu)} FCFA`, `${fmt(l.total)} FCFA`, 'Calculé par ChantierSur'];
     });
 
     doc.autoTable({
         startY: y,
-        head: [['Désignation', 'Détail (Qté x PU)', 'Montant Calculé']],
-        body: lignesBody,
+        head: [['Lot', 'Désignation', 'Détail (Qté × PU)', 'Montant Calculé', 'Observation']],
+        body: lignesBody.length > 0 ? lignesBody : [['—', 'Aucune ligne saisie', '—', '—', 'Veuillez saisir les lignes du devis']],
         theme: 'grid',
-        headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 9 },
-        bodyStyles: { font: 'NotoSans', fontSize: 8 },
+        headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 8 },
+        bodyStyles: { font: 'NotoSans', fontSize: 8, textColor: [51, 65, 85] },
         alternateRowStyles: { fillColor: [248, 250, 252] },
-        styles: { cellPadding: 3 },
-        margin: { left: leftMargin, right: 15 }
+        styles: { cellPadding: 3, overflow: 'linebreak' },
+        columnStyles: {
+            0: { cellWidth: 28 },
+            1: { cellWidth: 52, fontStyle: 'bold' },
+            2: { cellWidth: 42, halign: 'right' },
+            3: { cellWidth: 28, halign: 'right', fontStyle: 'bold', textColor: [11, 19, 37] },
+            4: { cellWidth: 30 }
+        },
+        margin: { left: leftMargin, right: rightMargin }
     });
-    y = doc.lastAutoTable.finalY + 12;
+    y = doc.lastAutoTable.finalY + 10;
 
     if (y > 240) addPage();
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('IV. Cohérence des totaux HT, TVA, TTC', leftMargin, y);
-    y += 4;
-    
-    const diffHt = totalHtIndique > 0 ? (totalHtIndique - totalHtCalcule) : 0;
-    const diffHtStr = diffHt !== 0 ? Écart de \ FCFA : 'Conforme aux calculs';
+    doc.setFontSize(10);
+    doc.text('IV. Cohérence des totaux HT, TVA et TTC', leftMargin, y);
+    y += 3;
 
+    const diffHt  = totalHtIndique  > 0 ? (totalHtIndique  - totalHtCalcule)  : 0;
     const diffTtc = totalTtcIndique > 0 ? (totalTtcIndique - totalTtcCalcule) : 0;
-    const diffTtcStr = diffTtc !== 0 ? Écart de \ FCFA : 'Conforme aux calculs';
+    const diffHtStr  = diffHt  !== 0 ? `Écart de ${fmt(Math.abs(diffHt))} FCFA (${diffHt > 0 ? 'devis supérieur' : 'devis inférieur'} au calculé)` : 'Conforme aux calculs ligne à ligne';
+    const diffTtcStr = diffTtc !== 0 ? `Écart de ${fmt(Math.abs(diffTtc))} FCFA (${diffTtc > 0 ? 'devis supérieur' : 'devis inférieur'} au calculé)` : 'Conforme aux calculs ligne à ligne';
 
     drawTable(
         [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
         [
-            ['Total HT (Indiqué vs Calculé)', Ind: \ / Calc: \, diffHtStr],
-            ['TVA Applicable', tvaApplicable === 'oui' ? '18%' : 'Non (0%)', tvaApplicable === 'oui' ? Calc: \ FCFA : 'Vérifier l\'exonération'],
-            ['Total TTC (Indiqué vs Calculé)', Ind: \ / Calc: \, diffTtcStr]
+            ['Total HT — Indiqué vs Calculé', `Ind. : ${fmt(totalHtIndique)} FCFA  /  Calc. : ${fmt(totalHtCalcule)} FCFA`, diffHtStr],
+            ['TVA applicable', tvaApplicable === 'oui' ? '18% (régime normal)' : 'Non appliquée (0%)', tvaApplicable === 'oui' ? `TVA calculée : ${fmt(tvaCalculee)} FCFA` : 'Vérifier si l\'entreprise bénéficie d\'une exonération légale.'],
+            ['Total TTC — Indiqué vs Calculé', `Ind. : ${fmt(totalTtcIndique)} FCFA  /  Calc. : ${fmt(totalTtcCalcule)} FCFA`, diffTtcStr]
         ]
     );
 
-    // PARTIE III
-    if (y > 240) addPage();
+    // ═══════════════════════════════════════════════════════════
+    // PARTIE III — Analyse des prix & des quantités
+    // ═══════════════════════════════════════════════════════════
+    if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
+    doc.setFontSize(11.5);
     doc.setTextColor(11, 19, 37);
-    doc.text('Partie III : Analyse des prix & des quantités', leftMargin, y);
-    y += 6;
+    doc.text('Partie III — Analyse des prix & des quantités', leftMargin, y);
+    y += 5;
     drawConfidentialBanner();
 
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('V. Comparaison des prix aux références & VI. Plausibilité', leftMargin, y);
-    y += 4;
-    
+    doc.setFontSize(10);
+    doc.text('V. Comparaison des prix unitaires aux références mercuriales (Dakar, 2026)', leftMargin, y);
+    y += 3;
+
     const analysePrixBody = computedLines.map(l => {
         if (l.status === 'forfait') {
-            return [l.des, 'Montant Forfaitaire', 'Non vérifiable en l\'état — demander le détail'];
+            return [l.des, 'Montant forfaitaire', 'Demander obligatoirement le détail Q × PU avant acceptation.'];
         }
-        return [l.des, PU: \ FCFA, 'Comparaison indicative (Dakar 2026). Estimations indicatives de prédimensionnement — ce n\'est pas un métré.'];
+        return [l.des, `PU indiqué : ${fmt(l.pu)} FCFA/${l.u}`, 'Comparaison indicative avec la mercuriale Dakar 2026 — à valider par un technicien sur site.'];
     });
-    
+
     doc.autoTable({
         startY: y,
-        head: [['Élément / Clause', 'Valeur / Constat', 'Justification / Point de vigilance']],
-        body: analysePrixBody,
+        head: [['Désignation', 'Prix Unitaire Indiqué', 'Point de vigilance / Observation']],
+        body: analysePrixBody.length > 0 ? analysePrixBody : [['—', '—', 'Aucune ligne à analyser']],
         theme: 'grid',
-        headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 9 },
-        bodyStyles: { font: 'NotoSans', fontSize: 8 },
+        headStyles: { fillColor: [11, 19, 37], textColor: [255, 255, 255], font: 'NotoSans', fontStyle: 'bold', fontSize: 8 },
+        bodyStyles: { font: 'NotoSans', fontSize: 8, textColor: [51, 65, 85] },
         alternateRowStyles: { fillColor: [248, 250, 252] },
-        styles: { cellPadding: 3 },
-        margin: { left: leftMargin, right: 15 }
+        styles: { cellPadding: 3, overflow: 'linebreak' },
+        columnStyles: {
+            0: { cellWidth: 68, fontStyle: 'bold' },
+            1: { cellWidth: 44, halign: 'right' },
+            2: { cellWidth: 68 }
+        },
+        margin: { left: leftMargin, right: rightMargin }
     });
-    y = doc.lastAutoTable.finalY + 12;
+    y = doc.lastAutoTable.finalY + 10;
 
-    // PARTIE IV
-    if (y > 240) addPage();
+    // ═══════════════════════════════════════════════════════════
+    // PARTIE IV — Analyse contractuelle & recommandations
+    // ═══════════════════════════════════════════════════════════
+    if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(12);
+    doc.setFontSize(11.5);
     doc.setTextColor(11, 19, 37);
-    doc.text('Partie IV : Analyse contractuelle & recommandations', leftMargin, y);
-    y += 6;
+    doc.text('Partie IV — Analyse contractuelle & recommandations', leftMargin, y);
+    y += 5;
     drawConfidentialBanner();
 
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('VII. Conditions contractuelles & VIII. Drapeaux rouges', leftMargin, y);
-    y += 4;
+    doc.setFontSize(10);
+    doc.text('VI. Clauses contractuelles — État & Points de vigilance', leftMargin, y);
+    y += 3;
 
-    const contractRows = [];
-    contractRows.push(['Prix (Ferme / Révisable)', prixFerme, prixFerme === 'ferme' ? 'Sécurisant pour le client' : 'Exiger un indice clair si révisable.']);
-    contractRows.push(['Validité', validiteDevis, 'Vérifier la période de validité des prix matériaux.']);
-    contractRows.push(['Délai d\'exécution', delaiExecution, 'Indispensable d\'adosser le démarrage à la signature ou acompte.']);
-    
-    let acompteRemarque = 'Standard';
-    if (acomptePct >= 30) acompteRemarque = 'Acompte élevé — à négocier et à adosser à des phases d\'avancement vérifiables.';
-    contractRows.push(['Acompte demandé', \%, acompteRemarque]);
-
-    contractRows.push(['Échéancier', echeancier === 'oui' ? 'Adossé à l\'avancement' : 'Non adossé à l\'avancement', echeancier === 'oui' ? 'Conforme aux bonnes pratiques' : 'Drapeau : Payer uniquement à l\'avancement réel constaté.']);
-    contractRows.push(['Retenue de garantie', \%, retenueGarantie >= 5 ? 'Protecteur pour la levée des réserves.' : 'Il est recommandé de retenir 5% payable à réception sans réserves.']);
-    contractRows.push(['Pénalités de retard', penalites === 'oui' ? 'Prévues' : 'Non prévues', penalites === 'oui' ? 'Encourage le respect des délais' : 'Drapeau : Fixer des pénalités journalières en cas de dépassement.']);
-    contractRows.push(['Avenants', avenants === 'ecrit_exige' ? 'Écrit exigé' : 'Non précisé', avenants === 'ecrit_exige' ? 'Conforme' : 'Préciser qu\'aucun travail sup. ne sera payé sans accord écrit préalable.']);
-    contractRows.push(['Assurances (RC / Décennale)', assurances === 'oui' ? 'Mentionnées' : 'Non mentionnées', assurances === 'oui' ? 'Demander copie de l\'attestation' : 'Risque pour les garanties après réception.']);
-    contractRows.push(['Montant en lettres', montantLettres === 'oui' ? 'Présent' : 'Absent', montantLettres === 'oui' ? 'Prévient les fraudes' : 'Remarque : Exiger le montant arrêté en lettres.']);
+    const contractRows = [
+        ['Prix (Ferme / Révisable)', prixFerme === 'ferme' ? 'Prix ferme' : (prixFerme === 'revisable' ? 'Prix révisable' : 'Non précisé'), prixFerme === 'ferme' ? 'Sécurisant pour le Maître d\'Ouvrage.' : 'Exiger un indice de révision (BT01/BT02) clairement défini.'],
+        ['Validité du devis', validiteDevis, 'Vérifier la période de validité des prix matériaux et main-d\'œuvre.'],
+        ['Délai d\'exécution', delaiExecution, 'Adosser impérativement le démarrage à la signature ou à la réception de l\'acompte.'],
+        ['Acompte demandé', `${acomptePct} %`, acomptePct >= 30 ? 'Acompte élevé — négocier et lier à des phases d\'avancement vérifiables.' : acomptePct > 0 ? 'Standard — adosser au démarrage des travaux.' : 'Non précisé.'],
+        ['Échéancier de paiement', echeancier === 'oui' ? 'Adossé à l\'avancement' : 'Non adossé à l\'avancement', echeancier === 'oui' ? 'Conforme aux bonnes pratiques contractuelles.' : 'Payer uniquement à l\'avancement réel constaté — ne jamais payer à l\'avance.'],
+        ['Retenue de garantie', `${retenueGarantie} %`, retenueGarantie >= 5 ? 'Protecteur pour la levée des réserves.' : 'Recommandation : retenir 5 % payables à réception sans réserves (COCC, art. 743).'],
+        ['Pénalités de retard', penalites === 'oui' ? 'Prévues' : 'Non prévues', penalites === 'oui' ? 'Encourage le respect du calendrier.' : 'Fixer des pénalités journalières en cas de dépassement du délai contractuel.'],
+        ['Avenants / Travaux supplémentaires', avenants === 'ecrit_exige' ? 'Accord écrit exigé' : 'Non précisé', avenants === 'ecrit_exige' ? 'Conforme — aucun travail hors marché ne doit être engagé sans avenant signé.' : 'Préciser qu\'aucun travail supplémentaire ne sera réglé sans accord écrit préalable.'],
+        ['Assurances (RC & Décennale)', assurances === 'oui' ? 'Mentionnées' : 'Non mentionnées', assurances === 'oui' ? 'Demander copie de l\'attestation en cours de validité avant tout démarrage.' : 'Risque pour les garanties après réception — exiger les attestations.'],
+        ['Montant arrêté en lettres', montantLettres === 'oui' ? 'Présent' : 'Absent', montantLettres === 'oui' ? 'Prévient les fraudes et contestations.' : 'Exiger le montant arrêté en lettres sur tout document contractuel.']
+    ];
 
     drawTable(
-        [['Clause', 'Constat', 'Point de vigilance']],
-        contractRows
+        [['Clause', 'Constat', 'Point de vigilance / Recommandation']],
+        contractRows,
+        {
+            0: { cellWidth: 44, fontStyle: 'bold' },
+            1: { cellWidth: 36 },
+            2: { cellWidth: 100 }
+        }
     );
 
     if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(11);
-    doc.text('IX. Recommandations & leviers de négociation', leftMargin, y);
-    y += 8;
+    doc.setFontSize(10);
+    doc.text('VII. Synthèse financière & leviers de négociation', leftMargin, y);
+    y += 6;
+
+    const sdpRef    = sdp > 0 ? sdp : 150;
+    const ratioCalc = sdpRef > 0 ? Math.round(totalHtCalcule / sdpRef) : 0;
 
     doc.setFont('NotoSans', 'normal');
-    doc.setFontSize(9);
-    doc.text('1. Ratio global d\'estimation', leftMargin, y);
-    y += 5;
-    const sdpCalculee = sdp > 0 ? sdp : 150;
-    const ratioClient = Math.round(totalHtCalcule / sdpCalculee);
-    doc.setFont('NotoSans', 'italic');
-    doc.text(   Le devis fait ressortir un ratio global HT de \ FCFA/m² pour une SDP de \ m²., leftMargin, y);
-    y += 5;
-    doc.text('   À titre indicatif, la fourchette pour ce type de projet à Dakar (2026) varie selon les prestations.', leftMargin, y);
+    doc.setFontSize(8.5);
+    doc.setTextColor(51, 65, 85);
+    const synthLines = [
+        `Total HT recalculé par ChantierSur : ${fmt(totalHtCalcule)} FCFA`,
+        `TVA (${tvaApplicable === 'oui' ? '18 %' : '0 %'}) : ${fmt(tvaCalculee)} FCFA`,
+        `Total TTC recalculé : ${fmt(totalTtcCalcule)} FCFA`,
+        `Ratio global HT / m² SDP : ${fmt(ratioCalc)} FCFA/m² (SDP renseignée : ${sdpRef} m²)`,
+        '',
+        'Leviers de négociation recommandés :',
+        '  1. Exiger le détail Q × PU pour tous les postes « forfaitaires ».',
+        '  2. Adosser systématiquement les paiements à la constatation visuelle de l\'avancement réel.',
+        '  3. Consigner par écrit la retenue de garantie (5 %) et les pénalités de retard.',
+        '  4. Demander copie des attestations d\'assurance RC et décennale avant tout démarrage.'
+    ];
+    synthLines.forEach(line => {
+        if (y > 275) addPage();
+        if (line === '') { y += 4; return; }
+        doc.text(line, leftMargin + (line.startsWith('  ') ? 4 : 0), y);
+        y += 5.5;
+    });
     y += 8;
 
-    doc.setFont('NotoSans', 'normal');
-    doc.text('2. Leviers de négociation', leftMargin, y);
-    y += 5;
-    doc.setFont('NotoSans', 'italic');
-    doc.text('   - Exiger le détail chiffré (quantités et prix unitaires) pour tous les "forfaits".', leftMargin, y);
-    y += 5;
-    doc.text('   - Adosser systématiquement l\'échéancier de paiement à la constatation visuelle de l\'avancement.', leftMargin, y);
-    y += 5;
-    doc.text('   - Faire consigner par écrit la retenue de garantie (5%) et les pénalités de retard.', leftMargin, y);
-    y += 15;
-
-    if (y > 250) addPage();
+    // ── Cadre de clôture confidentiel ──
+    if (y > 255) addPage();
     doc.setFillColor(248, 250, 252);
-    doc.rect(leftMargin, y, pageWidth - 30, 25, 'F');
+    doc.rect(leftMargin, y, usableWidth, 24, 'F');
+    doc.setDrawColor(203, 213, 225);
+    doc.rect(leftMargin, y, usableWidth, 24, 'D');
     doc.setFont('NotoSans', 'bold');
-    doc.setFontSize(9);
+    doc.setFontSize(8.5);
     doc.setTextColor(11, 19, 37);
     doc.text('DOCUMENT GÉNÉRÉ AUTOMATIQUEMENT PAR CHANTIERSUR.COM', leftMargin + 5, y + 6);
     doc.setFont('NotoSans', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(71, 85, 105);
-    doc.text(Référence du dossier : \ | Émis le : \, leftMargin + 5, y + 12);
-    doc.text(Destinataire exclusif : \, leftMargin + 5, y + 18);
-    
-    if (typeof doc.putTotalPages === 'function') {
-        doc.putTotalPages('{total_pages_count_string}');
-    }
-
-    doc.setPage(1);
-    doc.setFont('NotoSans', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.text(ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal. Page 1 sur {total_pages_count_string}, pageWidth / 2, 287, { align: 'center' });
+    doc.text(`Référence du dossier : ${refDoc}  |  Émis le : ${currentDate}`, leftMargin + 5, y + 12);
+    doc.text(`Destinataire exclusif : ${clientName}  —  Usage strictement personnel et confidentiel.`, leftMargin + 5, y + 18);
 }
 
   function renderFinitions(doc, data, refDoc, currentDate) {
@@ -1833,7 +1853,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
   }
 
   // =========================================================================
-  // EXPORTATION GLOBALE & GESTIONNAIRE DE TÃ‰LÃ‰CHARGEMENT
+  // EXPORTATION GLOBALE & GESTIONNAIRE DE TÉLÉCHARGEMENT
   // =========================================================================
   window.generateProjectPDF = function(projectData) {
     const jsPDFClass = getJsPDF();
@@ -1878,7 +1898,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
       doc.setFont(getFontFamily(doc), 'normal');
       doc.setFontSize(6.8);
       doc.setTextColor(148, 163, 184);
-      doc.text("ChantierSur.com â€¢ Bureau d'Ã‰tudes NumÃ©rique IndÃ©pendant â€¢ Dakar, RÃ©publique du SÃ©nÃ©gal.", MARGIN_LEFT, pageHeight - 11);
+      doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", MARGIN_LEFT, pageHeight - 11);
       if (service === 'finitions') {
         doc.text("Document gÃ©nÃ©rÃ© automatiquement Ã  titre indicatif â€¢ Normes DTU Second Å“uvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", MARGIN_LEFT, pageHeight - 7);
       } else {
@@ -1911,6 +1931,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
 
 
 
