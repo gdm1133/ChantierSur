@@ -1,5 +1,23 @@
 const https = require('https');
 
+async function fetchWithRetry(fn, maxRetries = 3) {
+    let attempt = 0;
+    while (attempt < maxRetries) {
+        try {
+            return await fn();
+        } catch (error) {
+            attempt++;
+            if (error.message && error.message.includes('429') && attempt < maxRetries) {
+                const waitTime = Math.pow(2, attempt - 1) * 1000;
+                console.log(`Rate limited (429). Retrying in ${waitTime}ms... (Attempt ${attempt}/${maxRetries})`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+            } else {
+                throw error;
+            }
+        }
+    }
+}
+
 function uploadFile(base64Data) {
     return new Promise((resolve, reject) => {
         const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
@@ -174,8 +192,8 @@ exports.handler = async function(event, context) {
         let allLines = [];
         
         for (const base64Data of body.images) {
-            const fileData = await uploadFile(base64Data);
-            const ocrResult = await processOCR(fileData.id);
+            const fileData = await fetchWithRetry(() => uploadFile(base64Data), 3);
+            const ocrResult = await fetchWithRetry(() => processOCR(fileData.id), 3);
             
             try {
                 const delReq = https.request({
@@ -211,6 +229,9 @@ exports.handler = async function(event, context) {
         if (error.message && error.message.includes('401')) {
             console.error("MISTRAL_API_KEY invalide (Erreur 401).");
             userMsg = "Le service d'analyse n'est pas configuré — contactez l'administrateur.";
+        } else if (error.message && error.message.includes('429')) {
+            console.error("MISTRAL API Rate Limit (Erreur 429).");
+            userMsg = "Service d'analyse momentanément saturé — réessayez dans une minute.";
         }
         
         return {
