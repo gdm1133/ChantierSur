@@ -806,35 +806,67 @@
 </form>
 <script>
 window.ocrImages = [];
+window.devisLinesState = [];
 
-window.addV5Lot = function(data = null) {
+window.getDevisLines = function() {
+    return window.devisLinesState;
+};
+
+window.renderV5LotsState = function() {
     const container = document.getElementById('v5-lots-container');
-    const div = document.createElement('div');
-    div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
+    container.innerHTML = '';
     
-    const defaultDesc = data && data.designation ? data.designation : '';
-    const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
-
-    div.innerHTML = `
-        <input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: Maçonnerie)" value="${defaultDesc}" oninput="window.calcV5Totals()">
-        <input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="${defaultMontant}" oninput="window.calcV5Totals()">
-        <button type="button" onclick="this.parentElement.remove(); window.calcV5Totals()" class="text-rose-500 font-bold">X</button>
-    `;
-    container.appendChild(div);
+    window.devisLinesState.forEach((line, index) => {
+        const div = document.createElement('div');
+        div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
+        
+        div.innerHTML = \
+            <input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot" value="\" oninput="window.updateV5Lot(\, 'designation', this.value)">
+            <input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="\" oninput="window.updateV5Lot(\, 'montant_indique', this.value)">
+            <button type="button" onclick="window.removeV5Lot(\)" class="text-rose-500 font-bold">X</button>
+        \;
+        container.appendChild(div);
+    });
     window.calcV5Totals();
 };
 
+window.updateV5Lot = function(index, field, value) {
+    if (window.devisLinesState[index]) {
+        if (field === 'montant_indique') {
+            window.devisLinesState[index][field] = parseFloat(value) || 0;
+            // update Q and PU as fallback so PDF has numbers
+            window.devisLinesState[index].quantite = 1;
+            window.devisLinesState[index].pu_ht = window.devisLinesState[index].montant_indique;
+        } else {
+            window.devisLinesState[index][field] = value;
+        }
+        window.calcV5Totals();
+    }
+};
+
+window.removeV5Lot = function(index) {
+    window.devisLinesState.splice(index, 1);
+    window.renderV5LotsState();
+};
+
+window.addV5Lot = function(data = null) {
+    window.devisLinesState.push({
+        lot: data?.lot || '',
+        designation: data?.designation || '',
+        unite: data?.unite || 'u',
+        quantite: data?.quantite || 1,
+        pu_ht: data?.pu_ht || (data?.montant_indique || 0),
+        montant_indique: data?.montant_indique || 0
+    });
+    window.renderV5LotsState();
+};
+
 window.calcV5Totals = function() {
-    const rows = document.querySelectorAll('.lot-row');
     let totalHT = 0;
-    let validLots = 0;
     
-    rows.forEach(row => {
-        const desc = row.querySelector('.lot-desc').value.trim();
-        const montant = parseFloat(row.querySelector('.lot-montant').value) || 0;
-        if (desc.length > 0 && montant >= 0 && row.querySelector('.lot-montant').value !== '') {
-            validLots++;
-            totalHT += montant;
+    window.devisLinesState.forEach(line => {
+        if (line.designation.trim().length > 0) {
+            totalHT += (line.montant_indique || 0);
         }
     });
     
@@ -846,7 +878,7 @@ window.calcV5Totals = function() {
     const btn = document.getElementById('v5-btn-audit');
     const msg = document.getElementById('v5-error-msg');
     
-    if (validLots > 0) {
+    if (window.devisLinesState.length > 0) {
         btn.disabled = false;
         msg.classList.add('hidden');
     } else {
@@ -1982,6 +2014,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         finalData.service = s;
+        console.log("état au clic générer : " + (finalData.devis_lines ? finalData.devis_lines.length : 0) + " lignes au moment exact du clic sur « Générer »");
 
         // Création d'une modale visible à l'écran
         const modal = document.createElement('div');
@@ -2141,6 +2174,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 </body>
 </html>
+
+
 
 
 
