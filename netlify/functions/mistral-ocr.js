@@ -205,7 +205,7 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error("Mistral OCR Error:", error.message || error);
+        console.error("Mistral OCR Error:", error.stack || error);
         
         let userMsg = "Erreur interne lors du traitement OCR.";
         if (error.message && error.message.includes('401')) {

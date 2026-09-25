@@ -949,7 +949,8 @@ function compressImage(file, canvas, ctx) {
             img.onload = () => {
                 let width = img.width;
                 let height = img.height;
-                const MAX_DIM = 2000;
+                // Agressive compression: 1200px max
+                const MAX_DIM = 1200;
                 
                 if (width > height && width > MAX_DIM) {
                     height *= MAX_DIM / width;
@@ -962,7 +963,8 @@ function compressImage(file, canvas, ctx) {
                 canvas.width = width;
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
-                resolve(canvas.toDataURL('image/jpeg', 0.8));
+                // Agressive compression: 0.6 quality
+                resolve(canvas.toDataURL('image/jpeg', 0.6));
             };
             img.src = e.target.result;
         };
@@ -1055,6 +1057,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 </script>
+
 
 
 
