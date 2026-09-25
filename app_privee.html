@@ -812,13 +812,13 @@ window.devisLinesState = window.devisLinesState || [];
 window.addV5Lot = function(data = null) {
     const defaultDesc = data && data.designation ? data.designation : '';
     const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
-    window.devisLinesState.push({ designation: defaultDesc, montant_indique: defaultMontant });
+    window.devisLinesState.push({ lot: '', designation: defaultDesc, unite: 'u', quantite: 1, pu: defaultMontant, montant: defaultMontant });
     window.renderV5LotsState();
 };
 
 window.updateV5Lot = function(index, field, value) {
     if (window.devisLinesState && window.devisLinesState[index]) {
-        window.devisLinesState[index][field] = field === 'montant_indique' ? (parseFloat(value) || 0) : value;
+        window.devisLinesState[index][field] = field === 'montant' ? (parseFloat(value) || 0) : value;
         window.calcV5TotalsState();
     }
 };
@@ -839,10 +839,10 @@ window.renderV5LotsState = function() {
         div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
         
         const safeDesc = (lot.designation || '').toString().replace(/"/g, '&quot;');
-        const safeMontant = (lot.montant_indique || '').toString().replace(/"/g, '&quot;');
+        const safeMontant = (lot.montant || '').toString().replace(/"/g, '&quot;');
         
         div.innerHTML = `<input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: Maçonnerie)" value="${safeDesc}" oninput="window.updateV5Lot(${index}, 'designation', this.value)">` +
-                        `<input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="${safeMontant}" oninput="window.updateV5Lot(${index}, 'montant_indique', this.value)">` +
+                        `<input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="${safeMontant}" oninput="window.updateV5Lot(${index}, 'montant', this.value)">` +
                         `<button type="button" onclick="window.removeV5Lot(${index})" class="text-rose-500 font-bold">X</button>`;
         container.appendChild(div);
     });
@@ -855,9 +855,9 @@ window.calcV5TotalsState = function() {
     
     if (window.devisLinesState) {
         window.devisLinesState.forEach(lot => {
-            if (lot.designation && lot.designation.length > 0 && lot.montant_indique >= 0) {
+            if (lot.designation && lot.designation.length > 0 && lot.montant >= 0) {
                 validLots++;
-                totalHT += parseFloat(lot.montant_indique) || 0;
+                totalHT += parseFloat(lot.montant) || 0;
             }
         });
     }
@@ -1049,7 +1049,7 @@ window.confirmOCR = function() {
         
         if (des.length > 0 && total >= 0) {
             const finalDes = lot ? `[${lot}] ${des}` : des;
-            validatedLines.push({ designation: finalDes, montant_indique: total, quantite: qte, pu: pu, unite: unit });
+            validatedLines.push({ lot: lot, designation: des, unite: unit, quantite: qte, pu: pu, montant: total });
             validCount++;
         }
     });
@@ -2050,7 +2050,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (typeof gen === 'function') {
             try {
               if (window.devisLinesState && window.devisLinesState.length === 0) {
-                 throw new Error("Aucune ligne validée – retournez à l'écran de validation");
+                 throw new Error("Erreur : Aucune ligne validée – retournez à l'écran de validation");
               }
               gen(finalData);
               if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
