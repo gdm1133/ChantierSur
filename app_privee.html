@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -782,7 +782,7 @@
     <div class="flex justify-between"><span>Total HT :</span><span id="v5-total-ht">0</span></div>
     <div class="flex justify-between items-center">
       <span>TVA (%) :</span>
-      <input type="number" id="v5-tva-rate" value="18" oninput="window.calcV5Totals()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1 text-right">
+      <input type="number" id="v5-tva-rate" value="18" oninput="window.calcV5TotalsState()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1 text-right">
     </div>
     <div class="flex justify-between font-bold text-lg border-t border-slate-300 pt-2 mt-2"><span>Total TTC :</span><span id="v5-total-ttc">0</span></div>
   </div>
@@ -1042,8 +1042,8 @@ window.confirmOCR = function() {
     rows.forEach(row => {
         const lot = row.querySelector('.ocr-input-lot').value.trim();
         const des = row.querySelector('.ocr-input-des').value.trim();
-        const unit = row.querySelector('.ocr-input-unit').value.trim();
-        const qte = parseFloat(row.querySelector('.ocr-input-qte').value) || 0;
+        const unit = row.querySelector('.ocr-input-u').value.trim();
+        const qte = parseFloat(row.querySelector('.ocr-input-q').value) || 0;
         const pu = parseFloat(row.querySelector('.ocr-input-pu').value) || 0;
         const total = parseFloat(row.querySelector('.ocr-input-total').value) || 0;
         
@@ -2024,7 +2024,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         modal.id = 'pdf-success-modal';
         modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
         modal.innerHTML = `
-          <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5" id="pdf-modal-card">
+          <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
+              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
             <div class="w-16 h-16 bg-amber-500/20 text-[#F59E0B] rounded-full flex items-center justify-center mx-auto text-3xl">📄</div>
             <h3 id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
             <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#F59E0B] uppercase">${s}</strong> est prêt.</p>
@@ -2035,6 +2036,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         `;
         document.body.appendChild(modal);
+
+          const closeModal = () => { modal.remove(); document.removeEventListener('keydown', escListener); };
+          document.getElementById('pdf-modal-close').addEventListener('click', closeModal);
+          modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+          const escListener = (e) => { if (e.key === 'Escape') closeModal(); };
+          document.addEventListener('keydown', escListener);
 
         // Déclencheur
         function triggerPDF() {
