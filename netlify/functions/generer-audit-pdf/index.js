@@ -1,5 +1,5 @@
-﻿const fs = require('node:fs');
-const path = require('node:path');
+const fs = require('fs');
+const path = require('path');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fontkitModule = require('@pdf-lib/fontkit');
 const fontkit = fontkitModule.default || fontkitModule;
@@ -35,7 +35,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 400,
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify({ error: Ligne  + i +  invalide. })
+        body: JSON.stringify({ error: `Ligne ${i} invalide.` })
       };
     }
     const calc = l.quantite * l.pu;
@@ -67,13 +67,13 @@ exports.handler = async (event) => {
 
     const drawHeader = (page, y) => {
       page.drawText('ChantierSur.com | Dossier : ' + (data.dossier||'') + ' | Date : ' + (data.devis.date||''), { x: 40, y: y, size: 9, font: regularFont, color: rgb(0.5, 0.5, 0.5) });
-      page.drawText('BUREAU D\\'ÉTUDES NUMÉRIQUE INDÉPENDANT — AUDIT TECHNIQUE BTP SÉNÉGAL', { x: 40, y: y - 12, size: 8, font: boldFont, color: rgb(0.3, 0.3, 0.3) });
-      page.drawText('RAPPORT D\\'AUDIT DE DEVIS', { x: 40, y: y - 35, size: 16, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
+      page.drawText('BUREAU D\'ÉTUDES NUMÉRIQUE INDÉPENDANT — AUDIT TECHNIQUE BTP SÉNÉGAL', { x: 40, y: y - 12, size: 8, font: boldFont, color: rgb(0.3, 0.3, 0.3) });
+      page.drawText('RAPPORT D\'AUDIT DE DEVIS', { x: 40, y: y - 35, size: 16, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
       return y - 60;
     };
 
     const drawFooter = (page) => {
-      page.drawText('DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D\\'OUVRAGE : ' + (data.client.nom||''), { x: 40, y: height - 15, size: 7, font: boldFont, color: rgb(0.7, 0.2, 0.2) });
+      page.drawText('DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL — MAÎTRE D\'OUVRAGE : ' + (data.client.nom||''), { x: 40, y: height - 15, size: 7, font: boldFont, color: rgb(0.7, 0.2, 0.2) });
     };
 
     const checkPageBreak = (requiredSpace) => {
@@ -104,7 +104,7 @@ exports.handler = async (event) => {
     if (data.devis.entreprise.ninea) {
       nineaText = 'Identifiant déclaré dans les données reçues — authenticité non vérifiée';
     } else {
-      nineaText = 'l\\'identifiant n\\'a pas été fourni';
+      nineaText = 'l\'identifiant n\'a pas été fourni';
     }
     currentPage.drawText('NINEA/RCCM: ' + nineaText, { x: 50, y: currentY, size: 9, font: regularFont });
     currentY -= 30;
@@ -244,14 +244,14 @@ exports.handler = async (event) => {
     checkPageBreak(40);
     currentPage.drawText('Mentions obligatoires:', { x: 40, y: currentY, size: 8, font: boldFont });
     currentY -= 12;
-    currentPage.drawText('Outil d\\'aide à la décision. Analyse automatisée indicative — sans valeur d\\'expertise judiciaire.', { x: 40, y: currentY, size: 7, font: regularFont });
+    currentPage.drawText('Outil d\'aide à la décision. Analyse automatisée indicative — sans valeur d\'expertise judiciaire.', { x: 40, y: currentY, size: 7, font: regularFont });
     currentY -= 10;
     currentPage.drawText('Document produit sans certification.', { x: 40, y: currentY, size: 7, font: regularFont });
 
     // Pagination
     const totalPages = pages.length;
     pages.forEach((p, idx) => {
-      p.drawText('ChantierSur.com — Bureau d\\'études numérique indépendant, Dakar, République du Sénégal. Page ' + (idx + 1) + ' sur ' + totalPages, {
+      p.drawText('ChantierSur.com — Bureau d\'études numérique indépendant, Dakar, République du Sénégal. Page ' + (idx + 1) + ' sur ' + totalPages, {
         x: 40, y: 20, size: 7, font: regularFont
       });
     });
@@ -263,7 +263,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': ttachment; filename="ChantierSur_AUDIT_ + safeDossier + .pdf",
+        'Content-Disposition': `attachment; filename="ChantierSur_AUDIT_${safeDossier}.pdf"`,
         'Cache-Control': 'no-store'
       },
       body: Buffer.from(pdfBytes).toString('base64'),
@@ -277,3 +277,4 @@ exports.handler = async (event) => {
     };
   }
 };
+
