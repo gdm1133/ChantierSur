@@ -1,4 +1,4 @@
-const https = require('https');
+﻿const https = require('https');
 
 async function fetchWithRetry(fn, maxRetries = 3) {
     let attempt = 0;
@@ -263,7 +263,7 @@ exports.handler = async function(event, context) {
             userMsg = "Service d'analyse momentanément saturé — réessayez dans une minute.";
         } else if (error.message && error.message.includes('400')) {
              console.error("MISTRAL API Bad Request (Erreur 400).");
-             userMsg = "Le fichier n'a pas pu être traité correctement par l'IA. Veuillez essayer une autre photo ou la saisie manuelle.";
+             userMsg = "Le fichier n'a pas pu être traité correctement. Veuillez essayer une autre photo ou la saisie manuelle.";
         }
         
         return {

@@ -1,4 +1,4 @@
-<form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
+﻿<form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
   <!-- 2.1 Bloc Informations du client -->
   <div class="step-container space-y-6">
     <h4 class="text-lg font-bold text-[#0B1325]">Informations du client</h4>
@@ -90,7 +90,7 @@
     
     <div id="ocr-loading-indicator" class="hidden text-center p-4">
       <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#0B1325]"></div>
-      <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse par l'IA en cours...</p>
+      <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse du document en cours...</p>
     </div>
 
     <div class="flex justify-end mt-4">
@@ -98,7 +98,7 @@
     </div>
 
     <p class="text-[10px] text-slate-500 text-center mt-2">
-      En continuant, vous acceptez que les photos soient transmises à Mistral AI (Europe) pour extraction. Elles sont supprimées immédiatement après traitement.
+      En continuant, vous acceptez que les photos soient traitées de manière sécurisée pour l'extraction. Elles sont supprimées immédiatement après traitement.
     </p>
   </div>
 
@@ -279,7 +279,7 @@ window.startOCRAnalysis = async function() {
     if (window.ocrImages.length === 0) return;
     
     document.getElementById('ocr-loading-indicator').classList.remove('hidden');
-    document.getElementById('ocr-loading-text').innerText = "Analyse par l'IA Mistral OCR en cours (cela peut prendre jusqu'à 45 secondes)...";
+    document.getElementById('ocr-loading-text').innerText = "Analyse des pages en cours (cela peut prendre jusqu'à 45 secondes)...";
     document.getElementById('btn-lancer-analyse').disabled = true;
     
     try {
