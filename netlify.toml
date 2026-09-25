@@ -1,3 +1,7 @@
-[build]
+﻿[build]
   command = ""
   publish = "."
+
+[functions]
+  included_files = ["netlify/functions/generer-audit-pdf/*.ttf"]
+
