@@ -66,11 +66,39 @@ function uploadFile(base64Data) {
     });
 }
 
-function processOCR(fileId) {
+function getSignedUrl(fileId) {
+    return new Promise((resolve, reject) => {
+        const options = {
+            hostname: 'api.mistral.ai',
+            port: 443,
+            path: `/v1/files/${fileId}/url`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${process.env.MISTRAL_API_KEY}`
+            }
+        };
+
+        const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                if (res.statusCode >= 200 && res.statusCode < 300) {
+                    try { resolve(JSON.parse(data)); } catch(e) { reject(e); }
+                } else {
+                    reject(new Error(`Get Signed URL failed: ${res.statusCode} ${data}`));
+                }
+            });
+        });
+        req.on('error', e => reject(e));
+        req.end();
+    });
+}
+
+function processOCR(signedUrl) {
     return new Promise((resolve, reject) => {
         const bodyData = JSON.stringify({
             model: 'mistral-ocr-latest',
-            document: { type: 'document_url', document_url: `https://api.mistral.ai/v1/files/${fileId}` }
+            document: { type: 'document_url', document_url: signedUrl }
         });
         
         const options = {
@@ -193,7 +221,8 @@ exports.handler = async function(event, context) {
         
         for (const base64Data of body.images) {
             const fileData = await fetchWithRetry(() => uploadFile(base64Data), 3);
-            const ocrResult = await fetchWithRetry(() => processOCR(fileData.id), 3);
+            const urlData = await fetchWithRetry(() => getSignedUrl(fileData.id), 3);
+            const ocrResult = await fetchWithRetry(() => processOCR(urlData.url), 3);
             
             try {
                 const delReq = https.request({
@@ -232,6 +261,9 @@ exports.handler = async function(event, context) {
         } else if (error.message && error.message.includes('429')) {
             console.error("MISTRAL API Rate Limit (Erreur 429).");
             userMsg = "Service d'analyse momentanément saturé — réessayez dans une minute.";
+        } else if (error.message && error.message.includes('400')) {
+             console.error("MISTRAL API Bad Request (Erreur 400).");
+             userMsg = "Le fichier n'a pas pu être traité correctement par l'IA. Veuillez essayer une autre photo ou la saisie manuelle.";
         }
         
         return {
