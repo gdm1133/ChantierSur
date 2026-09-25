@@ -812,13 +812,13 @@ window.devisLinesState = window.devisLinesState || [];
 window.addV5Lot = function(data = null) {
     const defaultDesc = data && data.designation ? data.designation : '';
     const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
-    window.devisLinesState.push({ lot: '', designation: defaultDesc, unite: 'u', quantite: 1, pu: defaultMontant, montant: defaultMontant });
+    window.devisLinesState.push({ lot: '', designation: defaultDesc, unite: 'u', quantite: 1, pu: defaultMontant, montantIndique: defaultMontant });
     window.renderV5LotsState();
 };
 
 window.updateV5Lot = function(index, field, value) {
     if (window.devisLinesState && window.devisLinesState[index]) {
-        window.devisLinesState[index][field] = field === 'montant' ? (parseFloat(value) || 0) : value;
+        window.devisLinesState[index][field] = field === 'montantIndique' ? (parseFloat(value) || 0) : value;
         window.calcV5TotalsState();
     }
 };
@@ -839,7 +839,7 @@ window.renderV5LotsState = function() {
         div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
         
         const safeDesc = (lot.designation || '').toString().replace(/"/g, '&quot;');
-        const safeMontant = (lot.montant || '').toString().replace(/"/g, '&quot;');
+        const safeMontant = (lot.montantIndique !== undefined ? lot.montantIndique : '').toString().replace(/"/g, '&quot;');
         
         div.innerHTML = `<input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: Maçonnerie)" value="${safeDesc}" oninput="window.updateV5Lot(${index}, 'designation', this.value)">` +
                         `<input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="${safeMontant}" oninput="window.updateV5Lot(${index}, 'montant', this.value)">` +
@@ -855,9 +855,9 @@ window.calcV5TotalsState = function() {
     
     if (window.devisLinesState) {
         window.devisLinesState.forEach(lot => {
-            if (lot.designation && lot.designation.length > 0 && lot.montant >= 0) {
+            if (lot.designation && lot.designation.length > 0 && lot.montantIndique >= 0) {
                 validLots++;
-                totalHT += parseFloat(lot.montant) || 0;
+                totalHT += parseFloat(lot.montantIndique) || 0;
             }
         });
     }
@@ -1049,7 +1049,7 @@ window.confirmOCR = function() {
         
         if (des.length > 0 && total >= 0) {
             const finalDes = lot ? `[${lot}] ${des}` : des;
-            validatedLines.push({ lot: lot, designation: des, unite: unit, quantite: qte, pu: pu, montant: total });
+            validatedLines.push({ lot: lot, designation: des, unite: unit, quantite: qte, pu: pu, montantIndique: total });
             validCount++;
         }
     });
@@ -1548,6 +1548,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const pane = document.getElementById('pane-' + paneId);
       if (!pane) return rule.base;
       const fd = new FormData(pane);
+      const currentDossierId = 'CS-' + Date.now();
       const levels = parseInt(fd.get('exact_levels') || '0', 10);
       const extraLevels = Math.max(0, levels);
       return rule.base + (extraLevels * rule.perLevelAbove1);
@@ -1693,6 +1694,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!pane) return;
 
       const fd = new FormData(pane);
+      const currentDossierId = 'CS-' + Date.now();
       const clientName = (fd.get('client_name') || '').trim();
       const clientEmail = (fd.get('client_email') || '').trim();
       const rawPrefix = (fd.get('phone_prefix') || '+221').trim();
@@ -1936,6 +1938,61 @@ document.addEventListener('DOMContentLoaded', async () => {
         sessionStorage.setItem('cs_project_data', JSON.stringify(projectData));
       } catch(e) {}
 
+      if (serviceKey === 'audit') {
+        const lines = window.getDevisLines ? window.getDevisLines() : [];
+        if (!lines || lines.length === 0) {
+          alert("Erreur : Aucune ligne validée – retournez à l'écran de validation.");
+          return;
+        }
+        
+        const canonicalData = {
+          dossier: currentDossierId,
+          client: {
+            nom: clientName,
+            telephone: rawPrefix + ' ' + rawPhone,
+            email: clientEmail
+          },
+          devis: {
+            objet: (fd.get('devis_object') || '').trim(),
+            reference: (fd.get('devis_number') || '').trim(),
+            date: (fd.get('devis_date') || '').trim(),
+            batiment: fd.get('building_usage') || '',
+            niveaux: parseInt(fd.get('exact_levels'), 10) || 1,
+            sdp: parseFloat(fd.get('surface')) || 0,
+            localisation: fd.get('project_location') || '',
+            entreprise: {
+              nom: (fd.get('devis_company') || '').trim(),
+              ninea: (fd.get('company_ninea') || '').trim(),
+              rccm: (fd.get('company_rccm') || '').trim(),
+              telephone: (fd.get('company_phone') || '').trim(),
+              adresse: (fd.get('company_address') || '').trim()
+            },
+            lignes: lines,
+            totalHTIndique: parseFloat(fd.get('devis_total_ht')) || 0,
+            tvaTaux: 18,
+            conditions: {
+              acompte: parseFloat(fd.get('acompte')) || 0,
+              echeancier: (fd.get('echeancier') || '').trim(),
+              retenueGarantie: parseFloat(fd.get('retenue')) || 0,
+              penalites: (fd.get('penalites') || '').trim(),
+              avenants: (fd.get('avenants') || '').trim(),
+              assurances: (fd.get('assurances') || '').trim(),
+              validite: (fd.get('validite') || '').trim(),
+              delai: (fd.get('delai') || '').trim(),
+              prixFerme: fd.get('prix_ferme') === 'oui'
+            }
+          }
+        };
+
+        try {
+          localStorage.setItem('chantiersur_audit_dossier_' + currentDossierId, JSON.stringify(canonicalData));
+          localStorage.setItem('current_audit_dossier', currentDossierId);
+        } catch(e) {
+          alert("Erreur : Impossible de sauvegarder les données. Veuillez réessayer.");
+          return;
+        }
+      }
+
       // Mise à jour visuelle du bouton
       const btn = document.getElementById('pay-btn-' + paneId);
       const originalText = btn ? btn.innerHTML : '';
@@ -1980,13 +2037,87 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (drawer) drawer.classList.toggle('hidden');
     };
 
-    // 5. TEST DIRECT PDF PAR URL (?payment=success&service=...)
+      // 5. TEST DIRECT PDF PAR URL (?payment=success&service=...)
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment') === 'success') {
         const s = urlParams.get('service') || 'esquisse';
 
-        // 1. Recherche prioritaire des vraies données saisies par le client
+        // Modale d'erreur "Aucune ligne validée" pour Audit
+        if (s === 'audit') {
+          const storedDossierId = localStorage.getItem('current_audit_dossier');
+          let auditState = null;
+          try {
+            if (storedDossierId) {
+              const rawAudit = localStorage.getItem('chantiersur_audit_dossier_' + storedDossierId);
+              if (rawAudit) auditState = JSON.parse(rawAudit);
+            }
+          } catch(e) {}
+          
+          if (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0) {
+            const errModal = document.createElement('div');
+            errModal.id = 'pdf-error-modal';
+            errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+            errModal.innerHTML = `
+              <div class="bg-slate-900 border-2 border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+                <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
+                <div class="text-red-500 text-5xl mb-4">⚠️</div>
+                <h3 class="text-xl font-bold text-white mb-2">Erreur : Aucune ligne validée – retournez à l'écran de validation.</h3>
+              </div>
+            `;
+            document.body.appendChild(errModal);
+            document.getElementById('pdf-error-close').addEventListener('click', () => errModal.remove());
+            return;
+          }
+          
+          // Modale succès Audit
+          const modal = document.createElement('div');
+          modal.id = 'pdf-success-modal';
+          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+          modal.innerHTML = `
+            <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
+              <div class="w-16 h-16 bg-amber-500/20 text-[#F59E0B] rounded-full flex items-center justify-center mx-auto text-3xl">📄</div>
+              <h3 class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
+              <button id="btn-force-download" class="w-full py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+                📥 Télécharger mon Rapport PDF
+              </button>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          document.getElementById('pdf-modal-close').addEventListener('click', () => modal.remove());
+          
+          document.getElementById('btn-force-download').addEventListener('click', () => {
+            document.getElementById('btn-force-download').innerHTML = 'Génération en cours...';
+            document.getElementById('btn-force-download').disabled = true;
+            fetch('/.netlify/functions/generer-audit-pdf', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(auditState)
+            }).then(response => {
+              if (!response.ok) throw new Error('Erreur réseau');
+              return response.blob();
+            }).then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'ChantierSur_AUDIT_' + storedDossierId + '.pdf';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              window.URL.revokeObjectURL(url);
+              document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
+              document.getElementById('btn-force-download').disabled = false;
+            }).catch(e => {
+              alert('Erreur lors du téléchargement : ' + e.message);
+              document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
+              document.getElementById('btn-force-download').disabled = false;
+            });
+          });
+          return;
+        }
+
+        // 1. Recherche prioritaire des vraies données saisies par le client pour esquisse/express/finitions
         let realData = null;
         try {
           const saved = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
@@ -2202,6 +2333,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
