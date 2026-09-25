@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -367,7 +367,7 @@
           <span id="price-converted-1" class="text-xs text-amber-800 font-bold">(≈ 227 €)</span>
         </div>
       </div>
-      <span class="text-xs bg-white px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 shadow-sm">Rapport nominatif indicatif</span>
+
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -2052,7 +2052,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               if (window.devisLinesState && window.devisLinesState.length === 0) {
                  throw new Error("Erreur : Aucune ligne validée – retournez à l'écran de validation");
               }
-              gen(finalData);
+              if (window.devisLinesState) { finalData.devis_lines = window.devisLinesState; } gen(finalData);
               if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
             } catch(err) {
               console.error("Erreur PDF:", err);
@@ -2202,6 +2202,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 </body>
 </html>
+
+
 
 
 
