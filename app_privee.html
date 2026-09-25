@@ -923,7 +923,11 @@ window.startOCRAnalysis = async function() {
         });
         
         const result = await response.json();
-        if (result.error) throw new Error(result.error);
+        if (!response.ok) {
+            throw new Error(result.message || result.error || "Erreur serveur.");
+        }
+        
+        if (result.error) throw new Error(result.message || result.error);
         if (result.lines && result.lines.length > 0) {
             window.renderOCRValidation(result.lines);
         } else {
@@ -1027,9 +1031,31 @@ window.confirmOCR = function() {
     window.calcV5Totals();
 };
 
-// Add initial lot on load
-document.addEventListener('DOMContentLoaded', () => { window.addV5Lot(); });
+// Add initial lot on load and check Mistral API status
+document.addEventListener('DOMContentLoaded', async () => { 
+    window.addV5Lot(); 
+    
+    // Check Mistral OCR availability
+    try {
+        const res = await fetch('/.netlify/functions/mistral-ocr');
+        if (res.status === 503 || res.status === 401) {
+            const data = await res.json();
+            if (data.error === "missing_key" || data.error === "ocr_failed") {
+                const uploadSection = document.getElementById('ocr-upload-section');
+                uploadSection.innerHTML = `
+                    <h4 class="text-lg font-bold text-[#0B1325] mb-2">Capture du devis</h4>
+                    <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl font-medium text-sm">
+                        Service d'analyse photo temporairement indisponible — utilisez la saisie manuelle.
+                    </div>
+                `;
+            }
+        }
+    } catch(e) {
+        // Ignore network errors on init
+    }
+});
 </script>
+
 
 
 

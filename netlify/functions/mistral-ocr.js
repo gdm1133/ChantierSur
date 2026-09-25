@@ -4,7 +4,6 @@ function uploadFile(base64Data) {
     return new Promise((resolve, reject) => {
         const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
         
-        // Convert base64 to buffer
         const base64Str = base64Data.replace(/^data:image\/\w+;base64,/, '');
         const fileBuffer = Buffer.from(base64Str, 'base64');
         
@@ -91,7 +90,6 @@ function parseMarkdownTable(markdownText) {
     let results = [];
     let currentLot = "Lot Général";
     let inTable = false;
-    let headers = [];
 
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i].trim();
@@ -110,27 +108,21 @@ function parseMarkdownTable(markdownText) {
                 continue;
             }
             if (!inTable) {
-                headers = cells.map(c => c.toLowerCase());
-                inTable = true; // Assume it's a header if it has pipes
+                inTable = true; 
                 continue;
             }
 
             if (cells.length > 3) {
-                // Heuristic parsing
                 const isNumber = (val) => /[\d]/.test(val);
                 let qte = 1, pu = 0, total = 0, des = "", u = "u", num = "";
                 
-                // Usually: Num, Des, U, Q, PU, Total
                 if (cells.length >= 6) {
-                    num = cells[0];
-                    des = cells[1];
-                    u = cells[2];
+                    num = cells[0]; des = cells[1]; u = cells[2];
                     qte = parseFloat(cells[3].replace(/[^\d,\.]/g, '').replace(',', '.')) || 1;
                     pu = parseFloat(cells[4].replace(/[^\d,\.]/g, '').replace(',', '.')) || 0;
                     total = parseFloat(cells[5].replace(/[^\d,\.]/g, '').replace(',', '.')) || (qte * pu);
                 } else if (cells.length === 5) {
-                    des = cells[0];
-                    u = cells[1];
+                    des = cells[0]; u = cells[1];
                     qte = parseFloat(cells[2].replace(/[^\d,\.]/g, '').replace(',', '.')) || 1;
                     pu = parseFloat(cells[3].replace(/[^\d,\.]/g, '').replace(',', '.')) || 0;
                     total = parseFloat(cells[4].replace(/[^\d,\.]/g, '').replace(',', '.')) || (qte * pu);
@@ -144,14 +136,9 @@ function parseMarkdownTable(markdownText) {
 
                 if (des.length > 3 && !des.toLowerCase().includes('total') && total > 0) {
                     results.push({
-                        lot: currentLot,
-                        numero_prix: num,
+                        lot: currentLot, numero_prix: num,
                         designation: des.replace(/[^a-zA-ZÀ-ÿ0-9\s-]/g, '').trim(),
-                        unite: u,
-                        quantite: qte,
-                        pu_ht: pu,
-                        montant_indique: total,
-                        conf: "high"
+                        unite: u, quantite: qte, pu_ht: pu, montant_indique: total, conf: "high"
                     });
                 }
             }
@@ -163,12 +150,25 @@ function parseMarkdownTable(markdownText) {
 }
 
 exports.handler = async function(event, context) {
+    if (!process.env.MISTRAL_API_KEY) {
+        console.error("MISTRAL_API_KEY manquante");
+        return { 
+            statusCode: 503, 
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({ error: "missing_key", message: "Le service d'analyse n'est pas configuré — contactez l'administrateur." }) 
+        };
+    }
+
+    if (event.httpMethod === 'GET') {
+        return { statusCode: 200, body: JSON.stringify({ status: "ok" }) };
+    }
+
     if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
     try {
         const body = JSON.parse(event.body);
         if (!body.images || !body.images.length) {
-            return { statusCode: 400, body: JSON.stringify({ error: "No images provided" }) };
+            return { statusCode: 400, body: JSON.stringify({ error: "Aucune image fournie." }) };
         }
 
         let allLines = [];
@@ -177,7 +177,6 @@ exports.handler = async function(event, context) {
             const fileData = await uploadFile(base64Data);
             const ocrResult = await processOCR(fileData.id);
             
-            // Cleanup file from Mistral (Best practice for privacy)
             try {
                 const delReq = https.request({
                     hostname: 'api.mistral.ai', port: 443, path: `/v1/files/${fileData.id}`,
@@ -206,10 +205,18 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error("Mistral OCR Error:", error);
+        console.error("Mistral OCR Error:", error.message || error);
+        
+        let userMsg = "Erreur interne lors du traitement OCR.";
+        if (error.message && error.message.includes('401')) {
+            console.error("MISTRAL_API_KEY invalide (Erreur 401).");
+            userMsg = "Le service d'analyse n'est pas configuré — contactez l'administrateur.";
+        }
+        
         return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message || "Erreur interne lors du traitement OCR." })
+            statusCode: 503,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({ error: "ocr_failed", message: userMsg })
         };
     }
 };
