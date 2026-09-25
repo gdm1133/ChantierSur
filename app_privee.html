@@ -635,12 +635,74 @@
   <!-- 2.1 Bloc Informations du client -->
   <div class="step-container space-y-6">
     <h4 class="text-lg font-bold text-[#0B1325]">Informations du client</h4>
-    <input type="text" name="client_name" placeholder="Nom complet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-    <input type="email" name="client_email" placeholder="Email" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-    <input type="tel" name="client_phone" placeholder="TÃ©lÃ©phone" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-    <input type="text" name="client_city" placeholder="Ville" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-    <input type="text" name="project_type" placeholder="Type de projet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-    <input type="number" name="exact_levels" placeholder="Nombre de niveaux" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom complet</label>
+            <input type="text" name="client_name" placeholder="Nom complet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Email</label>
+            <input type="email" name="client_email" placeholder="Email" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+        </div>
+    </div>
+    
+    <div>
+      <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
+      <div class="flex">
+        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+          <option value="+221" selected>🇸🇳 SN (+221)</option>
+          <option value="+33">🇫🇷 FR (+33)</option>
+          <option value="+39">🇮🇹 IT (+39)</option>
+          <option value="+34">🇪🇸 ES (+34)</option>
+          <option value="+1">🇺🇸 US (+1)</option>
+          <option value="+1">🇨🇦 CA (+1)</option>
+          <option value="+225">🇨🇮 CI (+225)</option>
+          <option value="+241">🇬🇦 GA (+241)</option>
+          <option value="+222">🇲🇷 MR (+222)</option>
+          <option value="+220">🇬🇲 GM (+220)</option>
+          <option value="+223">🇲🇱 ML (+223)</option>
+          <option value="+212">🇲🇦 MA (+212)</option>
+          <option value="+32">🇧🇪 BE (+32)</option>
+          <option value="+49">🇩🇪 DE (+49)</option>
+          <option value="+44">🇬🇧 UK (+44)</option>
+          <option value="+41">🇨🇭 CH (+41)</option>
+          <option value="+242">🇨🇬 CG (+242)</option>
+          <option value="+243">🇨🇩 CD (+243)</option>
+          <option value="+971">🇦🇪 AE (+971)</option>
+          <option value="+966">🇸🇦 SA (+966)</option>
+          <option value="+224">🇬🇳 GN (+224)</option>
+        </select>
+        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Ville</label>
+            <input type="text" name="client_city" placeholder="Ville" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Type de projet</label>
+            <input type="text" name="project_type" placeholder="Type de projet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+        </div>
+    </div>
+    
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
+        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+          <option value="0">RDC Simple (Villa plain-pied)</option>
+          <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+          <option value="2">R+2 (Immeuble R+2)</option>
+          <option value="3">R+3 (Immeuble R+3)</option>
+          <option value="4">R+4 (Immeuble R+4)</option>
+          <option value="5">R+5 (Immeuble R+5)</option>
+          <option value="6">R+6 (Immeuble R+6)</option>
+          <option value="7">R+7 (Immeuble R+7)</option>
+          <option value="8">R+8 (Immeuble R+8)</option>
+          <option value="9">R+9 (Immeuble R+9)</option>
+          <option value="10">R+10 (Tour / Immeuble R+10)</option>
+        </select>
+    </div>
   </div>
 
   <!-- 2.2 Bloc Lots du devis -->
@@ -665,9 +727,9 @@
   <div class="step-container space-y-6">
     <h4 class="text-lg font-bold text-[#0B1325]">Conditions contractuelles</h4>
     <input type="text" name="acompte" placeholder="Acompte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="echeancier" placeholder="EchÃ©ancier de paiement" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="echeancier" placeholder="Échéancier de paiement" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
     <input type="text" name="retenue" placeholder="Retenue de garantie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="penalites" placeholder="PÃ©nalitÃ©s de retard" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <input type="text" name="penalites" placeholder="Pénalités de retard" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
     <input type="text" name="avenants" placeholder="Gestion des avenants" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
     <input type="text" name="assurances" placeholder="Assurances" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
   </div>
@@ -683,11 +745,11 @@ window.addV5Lot = function() {
     const container = document.getElementById('v5-lots-container');
     const div = document.createElement('div');
     div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
-    div.innerHTML = 
-        <input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: MaÃ§onnerie)" oninput="window.calcV5Totals()">
+    div.innerHTML = `
+        <input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: Maçonnerie)" oninput="window.calcV5Totals()">
         <input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" oninput="window.calcV5Totals()">
         <button type="button" onclick="this.parentElement.remove(); window.calcV5Totals()" class="text-rose-500 font-bold">X</button>
-    ;
+    `;
     container.appendChild(div);
     window.calcV5Totals();
 };
@@ -725,6 +787,7 @@ window.calcV5Totals = function() {
 // Add initial lot
 document.addEventListener('DOMContentLoaded', () => { window.addV5Lot(); });
 </script>
+
 
       <!-- FORMULAIRE 4 : FINITIONS & SECOND ŒUVRE        -->
       <!-- ============================================== -->
