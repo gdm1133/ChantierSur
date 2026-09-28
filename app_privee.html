@@ -682,26 +682,44 @@
             <input type="text" name="client_city" placeholder="Ville" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
         </div>
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Type de projet</label>
-            <input type="text" name="project_type" placeholder="Type de projet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
+            <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+              <option value="0">RDC Simple (Villa plain-pied)</option>
+              <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+              <option value="2">R+2 (Immeuble R+2)</option>
+              <option value="3">R+3 (Immeuble R+3)</option>
+              <option value="4">R+4 (Immeuble R+4)</option>
+              <option value="5">R+5 (Immeuble R+5)</option>
+              <option value="6">R+6 (Immeuble R+6)</option>
+              <option value="7">R+7 (Immeuble R+7)</option>
+              <option value="8">R+8 (Immeuble R+8)</option>
+              <option value="9">R+9 (Immeuble R+9)</option>
+              <option value="10">R+10 (Tour / Immeuble R+10)</option>
+            </select>
         </div>
     </div>
-    
-    <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
-          <option value="0">RDC Simple (Villa plain-pied)</option>
-          <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
-          <option value="2">R+2 (Immeuble R+2)</option>
-          <option value="3">R+3 (Immeuble R+3)</option>
-          <option value="4">R+4 (Immeuble R+4)</option>
-          <option value="5">R+5 (Immeuble R+5)</option>
-          <option value="6">R+6 (Immeuble R+6)</option>
-          <option value="7">R+7 (Immeuble R+7)</option>
-          <option value="8">R+8 (Immeuble R+8)</option>
-          <option value="9">R+9 (Immeuble R+9)</option>
-          <option value="10">R+10 (Tour / Immeuble R+10)</option>
-        </select>
+  </div>
+
+  <!-- 2.1b Bloc Identification du Devis -->
+  <div class="step-container space-y-6">
+    <h4 class="text-lg font-bold text-[#0B1325]">Identification du devis</h4>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet du devis (Type de projet) <span class="text-red-500">*</span></label>
+            <input type="text" name="devis_object" placeholder="Ex: Construction d'une villa R+1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom de l'entreprise / Tâcheron</label>
+            <input type="text" name="devis_company" placeholder="Ex: Eiffage Sénégal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA</label>
+            <input type="text" name="devis_ninea" placeholder="Numéro d'identification nationale" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">RCCM</label>
+            <input type="text" name="devis_rccm" placeholder="Registre de commerce" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
     </div>
   </div>
 
@@ -778,24 +796,61 @@
 
   <!-- 2.4 Bloc Totaux -->
   <div class="step-container space-y-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-    <h4 class="text-lg font-bold text-[#0B1325]">Totaux</h4>
-    <div class="flex justify-between"><span>Total HT :</span><span id="v5-total-ht">0</span></div>
-    <div class="flex justify-between items-center">
-      <span>TVA (%) :</span>
-      <input type="number" id="v5-tva-rate" value="18" oninput="window.calcV5TotalsState()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-1 text-right">
+    <h4 class="text-lg font-bold text-[#0B1325]">Totaux du devis</h4>
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total HT indiqué sur le devis (FCFA) <span class="text-red-500">*</span></label>
+        <input type="number" name="devis_total_ht" placeholder="Ex: 15000000" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:border-[#0B1325] outline-none" required>
+        <p class="text-[10px] text-slate-500 mt-1">Le montant exact écrit par l'entrepreneur, même s'il est faux.</p>
     </div>
-    <div class="flex justify-between font-bold text-lg border-t border-slate-300 pt-2 mt-2"><span>Total TTC :</span><span id="v5-total-ttc">0</span></div>
+    <div class="flex justify-between items-center">
+      <span class="font-bold text-sm">Taux TVA (%) :</span>
+      <input type="number" id="v5-tva-rate" name="devis_tva_taux" value="18" oninput="window.calcV5TotalsState()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-2 text-right font-bold">
+    </div>
+    
+    <div class="mt-4 pt-4 border-t border-slate-300">
+        <h5 class="text-sm font-bold text-[#0B1325] mb-2">Calcul automatique (selon vos lignes)</h5>
+        <div class="flex justify-between text-sm text-slate-600 mb-1"><span>Total HT Recalculé :</span><span id="v5-total-ht" class="font-mono">0</span></div>
+        <div class="flex justify-between font-bold text-lg text-[#0B1325] pt-1"><span>Total TTC Recalculé :</span><span id="v5-total-ttc" class="font-mono">0</span></div>
+    </div>
   </div>
 
   <!-- 2.5 Bloc Conditions contractuelles -->
   <div class="step-container space-y-6">
     <h4 class="text-lg font-bold text-[#0B1325]">Conditions contractuelles</h4>
-    <input type="text" name="acompte" placeholder="Acompte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="echeancier" placeholder="Échéancier de paiement" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="retenue" placeholder="Retenue de garantie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="penalites" placeholder="Pénalités de retard" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="avenants" placeholder="Gestion des avenants" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-    <input type="text" name="assurances" placeholder="Assurances" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+    <p class="text-sm text-slate-600 mb-4">Laissez vide si non précisé sur le devis (l'audit le signalera comme un risque).</p>
+    
+    <div class="grid grid-cols-1 gap-4">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Acompte à la signature</label>
+            <div class="flex">
+                <input type="number" name="devis_acompte" placeholder="Ex: 30" class="w-full bg-slate-50 border border-r-0 border-slate-300 rounded-l-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+                <select name="devis_acompte_type" class="bg-slate-100 border border-slate-300 rounded-r-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] cursor-pointer">
+                  <option value="percent" selected>%</option>
+                  <option value="fcfa">FCFA</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Échéancier de paiement</label>
+            <input type="text" name="echeancier" placeholder="Ex: Selon avancement ou Mensuel" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Retenue de garantie (%)</label>
+            <input type="number" name="retenue" placeholder="Ex: 5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pénalités de retard</label>
+            <input type="text" name="penalites" placeholder="Ex: 1/1000 du montant par jour" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Gestion des avenants</label>
+            <input type="text" name="avenants" placeholder="Ex: Sur devis préalable validé" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Assurances (RC / Décennale)</label>
+            <input type="text" name="assurances" placeholder="Ex: Attestation fournie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        </div>
+    </div>
   </div>
 
   <div id="v5-error-msg" class="text-rose-600 font-bold hidden">Veuillez saisir ou valider au moins un lot avec son montant pour lancer l'audit.</div>
