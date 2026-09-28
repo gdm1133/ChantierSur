@@ -4,7 +4,6 @@ const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fontkitModule = require('@pdf-lib/fontkit');
 const fontkit = fontkitModule.default || fontkitModule;
 
-
 function findFile(filename) {
   const paths = [
     path.join(__dirname, filename),
@@ -15,6 +14,7 @@ function findFile(filename) {
   for (let p of paths) { if (fs.existsSync(p)) return p; }
   throw new Error('File not found: ' + filename + ' in ' + paths.join(', '));
 }
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers: { 'Allow': 'POST' }, body: 'Method Not Allowed' };
@@ -27,7 +27,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ error: 'DonnÃ©es AUDIT invalides.' })
+      body: JSON.stringify({ error: 'Données AUDIT invalides.' })
     };
   }
 
@@ -35,7 +35,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ error: "Aucune ligne validÃ©e â€” retournez Ã  l'Ã©cran de validation." })
+      body: JSON.stringify({ error: "Aucune ligne validée — retournez à l'écran de validation." })
     };
   }
 
@@ -57,7 +57,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ error: "Aucune ligne validÃ©e â€” retournez Ã  l'Ã©cran de validation." })
+      body: JSON.stringify({ error: "Aucune ligne validée — retournez à l'écran de validation." })
     };
   }
 
@@ -76,65 +76,105 @@ exports.handler = async (event) => {
     const { width, height } = currentPage.getSize();
     let currentY = height - 40;
 
-    const drawHeader = (page, y) => {
-      page.drawText('ChantierSur.com | Dossier : ' + (data.dossier||'') + ' | Date : ' + (data.devis.date||''), { x: 40, y: y, size: 9, font: regularFont, color: rgb(0.5, 0.5, 0.5) });
-      page.drawText('BUREAU D\'Ã‰TUDES NUMÃ‰RIQUE INDÃ‰PENDANT â€” AUDIT TECHNIQUE BTP SÃ‰NÃ‰GAL', { x: 40, y: y - 12, size: 8, font: boldFont, color: rgb(0.3, 0.3, 0.3) });
-      page.drawText('RAPPORT D\'AUDIT DE DEVIS', { x: 40, y: y - 35, size: 16, font: boldFont, color: rgb(0.1, 0.1, 0.1) });
-      return y - 60;
+    const COLOR_NAVY = rgb(11/255, 19/255, 37/255);
+    const COLOR_AMBER = rgb(245/255, 158/255, 11/255);
+    const COLOR_SLATE = rgb(148/255, 163/255, 184/255);
+
+    const drawHeader = (page, y, pageIndex) => {
+      // Fond Navy
+      page.drawRectangle({ x: 0, y: height - 70, width: width, height: 70, color: COLOR_NAVY });
+      // Ligne Amber
+      page.drawRectangle({ x: 0, y: height - 73, width: width, height: 3, color: COLOR_AMBER });
+      
+      const clientName = data.client.nom || "Maître d'Ouvrage";
+      const clientPhone = data.client.telephone || "";
+      const refDoc = data.dossier || "N/A";
+      const dateStr = data.devis.date || new Date().toLocaleDateString('fr-FR');
+
+      // Textes
+      page.drawText('ChantierSur.com', { x: 40, y: height - 30, size: 16, font: boldFont, color: rgb(1, 1, 1) });
+      page.drawText("BUREAU D'ÉTUDES NUMÉRIQUE INDÉPENDANT", { x: 40, y: height - 42, size: 8, font: regularFont, color: COLOR_SLATE });
+      
+      page.drawText('AUDIT TECHNIQUE ET CONFORMITÉ DEVIS', { x: width - 280, y: height - 30, size: 10, font: boldFont, color: rgb(1, 1, 1) });
+      
+      let partText = '';
+      if (pageIndex === 0) partText = "Partie 1 & 2 - Identification et Vérifications";
+      else if (pageIndex === 1) partText = "Partie 3 - Analyse et décision";
+      else partText = "Partie 4 - Synthèse";
+
+      page.drawText(partText, { x: width - 280, y: height - 42, size: 9, font: regularFont, color: COLOR_AMBER });
+
+      // Cartouche dossier
+      page.drawRectangle({ x: width - 280, y: height - 60, width: 240, height: 12, color: rgb(1,1,1), opacity: 0.1 });
+      page.drawText(`Réf: ${refDoc} | Date: ${dateStr} | Client: ${clientName}`, { x: width - 275, y: height - 56, size: 7, font: regularFont, color: rgb(1,1,1) });
+
+      return height - 100;
     };
 
-    const drawFooter = (page) => {
-      page.drawText('DOCUMENT TECHNIQUE NOMINATIF & CONFIDENTIEL â€” MAÃŽTRE D\'OUVRAGE : ' + (data.client.nom||''), { x: 40, y: height - 15, size: 7, font: boldFont, color: rgb(0.7, 0.2, 0.2) });
+    const drawFooter = (page, pageIndex) => {
+      // Ligne grise au-dessus du footer
+      page.drawRectangle({ x: 40, y: 35, width: width - 80, height: 1, color: rgb(0.9, 0.9, 0.9) });
+      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — Dakar, République du Sénégal.", { x: 40, y: 25, size: 7, font: regularFont, color: COLOR_SLATE });
+      page.drawText("Document généré automatiquement à titre indicatif — ChantierSur.com — Bureau d'études numérique indépendant.", { x: 40, y: 15, size: 7, font: regularFont, color: COLOR_SLATE });
+      page.drawText(`Page ${pageIndex + 1} sur ${pages.length}`, { x: width - 80, y: 20, size: 7, font: boldFont, color: COLOR_NAVY });
     };
 
     const checkPageBreak = (requiredSpace) => {
-      if (currentY - requiredSpace < 40) {
+      if (currentY - requiredSpace < 50) {
         currentPage = pdfDoc.addPage([595, 842]);
         pages.push(currentPage);
-        currentY = height - 40;
-        drawFooter(currentPage);
+        currentY = drawHeader(currentPage, currentY, pages.length - 1);
         return true;
       }
       return false;
     };
 
-    drawFooter(currentPage);
-    currentY = drawHeader(currentPage, currentY);
+    currentY = drawHeader(currentPage, currentY, 0);
+
+    // Cartouche nominatif
+    currentPage.drawRectangle({ x: 40, y: currentY - 50, width: width - 80, height: 40, color: rgb(0.96, 0.97, 0.98), borderColor: rgb(0.8, 0.84, 0.88), borderWidth: 1 });
+    currentPage.drawText("IDENTIFICATION NOMINATIVE DU MAÎTRE D'OUVRAGE & DU PROJET", { x: 50, y: currentY - 22, size: 9, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText(`Maître d'Ouvrage : ${data.client.nom || ''}`, { x: 50, y: currentY - 35, size: 8, font: regularFont, color: rgb(0.2, 0.25, 0.33) });
+    currentPage.drawText(`Téléphone : ${data.client.telephone || ''}`, { x: 50, y: currentY - 45, size: 8, font: regularFont, color: rgb(0.2, 0.25, 0.33) });
+    
+    currentY -= 70;
 
     // Partie 1
-    currentPage.drawText('Partie 1 â€” Identification', { x: 40, y: currentY, size: 12, font: boldFont });
+    currentPage.drawText('Partie 1 — Identification', { x: 40, y: currentY, size: 12, font: boldFont });
     currentY -= 20;
-    currentPage.drawText('I. Devis analysÃ©', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('I. Devis analysé', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
     currentPage.drawText('Objet: ' + data.devis.objet, { x: 50, y: currentY, size: 9, font: regularFont });
     currentY -= 20;
-    currentPage.drawText('II. Entreprise & existence lÃ©gale', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('II. Entreprise & existence légale', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
     
     let nineaText = 'Non fourni';
     if (data.devis.entreprise.ninea) {
-      nineaText = 'Identifiant dÃ©clarÃ© dans les donnÃ©es reÃ§ues â€” authenticitÃ© non vÃ©rifiÃ©e';
+      nineaText = 'Identifiant déclaré dans les données reçues — authenticité non vérifiée';
     } else {
-      nineaText = 'l\'identifiant n\'a pas Ã©tÃ© fourni';
+      nineaText = "l'identifiant n'a pas été fourni";
     }
     currentPage.drawText('NINEA/RCCM: ' + nineaText, { x: 50, y: currentY, size: 9, font: regularFont });
     currentY -= 30;
 
     // Partie 2
     checkPageBreak(50);
-    currentPage.drawText('Partie 2 â€” VÃ©rifications', { x: 40, y: currentY, size: 12, font: boldFont });
+    currentPage.drawText('Partie 2 — Vérifications', { x: 40, y: currentY, size: 12, font: boldFont });
     currentY -= 20;
-    currentPage.drawText('III. VÃ©rification arithmÃ©tique ligne par ligne', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('III. Vérification arithmétique ligne par ligne', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
 
     // Tableau Lignes
     const colX = [40, 100, 250, 280, 320, 380, 450, 520];
-    const headers = ['Lot', 'DÃ©signation', 'QtÃ©', 'UnitÃ©', 'PU HT', 'Montant indiquÃ©', 'Montant recalculÃ©', 'Ã‰cart'];
+    const headers = ['Lot', 'Désignation', 'Qté', 'Unité', 'PU HT', 'Indiqué', 'Recalculé', 'Écart'];
     
     headers.forEach((h, i) => {
       currentPage.drawText(h, { x: colX[i], y: currentY, size: 7, font: boldFont });
     });
-    currentY -= 15;
+    currentY -= 5;
+    currentPage.drawLine({start: {x: 40, y: currentY}, end: {x: 550, y: currentY}, thickness: 1, color: COLOR_NAVY});
+    currentY -= 10;
 
     let ecarts = [];
     data.devis.lignes.forEach(l => {
@@ -154,47 +194,53 @@ exports.handler = async (event) => {
         ec.toString()
       ];
       row.forEach((txt, i) => {
-        currentPage.drawText(txt, { x: colX[i], y: currentY, size: 7, font: regularFont });
+        const f = i === 7 ? boldFont : regularFont;
+        const c = i === 7 ? COLOR_NAVY : rgb(0,0,0);
+        currentPage.drawText(txt, { x: colX[i], y: currentY, size: 7, font: f, color: c });
       });
       currentY -= 12;
     });
     
     currentY -= 15;
     checkPageBreak(40);
-    currentPage.drawText('IV. CohÃ©rence des totaux', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('IV. Cohérence des totaux', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
     
     const tvaCalc = totalHTCalcule * (data.devis.tvaTaux / 100);
     const totalTTC = totalHTCalcule + tvaCalc;
     const ecartHT = (data.devis.totalHTIndique || 0) - totalHTCalcule;
     
-    currentPage.drawText('Total HT IndiquÃ©: ' + (data.devis.totalHTIndique||0) + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
+    currentPage.drawText('Total HT Indiqué: ' + (data.devis.totalHTIndique||0) + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
     currentY -= 12;
-    currentPage.drawText('Total HT RecalculÃ©: ' + totalHTCalcule + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
+    currentPage.drawText('Total HT Recalculé: ' + totalHTCalcule + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
     currentY -= 12;
-    currentPage.drawText('Ã‰cart HT: ' + ecartHT + ' FCFA', { x: 50, y: currentY, size: 9, font: boldFont });
+    currentPage.drawText('Écart HT: ' + ecartHT + ' FCFA', { x: 50, y: currentY, size: 9, font: boldFont });
     currentY -= 20;
 
     // Partie 3
     checkPageBreak(60);
-    currentPage.drawText('Partie 3 â€” Analyse et dÃ©cision', { x: 40, y: currentY, size: 12, font: boldFont });
+    currentPage.drawText('Partie 3 — Analyse et décision', { x: 40, y: currentY, size: 12, font: boldFont });
     currentY -= 20;
-    currentPage.drawText('V. Ã‰carts dÃ©tectÃ©s', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('V. Écarts détectés', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
 
     if (ecarts.length === 0 && ecartHT === 0) {
-      currentPage.drawText('les montants indiquÃ©s sont arithmÃ©tiquement cohÃ©rents avec les quantitÃ©s et PU transmis', { x: 50, y: currentY, size: 9, font: regularFont });
+      currentPage.drawText('Les montants indiqués sont arithmétiquement cohérents avec les quantités et PU transmis.', { x: 50, y: currentY, size: 9, font: regularFont });
       currentY -= 15;
     } else {
       ecarts.forEach(e => {
-        checkPageBreak(20);
-        currentPage.drawText('Ligne: ' + e.l.designation + ' | Calcul: ' + e.l.quantite + ' x ' + e.l.pu + ' = ' + e.mCalc + ' | Ã‰cart: ' + e.ec + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
+        checkPageBreak(25); // Augmenté pour l'espacement
+        currentPage.drawText('• Ligne: ' + e.l.designation, { x: 50, y: currentY, size: 9, font: boldFont, color: rgb(0.86, 0.15, 0.15) });
         currentY -= 12;
+        currentPage.drawText('  Calcul: ' + e.l.quantite + ' x ' + e.l.pu + ' = ' + e.mCalc + ' | Écart: ' + e.ec + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
+        currentY -= 18; // Plus d'espace entre chaque écart
       });
       if (ecartHT !== 0) {
-        checkPageBreak(20);
-        currentPage.drawText('Total HT | IndiquÃ©: ' + data.devis.totalHTIndique + ' | RecalculÃ©: ' + totalHTCalcule + ' | Ã‰cart: ' + ecartHT, { x: 50, y: currentY, size: 9, font: boldFont });
-        currentY -= 15;
+        checkPageBreak(25);
+        currentPage.drawText('• Total HT', { x: 50, y: currentY, size: 9, font: boldFont, color: rgb(0.86, 0.15, 0.15) });
+        currentY -= 12;
+        currentPage.drawText('  Indiqué: ' + data.devis.totalHTIndique + ' | Recalculé: ' + totalHTCalcule + ' | Écart: ' + ecartHT, { x: 50, y: currentY, size: 9, font: regularFont });
+        currentY -= 18;
       }
     }
 
@@ -208,7 +254,7 @@ exports.handler = async (event) => {
       const v = data.devis.conditions[k];
       let txt = v;
       if (!v || v === '') {
-        txt = 'Non prÃ©cisÃ© (Ã  faire prÃ©ciser par Ã©crit avant signature)';
+        txt = 'Non précisé (à faire préciser par écrit avant signature)';
         hasMissingClauses = true;
       }
       checkPageBreak(15);
@@ -218,53 +264,50 @@ exports.handler = async (event) => {
 
     currentY -= 10;
     checkPageBreak(40);
-    currentPage.drawText('VII. Mesures Ã  prendre & Recommandations', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('VII. Mesures à prendre & Recommandations', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
     
     if (ecarts.length > 0 || ecartHT !== 0) {
-      currentPage.drawText('- Demander une correction Ã©crite du devis concernant les Ã©carts arithmÃ©tiques.', { x: 50, y: currentY, size: 9, font: regularFont });
+      currentPage.drawText('- Demander une correction écrite du devis concernant les écarts arithmétiques.', { x: 50, y: currentY, size: 9, font: regularFont });
       currentY -= 12;
     }
     if (hasMissingClauses) {
-      currentPage.drawText('- Demander de prÃ©ciser par Ã©crit les clauses contractuelles manquantes.', { x: 50, y: currentY, size: 9, font: regularFont });
+      currentPage.drawText('- Demander de préciser par écrit les clauses contractuelles manquantes.', { x: 50, y: currentY, size: 9, font: regularFont });
       currentY -= 12;
     }
     
     if (ecarts.length > 0 || ecartHT !== 0 || hasMissingClauses) {
-      currentPage.drawText('Recommandation: Demander une version corrigÃ©e et complÃ©tÃ©e du devis avant signature', { x: 50, y: currentY, size: 9, font: boldFont });
+      currentPage.drawText('Recommandation: Demander une version corrigée et complétée du devis avant signature.', { x: 50, y: currentY, size: 9, font: boldFont });
       currentY -= 15;
     } else {
-      currentPage.drawText('Recommandation: Conditions arithmÃ©tiques cohÃ©rentes. Signature possible sous rÃ©serve de validation technique.', { x: 50, y: currentY, size: 9, font: boldFont });
+      currentPage.drawText('Recommandation: Conditions arithmétiques cohérentes. Signature possible sous réserve de validation technique.', { x: 50, y: currentY, size: 9, font: boldFont });
       currentY -= 15;
     }
 
     // Partie 4
     currentY -= 10;
-    checkPageBreak(50);
-    currentPage.drawText('Partie 4 â€” SynthÃ¨se', { x: 40, y: currentY, size: 12, font: boldFont });
+    checkPageBreak(60);
+    currentPage.drawText('Partie 4 — Synthèse', { x: 40, y: currentY, size: 12, font: boldFont });
     currentY -= 20;
-    currentPage.drawText('VIII. SynthÃ¨se financiÃ¨re', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('VIII. Synthèse financière', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
-    currentPage.drawText('Total HT RecalculÃ© : ' + totalHTCalcule + ' FCFA', { x: 50, y: currentY, size: 9, font: boldFont });
+    currentPage.drawText('Total HT Recalculé : ' + totalHTCalcule + ' FCFA', { x: 50, y: currentY, size: 9, font: boldFont });
     currentY -= 12;
     currentPage.drawText('TVA (' + data.devis.tvaTaux + '%) : ' + tvaCalc + ' FCFA', { x: 50, y: currentY, size: 9, font: regularFont });
     currentY -= 12;
-    currentPage.drawText('Total TTC RecalculÃ© : ' + totalTTC + ' FCFA', { x: 50, y: currentY, size: 9, font: boldFont });
+    currentPage.drawText('Total TTC Recalculé : ' + totalTTC + ' FCFA', { x: 50, y: currentY, size: 9, font: boldFont });
     currentY -= 30;
 
     checkPageBreak(40);
     currentPage.drawText('Mentions obligatoires:', { x: 40, y: currentY, size: 8, font: boldFont });
     currentY -= 12;
-    currentPage.drawText('Outil d\'aide Ã  la dÃ©cision. Analyse automatisÃ©e indicative â€” sans valeur d\'expertise judiciaire.', { x: 40, y: currentY, size: 7, font: regularFont });
+    currentPage.drawText("Outil d'aide à la décision. Analyse automatisée indicative — sans valeur d'expertise judiciaire.", { x: 40, y: currentY, size: 7, font: regularFont });
     currentY -= 10;
     currentPage.drawText('Document produit sans certification.', { x: 40, y: currentY, size: 7, font: regularFont });
 
-    // Pagination
-    const totalPages = pages.length;
+    // Rendu des footers restants
     pages.forEach((p, idx) => {
-      p.drawText('ChantierSur.com â€” Bureau d\'Ã©tudes numÃ©rique indÃ©pendant, Dakar, RÃ©publique du SÃ©nÃ©gal. Page ' + (idx + 1) + ' sur ' + totalPages, {
-        x: 40, y: 20, size: 7, font: regularFont
-      });
+      drawFooter(p, idx);
     });
 
     const pdfBytes = await pdfDoc.save();
@@ -284,9 +327,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ error: 'Font loading failed: ' + err.message })
+      body: JSON.stringify({ error: 'Generation failed: ' + err.message })
     };
   }
 };
-
-
