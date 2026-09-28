@@ -59,6 +59,27 @@
         <input type="number" name="surface" value="2000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
       </div>
     </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total HT Indiqué (FCFA)</label>
+        <input type="number" name="devis_total_ht" placeholder="Ex: 15000000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Taux TVA (%)</label>
+        <input type="number" name="devis_tva_taux" value="18" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Acompte demandé</label>
+        <div class="flex">
+          <input type="number" name="devis_acompte" placeholder="Ex: 30" class="w-full bg-slate-50 border border-r-0 border-slate-300 rounded-l-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+          <select name="devis_acompte_type" class="bg-slate-100 border border-slate-300 rounded-r-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] cursor-pointer">
+            <option value="percent" selected>%</option>
+            <option value="fcfa">FCFA</option>
+          </select>
+        </div>
+      </div>
+    </div>
     <div class="grid grid-cols-1 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>

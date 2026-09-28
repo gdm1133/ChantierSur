@@ -1983,7 +1983,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             totalHTIndique: parseFloat(fd.get('devis_total_ht')) || 0,
             tvaTaux: parseFloat(fd.get('devis_tva_taux')) || 18,
             conditions: {
-              acompte: parseFloat(fd.get('acompte')) || 0,
+              acompte: parseFloat(fd.get('devis_acompte')) || 0,
+              acompteType: (fd.get('devis_acompte_type') || 'percent').trim(),
               echeancier: (fd.get('echeancier') || '').trim(),
               retenueGarantie: parseFloat(fd.get('retenue')) || 0,
               penalites: (fd.get('penalites') || '').trim(),
