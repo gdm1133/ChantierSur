@@ -1952,6 +1952,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             telephone: rawPrefix + ' ' + rawPhone,
             email: clientEmail
           },
+          identification: {
+            objetDevis: (fd.get('devis_object') || '').trim(),
+            entrepriseNom: (fd.get('devis_company') || '').trim(),
+            ninea: (fd.get('devis_ninea') || '').trim(),
+            rccm: (fd.get('devis_rccm') || '').trim(),
+          },
+          totaux: {
+            htIndique: parseFloat(fd.get('devis_total_ht')) || 0,
+            tauxTVA: parseFloat(fd.get('devis_tva_taux')) || 18,
+            montantTVA: (parseFloat(fd.get('devis_total_ht')) || 0) * ((parseFloat(fd.get('devis_tva_taux')) || 18) / 100),
+            ttc: (parseFloat(fd.get('devis_total_ht')) || 0) * (1 + ((parseFloat(fd.get('devis_tva_taux')) || 18) / 100))
+          },
           devis: {
             objet: (fd.get('devis_object') || '').trim(),
             reference: (fd.get('devis_number') || '').trim(),
@@ -1962,14 +1974,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             localisation: fd.get('project_location') || '',
             entreprise: {
               nom: (fd.get('devis_company') || '').trim(),
-              ninea: (fd.get('company_ninea') || '').trim(),
-              rccm: (fd.get('company_rccm') || '').trim(),
+              ninea: (fd.get('devis_ninea') || '').trim(),
+              rccm: (fd.get('devis_rccm') || '').trim(),
               telephone: (fd.get('company_phone') || '').trim(),
               adresse: (fd.get('company_address') || '').trim()
             },
             lignes: lines,
             totalHTIndique: parseFloat(fd.get('devis_total_ht')) || 0,
-            tvaTaux: 18,
+            tvaTaux: parseFloat(fd.get('devis_tva_taux')) || 18,
             conditions: {
               acompte: parseFloat(fd.get('acompte')) || 0,
               echeancier: (fd.get('echeancier') || '').trim(),

@@ -1,4 +1,4 @@
-﻿<div class="step-container step-1 space-y-6">
+<div class="step-container step-1 space-y-6">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">N° du devis</label>
@@ -8,19 +8,24 @@
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Date du devis</label>
         <input type="date" name="devis_date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
       </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Entreprise / Tâcheron</label>
-        <input type="text" name="devis_company" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet du devis <span class="text-red-500">*</span></label>
+        <input type="text" name="devis_object" placeholder="Texte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom de l'entreprise</label>
+        <input type="text" name="devis_company" placeholder="Texte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
       </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet des travaux</label>
-        <input type="text" name="devis_object" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" required>
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA</label>
+        <input type="text" name="devis_ninea" placeholder="Texte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
       </div>
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA / RCCM (si fournis)</label>
-        <input type="text" name="devis_ninea" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">RCCM</label>
+        <input type="text" name="devis_rccm" placeholder="Texte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
       </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
