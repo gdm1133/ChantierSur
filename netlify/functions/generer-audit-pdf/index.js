@@ -35,6 +35,13 @@ function fmtCfa(num) {
   return Math.round(num).toLocaleString('fr-FR').replace(/\s/g, '\u00A0') + ' FCFA';
 }
 
+const COLOR_NAVY = rgb(11/255, 19/255, 37/255);
+const COLOR_AMBER = rgb(245/255, 158/255, 11/255);
+const COLOR_SLATE = rgb(148/255, 163/255, 184/255);
+const COLOR_RED = rgb(0.86, 0.15, 0.15);
+const COLOR_GREEN = rgb(0.1, 0.6, 0.2);
+const COLOR_GRAY = rgb(0.9, 0.9, 0.9);
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
@@ -204,13 +211,6 @@ exports.handler = async (event) => {
     pages.push(currentPage);
     const { width, height } = currentPage.getSize();
     let currentY = height - 40;
-
-    const COLOR_NAVY = rgb(11/255, 19/255, 37/255);
-    const COLOR_AMBER = rgb(245/255, 158/255, 11/255);
-    const COLOR_SLATE = rgb(148/255, 163/255, 184/255);
-    const COLOR_RED = rgb(0.86, 0.15, 0.15);
-    const COLOR_GREEN = rgb(0.1, 0.6, 0.2);
-    const COLOR_GRAY = rgb(0.9, 0.9, 0.9);
 
     const drawHeader = (page, y, pageIndex) => {
       page.drawRectangle({ x: 0, y: height - 70, width: width, height: 70, color: COLOR_NAVY });
