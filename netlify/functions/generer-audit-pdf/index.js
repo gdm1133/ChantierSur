@@ -106,13 +106,14 @@ exports.handler = async (event) => {
   let topActions = [];
 
   if (anomaliesArith.length > 0) {
+    const sArith = anomaliesArith.length > 1 ? 's' : '';
     anomalies.push({
       titre: 'Écarts arithmétiques détectés',
-      constat: `${anomaliesArith.length} ligne(s) présente(nt) un écart de calcul (Qté × PU ≠ Montant).`,
+      constat: `${anomaliesArith.length} ligne${sArith} présente${anomaliesArith.length > 1 ? 'nt' : ''} un écart de calcul (Qté × PU ≠ Montant).`,
       risque: 'Surfacturation ou incohérence dans le contrat.',
       action: 'Exiger un devis corrigé arithmétiquement parfait avant signature.'
     });
-    topActions.push(`Faire corriger les ${anomaliesArith.length} erreurs de calcul arithmétique.`);
+    topActions.push(`Faire corriger la/les ${anomaliesArith.length} erreur${sArith} de calcul arithmétique.`);
   }
   if (forfaits.length > 0) {
     anomalies.push({
@@ -169,7 +170,10 @@ exports.handler = async (event) => {
       absentes++;
     }
   });
-  if (absentes > 0) topActions.push(`Ajouter les ${absentes} clause(s) de sécurité manquante(s) (pénalités, retenue, etc).`);
+  if (absentes > 0) {
+      const sAbs = absentes > 1 ? 's' : '';
+      topActions.push(`Ajouter les ${absentes} clause${sAbs} de sécurité manquante${sAbs} (pénalités, retenue, etc).`);
+  }
 
   let acompteStr = 'Non précisé';
   if (data.devis?.conditions?.acompte) {
@@ -187,7 +191,10 @@ exports.handler = async (event) => {
     { n: '8. Délai d\'exécution', v: data.devis?.conditions?.delai }
   ];
   let missingClausesCount = clausesList.filter(c => (!c.v || c.v === '' || c.v === 'Non précisé')).length;
-  if (missingClausesCount >= 4) causesBloquantes.push(`${missingClausesCount} clauses absentes.`);
+  if (missingClausesCount >= 4) {
+      const sCl = missingClausesCount > 1 ? 's' : '';
+      causesBloquantes.push(`${missingClausesCount} clause${sCl} absente${sCl}.`);
+  }
 
   let hasBloquant = causesBloquantes.length > 0 || Math.abs(ecartGlobalHT) > 100000 || cAcompte > 30;
   let hasMajeur = anomaliesArith.length > 0 || anomalies.length > 2;
@@ -248,12 +255,13 @@ exports.handler = async (event) => {
     currentPage.drawText(verdictCode, { x: width - 250, y: currentY - 22, size: 12, font: boldFont, color: verdictColor });
     
     let percNonVerif = totalHTIndiqueDevis > 0 ? (sumForfaits / totalHTIndiqueDevis * 100) : 0;
+    let percNonVerifStr = percNonVerif.toFixed(1).replace('.', ',');
     
     currentPage.drawText(`Total HT Indiqué : ${fmtCfa(totalHTIndiqueDevis)}`, { x: 50, y: currentY - 40, size: 9, font: regularFont });
     currentPage.drawText(`Total HT Recalculé : ${fmtCfa(totalHTCalcule)}`, { x: 50, y: currentY - 55, size: 9, font: boldFont });
     currentPage.drawText(`Écart global : ${ecartGlobalHT > 0 ? '+' : ''}${fmtCfa(ecartGlobalHT)}`, { x: 50, y: currentY - 70, size: 9, font: regularFont, color: ecartGlobalHT !== 0 ? COLOR_RED : COLOR_GREEN });
     currentPage.drawText(`Anomalies majeures/bloquantes : ${anomalies.length}`, { x: width - 250, y: currentY - 40, size: 9, font: regularFont });
-    currentPage.drawText(`Non vérifiable (Forfaits) : ${percNonVerif.toFixed(1)} %`, { x: width - 250, y: currentY - 55, size: 9, font: regularFont });
+    currentPage.drawText(`Non vérifiable (Forfaits) : ${percNonVerifStr} %`, { x: width - 250, y: currentY - 55, size: 9, font: regularFont });
     
     currentPage.drawText('Top actions urgentes :', { x: 50, y: currentY - 90, size: 8, font: boldFont });
     let acts = topActions.slice(0, 3);
@@ -275,14 +283,19 @@ exports.handler = async (event) => {
     const entNom = data.identification?.entrepriseNom || 'Non fourni';
     const devisDate = data.devis?.date || 'Non précisée';
     const auditDate = new Date().toLocaleDateString('fr-FR');
+    const ninea = data.identification?.ninea || 'Non fourni';
+    const rccm = data.identification?.rccm || 'Non fourni';
+    const refStr = data.dossier || 'CS-AUDIT-' + new Date().getTime().toString().slice(-6);
     
-    currentPage.drawText(`Référence du rapport : CS-AUDIT-${new Date().getTime().toString().slice(-6)} | Date d'audit : ${auditDate}`, { x: 40, y: currentY, size: 8, font: regularFont });
+    currentPage.drawText(`Référence du rapport : ${refStr} | Date d'audit : ${auditDate}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
     currentPage.drawText(`Devis audité : ${objText} | Émis le : ${devisDate} | Par : ${entNom}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
+    currentPage.drawText(`NINEA : ${ninea} | RCCM : ${rccm}`, { x: 40, y: currentY, size: 8, font: regularFont });
+    currentY -= 12;
     currentPage.drawText(`L'audit couvre : calculs arithmétiques, détection des forfaits, conformité TVA, présence des clauses contractuelles vitales.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
     currentY -= 12;
-    currentPage.drawText(`L'audit ne couvre pas : l'analyse des prix du marché, l'existence légale (visite de site), l'exactitude des quantités sans métrés.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
+    currentPage.drawText(`L'audit ne couvre pas : l'analyse des prix du marché, l'existence légale de l'entreprise, les vérifications par visite de site.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
     currentY -= 25;
 
     // ==========================================
@@ -340,7 +353,7 @@ exports.handler = async (event) => {
     let lotArray = Object.keys(sousTotauxLot).map(k => ({ nom: k, ...sousTotauxLot[k] })).sort((a,b) => b.indique - a.indique);
     lotArray.forEach(lot => {
         checkPageBreak(15);
-        let pct = totalHTIndiqueDevis > 0 ? (lot.indique / totalHTIndiqueDevis * 100).toFixed(1) : 0;
+        let pct = totalHTIndiqueDevis > 0 ? (lot.indique / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
         currentPage.drawText(`• ${lot.nom} : ${fmtCfa(lot.indique)} indiqués (${pct} %)`, { x: 50, y: currentY, size: 8, font: regularFont });
         currentY -= 12;
     });
@@ -356,13 +369,13 @@ exports.handler = async (event) => {
         checkPageBreak(15);
         let m = l.montantIndique||0;
         topSum += m;
-        let pct = totalHTIndiqueDevis > 0 ? (m / totalHTIndiqueDevis * 100).toFixed(1) : 0;
+        let pct = totalHTIndiqueDevis > 0 ? (m / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
         let ds = (l.designation||'').substring(0, 45);
         currentPage.drawText(`- ${ds}... [${l.lot||'Sans lot'}] : ${fmtCfa(m)} (${pct} %)`, { x: 50, y: currentY, size: 8, font: regularFont });
         currentY -= 12;
     });
     
-    let topPctTotal = totalHTIndiqueDevis > 0 ? (topSum / totalHTIndiqueDevis * 100).toFixed(1) : 0;
+    let topPctTotal = totalHTIndiqueDevis > 0 ? (topSum / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
     currentY -= 5;
     currentPage.drawText(`💡 Ces postes représentent ${topPctTotal} % du devis : c'est sur eux que la négociation a le plus d'effet.`, { x: 40, y: currentY, size: 8, font: boldFont, color: COLOR_NAVY });
     currentY -= 25;
@@ -384,16 +397,16 @@ exports.handler = async (event) => {
     currentY -= 20;
 
     // Encadré Score
-    let percVerif = totalHTIndiqueDevis > 0 ? ((totalHTCalcule - sumForfaits) / totalHTIndiqueDevis * 100).toFixed(1) : 0;
+    let percVerif = totalHTIndiqueDevis > 0 ? ((totalHTCalcule - sumForfaits) / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
     currentPage.drawRectangle({ x: 40, y: currentY - 25, width: width - 80, height: 25, color: rgb(0.95,0.95,0.95) });
-    currentPage.drawText(`SCORE: ${percVerif} % du montant vérifié arithmétiquement | ${percNonVerif.toFixed(1)} % forfaitaire (non vérifiable).`, { x: 50, y: currentY - 17, size: 8, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText(`SCORE: ${percVerif} % du montant vérifié arithmétiquement | ${percNonVerifStr} % forfaitaire (non vérifiable).`, { x: 50, y: currentY - 17, size: 8, font: boldFont, color: COLOR_NAVY });
     currentY -= 40;
 
     // Encadré Enjeu
     currentPage.drawRectangle({ x: 40, y: currentY - 45, width: width - 80, height: 45, color: rgb(0.99,0.95,0.95), borderColor: COLOR_RED, borderWidth: 1 });
     currentPage.drawText(`Surfacturation détectée (écarts positifs) : ${sumEcartsPositifs > 0 ? fmtCfa(sumEcartsPositifs) : 'Aucune'}`, { x: 50, y: currentY - 15, size: 8, font: boldFont });
     currentPage.drawText(`Sous-évaluations (risque d'avenants) : ${sumEcartsNegatifs > 0 ? fmtCfa(sumEcartsNegatifs) : 'Aucune'}`, { x: 50, y: currentY - 27, size: 8, font: boldFont });
-    currentPage.drawText(`Montants non vérifiables : ${sumForfaits > 0 ? fmtCfa(sumForfaits) : 'Aucun'} (${percNonVerif.toFixed(1)} % du devis)`, { x: 50, y: currentY - 39, size: 8, font: boldFont });
+    currentPage.drawText(`Montants non vérifiables : ${sumForfaits > 0 ? fmtCfa(sumForfaits) : 'Aucun'} (${percNonVerifStr} % du devis)`, { x: 50, y: currentY - 39, size: 8, font: boldFont });
     currentY -= 65;
 
     // ==========================================
@@ -437,14 +450,16 @@ exports.handler = async (event) => {
     currentPage.drawText('Points positifs relevés :', { x: 40, y: currentY, size: 9, font: boldFont, color: COLOR_GREEN });
     currentY -= 15;
     let lignesExactes = data.devis.lignes.length - anomaliesArith.length - forfaits.length;
-    currentPage.drawText(`✓ ${lignesExactes} ligne(s) sur ${data.devis.lignes.length} arithmétiquement exacte(s).`, { x: 50, y: currentY, size: 8, font: regularFont });
+    const sLig = lignesExactes > 1 ? 's' : '';
+    currentPage.drawText(`✓ ${lignesExactes} ligne${sLig} sur ${data.devis.lignes.length} arithmétiquement exacte${sLig}.`, { x: 50, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
     if (tvaCalc > 0) {
         currentPage.drawText(`✓ TVA correctement appliquée (base × taux).`, { x: 50, y: currentY, size: 8, font: regularFont });
         currentY -= 12;
     }
     let clausesPresentes = 8 - missingClausesCount;
-    currentPage.drawText(`✓ ${clausesPresentes} clause(s) sur 8 présente(s) et précisée(s).`, { x: 50, y: currentY, size: 8, font: regularFont });
+    const sCp = clausesPresentes > 1 ? 's' : '';
+    currentPage.drawText(`✓ ${clausesPresentes} clause${sCp} sur 8 présente${sCp} et précisée${sCp}.`, { x: 50, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
     if (!hasMajeur && !hasBloquant) {
         currentPage.drawText(`✓ Aucun écart majeur ou clause bloquante détectée.`, { x: 50, y: currentY, size: 8, font: regularFont });
@@ -546,7 +561,10 @@ exports.handler = async (event) => {
     
     let parts = [];
     if (totalEcartArith !== 0) parts.push(`Écart majeur de ${fmtCfa(Math.abs(totalEcartArith))} non corrigé`);
-    if (missingClausesCount > 0) parts.push(`${missingClausesCount} clause(s) bloquante(s) absente(s)`);
+    if (missingClausesCount > 0) {
+        const sCl2 = missingClausesCount > 1 ? 's' : '';
+        parts.push(`${missingClausesCount} clause${sCl2} bloquante${sCl2} absente${sCl2}`);
+    }
     let verdictJustif = parts.length > 0 ? parts.join(' et ') + '.' : "Toutes les vérifications arithmétiques et contractuelles sont correctes.";
     if (hasBloquant || hasMajeur) {
         wrapText('Justification: ' + verdictJustif, 480, regularFont, 9).forEach((l, i) => {
