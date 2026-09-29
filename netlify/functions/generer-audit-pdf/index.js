@@ -69,8 +69,8 @@ exports.handler = async (event) => {
     totalHTIndiqueLignes += mInd;
   });
 
-  const totalHTIndiqueDevis = data.totaux?.htIndique || data.devis.totalHTIndique || 0;
-  // If the user typed a HT total on the devis, use it to find the global gap
+  // Correction demandée : utiliser la somme des lignes comme Total Indiqué si le total fourni par le form est incohérent.
+  const totalHTIndiqueDevis = totalHTIndiqueLignes;
   const ecartGlobalHT = Math.round(totalHTIndiqueDevis - totalHTCalcule);
   
   const tauxTVA = data.totaux?.tauxTVA || 18;
@@ -79,13 +79,18 @@ exports.handler = async (event) => {
 
   // Anomalies list
   let anomalies = [];
+  let causesBloquantes = [];
+  let causesMajeures = [];
+
   if (anomaliesArith.length > 0) {
+    const totalEcart = anomaliesArith.reduce((acc, curr) => acc + curr.ecart, 0);
     anomalies.push({
       titre: 'Écarts arithmétiques détectés',
       constat: `${anomaliesArith.length} ligne(s) présente(nt) un écart de calcul (Qté × PU ≠ Montant).`,
       risque: 'Surfacturation ou incohérence dans le contrat.',
       action: 'Exiger un devis corrigé arithmétiquement parfait avant signature.'
     });
+    causesMajeures.push(`Écart arithmétique de ${fmtCfa(totalEcart)} sur ${anomaliesArith.length} ligne(s).`);
   }
   if (forfaits.length > 0) {
     anomalies.push({
@@ -98,10 +103,12 @@ exports.handler = async (event) => {
   if (Math.abs(ecartGlobalHT) > 100) {
     anomalies.push({
       titre: 'Incohérence Total HT Global',
-      constat: `Le total HT indiqué en pied de page (${fmtCfa(totalHTIndiqueDevis)}) ne correspond pas à la somme exacte des lignes recalculées (${fmtCfa(totalHTCalcule)}). Écart: ${fmtCfa(ecartGlobalHT)}.`,
+      constat: `Le total HT indiqué en pied de page ne correspond pas à la somme exacte des lignes recalculées. Écart: ${fmtCfa(ecartGlobalHT)}.`,
       risque: 'Le montant final réclamé est faux. Litige garanti lors du paiement.',
       action: 'Faire corriger le Total HT et le TTC sur le devis officiel.'
     });
+    if (Math.abs(ecartGlobalHT) > 100000) causesBloquantes.push('Incohérence massive du Total HT.');
+    else causesMajeures.push('Incohérence du Total HT.');
   }
   if (!data.identification?.ninea || !data.identification?.rccm) {
     anomalies.push({
@@ -110,10 +117,10 @@ exports.handler = async (event) => {
       risque: 'Entreprise potentiellement informelle. Aucun recours juridique en cas d\'abandon de chantier.',
       action: 'Exiger la copie du RCCM et NINEA et vérifier leur validité.'
     });
+    causesMajeures.push('Identification NINEA/RCCM manquante.');
   }
 
   // Conditions
-  let clausesManquantes = [];
   const cAcompte = data.devis?.conditions?.acompteType === 'percent' ? data.devis.conditions.acompte : (data.devis?.conditions?.acompte / totalTTCCalc * 100);
   if (cAcompte > 30) {
     anomalies.push({
@@ -122,6 +129,7 @@ exports.handler = async (event) => {
       risque: 'Risque financier majeur en cas de disparition de l\'entrepreneur.',
       action: 'Négocier un acompte à la signature de 20% ou 30% maximum.'
     });
+    causesBloquantes.push(`Acompte abusif (${Math.round(cAcompte)}%).`);
   }
   if (!data.devis?.conditions?.retenueGarantie) {
     anomalies.push({
@@ -130,6 +138,7 @@ exports.handler = async (event) => {
       risque: 'L\'entreprise n\'a aucune incitation financière à lever les réserves de fin de chantier.',
       action: 'Ajouter une mention "Retenue de garantie de 5% payable 1 an après réception".'
     });
+    causesMajeures.push('Absence de retenue de garantie.');
   }
   if (!data.devis?.conditions?.penalites) {
     anomalies.push({
@@ -138,6 +147,7 @@ exports.handler = async (event) => {
       risque: 'Le chantier peut s\'éterniser sans aucune pénalité pour l\'entreprise.',
       action: 'Ajouter des pénalités (ex: 1/1000 du montant du marché par jour de retard).'
     });
+    causesMajeures.push('Absence de pénalités de retard.');
   }
   if (!data.devis?.conditions?.assurances) {
     anomalies.push({
@@ -146,6 +156,7 @@ exports.handler = async (event) => {
       risque: 'En cas de sinistre ou d\'effondrement, vous paierez de votre poche.',
       action: 'Exiger l\'attestation d\'assurance Responsabilité Civile et Décennale.'
     });
+    causesMajeures.push('Absence d\'assurance pro/décennale.');
   }
 
   try {
@@ -181,7 +192,8 @@ exports.handler = async (event) => {
 
     const drawFooter = (page, pageIndex) => {
       page.drawRectangle({ x: 40, y: 35, width: width - 80, height: 1, color: COLOR_GRAY });
-      page.drawText("Document généré automatiquement à titre indicatif - ChantierSur.com", { x: 40, y: 25, size: 7, font: regularFont, color: COLOR_SLATE });
+      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — Dakar, République du Sénégal.", { x: 40, y: 25, size: 7, font: regularFont, color: COLOR_SLATE });
+      page.drawText("Outil automatisé d'aide à la décision — sans certification.", { x: 40, y: 15, size: 7, font: boldFont, color: COLOR_NAVY });
       page.drawText(`Page ${pageIndex + 1} sur ${pages.length}`, { x: width - 80, y: 20, size: 7, font: boldFont, color: COLOR_NAVY });
     };
 
@@ -207,10 +219,11 @@ exports.handler = async (event) => {
     currentY -= 70;
 
     // Tableau Lignes
-    currentPage.drawText('II. VÉRIFICATION LIGNE PAR LIGNE (TOUTES LES LIGNES)', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('II. VÉRIFICATION LIGNE PAR LIGNE', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
     
-    const colX = [40, 110, 260, 290, 330, 390, 450, 510];
+    // Colonnes ajustées: Lot plus large, Désignation un peu moins large.
+    const colX = [40, 140, 260, 290, 330, 390, 450, 510];
     const headers = ['Lot', 'Désignation', 'Qté', 'Unité', 'PU HT', 'Indiqué', 'Recalculé', 'Écart'];
     headers.forEach((h, i) => currentPage.drawText(h, { x: colX[i], y: currentY, size: 7, font: boldFont }));
     currentY -= 5;
@@ -219,8 +232,8 @@ exports.handler = async (event) => {
 
     data.devis.lignes.forEach((l) => {
       checkPageBreak(25);
-      let lotLines = wrapText(l.lot || '', 65, regularFont, 7);
-      let desLines = wrapText(l.designation || '', 145, regularFont, 7);
+      let lotLines = wrapText(l.lot || '', 95, regularFont, 7);
+      let desLines = wrapText(l.designation || '', 115, regularFont, 7);
       let maxLines = Math.max(lotLines.length, desLines.length);
       
       lotLines.forEach((t, i) => currentPage.drawText(t, { x: colX[0], y: currentY - (i*10), size: 7, font: regularFont }));
@@ -257,8 +270,42 @@ exports.handler = async (event) => {
     currentPage.drawText('Total TTC Recalculé: ' + fmtCfa(totalTTCCalc), { x: 50, y: currentY, size: 9, font: boldFont });
     currentY -= 25;
 
-    checkPageBreak(50);
-    currentPage.drawText('IV. DÉTAIL DES ANOMALIES & PLAN D\'ACTION', { x: 40, y: currentY, size: 10, font: boldFont });
+    checkPageBreak(120);
+    currentPage.drawText('IV. TABLEAU DES 8 CLAUSES CONTRACTUELLES', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentY -= 15;
+    
+    let acompteStr = 'Non précisé';
+    if (data.devis?.conditions?.acompte) {
+        if (data.devis.conditions.acompteType === 'fcfa') {
+            acompteStr = fmtCfa(data.devis.conditions.acompte);
+        } else {
+            acompteStr = data.devis.conditions.acompte + ' %';
+        }
+    }
+    const clausesList = [
+      { n: '1. Acompte', v: acompteStr },
+      { n: '2. Échéancier', v: data.devis?.conditions?.echeancier },
+      { n: '3. Retenue de garantie', v: data.devis?.conditions?.retenueGarantie ? data.devis.conditions.retenueGarantie + '%' : null },
+      { n: '4. Pénalités de retard', v: data.devis?.conditions?.penalites },
+      { n: '5. Gestion des avenants', v: data.devis?.conditions?.avenants },
+      { n: '6. Assurances', v: data.devis?.conditions?.assurances },
+      { n: '7. Validité du devis', v: data.devis?.conditions?.validite },
+      { n: '8. Délai d\'exécution', v: data.devis?.conditions?.delai }
+    ];
+
+    clausesList.forEach(c => {
+      let isMissing = (!c.v || c.v === '' || c.v === 'Non précisé');
+      let tColor = isMissing ? COLOR_RED : COLOR_GREEN;
+      let tVal = isMissing ? 'Absent / Non précisé' : c.v;
+      checkPageBreak(15);
+      currentPage.drawText(c.n + ' :', { x: 40, y: currentY, size: 8, font: boldFont });
+      currentPage.drawText(tVal, { x: 180, y: currentY, size: 8, font: regularFont, color: tColor });
+      currentY -= 12;
+    });
+    currentY -= 20;
+
+    checkPageBreak(80);
+    currentPage.drawText('V. DÉTAIL DES ANOMALIES & PLAN D\'ACTION', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
 
     if (anomalies.length === 0) {
@@ -276,8 +323,26 @@ exports.handler = async (event) => {
       });
     }
 
+    // CHECKLIST
+    checkPageBreak(60);
+    currentPage.drawText('CHECKLIST AVANT SIGNATURE', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentY -= 15;
+    const cl = [
+      "Transmettre ce rapport à l'entrepreneur pour explication.",
+      "Exiger la correction de tous les écarts arithmétiques.",
+      "Faire rajouter par écrit toutes les clauses contractuelles absentes (voir section IV).",
+      "Vérifier le RCCM et le NINEA sur les documents officiels.",
+      "Ne verser aucun acompte avant signature du devis mis à jour et validé."
+    ];
+    cl.forEach(c => {
+      checkPageBreak(15);
+      currentPage.drawText('☐ ' + c, { x: 40, y: currentY, size: 9, font: regularFont });
+      currentY -= 12;
+    });
+    currentY -= 20;
+
     checkPageBreak(80);
-    currentPage.drawText('V. MÉTHODOLOGIE & LIMITES', { x: 40, y: currentY, size: 10, font: boldFont });
+    currentPage.drawText('VI. MÉTHODOLOGIE & LIMITES', { x: 40, y: currentY, size: 10, font: boldFont });
     currentY -= 15;
     const methodText = [
       "Cet audit est réalisé sur une base purement arithmétique et contractuelle standard.",
@@ -288,11 +353,11 @@ exports.handler = async (event) => {
       currentPage.drawText('- ' + t, { x: 40, y: currentY, size: 8, font: regularFont });
       currentY -= 10;
     });
-    currentY -= 15;
+    currentY -= 25;
 
     checkPageBreak(120);
-    let hasBloquant = (Math.abs(ecartGlobalHT) > 100) || (cAcompte > 30);
-    let hasMajeur = anomaliesArith.length > 0 || anomalies.length > 2;
+    let hasBloquant = causesBloquantes.length > 0;
+    let hasMajeur = causesMajeures.length > 0;
 
     let verdictText = "🟢 CONFORME";
     let verdictColor = COLOR_GREEN;
@@ -301,17 +366,19 @@ exports.handler = async (event) => {
     if (hasBloquant) {
         verdictText = "🔴 NE PAS SIGNER EN L'ÉTAT";
         verdictColor = COLOR_RED;
-        verdictJustif = "Des écarts bloquants ou des risques financiers graves (acompte excessif) sont présents.";
+        verdictJustif = causesBloquantes.join(' ');
     } else if (hasMajeur) {
         verdictText = "🟡 À CLARIFIER";
         verdictColor = COLOR_AMBER;
-        verdictJustif = "Le devis comporte plusieurs anomalies ou lacunes (forfaits, clauses manquantes) à corriger avant signature.";
+        verdictJustif = causesMajeures.join(' ');
     }
 
     currentPage.drawRectangle({ x: 40, y: currentY - 50, width: width - 80, height: 60, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
-    currentPage.drawText('VI. VERDICT FINAL', { x: 50, y: currentY - 15, size: 9, font: boldFont });
+    currentPage.drawText('VII. VERDICT FINAL', { x: 50, y: currentY - 15, size: 9, font: boldFont });
     currentPage.drawText(verdictText, { x: 50, y: currentY - 30, size: 14, font: boldFont, color: verdictColor });
-    currentPage.drawText('Justification: ' + verdictJustif, { x: 50, y: currentY - 45, size: 9, font: regularFont });
+    wrapText('Justification: ' + verdictJustif, 480, regularFont, 9).forEach((l, i) => {
+      currentPage.drawText(l, { x: 50, y: currentY - 45 - (i*12), size: 9, font: regularFont });
+    });
 
     pages.forEach((p, idx) => drawFooter(p, idx));
 
