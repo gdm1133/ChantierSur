@@ -104,7 +104,7 @@ exports.handler = async (event) => {
     anomalies.push({
       titre: 'Incohérence Total HT Global',
       constat: `Le total HT indiqué en pied de page ne correspond pas à la somme exacte des lignes recalculées. Écart: ${fmtCfa(ecartGlobalHT)}.`,
-      risque: 'Le montant final réclamé est faux. Litige garanti lors du paiement.',
+      risque: 'Le montant final réclamé est faux. Risque de litige lors du paiement.',
       action: 'Faire corriger le Total HT et le TTC sur le devis officiel.'
     });
     if (Math.abs(ecartGlobalHT) > 100000) causesBloquantes.push('Incohérence massive du Total HT.');
@@ -231,16 +231,18 @@ exports.handler = async (event) => {
     currentY -= 10;
 
     data.devis.lignes.forEach((l) => {
-      checkPageBreak(25);
       let lotLines = wrapText(l.lot || '', 95, regularFont, 7);
       let desLines = wrapText(l.designation || '', 115, regularFont, 7);
       let maxLines = Math.max(lotLines.length, desLines.length);
+      let reqSpace = (maxLines * 10) + 15;
+      checkPageBreak(reqSpace);
       
       lotLines.forEach((t, i) => currentPage.drawText(t, { x: colX[0], y: currentY - (i*10), size: 7, font: regularFont }));
       desLines.forEach((t, i) => currentPage.drawText(t, { x: colX[1], y: currentY - (i*10), size: 7, font: regularFont }));
       
       currentPage.drawText(String(l.quantite||0), { x: colX[2], y: currentY, size: 7, font: regularFont });
-      currentPage.drawText(String(l.unite||'').substring(0, 5), { x: colX[3], y: currentY, size: 7, font: regularFont });
+      let uniteStr = l._isForfait ? 'Forfait' : String(l.unite||'').substring(0, 8);
+      currentPage.drawText(uniteStr, { x: colX[3], y: currentY, size: 7, font: regularFont });
       
       if (l._isForfait) {
         currentPage.drawText('Forfait', { x: colX[4], y: currentY, size: 7, font: regularFont, color: COLOR_AMBER });
@@ -336,7 +338,7 @@ exports.handler = async (event) => {
     ];
     cl.forEach(c => {
       checkPageBreak(15);
-      currentPage.drawText('☐ ' + c, { x: 40, y: currentY, size: 9, font: regularFont });
+      currentPage.drawText('[ ] ' + c, { x: 40, y: currentY, size: 9, font: regularFont });
       currentY -= 12;
     });
     currentY -= 20;
@@ -363,14 +365,24 @@ exports.handler = async (event) => {
     let verdictColor = COLOR_GREEN;
     let verdictJustif = "Toutes les vérifications arithmétiques et contractuelles sont correctes.";
 
-    if (hasBloquant) {
-        verdictText = "🔴 NE PAS SIGNER EN L'ÉTAT";
-        verdictColor = COLOR_RED;
-        verdictJustif = causesBloquantes.join(' ');
-    } else if (hasMajeur) {
-        verdictText = "🟡 À CLARIFIER";
-        verdictColor = COLOR_AMBER;
-        verdictJustif = causesMajeures.join(' ');
+    if (hasBloquant || hasMajeur) {
+        if (hasBloquant) {
+            verdictText = "🔴 NE PAS SIGNER EN L'ÉTAT";
+            verdictColor = COLOR_RED;
+        } else {
+            verdictText = "🟡 À CLARIFIER";
+            verdictColor = COLOR_AMBER;
+        }
+        
+        let parts = [];
+        let totalEcartArith = anomaliesArith.reduce((acc, curr) => acc + curr.ecart, 0);
+        let clausesCount = clausesList.filter(c => (!c.v || c.v === '' || c.v === 'Non précisé')).length;
+        
+        if (totalEcartArith !== 0) parts.push(`Écart majeur de ${fmtCfa(Math.abs(totalEcartArith))} non corrigé`);
+        if (clausesCount > 0) parts.push(`${clausesCount} clause(s) bloquante(s) absente(s)`);
+        
+        if (parts.length > 0) verdictJustif = parts.join(' et ') + '.';
+        else verdictJustif = "Des éléments nécessitent une vérification (ex: Identification, Forfaits).";
     }
 
     currentPage.drawRectangle({ x: 40, y: currentY - 50, width: width - 80, height: 60, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
