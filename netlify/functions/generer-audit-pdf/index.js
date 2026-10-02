@@ -119,7 +119,7 @@ exports.handler = async (event) => {
       risque: 'Surfacturation ou incohérence dans le contrat.',
       action: 'Exiger un devis corrigé arithmétiquement parfait avant signature.'
     });
-    const erreurPrefix = anomaliesArith.length === 1 ? 'l\\'' : 'les ';
+    const erreurPrefix = anomaliesArith.length === 1 ? "l'" : 'les ';
     topActions.push(`Faire corriger ${erreurPrefix}${anomaliesArith.length} erreur${sArith} de calcul arithmétique.`);
   }
   if (forfaits.length > 0) {
