@@ -66,7 +66,10 @@ exports.handler = async (event) => {
     let mInd = typeof l.montantIndique === 'number' ? l.montantIndique : 0;
     let isForfait = (pu === 0 && mInd > 0) || String(l.unite).toLowerCase().includes('forf');
     
-    let lotName = (l.lot && l.lot.trim() !== '' && l.lot !== '-') ? l.lot.toUpperCase() : 'SANS LOT PRÉCISÉ';
+    let lotName = (l.lot && l.lot.trim() !== '' && l.lot !== '-') ? l.lot.toUpperCase().replace(/^[- ]+/, '') : 'SANS LOT PRÉCISÉ';
+    if (lotName === 'LOT GÉNÉRAL' && l.designation && l.designation.toLowerCase().includes('plomberie')) {
+      lotName = 'PLOMBERIE SANITAIRE';
+    }
     if (!sousTotauxLot[lotName]) sousTotauxLot[lotName] = { indique: 0, calcule: 0 };
     
     if (isForfait) {
@@ -84,6 +87,9 @@ exports.handler = async (event) => {
         else sumEcartsNegatifs += Math.abs(l._ecart);
       }
       l._isForfait = false;
+      if (l.designation) {
+        l.designation = l.designation.replace(/kgm/g, 'kg/m³');
+      }
     }
     totalHTCalcule += l._calc;
     totalHTIndiqueLignes += mInd;
@@ -113,12 +119,13 @@ exports.handler = async (event) => {
       risque: 'Surfacturation ou incohérence dans le contrat.',
       action: 'Exiger un devis corrigé arithmétiquement parfait avant signature.'
     });
-    topActions.push(`Faire corriger la/les ${anomaliesArith.length} erreur${sArith} de calcul arithmétique.`);
+    const erreurPrefix = anomaliesArith.length === 1 ? 'l\\'' : 'les ';
+    topActions.push(`Faire corriger ${erreurPrefix}${anomaliesArith.length} erreur${sArith} de calcul arithmétique.`);
   }
   if (forfaits.length > 0) {
     anomalies.push({
       titre: 'Lignes forfaitaires',
-      constat: `${forfaits.length} ligne(s) facturée(s) au "Forfait" sans détail (PU=0 ou Unité=Forfait).`,
+      constat: `${forfaits.length} ligne${forfaits.length > 1 ? 's' : ''} facturée${forfaits.length > 1 ? 's' : ''} au "Forfait" sans détail (PU=0 ou Unité=Forfait).`,
       risque: 'Impossibilité de vérifier la quantité réelle de matériaux ou le temps de main d\'œuvre. Risque d\'avenants.',
       action: 'Demander le sous-détail des prix (quantités réelles et prix unitaires) pour chaque forfait.'
     });
@@ -132,7 +139,7 @@ exports.handler = async (event) => {
       action: 'Faire corriger le Total HT et le TTC sur le devis officiel.'
     });
     if (Math.abs(ecartGlobalHT) > 100000) {
-        causesBloquantes.push('Incohérence massive du Total HT.');
+        causesBloquantes.push(`Écart de ${fmtCfa(ecartGlobalHT)} non corrigé.`);
         topActions.push(`Clarifier l'incohérence globale de ${fmtCfa(ecartGlobalHT)} sur le total HT.`);
     }
   }
@@ -172,7 +179,8 @@ exports.handler = async (event) => {
   });
   if (absentes > 0) {
       const sAbs = absentes > 1 ? 's' : '';
-      topActions.push(`Ajouter les ${absentes} clause${sAbs} de sécurité manquante${sAbs} (pénalités, retenue, etc).`);
+      const clausePrefix = absentes === 1 ? 'la' : 'les';
+      topActions.push(`Ajouter ${clausePrefix} ${absentes} clause${sAbs} de sécurité manquante${sAbs} (pénalités, retenue, etc).`);
   }
 
   let acompteStr = 'Non précisé';
@@ -193,7 +201,8 @@ exports.handler = async (event) => {
   let missingClausesCount = clausesList.filter(c => (!c.v || c.v === '' || c.v === 'Non précisé')).length;
   if (missingClausesCount >= 4) {
       const sCl = missingClausesCount > 1 ? 's' : '';
-      causesBloquantes.push(`${missingClausesCount} clause${sCl} absente${sCl}.`);
+      const absentStr = missingClausesCount > 1 ? 'absentes' : 'absente';
+      causesBloquantes.push(`${missingClausesCount} clause${sCl} bloquante${sCl} ${absentStr}.`);
   }
 
   let hasBloquant = causesBloquantes.length > 0 || Math.abs(ecartGlobalHT) > 100000 || cAcompte > 30;
@@ -230,7 +239,7 @@ exports.handler = async (event) => {
 
     const drawFooter = (page, pageIndex) => {
       page.drawRectangle({ x: 40, y: 35, width: width - 80, height: 1, color: COLOR_GRAY });
-      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — Dakar, République du Sénégal.", { x: 40, y: 25, size: 7, font: regularFont, color: COLOR_SLATE });
+      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — 16 Route de Mont-Rolland, Thiès, Sénégal.", { x: 40, y: 25, size: 7, font: regularFont, color: COLOR_SLATE });
       page.drawText("Outil automatisé d'aide à la décision — sans certification.", { x: 40, y: 15, size: 7, font: boldFont, color: COLOR_NAVY });
       page.drawText(`Page ${pageIndex + 1} sur ${pages.length}`, { x: width - 80, y: 20, size: 7, font: boldFont, color: COLOR_NAVY });
     };
@@ -250,27 +259,38 @@ exports.handler = async (event) => {
     // ==========================================
     // 0. RÉSUMÉ EXÉCUTIF
     // ==========================================
-    currentPage.drawRectangle({ x: 40, y: currentY - 120, width: width - 80, height: 120, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
+    let percNonVerif = totalHTIndiqueDevis > 0 ? (sumForfaits / totalHTIndiqueDevis * 100) : 0;
+    let percNonVerifStr = percNonVerif.toFixed(1).replace('.', ',') + ' %';
+    let acts = topActions.slice(0, 3);
+    if (acts.length === 0) acts.push("Aucune action urgente, devis satisfaisant.");
+    
+    let actsLines = [];
+    acts.forEach((a) => {
+      let wl = wrapText(`• ${a}`, width - 120, regularFont, 7);
+      actsLines.push(...wl);
+    });
+
+    let execHeight = 100 + (actsLines.length * 10) + 15;
+    checkPageBreak(execHeight + 20);
+
+    currentPage.drawRectangle({ x: 40, y: currentY - execHeight, width: width - 80, height: execHeight, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
     currentPage.drawText('0. RÉSUMÉ EXÉCUTIF', { x: 50, y: currentY - 20, size: 9, font: boldFont });
     currentPage.drawText(verdictCode, { x: width - 250, y: currentY - 22, size: 12, font: boldFont, color: verdictColor });
-    
-    let percNonVerif = totalHTIndiqueDevis > 0 ? (sumForfaits / totalHTIndiqueDevis * 100) : 0;
-    let percNonVerifStr = percNonVerif.toFixed(1).replace('.', ',');
     
     currentPage.drawText(`Total HT Indiqué : ${fmtCfa(totalHTIndiqueDevis)}`, { x: 50, y: currentY - 40, size: 9, font: regularFont });
     currentPage.drawText(`Total HT Recalculé : ${fmtCfa(totalHTCalcule)}`, { x: 50, y: currentY - 55, size: 9, font: boldFont });
     currentPage.drawText(`Écart global : ${ecartGlobalHT > 0 ? '+' : ''}${fmtCfa(ecartGlobalHT)}`, { x: 50, y: currentY - 70, size: 9, font: regularFont, color: ecartGlobalHT !== 0 ? COLOR_RED : COLOR_GREEN });
     currentPage.drawText(`Anomalies majeures/bloquantes : ${anomalies.length}`, { x: width - 250, y: currentY - 40, size: 9, font: regularFont });
-    currentPage.drawText(`Non vérifiable (Forfaits) : ${percNonVerifStr} %`, { x: width - 250, y: currentY - 55, size: 9, font: regularFont });
+    currentPage.drawText(`Non vérifiable (Forfaits) : ${percNonVerifStr}`, { x: width - 250, y: currentY - 55, size: 9, font: regularFont });
     
     currentPage.drawText('Top actions urgentes :', { x: 50, y: currentY - 90, size: 8, font: boldFont });
-    let acts = topActions.slice(0, 3);
-    if (acts.length === 0) acts.push("Aucune action urgente, devis satisfaisant.");
-    acts.forEach((a, i) => {
-        currentPage.drawText(`• ${a}`, { x: 60, y: currentY - 102 - (i*10), size: 7, font: regularFont, color: COLOR_NAVY });
+    let actsY = currentY - 102;
+    actsLines.forEach((l) => {
+        currentPage.drawText(l, { x: 60, y: actsY, size: 7, font: regularFont, color: COLOR_NAVY });
+        actsY -= 10;
     });
     
-    currentY -= 140;
+    currentY -= (execHeight + 20);
 
     // ==========================================
     // I. IDENTIFICATION & PÉRIMÈTRE
@@ -280,22 +300,27 @@ exports.handler = async (event) => {
     currentY -= 20;
     
     const objText = data.identification?.objetDevis || 'Non fourni';
-    const entNom = data.identification?.entrepriseNom || 'Non fourni';
+    const clientNom = data.identification?.client?.nom || data.identification?.nom || 'Non fourni';
+    const entNom = data.identification?.entrepriseNom || data.identification?.entreprise?.nom || 'Non fourni';
     const devisDate = data.devis?.date || 'Non précisée';
     const auditDate = new Date().toLocaleDateString('fr-FR');
-    const ninea = data.identification?.ninea || 'Non fourni';
-    const rccm = data.identification?.rccm || 'Non fourni';
-    const refStr = data.dossier || 'CS-AUDIT-' + new Date().getTime().toString().slice(-6);
+    const ninea = data.identification?.ninea || data.identification?.entreprise?.ninea || 'Non fourni';
+    const rccm = data.identification?.rccm || data.identification?.entreprise?.rccm || 'Non fourni';
+    const refStr = data.dossier || data.reference || 'CS-' + new Date().getTime();
     
     currentPage.drawText(`Référence du rapport : ${refStr} | Date d'audit : ${auditDate}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
-    currentPage.drawText(`Devis audité : ${objText} | Émis le : ${devisDate} | Par : ${entNom}`, { x: 40, y: currentY, size: 8, font: regularFont });
+    currentPage.drawText(`Client : ${clientNom} | Devis audité : ${objText} | Émis le : ${devisDate} | Par : ${entNom}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
     currentPage.drawText(`NINEA : ${ninea} | RCCM : ${rccm}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
     currentPage.drawText(`L'audit couvre : calculs arithmétiques, détection des forfaits, conformité TVA, présence des clauses contractuelles vitales.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
     currentY -= 12;
-    currentPage.drawText(`L'audit ne couvre pas : l'analyse des prix du marché, l'existence légale de l'entreprise, les vérifications par visite de site.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
+    currentPage.drawText(`L'audit ne couvre pas : l'analyse des prix du marché.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
+    currentY -= 12;
+    currentPage.drawText(`• l'existence légale réelle de l'entreprise`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
+    currentY -= 12;
+    currentPage.drawText(`• l'état du chantier (aucune visite de site)`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
     currentY -= 25;
 
     // ==========================================
@@ -353,8 +378,8 @@ exports.handler = async (event) => {
     let lotArray = Object.keys(sousTotauxLot).map(k => ({ nom: k, ...sousTotauxLot[k] })).sort((a,b) => b.indique - a.indique);
     lotArray.forEach(lot => {
         checkPageBreak(15);
-        let pct = totalHTIndiqueDevis > 0 ? (lot.indique / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
-        currentPage.drawText(`• ${lot.nom} : ${fmtCfa(lot.indique)} indiqués (${pct} %)`, { x: 50, y: currentY, size: 8, font: regularFont });
+        let pct = totalHTIndiqueDevis > 0 ? (lot.indique / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
+        currentPage.drawText(`• ${lot.nom} : ${fmtCfa(lot.indique)} indiqués (${pct})`, { x: 50, y: currentY, size: 8, font: regularFont });
         currentY -= 12;
     });
 
@@ -369,15 +394,15 @@ exports.handler = async (event) => {
         checkPageBreak(15);
         let m = l.montantIndique||0;
         topSum += m;
-        let pct = totalHTIndiqueDevis > 0 ? (m / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
+        let pct = totalHTIndiqueDevis > 0 ? (m / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
         let ds = (l.designation||'').substring(0, 45);
-        currentPage.drawText(`- ${ds}... [${l.lot||'Sans lot'}] : ${fmtCfa(m)} (${pct} %)`, { x: 50, y: currentY, size: 8, font: regularFont });
+        currentPage.drawText(`- ${ds}... [${l.lot||'Sans lot'}] : ${fmtCfa(m)} (${pct})`, { x: 50, y: currentY, size: 8, font: regularFont });
         currentY -= 12;
     });
     
-    let topPctTotal = totalHTIndiqueDevis > 0 ? (topSum / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
+    let topPctTotal = totalHTIndiqueDevis > 0 ? (topSum / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
     currentY -= 5;
-    currentPage.drawText(`💡 Ces postes représentent ${topPctTotal} % du devis : c'est sur eux que la négociation a le plus d'effet.`, { x: 40, y: currentY, size: 8, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText(`💡 Ces postes représentent ${topPctTotal} du devis : c'est sur eux que la négociation a le plus d'effet.`, { x: 40, y: currentY, size: 8, font: boldFont, color: COLOR_NAVY });
     currentY -= 25;
 
     // ==========================================
@@ -397,17 +422,34 @@ exports.handler = async (event) => {
     currentY -= 20;
 
     // Encadré Score
-    let percVerif = totalHTIndiqueDevis > 0 ? ((totalHTCalcule - sumForfaits) / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') : 0;
-    currentPage.drawRectangle({ x: 40, y: currentY - 25, width: width - 80, height: 25, color: rgb(0.95,0.95,0.95) });
-    currentPage.drawText(`SCORE: ${percVerif} % du montant vérifié arithmétiquement | ${percNonVerifStr} % forfaitaire (non vérifiable).`, { x: 50, y: currentY - 17, size: 8, font: boldFont, color: COLOR_NAVY });
-    currentY -= 40;
+    let percVerif = totalHTIndiqueDevis > 0 ? ((totalHTCalcule - sumForfaits) / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
+    let scoreText = `SCORE: ${percVerif} du montant vérifié arithmétiquement | ${percNonVerifStr} forfaitaire (non vérifiable).`;
+    let scoreLines = wrapText(scoreText, width - 100, boldFont, 8);
+    let scoreHeight = (scoreLines.length * 12) + 15;
+    checkPageBreak(scoreHeight + 10);
+    currentPage.drawRectangle({ x: 40, y: currentY - scoreHeight, width: width - 80, height: scoreHeight, color: rgb(0.95,0.95,0.95) });
+    let scY = currentY - 15;
+    scoreLines.forEach((l) => {
+        currentPage.drawText(l, { x: 50, y: scY, size: 8, font: boldFont, color: COLOR_NAVY });
+        scY -= 12;
+    });
+    currentY -= (scoreHeight + 10);
 
     // Encadré Enjeu
-    currentPage.drawRectangle({ x: 40, y: currentY - 45, width: width - 80, height: 45, color: rgb(0.99,0.95,0.95), borderColor: COLOR_RED, borderWidth: 1 });
-    currentPage.drawText(`Surfacturation détectée (écarts positifs) : ${sumEcartsPositifs > 0 ? fmtCfa(sumEcartsPositifs) : 'Aucune'}`, { x: 50, y: currentY - 15, size: 8, font: boldFont });
-    currentPage.drawText(`Sous-évaluations (risque d'avenants) : ${sumEcartsNegatifs > 0 ? fmtCfa(sumEcartsNegatifs) : 'Aucune'}`, { x: 50, y: currentY - 27, size: 8, font: boldFont });
-    currentPage.drawText(`Montants non vérifiables : ${sumForfaits > 0 ? fmtCfa(sumForfaits) : 'Aucun'} (${percNonVerifStr} % du devis)`, { x: 50, y: currentY - 39, size: 8, font: boldFont });
-    currentY -= 65;
+    let t1 = `Surfacturation détectée (écarts positifs) : ${sumEcartsPositifs > 0 ? fmtCfa(sumEcartsPositifs) : 'Aucune'}`;
+    let t2 = `Sous-évaluations (risque d'avenants) : ${sumEcartsNegatifs > 0 ? fmtCfa(sumEcartsNegatifs) : 'Aucune'}`;
+    let t3 = `Montants non vérifiables : ${sumForfaits > 0 ? fmtCfa(sumForfaits) : 'Aucun'} (${percNonVerifStr} du devis)`;
+    let w1 = wrapText(t1, width - 100, boldFont, 8);
+    let w2 = wrapText(t2, width - 100, boldFont, 8);
+    let w3 = wrapText(t3, width - 100, boldFont, 8);
+    let enjeuHeight = (w1.length + w2.length + w3.length) * 12 + 20;
+    checkPageBreak(enjeuHeight + 10);
+    currentPage.drawRectangle({ x: 40, y: currentY - enjeuHeight, width: width - 80, height: enjeuHeight, color: rgb(0.99,0.95,0.95), borderColor: COLOR_RED, borderWidth: 1 });
+    let enjY = currentY - 15;
+    w1.forEach(l => { currentPage.drawText(l, { x: 50, y: enjY, size: 8, font: boldFont }); enjY -= 12; });
+    w2.forEach(l => { currentPage.drawText(l, { x: 50, y: enjY, size: 8, font: boldFont }); enjY -= 12; });
+    w3.forEach(l => { currentPage.drawText(l, { x: 50, y: enjY, size: 8, font: boldFont }); enjY -= 12; });
+    currentY -= (enjeuHeight + 20);
 
     // ==========================================
     // V. TABLEAU DES CLAUSES
@@ -488,9 +530,6 @@ exports.handler = async (event) => {
     });
     
     currentY -= 10;
-    checkPageBreak(120);
-    currentPage.drawRectangle({ x: 40, y: currentY - 90, width: width - 80, height: 90, color: rgb(0.96,0.98,0.96), borderColor: COLOR_GREEN, borderWidth: 1 });
-    currentPage.drawText('Conseils après la signature :', { x: 50, y: currentY - 15, size: 8, font: boldFont, color: COLOR_NAVY });
     const conseils = [
       "1) Exigez un décompte mensuel détaillé avant chaque paiement ; ne payez que l'avancement réellement constaté sur site.",
       "2) Tout travail non prévu au devis doit faire l'objet d'un avenant écrit et signé AVANT exécution, avec son prix.",
@@ -498,16 +537,22 @@ exports.handler = async (event) => {
       "4) La réception des travaux se fait avec un procès-verbal écrit ; notez-y toutes les réserves avant de signer.",
       "5) Gardez une copie de tous les documents : devis signé, avenants, reçus de paiement, PV de réception."
     ];
-    let innerY = currentY - 30;
-    conseils.forEach((c) => {
-        let lines = wrapText(c, 480, regularFont, 7);
-        lines.forEach((l) => {
-            currentPage.drawText(l, { x: 50, y: innerY, size: 7, font: regularFont });
-            innerY -= 10;
-        });
-        innerY -= 5;
+    let consLines = [];
+    conseils.forEach(c => {
+        let wl = wrapText(c, width - 100, regularFont, 7);
+        consLines.push(...wl);
+        consLines.push(""); 
     });
-    currentY -= 110;
+    let consHeight = 25 + (consLines.length * 10) + 10;
+    checkPageBreak(consHeight + 10);
+    currentPage.drawRectangle({ x: 40, y: currentY - consHeight, width: width - 80, height: consHeight, color: rgb(0.96,0.98,0.96), borderColor: COLOR_GREEN, borderWidth: 1 });
+    currentPage.drawText('Conseils après la signature :', { x: 50, y: currentY - 15, size: 8, font: boldFont, color: COLOR_NAVY });
+    let innerY = currentY - 30;
+    consLines.forEach(l => {
+        if (l !== "") currentPage.drawText(l, { x: 50, y: innerY, size: 7, font: regularFont });
+        innerY -= (l === "" ? 5 : 10);
+    });
+    currentY -= (consHeight + 20);
 
     // ==========================================
     // VIII. MÉTHODOLOGIE & LIMITES
@@ -554,27 +599,30 @@ exports.handler = async (event) => {
     // ==========================================
     // X. VERDICT FINAL & VALIDITÉ
     // ==========================================
-    checkPageBreak(100);
-    currentPage.drawRectangle({ x: 40, y: currentY - 50, width: width - 80, height: 60, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
+    let parts = [];
+    if (ecartGlobalHT !== 0) parts.push(`Écart de ${fmtCfa(Math.abs(ecartGlobalHT))} non corrigé`);
+    if (missingClausesCount > 0) {
+        const sCl2 = missingClausesCount > 1 ? 's' : '';
+        const absentStr2 = missingClausesCount > 1 ? 'absentes' : 'absente';
+        parts.push(`${missingClausesCount} clause${sCl2} bloquante${sCl2} ${absentStr2}`);
+    }
+    let verdictJustif = parts.length > 0 ? parts.join(' et ') + '.' : "Toutes les vérifications arithmétiques et contractuelles sont correctes.";
+    let justifLines = wrapText('Justification: ' + verdictJustif, width - 100, regularFont, 9);
+    
+    let verdictHeight = 45 + (justifLines.length * 12) + 10;
+    checkPageBreak(verdictHeight + 20);
+
+    currentPage.drawRectangle({ x: 40, y: currentY - verdictHeight, width: width - 80, height: verdictHeight, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
     currentPage.drawText('X. VERDICT FINAL', { x: 50, y: currentY - 15, size: 9, font: boldFont });
     currentPage.drawText(verdictCode, { x: 50, y: currentY - 30, size: 14, font: boldFont, color: verdictColor });
     
-    let parts = [];
-    if (totalEcartArith !== 0) parts.push(`Écart majeur de ${fmtCfa(Math.abs(totalEcartArith))} non corrigé`);
-    if (missingClausesCount > 0) {
-        const sCl2 = missingClausesCount > 1 ? 's' : '';
-        parts.push(`${missingClausesCount} clause${sCl2} bloquante${sCl2} absente${sCl2}`);
-    }
-    let verdictJustif = parts.length > 0 ? parts.join(' et ') + '.' : "Toutes les vérifications arithmétiques et contractuelles sont correctes.";
-    if (hasBloquant || hasMajeur) {
-        wrapText('Justification: ' + verdictJustif, 480, regularFont, 9).forEach((l, i) => {
-            currentPage.drawText(l, { x: 50, y: currentY - 45 - (i*12), size: 9, font: regularFont });
-        });
-    } else {
-        currentPage.drawText('Justification: ' + verdictJustif, { x: 50, y: currentY - 45, size: 9, font: regularFont });
-    }
+    let vY = currentY - 45;
+    justifLines.forEach((l) => {
+        currentPage.drawText(l, { x: 50, y: vY, size: 9, font: regularFont });
+        vY -= 12;
+    });
     
-    currentY -= 70;
+    currentY -= (verdictHeight + 20);
     currentPage.drawText("Validité : Cet audit ne vaut que pour le devis identifié ci-dessus. Tout devis modifié ou rectificatif doit faire l'objet d'un nouvel audit.", { x: 40, y: currentY, size: 7, font: boldFont, color: COLOR_NAVY });
 
     // Rendu global
