@@ -34,10 +34,10 @@
     .tab-card { transition: all 0.2s ease-in-out; }
   </style>
 </head>
-<body class="bg-[#F8FAFC] text-[#0E2A47] min-h-screen flex flex-col antialiased selection:bg-[#0E2A47] selection:text-white">
+<body class="bg-white text-[#0E2A47] min-h-screen flex flex-col antialiased selection:bg-[#0E2A47] selection:text-white">
 
   <!-- TOPBAR RÉGLEMENTAIRE -->
-  <div class="bg-[#0E2A47] border-[#0E2A47] border-slate-800 text-[11px] text-slate-400 py-2 px-4">
+  <div class="bg-white border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span class="inline-flex items-center text-[#C9A227]merald-400 font-semibold whitespace-nowrap">
@@ -939,7 +939,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   </main>
 
   <!-- FOOTER OFFICIEL -->
-  <footer class="bg-[#0E2A47] border-t border-slate-800 pt-12 pb-8 mt-12 text-slate-100">
+  <footer class="bg-white border-t border-slate-800 pt-12 pb-8 mt-12 text-slate-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <!-- Col 1 -->
@@ -1673,7 +1673,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             errModal.id = 'pdf-error-modal';
             errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
             errModal.innerHTML = `
-              <div class="bg-[#0E2A47] border-[#0E2A47] border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+              <div class="bg-white border-b border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
                 <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
                 <div class="text-red-500 text-[#0E2A47]xl mb-4">⚠️</div>
                 <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white mb-2">Erreur : Aucune ligne validée – retournez à l'écran de validation.</h3>
@@ -1689,7 +1689,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           modal.id = 'pdf-success-modal';
           modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
           modal.innerHTML = `
-            <div class="bg-[#0E2A47] border-[#0E2A47] border-[#C9A227] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+            <div class="bg-white border-b border-[#C9A227] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
               <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
               <div class="w-16 h-16 bg-[#C9A227]/20 text-[#C9A227] rounded-full flex items-center justify-center mx-auto text-[#0E2A47]xl">📄</div>
               <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
@@ -1769,7 +1769,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         modal.id = 'pdf-success-modal';
         modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
         modal.innerHTML = `
-          <div class="bg-[#0E2A47] border-[#0E2A47] border-[#C9A227] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
+          <div class="bg-white border-b border-[#C9A227] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
               <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
             <div class="w-16 h-16 bg-[#C9A227]/20 text-[#C9A227] rounded-full flex items-center justify-center mx-auto text-[#0E2A47]xl">📄</div>
             <h3 style="font-family: 'Archivo', sans-serif;" id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
