@@ -69,7 +69,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- LOGO SANS SOUS-TITRE -->
-      <a href="index.html" class="flex items-center space-x-3 group"><div class="flex items-center space-x-3"><img src="assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-[#0E2A47]xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
+      <a href="index.html" class="flex items-center space-x-3 group"><div class="flex items-center space-x-3"><img src="assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
 
       <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
       <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
@@ -130,7 +130,7 @@
   <main id="services-section" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
 
     <div class="text-center mb-8">
-      <h2 style="font-family: 'Archivo', sans-serif;" class="text-[#0E2A47]xl sm:text-[#0E2A47]xl font-bold text-[#0E2A47]">Nos Formules d'Ingénierie & Devis Immédiats</h2>
+      <h2 style="font-family: 'Archivo', sans-serif;" class="text-2xl sm:text-2xl font-bold text-[#0E2A47]">Nos Formules d'Ingénierie & Devis Immédiats</h2>
       <p class="text-slate-700 font-medium text-sm mt-1">Sélectionnez une formule pour paramétrer votre dossier technique</p>
     </div>
 
@@ -325,7 +325,7 @@
       <div>
         <p class="text-xs uppercase font-bold text-[#0E2A47]">Total Prestation d'Étude Personnalisée</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
-          <span id="price-val-1" class="text-[#0E2A47]xl font-black text-[#0E2A47]">149 000 FCFA</span>
+          <span id="price-val-1" class="text-2xl font-black text-[#0E2A47]">149 000 FCFA</span>
           <span id="price-converted-1" class="text-xs text-amber-800 font-bold">(≈ 227 €)</span>
         </div>
       </div>
@@ -936,16 +936,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <!-- Col 1 -->
-                <div>
-                    <a href="index.html" class="flex items-center space-x-2.5 mb-4">
-                        <div class="w-7 h-7 bg-[#0E2A47] rounded-md flex items-center justify-center p-1 border border-slate-800 shadow-sm shrink-0">
-                            <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-[#0EA5E9]" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                <path d="M9 12l2 2 4-4"/>
-                            </svg>
-                        </div>
-                        <span class="text-lg font-black tracking-tight text-white leading-none">Chantier<span class="text-[#0EA5E9]">Sur.com</span></span>
-                    </a>
+                  <div>
+                      <a href="index.html" class="flex items-center space-x-3 group mb-4"><div class="flex items-center space-x-3"><img src="assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
                     <p class="text-[#0EA5E9] font-bold mb-4">Bâtissez sans angle mort.</p>
                     <div class="bg-[#0E2A47] p-3 rounded-lg border border-slate-800">
                         <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
@@ -1667,8 +1659,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
             errModal.innerHTML = `
               <div class="bg-white border-b border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
-                <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
-                <div class="text-red-500 text-[#0E2A47]xl mb-4">⚠️</div>
+                <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
+                <div class="text-red-500 text-2xl mb-4">⚠️</div>
                 <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white mb-2">Erreur : Aucune ligne validée – retournez à l'écran de validation.</h3>
               </div>
             `;
@@ -1683,8 +1675,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
           modal.innerHTML = `
             <div class="bg-white border-b border-[#0EA5E9] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
-              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
-              <div class="w-16 h-16 bg-[#0EA5E9]/20 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto text-[#0E2A47]xl">📄</div>
+              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
+              <div class="w-16 h-16 bg-[#0EA5E9]/20 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
               <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
               <button id="btn-force-download" class="w-full py-4 bg-[#0EA5E9] hover:bg-[#0EA5E9] text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-[#0E2A47]ase cursor-pointer">
                 📥 Télécharger mon Rapport PDF
@@ -1763,8 +1755,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
         modal.innerHTML = `
           <div class="bg-white border-b border-[#0EA5E9] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
-              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
-            <div class="w-16 h-16 bg-[#0EA5E9]/20 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto text-[#0E2A47]xl">📄</div>
+              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
+            <div class="w-16 h-16 bg-[#0EA5E9]/20 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
             <h3 style="font-family: 'Archivo', sans-serif;" id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
             <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#0EA5E9] uppercase">${s}</strong> est prêt.</p>
             <button id="btn-force-download" class="w-full py-4 bg-[#0EA5E9] hover:bg-[#0EA5E9] text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-[#0E2A47]ase cursor-pointer">
