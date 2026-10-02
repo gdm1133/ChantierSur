@@ -1,7 +1,7 @@
-﻿<form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
+<form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
   <!-- 2.1 Bloc Informations du client -->
   <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0B1325]">Informations du client</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Informations du client</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
             <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom complet</label>
@@ -16,7 +16,7 @@
     <div>
       <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
       <div class="flex">
-        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
           <option value="+221" selected>🇸🇳 SN (+221)</option>
           <option value="+33">🇫🇷 FR (+33)</option>
           <option value="+39">🇮🇹 IT (+39)</option>
@@ -39,7 +39,7 @@
           <option value="+966">🇸🇦 SA (+966)</option>
           <option value="+224">🇬🇳 GN (+224)</option>
         </select>
-        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
+        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
       </div>
     </div>
     
@@ -56,7 +56,7 @@
     
     <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
           <option value="0">RDC Simple (Villa plain-pied)</option>
           <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
           <option value="2">R+2 (Immeuble R+2)</option>
@@ -74,13 +74,13 @@
 
   <!-- 2.2 Bloc Import et Validation OCR Mistral -->
   <div class="step-container space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-200" id="ocr-upload-section">
-    <h4 class="text-lg font-bold text-[#0B1325] mb-2">Capture du devis (Recommandé)</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis (Recommandé)</h4>
     <p class="text-sm text-slate-600 mb-4">
       Prenez les pages en photo UNE PAR UNE. Vérifiez que la lumière est suffisante et le texte bien net.
     </p>
     
-    <label class="cursor-pointer bg-white border-2 border-dashed border-slate-300 hover:border-[#0B1325] rounded-xl p-8 flex flex-col items-center justify-center transition-colors group">
-      <svg class="w-12 h-12 text-slate-400 group-hover:text-[#0B1325] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    <label class="cursor-pointer bg-white border-[#0E2A47] border-dashed border-slate-300 hover:border-[#0E2A47] rounded-xl p-8 flex flex-col items-center justify-center transition-colors group">
+      <svg class="w-12 h-12 text-slate-400 group-hover:text-[#0E2A47] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
       <span class="text-slate-800 font-bold text-center">Photographier une page</span>
       <span class="text-xs text-slate-500 mt-2 text-center">Répétez l'opération pour chaque page du devis</span>
       <input type="file" accept="image/*" capture="environment" id="ocr-camera-input" class="hidden" onchange="window.handleOCRPhotoSelect(event)">
@@ -89,12 +89,12 @@
     <div id="ocr-thumbnails-container" class="flex flex-wrap gap-4 mt-4 hidden"></div>
     
     <div id="ocr-loading-indicator" class="hidden text-center p-4">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#0B1325]"></div>
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-[#0E2A47]-2 border-[#0E2A47]"></div>
       <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse du document en cours...</p>
     </div>
 
     <div class="flex justify-end mt-4">
-        <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors shadow-lg disabled:bg-slate-400">Lancer l'analyse des pages</button>
+        <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors shadow-lg disabled:bg-slate-400">Lancer l'analyse des pages</button>
     </div>
 
     <p class="text-[10px] text-slate-500 text-center mt-2">
@@ -103,15 +103,15 @@
   </div>
 
   <!-- Ecran de Validation OCR -->
-  <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-xl border-2 border-[#0B1325] shadow-lg">
-    <h4 class="text-lg font-bold text-[#0B1325]">Validation des lignes détectées</h4>
+  <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-xl border-[#0E2A47] border-[#0E2A47] shadow-lg">
+    <h4 class="text-lg font-bold text-[#0E2A47]">Validation des lignes détectées</h4>
     <p class="text-sm text-amber-700 bg-amber-50 p-3 rounded-lg font-medium border border-amber-200">
       ⚠️ Vérifiez attentivement les lignes ci-dessous. Modifiez les erreurs éventuelles avant de valider. Les lignes non valides ne seront pas intégrées à l'audit.
     </p>
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-sm">
             <thead>
-                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                <tr class="bg-slate-100 border-[#0E2A47] border-slate-300 text-slate-700">
                     <th class="p-2 font-bold">Lot</th>
                     <th class="p-2 font-bold">Désignation</th>
                     <th class="p-2 font-bold w-20">Unité</th>
@@ -127,8 +127,8 @@
         </table>
     </div>
     <div class="flex justify-end gap-4 mt-4">
-        <button type="button" onclick="window.cancelOCR()" class="px-4 py-2 text-slate-600 hover:text-slate-900 font-bold">Annuler</button>
-        <button type="button" onclick="window.confirmOCR()" class="px-6 py-2 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors">Valider ces lignes</button>
+        <button type="button" onclick="window.cancelOCR()" class="px-4 py-2 text-slate-600 hover:text-[#0E2A47] font-bold">Annuler</button>
+        <button type="button" onclick="window.confirmOCR()" class="px-6 py-2 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors">Valider ces lignes</button>
     </div>
   </div>
 
@@ -137,7 +137,7 @@
   <!-- 2.3 Bloc Lots du devis (Saisie manuelle / Récap) -->
   <div class="step-container space-y-6">
     <div class="flex justify-between items-center">
-        <h4 class="text-lg font-bold text-[#0B1325]">Lots validés (Saisie manuelle)</h4>
+        <h4 class="text-lg font-bold text-[#0E2A47]">Lots validés (Saisie manuelle)</h4>
         <button type="button" onclick="window.addV5Lot()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors">+ Ajouter un lot manuel</button>
     </div>
     <div id="v5-lots-container" class="space-y-4"></div>
@@ -145,7 +145,7 @@
 
   <!-- 2.4 Bloc Totaux -->
   <div class="step-container space-y-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-    <h4 class="text-lg font-bold text-[#0B1325]">Totaux</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Totaux</h4>
     <div class="flex justify-between"><span>Total HT :</span><span id="v5-total-ht">0</span></div>
     <div class="flex justify-between items-center">
       <span>TVA (%) :</span>
@@ -156,7 +156,7 @@
 
   <!-- 2.5 Bloc Conditions contractuelles -->
   <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0B1325]">Conditions contractuelles</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Conditions contractuelles</h4>
     <input type="text" name="acompte" placeholder="Acompte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
     <input type="text" name="echeancier" placeholder="Échéancier de paiement" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
     <input type="text" name="retenue" placeholder="Retenue de garantie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
@@ -168,7 +168,7 @@
   <div id="v5-error-msg" class="text-rose-600 font-bold hidden">Veuillez saisir ou valider au moins un lot avec son montant pour lancer l'audit.</div>
   
   <div class="flex justify-end pt-4">
-    <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-400">Lancer l'audit</button>
+    <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-400">Lancer l'audit</button>
   </div>
 </form>
 <script>
@@ -256,7 +256,7 @@ window.renderOCRThumbnails = function() {
         
         const img = document.createElement('img');
         img.src = imgBase64;
-        img.className = 'w-full h-full object-cover rounded-lg border-2 border-slate-300';
+        img.className = 'w-full h-full object-cover rounded-lg border-[#0E2A47] border-slate-300';
         
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -345,7 +345,7 @@ window.renderOCRValidation = function(lines) {
     
     lines.forEach((line, index) => {
         const tr = document.createElement('tr');
-        tr.className = 'border-b border-slate-200 hover:bg-slate-50 transition-colors bg-white';
+        tr.className = 'border-[#0E2A47] border-slate-200 hover:bg-slate-50 transition-colors bg-white';
         tr.id = 'ocr-val-row-' + index;
         
         // Use regex for numbers formatting
@@ -358,7 +358,7 @@ window.renderOCRValidation = function(lines) {
             <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-u text-center" value="${line.unite || 'u'}"></td>
             <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-q text-center" value="${line.quantite || 1}"></td>
             <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-pu text-right" value="${pu}"></td>
-            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-total font-bold text-right text-blue-800" value="${total}"></td>
+            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-total font-bold text-right text-[#0E2A47]lue-800" value="${total}"></td>
             <td class="p-2 text-center"><button type="button" onclick="document.getElementById('ocr-val-row-${index}').remove()" class="text-rose-500 font-bold p-1 hover:bg-rose-50 rounded">X</button></td>
         `;
         tbody.appendChild(tr);
@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data.error === "missing_key" || data.error === "ocr_failed") {
                 const uploadSection = document.getElementById('ocr-upload-section');
                 uploadSection.innerHTML = `
-                    <h4 class="text-lg font-bold text-[#0B1325] mb-2">Capture du devis</h4>
+                    <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis</h4>
                     <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl font-medium text-sm">
                         Service d'analyse photo temporairement indisponible — utilisez la saisie manuelle.
                     </div>
@@ -424,3 +424,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 </script>
+

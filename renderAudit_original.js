@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ChantierSur.com - Moteur Officiel de GÃ©nÃ©ration des Livrables BTP & Juridiques
  * Version 3.0 â€” Perfectionnement Visuel & Rigueur Fonctionnelle
  * Conforme : BAEL 91 RÃ©visÃ© 99 â€¢ Code de l'Urbanisme du SÃ©nÃ©gal â€¢ Droit COCC â€¢ Normes DTU
@@ -1253,7 +1253,7 @@
     // --------------
 
     doc.setFontSize(10);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text(`Projet : ${buildingUsage.toUpperCase()} | Localisation : ${location} | SDP : ${surface} mÂ² | Niveaux : R+${levels}`, 15, 45);
     doc.text(`Client : ${clientName} | TÃ©lÃ©phone : ${clientPhone}`, 15, 50);
 
@@ -1295,7 +1295,7 @@
 
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(14);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text("TABLEAU COMPARATIF LIGNE PAR LIGNE", 15, 25);
     
     doc.setFontSize(8);
@@ -1353,7 +1353,7 @@
 
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text("Ã‰CHÃ‰ANCIER DE PAIEMENT NORMALISÃ‰ (TOTAL = 100%)", 15, 45);
     
     doc.autoTable({
@@ -1387,7 +1387,7 @@
     const startYClauses = doc.lastAutoTable.finalY + 25;
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text("LES 5 CLAUSES CONTRACTUELLES RECOMMANDÃ‰ES (Ã  faire valider par un juriste avant signature)", 15, startYClauses);
 
     doc.setFont('NotoSans', 'normal');

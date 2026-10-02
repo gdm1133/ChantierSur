@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Version 3.0 — Perfectionnement Visuel & Rigueur Fonctionnelle
  * Conforme : Eurocode 2 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit Code Civil • Normes DTU
@@ -8,8 +8,8 @@
   'use strict';
 
   // Couleurs de la charte officielle ChantierSur
-  const COLOR_NAVY = [11, 19, 37];        // #0B1325
-  const COLOR_AMBER = [245, 158, 11];     // #F59E0B
+  const COLOR_NAVY = [14, 42, 71];        // #0B1325
+  const COLOR_AMBER = [201, 162, 39];     // #F59E0B
   const COLOR_SLATE = [71, 85, 105];      // #475569
   const COLOR_BG_LIGHT = [248, 250, 252]; // #F8FAFC
   const COLOR_BORDER = [226, 232, 240];   // #E2E8F0

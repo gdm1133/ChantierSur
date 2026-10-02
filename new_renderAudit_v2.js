@@ -1,4 +1,4 @@
-﻿function renderAudit(doc, data, refDoc, currentDate) {
+function renderAudit(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
 
     // Extraction des données du client
@@ -89,13 +89,13 @@
     // Cartouche haut de page
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(10);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('ChantierSur.com', leftMargin, y);
     doc.setFont('NotoSans', 'normal');
     doc.text(Dossier : \ • Date : \, pageWidth - leftMargin, y, { align: 'right' });
     y += 6;
     doc.setFont('NotoSans', 'bold');
-    doc.setTextColor(245, 158, 11);
+    doc.setTextColor(201, 162, 39);
     doc.text("BUREAU D'ÉTUDES NUMÉRIQUE • AUDIT TECHNIQUE BTP SÉNÉGAL", leftMargin, y);
     y += 6;
     doc.setTextColor(100, 100, 100);
@@ -106,7 +106,7 @@
     y += 12;
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(18);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('## RAPPORT D\'AUDIT DE DEVIS', leftMargin, y);
     y += 8;
     
@@ -150,7 +150,7 @@
     // PARTIE I
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie I : Identification du devis & de l\'entreprise', leftMargin, y);
     y += 6;
     drawConfidentialBanner();
@@ -187,7 +187,7 @@
     if (y > 240) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie II : Contrôle arithmétique du devis', leftMargin, y);
     y += 6;
     drawConfidentialBanner();
@@ -242,7 +242,7 @@
     if (y > 240) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie III : Analyse des prix & des quantités', leftMargin, y);
     y += 6;
     drawConfidentialBanner();
@@ -276,7 +276,7 @@
     if (y > 240) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie IV : Analyse contractuelle & recommandations', leftMargin, y);
     y += 6;
     drawConfidentialBanner();
@@ -341,7 +341,7 @@
     doc.rect(leftMargin, y, pageWidth - 30, 25, 'F');
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(9);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('DOCUMENT GÉNÉRÉ AUTOMATIQUEMENT PAR CHANTIERSUR.COM', leftMargin + 5, y + 6);
     doc.setFont('NotoSans', 'normal');
     doc.setFontSize(8);

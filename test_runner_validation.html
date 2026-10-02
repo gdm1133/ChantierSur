@@ -10,23 +10,23 @@
   <script src="pdf-generator.js?v=test"></script>
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: #f8fafc; padding: 24px; margin: 0; }
-    h1 { color: #f59e0b; margin-bottom: 8px; }
+    h1 { color: #C9A227; margin-bottom: 8px; }
     .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
     .pass { color: #34d399; font-weight: bold; }
     .fail { color: #f87171; font-weight: bold; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #334155; padding: 8px 12px; text-align: left; font-size: 13px; }
-    th { background: #0b1325; color: #f59e0b; }
+    th { background: #0E2A47; color: #C9A227; }
     canvas { border: 1px solid #475569; margin: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5); max-width: 280px; }
     .page-gallery { display: flex; flex-wrap: wrap; gap: 12px; }
   </style>
 </head>
 <body>
-  <h1>Laboratoire de Validation & Perfectionnement PDF — ChantierSur.com</h1>
+  <h1 style="font-family: 'Archivo', sans-serif;">Laboratoire de Validation & Perfectionnement PDF — ChantierSur.com</h1>
   <p style="color: #94a3b8;">Génération des 4 livrables types et contrôles automatisés stricts (Partie 1 Encodage UTF-8 & Partie 2 Espacements).</p>
   
   <div id="results" class="card">
-    <h2>1. Rapport d'Exécution des Tests Automatiques</h2>
+    <h2 style="font-family: 'Archivo', sans-serif;">1. Rapport d'Exécution des Tests Automatiques</h2>
     <div id="test-summary">Exécution en cours...</div>
     <table id="test-table">
       <thead>
@@ -42,7 +42,7 @@
   </div>
 
   <div id="visual" class="card">
-    <h2>2. Contrôle Visuel des Pages Générées (Canvas PDF.js)</h2>
+    <h2 style="font-family: 'Archivo', sans-serif;">2. Contrôle Visuel des Pages Générées (Canvas PDF.js)</h2>
     <div id="gallery" class="page-gallery"></div>
   </div>
 
@@ -387,5 +387,6 @@
   </script>
 </body>
 </html>
+
 
 

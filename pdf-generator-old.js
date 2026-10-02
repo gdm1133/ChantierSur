@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Version 3.0 — Perfectionnement Visuel & Rigueur Fonctionnelle
  * Conforme : Eurocode 2 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit Code Civil • Normes DTU
@@ -1202,13 +1202,13 @@ function renderAudit(doc, data, refDoc, currentDate) {
     // -- En-t�te cartouche --
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(10);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('ChantierSur.com', leftMargin, y);
     doc.setFont('NotoSans', 'normal');
     doc.text(`Dossier : ${refDoc}  |  Date : ${currentDate}`, pageWidth - rightMargin, y, { align: 'right' });
     y += 6;
     doc.setFont('NotoSans', 'bold');
-    doc.setTextColor(245, 158, 11);
+    doc.setTextColor(201, 162, 39);
     doc.text("BUREAU D'�TUDES NUM�RIQUE IND�PENDANT  �  AUDIT TECHNIQUE BTP � S�N�GAL", leftMargin, y);
     y += 5;
     doc.setTextColor(100, 100, 100);
@@ -1220,7 +1220,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     y += 12;
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(17);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('RAPPORT D\'AUDIT TECHNIQUE DE DEVIS BTP', leftMargin, y);
     y += 7;
 
@@ -1267,7 +1267,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     // -----------------------------------------------------------
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie I � Identification du devis & de l\'entreprise', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -1309,7 +1309,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie II � Contr�le arithm�tique du devis', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -1372,7 +1372,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie III � Analyse des prix & des quantit�s', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -1413,7 +1413,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie IV � Analyse contractuelle & recommandations', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -1486,7 +1486,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     doc.rect(leftMargin, y, usableWidth, 24, 'D');
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(8.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('DOCUMENT G�N�R� AUTOMATIQUEMENT PAR CHANTIERSUR.COM', leftMargin + 5, y + 6);
     doc.setFont('NotoSans', 'normal');
     doc.setFontSize(8);

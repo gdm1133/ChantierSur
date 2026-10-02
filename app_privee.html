@@ -21,7 +21,7 @@
   <meta name="twitter:image" content="https://chantiersur.com/assets/img/img_bael.jpg">
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="icon" type="image/png" href="assets/img/logo-light.png">
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
   <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact , Audit de devis et Conformité Structurellejuridique COCC.">
 
@@ -34,14 +34,14 @@
     .tab-card { transition: all 0.2s ease-in-out; }
   </style>
 </head>
-<body class="bg-[#F8FAFC] text-slate-900 min-h-screen flex flex-col antialiased selection:bg-[#0B1325] selection:text-white">
+<body class="bg-[#F8FAFC] text-[#0E2A47] min-h-screen flex flex-col antialiased selection:bg-[#0E2A47] selection:text-white">
 
   <!-- TOPBAR RÉGLEMENTAIRE -->
-  <div class="bg-slate-950 border-b border-slate-800 text-[11px] text-slate-400 py-2 px-4">
+  <div class="bg-[#0E2A47] border-[#0E2A47] border-slate-800 text-[11px] text-slate-400 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+        <span class="inline-flex items-center text-[#C9A227]merald-400 font-semibold whitespace-nowrap">
+          <span class="w-2 h-2 rounded-full bg-[#C9A227]merald-400 animate-pulse mr-1.5"></span>
           Conformité 
         </span>
         <span class="hidden sm:inline">•</span>
@@ -50,10 +50,10 @@
         <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
       </div>
       <div class="flex items-center space-x-4">
-        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#F59E0B] hover:underline">admin@chantiersur.com</a></span>
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#C9A227] hover:underline">admin@chantiersur.com</a></span>
         <div class="flex items-center space-x-2">
           <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
-          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-slate-900 border border-slate-700 text-[#F59E0B] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#0E2A47] border border-slate-700 text-[#C9A227] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
             <option value="XOF" selected>FCFA (XOF)</option>
             <option value="EUR">Euro (€)</option>
             <option value="USD">Dollar US ($)</option>
@@ -65,26 +65,16 @@
   </div>
 
   <!-- NAVIGATION HEADER -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-[#0E2A47] border-slate-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- LOGO SANS SOUS-TITRE -->
-      <a href="index.html" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center p-2 border border-slate-200 shadow-sm group-hover:border-[#F59E0B] transition-colors">
-          <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-[#F59E0B]" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M9 12l2 2 4-4"/>
-          </svg>
-        </div>
-        <span class="text-2xl font-black tracking-tight text-[#0B1325] leading-none">
-          Chantier<span class="text-[#F59E0B]">Sur.com</span>
-        </span>
-      </a>
+      <a href="index.html" class="flex items-center space-x-3 group"><div class="flex items-center space-x-3"><img src="assets/img/logo-light.png" alt="Logo" class="h-10 w-auto"><span class="text-[#0E2A47]xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
 
       <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
       <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
-        <a href="#services-section" class="text-slate-700 hover:text-[#F59E0B] transition-colors">Simulateur & Services</a>
-        <a href="a-propos.html" class="text-slate-700 hover:text-[#F59E0B] transition-colors">Qui Sommes-Nous</a>
+        <a href="#services-section" class="text-slate-700 hover:text-[#C9A227] transition-colors">Simulateur & Services</a>
+        <a href="a-propos.html" class="text-slate-700 hover:text-[#C9A227] transition-colors">Qui Sommes-Nous</a>
       </nav>
 
       <!-- MENU BURGER MOBILE -->
@@ -96,14 +86,14 @@
     </div>
 
     <!-- TIROIR DÉROULANT MOBILE -->
-    <div id="mobile-drawer" class="hidden md:hidden bg-white border-b border-slate-200 px-6 py-5 space-y-4 shadow-lg">
-      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#F59E0B] font-semibold py-1">Simulateur & Services</a>
-      <a href="a-propos.html" class="block text-slate-300 hover:text-[#F59E0B] font-semibold py-1">Qui Sommes-Nous</a>
+    <div id="mobile-drawer" class="hidden md:hidden bg-white border-[#0E2A47] border-slate-200 px-6 py-5 space-y-4 shadow-lg">
+      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#C9A227] font-semibold py-1">Simulateur & Services</a>
+      <a href="a-propos.html" class="block text-slate-300 hover:text-[#C9A227] font-semibold py-1">Qui Sommes-Nous</a>
     </div>
   </header>
 
   <!-- HERO SECTION AVEC VIDÉO -->
-  <section class="relative w-full h-[60vh] min-h-[400px] sm:h-[70vh] flex items-center justify-center overflow-hidden border-b border-slate-200 bg-slate-100">
+  <section class="relative w-full h-[60vh] min-h-[400px] sm:h-[70vh] flex items-center justify-center overflow-hidden border-[#0E2A47] border-slate-200 bg-slate-100">
     <!-- Vidéo en arrière-plan -->
     <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-screen">
       <source src="assets/video/marketing_video.mp4" type="video/mp4">
@@ -111,24 +101,24 @@
     </video>
     
     <!-- Overlay de dégradé pour améliorer la lisibilité du texte -->
-    <div class="absolute inset-0 bg-gradient-to-b from-white/90 via-slate-50/75 to-[#F8FAFC] pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-[#B38F1F] from-white/90 via-slate-50/75 to-[#F8FAFC] pointer-events-none"></div>
 
     <!-- Contenu du Hero -->
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 mt-8">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-50 border border-[#F59E0B] text-[#0B1325] text-xs font-black tracking-widest uppercase shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-[#F59E0B] animate-pulse shadow-[0_0_8px_#F59E0B]"></span>
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-50 border border-[#C9A227] text-[#0E2A47] text-xs font-black tracking-widest uppercase shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-[#C9A227] animate-pulse shadow-[0_0_8px_#C9A227]"></span>
         <span>De la Confiance Aveugle à la Preuve</span>
       </div>
-      <h1 class="text-4xl sm:text-6xl font-black text-[#0B1325] tracking-tight leading-tight">
+      <h1 style="font-family: 'Archivo', sans-serif;" class="text-4xl sm:text-6xl font-black text-[#0E2A47] tracking-tight leading-tight">
         Bâtissez au Sénégal <br class="hidden sm:block" />
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-[#F59E0B]">sans angle mort.</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#C9A227] to-[#C9A227]">sans angle mort.</span>
       </h1>
       <p class="text-lg sm:text-xl text-slate-700 max-w-2xl mx-auto font-medium">
         L'expertise d'un bureau d'études pour sécuriser vos investissements : ingénierie numérique, métrés précis et aide à la décision.
       </p>
       
       <div class="pt-6 flex justify-center">
-          <a href="#services-section" class="group px-8 py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-extrabold rounded-xl transition-all shadow-xl hover:-translate-y-1 text-lg flex items-center space-x-2">
+          <a href="#services-section" class="group px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl hover:-translate-y-1 text-lg flex items-center space-x-2">
             <span>Démarrer mon Audit Technique</span>
             <svg class="w-6 h-6 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
           </a>
@@ -140,7 +130,7 @@
   <main id="services-section" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
 
     <div class="text-center mb-8">
-      <h2 class="text-2xl sm:text-3xl font-bold text-[#0B1325]">Nos Formules d'Ingénierie & Devis Immédiats</h2>
+      <h2 style="font-family: 'Archivo', sans-serif;" class="text-[#0E2A47]xl sm:text-[#0E2A47]xl font-bold text-[#0E2A47]">Nos Formules d'Ingénierie & Devis Immédiats</h2>
       <p class="text-slate-700 font-medium text-sm mt-1">Sélectionnez une formule pour paramétrer votre dossier technique</p>
     </div>
 
@@ -148,20 +138,20 @@
     <div class="flex overflow-x-auto snap-x sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 pb-4 sm:pb-0">
       
       <!-- ONGLET 1 -->
-      <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white border-2 border-[#0B1325] ring-2 ring-[#0B1325]/15 shadow-xl focus:outline-none cursor-pointer">
+      <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white border-[#0E2A47] border-[#0E2A47] ring-[#0E2A47] ring-[#0E2A47]/15 shadow-xl focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-black uppercase tracking-wider text-amber-800">Phase Zéro</span>
         </div>
-        <h3 class="text-base font-bold text-[#0B1325] mb-1">1. Esquisse & Faisabilité</h3>
+        <h3 style="font-family: 'Archivo', sans-serif;" class="text-[#0E2A47]ase font-bold text-[#0E2A47] mb-1">1. Esquisse & Faisabilité</h3>
         <p class="text-xs text-slate-700 leading-relaxed">Implantation, gabarit parcellaire et faisabilité structurelle.</p>
       </button>
 
       <!-- ONGLET 3 -->
-      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white/70 border-2 border-slate-200 hover:border-slate-300 shadow-sm focus:outline-none cursor-pointer">
+      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white/70 border-[#0E2A47] border-slate-200 hover:border-slate-300 shadow-sm focus:outline-none cursor-pointer">
         <div class="flex justify-between items-start mb-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Audit Devis</span>
         </div>
-        <h3 class="text-base font-bold text-[#0B1325] mb-1">3. Audit Devis</h3>
+        <h3 style="font-family: 'Archivo', sans-serif;" class="text-[#0E2A47]ase font-bold text-[#0E2A47] mb-1">3. Audit Devis</h3>
         <p class="text-xs text-slate-700 leading-relaxed">Détection des surfacturations & ratios matériaux stricts.</p>
       </button>
 
@@ -177,13 +167,13 @@
       <form id="pane-1" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
   
   <!-- EN-TÊTE DU FORMULAIRE & STEPPER -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-6 gap-4">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-[#0E2A47] border-slate-200 pb-6 gap-4">
     <div>
-      <h3 class="text-xl font-bold text-[#0B1325]">1. Dossier d'Esquisse & Faisabilité Technique</h3>
+      <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-[#0E2A47]">1. Dossier d'Esquisse & Faisabilité Technique</h3>
       <p class="text-xs text-slate-700 font-medium mt-0.5">Étude nominative préalable • Règles d'urbanisme DUA & </p>
     </div>
     <div class="flex items-center space-x-3">
-      <div class="bullet-1 w-8 h-8 rounded-full bg-[#0B1325] text-white font-bold flex items-center justify-center text-sm shadow">1</div>
+      <div class="bullet-1 w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow">1</div>
       <div class="w-8 h-0.5 bg-slate-300"></div>
       <div class="bullet-2 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm">2</div>
       <div class="w-8 h-0.5 bg-slate-300"></div>
@@ -196,15 +186,15 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface totale parcelle (m²)</label>
-        <input type="number" name="surface" value="200" min="50" max="3000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <input type="number" name="surface" value="200" min="50" max="3000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Façade principale sur rue (m)</label>
-        <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
           <option value="0">RDC Simple (Villa plain-pied)</option>
           <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
           <option value="2">R+2 (Immeuble R+2)</option>
@@ -223,7 +213,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Configuration de la parcelle</label>
-        <select name="parcel_config" id="parcel-config-select" onchange="window.handleParcelConfigChange(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all">
+        <select name="parcel_config" id="parcel-config-select" onchange="window.handleParcelConfigChange(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
           <option value="bande" selected>En bande (1 façade sur rue)</option>
           <option value="angle">En angle (2 façades sur rues)</option>
           <option value="traversante">Traversante (2 façades opposées)</option>
@@ -234,12 +224,12 @@
       <!-- CHAMP CONDITIONNEL SECONDE FAÇADE (MASQUÉ PAR DÉFAUT) -->
       <div id="facade-2-container" class="hidden">
         <label class="block text-xs font-bold text-amber-800 uppercase mb-2">2nde Façade sur rue (m)</label>
-        <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-amber-50/40 border-2 border-amber-400 rounded-xl px-4 py-3 text-slate-900 focus:border-[#0B1325] outline-none transition-all">
+        <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-amber-50/40 border-[#0E2A47] border-[#C9A227] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
       </div>
 
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
-        <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all">
+        <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
           <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
           <option value="locatif">Immeuble locatif / Appartements</option>
           <option value="mixte">Mixte (Commerce RDC + Logements)</option>
@@ -251,7 +241,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Standing de construction</label>
-        <select name="standing" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all">
+        <select name="standing" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
           <option value="moyen" selected>Moyen Standing (Équilibré & Robuste)</option>
           <option value="economique">Économique / Locatif standard</option>
           <option value="haut">Haut Standing (Prestations Premium)</option>
@@ -260,7 +250,7 @@
     </div>
 
     <div class="flex justify-end pt-4">
-      <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
+      <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
         <span>Suivant</span>
         <span>&rarr;</span>
       </button>
@@ -271,7 +261,7 @@
   <div class="step-container step-2 hidden space-y-6">
     <div>
       <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
-      <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+      <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
         <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
           <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Zone rocheuse/marine - Enrobage 4,5 cm)</option>
           <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
@@ -296,7 +286,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Statut Juridique Foncier</label>
-        <select name="land_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all">
+        <select name="land_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
           <option value="Titre Foncier (TF)" selected>Titre Foncier Définitif (TF)</option>
           <option value="Bail Emphytéotique">Bail Emphytéotique de l'État</option>
           <option value="Délibération Communale">Délibération Communale / Affectation</option>
@@ -305,21 +295,21 @@
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro de Titre Foncier / Lot / NICAD</label>
-        <input type="text" name="lot_number" placeholder="Ex: TF N° 12.845/DP ou Lot N° 45" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <input type="text" name="lot_number" placeholder="Ex: TF N° 12.845/DP ou Lot N° 45" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Raccordement Assainissement Eaux Usées</label>
-        <select name="sanitation_type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all">
+        <select name="sanitation_type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
           <option value="autonome" selected>Fosse toutes eaux étanche + Puits perdu (Autonome)</option>
           <option value="onas">Réseau collectif public ONAS existant</option>
         </select>
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">État de la mitoyenneté directe</label>
-        <select name="neighbor_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all">
+        <select name="neighbor_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
           <option value="vide" selected>Parcelles voisines nues (non bâties)</option>
           <option value="bati_un_cote">Bâtiment mitoyen existant sur un côté</option>
           <option value="bati_deux_cotes">Bâtiments mitoyens sur les deux côtés</option>
@@ -329,7 +319,7 @@
 
     <div class="flex justify-between pt-4">
       <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
-      <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
+      <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
         <span>Suivant</span>
         <span>&rarr;</span>
       </button>
@@ -340,9 +330,9 @@
   <div class="step-container step-3 hidden space-y-6">
     <div class="bg-amber-50/80 border border-amber-200 p-4 rounded-xl flex items-center justify-between">
       <div>
-        <p class="text-xs uppercase font-bold text-[#0B1325]">Total Prestation d'Étude Personnalisée</p>
+        <p class="text-xs uppercase font-bold text-[#0E2A47]">Total Prestation d'Étude Personnalisée</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
-          <span id="price-val-1" class="text-2xl font-black text-[#0B1325]">149 000 FCFA</span>
+          <span id="price-val-1" class="text-[#0E2A47]xl font-black text-[#0E2A47]">149 000 FCFA</span>
           <span id="price-converted-1" class="text-xs text-amber-800 font-bold">(≈ 227 €)</span>
         </div>
       </div>
@@ -352,18 +342,18 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label>
-        <input type="text" name="client_name" placeholder="Ex: El Hadji Abdoulaye Diop" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <input type="text" name="client_name" placeholder="Ex: El Hadji Abdoulaye Diop" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Adresse Email (Envoi & Archives)</label>
-        <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+        <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
     </div>
 
     <div>
       <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
       <div class="flex">
-        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
           <option value="+221" selected>🇸🇳 SN (+221)</option>
           <option value="+33">🇫🇷 FR (+33)</option>
           <option value="+39">🇮🇹 IT (+39)</option>
@@ -386,14 +376,14 @@
           <option value="+966">🇸🇦 SA (+966)</option>
           <option value="+224">🇬🇳 GN (+224)</option>
         </select>
-        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
+        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
       </div>
       <p class="text-[11px] text-slate-700 font-medium mt-1">Ce numéro figurera sur le rapport pour authentifier la propriété du dossier.</p>
     </div>
 
     <div class="flex justify-between items-center pt-4">
       <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
-      <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
+      <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl text-[#0E2A47]ase flex items-center space-x-3 cursor-pointer">
         <span>Éditer mon Rapport d'Esquisse</span>
         <span>&rarr;</span>
       </button>
@@ -414,7 +404,7 @@
   <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
   <!-- 2.1 Bloc Informations du client -->
   <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0B1325]">Informations du client</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Informations du client</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
             <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom complet</label>
@@ -429,7 +419,7 @@
     <div>
       <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
       <div class="flex">
-        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
           <option value="+221" selected>🇸🇳 SN (+221)</option>
           <option value="+33">🇫🇷 FR (+33)</option>
           <option value="+39">🇮🇹 IT (+39)</option>
@@ -452,7 +442,7 @@
           <option value="+966">🇸🇦 SA (+966)</option>
           <option value="+224">🇬🇳 GN (+224)</option>
         </select>
-        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
+        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
       </div>
     </div>
     
@@ -463,7 +453,7 @@
         </div>
         <div>
             <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-            <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] focus:ring-2 focus:ring-slate-400/20 outline-none transition-all" required>
+            <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
               <option value="0">RDC Simple (Villa plain-pied)</option>
               <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
               <option value="2">R+2 (Immeuble R+2)</option>
@@ -482,7 +472,7 @@
 
   <!-- 2.1b Bloc Identification du Devis -->
   <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0B1325]">Identification du devis</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Identification du devis</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
             <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet du devis (Type de projet) <span class="text-red-500">*</span></label>
@@ -509,13 +499,13 @@
 
   <!-- 2.2 Bloc Import et Validation OCR Mistral -->
   <div class="step-container space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-200" id="ocr-upload-section">
-    <h4 class="text-lg font-bold text-[#0B1325] mb-2">Capture du devis (Recommandé)</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis (Recommandé)</h4>
     <p class="text-sm text-slate-600 mb-4">
       Prenez les pages en photo UNE PAR UNE. Vérifiez que la lumière est suffisante et le texte bien net.
     </p>
     
-    <label class="cursor-pointer bg-white border-2 border-dashed border-slate-300 hover:border-[#0B1325] rounded-xl p-8 flex flex-col items-center justify-center transition-colors group">
-      <svg class="w-12 h-12 text-slate-400 group-hover:text-[#0B1325] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    <label class="cursor-pointer bg-white border-[#0E2A47] border-dashed border-slate-300 hover:border-[#0E2A47] rounded-xl p-8 flex flex-col items-center justify-center transition-colors group">
+      <svg class="w-12 h-12 text-slate-400 group-hover:text-[#0E2A47] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
       <span class="text-slate-800 font-bold text-center">Photographier une page</span>
       <span class="text-xs text-slate-500 mt-2 text-center">Répétez l'opération pour chaque page du devis</span>
       <input type="file" accept="image/*" capture="environment" id="ocr-camera-input" class="hidden" onchange="window.handleOCRPhotoSelect(event)">
@@ -524,12 +514,12 @@
     <div id="ocr-thumbnails-container" class="flex flex-wrap gap-4 mt-4 hidden"></div>
     
     <div id="ocr-loading-indicator" class="hidden text-center p-4">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#0B1325]"></div>
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-[#0E2A47]-2 border-[#0E2A47]"></div>
       <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse du document en cours...</p>
     </div>
 
     <div class="flex justify-end mt-4">
-        <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors shadow-lg disabled:bg-slate-400">Lancer l'analyse des pages</button>
+        <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors shadow-lg disabled:bg-slate-400">Lancer l'analyse des pages</button>
     </div>
 
     <p class="text-[10px] text-slate-500 text-center mt-2">
@@ -538,15 +528,15 @@
   </div>
 
   <!-- Ecran de Validation OCR -->
-  <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-xl border-2 border-[#0B1325] shadow-lg">
-    <h4 class="text-lg font-bold text-[#0B1325]">Validation des lignes détectées</h4>
+  <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-xl border-[#0E2A47] border-[#0E2A47] shadow-lg">
+    <h4 class="text-lg font-bold text-[#0E2A47]">Validation des lignes détectées</h4>
     <p class="text-sm text-amber-700 bg-amber-50 p-3 rounded-lg font-medium border border-amber-200">
       ⚠️ Vérifiez attentivement les lignes ci-dessous. Modifiez les erreurs éventuelles avant de valider. Les lignes non valides ne seront pas intégrées à l'audit.
     </p>
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-sm">
             <thead>
-                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                <tr class="bg-slate-100 border-[#0E2A47] border-slate-300 text-slate-700">
                     <th class="p-2 font-bold">Lot</th>
                     <th class="p-2 font-bold">Désignation</th>
                     <th class="p-2 font-bold w-20">Unité</th>
@@ -562,8 +552,8 @@
         </table>
     </div>
     <div class="flex justify-end gap-4 mt-4">
-        <button type="button" onclick="window.cancelOCR()" class="px-4 py-2 text-slate-600 hover:text-slate-900 font-bold">Annuler</button>
-        <button type="button" onclick="window.confirmOCR()" class="px-6 py-2 bg-[#0B1325] hover:bg-slate-800 text-white font-bold rounded-lg transition-colors">Valider ces lignes</button>
+        <button type="button" onclick="window.cancelOCR()" class="px-4 py-2 text-slate-600 hover:text-[#0E2A47] font-bold">Annuler</button>
+        <button type="button" onclick="window.confirmOCR()" class="px-6 py-2 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors">Valider ces lignes</button>
     </div>
   </div>
 
@@ -572,7 +562,7 @@
   <!-- 2.3 Bloc Lots du devis (Saisie manuelle / Récap) -->
   <div class="step-container space-y-6">
     <div class="flex justify-between items-center">
-        <h4 class="text-lg font-bold text-[#0B1325]">Lots validés (Saisie manuelle)</h4>
+        <h4 class="text-lg font-bold text-[#0E2A47]">Lots validés (Saisie manuelle)</h4>
         <button type="button" onclick="window.addV5Lot()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors">+ Ajouter un lot manuel</button>
     </div>
     <div id="v5-lots-container" class="space-y-4"></div>
@@ -580,10 +570,10 @@
 
   <!-- 2.4 Bloc Totaux -->
   <div class="step-container space-y-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-    <h4 class="text-lg font-bold text-[#0B1325]">Totaux du devis</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Totaux du devis</h4>
     <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total HT indiqué sur le devis (FCFA) <span class="text-red-500">*</span></label>
-        <input type="number" name="devis_total_ht" placeholder="Ex: 15000000" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:border-[#0B1325] outline-none" required>
+        <input type="number" name="devis_total_ht" placeholder="Ex: 15000000" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none" required>
         <p class="text-[10px] text-slate-500 mt-1">Le montant exact écrit par l'entrepreneur, même s'il est faux.</p>
     </div>
     <div class="flex justify-between items-center">
@@ -592,23 +582,23 @@
     </div>
     
     <div class="mt-4 pt-4 border-t border-slate-300">
-        <h5 class="text-sm font-bold text-[#0B1325] mb-2">Calcul automatique (selon vos lignes)</h5>
+        <h5 class="text-sm font-bold text-[#0E2A47] mb-2">Calcul automatique (selon vos lignes)</h5>
         <div class="flex justify-between text-sm text-slate-600 mb-1"><span>Total HT Recalculé :</span><span id="v5-total-ht" class="font-mono">0</span></div>
-        <div class="flex justify-between font-bold text-lg text-[#0B1325] pt-1"><span>Total TTC Recalculé :</span><span id="v5-total-ttc" class="font-mono">0</span></div>
+        <div class="flex justify-between font-bold text-lg text-[#0E2A47] pt-1"><span>Total TTC Recalculé :</span><span id="v5-total-ttc" class="font-mono">0</span></div>
     </div>
   </div>
 
   <!-- 2.5 Bloc Conditions contractuelles -->
   <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0B1325]">Conditions contractuelles</h4>
+    <h4 class="text-lg font-bold text-[#0E2A47]">Conditions contractuelles</h4>
     <p class="text-sm text-slate-600 mb-4">Laissez vide si non précisé sur le devis (l'audit le signalera comme un risque).</p>
     
     <div class="grid grid-cols-1 gap-4">
         <div>
             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Acompte à la signature</label>
             <div class="flex">
-                <input type="number" name="devis_acompte" placeholder="Ex: 30" class="w-full bg-slate-50 border border-r-0 border-slate-300 rounded-l-xl px-4 py-3 text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
-                <select name="devis_acompte_type" class="bg-slate-100 border border-slate-300 rounded-r-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0B1325] cursor-pointer">
+                <input type="number" name="devis_acompte" placeholder="Ex: 30" class="w-full bg-slate-50 border border-r-0 border-slate-300 rounded-l-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+                <select name="devis_acompte_type" class="bg-slate-100 border border-slate-300 rounded-r-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] cursor-pointer">
                   <option value="percent" selected>%</option>
                   <option value="fcfa">FCFA</option>
                 </select>
@@ -640,7 +630,7 @@
   <div id="v5-error-msg" class="text-rose-600 font-bold hidden">Veuillez saisir ou valider au moins un lot avec son montant pour lancer l'audit.</div>
   
   <div class="flex justify-end pt-4">
-    <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#0B1325] hover:bg-slate-800 text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-400">Lancer l'audit</button>
+    <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-400">Lancer l'audit</button>
   </div>
 </form>
 <script>
@@ -752,7 +742,7 @@ window.renderOCRThumbnails = function() {
         
         const img = document.createElement('img');
         img.src = imgBase64;
-        img.className = 'w-full h-full object-cover rounded-lg border-2 border-slate-300';
+        img.className = 'w-full h-full object-cover rounded-lg border-[#0E2A47] border-slate-300';
         
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -841,7 +831,7 @@ window.renderOCRValidation = function(lines) {
     
     lines.forEach((line, index) => {
         const tr = document.createElement('tr');
-        tr.className = 'border-b border-slate-200 hover:bg-slate-50 transition-colors bg-white';
+        tr.className = 'border-[#0E2A47] border-slate-200 hover:bg-slate-50 transition-colors bg-white';
         tr.id = 'ocr-val-row-' + index;
         
         // Use regex for numbers formatting
@@ -854,7 +844,7 @@ window.renderOCRValidation = function(lines) {
             <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-u text-center" value="${line.unite || 'u'}"></td>
             <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-q text-center" value="${line.quantite || 1}"></td>
             <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-pu text-right" value="${pu}"></td>
-            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-total font-bold text-right text-blue-800" value="${total}"></td>
+            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-total font-bold text-right text-[#0E2A47]lue-800" value="${total}"></td>
             <td class="p-2 text-center"><button type="button" onclick="document.getElementById('ocr-val-row-${index}').remove()" class="text-rose-500 font-bold p-1 hover:bg-rose-50 rounded">X</button></td>
         `;
         tbody.appendChild(tr);
@@ -918,7 +908,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data.error === "missing_key" || data.error === "ocr_failed") {
                 const uploadSection = document.getElementById('ocr-upload-section');
                 uploadSection.innerHTML = `
-                    <h4 class="text-lg font-bold text-[#0B1325] mb-2">Capture du devis</h4>
+                    <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis</h4>
                     <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl font-medium text-sm">
                         Service d'analyse photo temporairement indisponible — utilisez la saisie manuelle.
                     </div>
@@ -949,22 +939,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   </main>
 
   <!-- FOOTER OFFICIEL -->
-  <footer class="bg-[#0B1325] border-t border-slate-800 pt-12 pb-8 mt-12 text-slate-100">
+  <footer class="bg-[#0E2A47] border-t border-slate-800 pt-12 pb-8 mt-12 text-slate-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <!-- Col 1 -->
                 <div>
                     <a href="index.html" class="flex items-center space-x-2.5 mb-4">
-                        <div class="w-7 h-7 bg-slate-900 rounded-md flex items-center justify-center p-1 border border-slate-800 shadow-sm shrink-0">
-                            <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-amber-500" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="w-7 h-7 bg-[#0E2A47] rounded-md flex items-center justify-center p-1 border border-slate-800 shadow-sm shrink-0">
+                            <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-[#C9A227]" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                 <path d="M9 12l2 2 4-4"/>
                             </svg>
                         </div>
-                        <span class="text-lg font-black tracking-tight text-white leading-none">Chantier<span class="text-[#F59E0B]">Sur.com</span></span>
+                        <span class="text-lg font-black tracking-tight text-white leading-none">Chantier<span class="text-[#C9A227]">Sur.com</span></span>
                     </a>
-                    <p class="text-amber-500 font-bold mb-4">Bâtissez sans angle mort.</p>
-                    <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                    <p class="text-[#C9A227] font-bold mb-4">Bâtissez sans angle mort.</p>
+                    <div class="bg-[#0E2A47] p-3 rounded-lg border border-slate-800">
                         <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
                     </div>
                 </div>
@@ -973,9 +963,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div>
                     <h4 class="text-white font-bold mb-4">Ingénierie & Services</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Esquisse Faisabilité</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-[#C9A227] transition">Esquisse Faisabilité</a></li>
                         
-                        <li><a href="index.html#services-section" class="hover:text-amber-500 transition">Audit Devis</a></li>
+                        <li><a href="index.html#services-section" class="hover:text-[#C9A227] transition">Audit Devis</a></li>
                         
                     </ul>
                 </div>
@@ -984,8 +974,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div>
                     <h4 class="text-white font-bold mb-4">Rigueur & Méthodologie</h4>
                                         <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="points-darret.html" class="hover:text-amber-500 transition">Les 6 Points d'Arrêt</a></li>
-                        <li><a href="guide-diaspora.html" class="hover:text-amber-500 transition">Guide Diaspora & WhatsApp</a></li>
+                        <li><a href="points-darret.html" class="hover:text-[#C9A227] transition">Les 6 Points d'Arrêt</a></li>
+                        <li><a href="guide-diaspora.html" class="hover:text-[#C9A227] transition">Guide Diaspora & WhatsApp</a></li>
                     </ul>
                 </div>
 
@@ -993,8 +983,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div>
                     <h4 class="text-white font-bold mb-4">Cadre Légal & Sécurité</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="a-propos.html" class="hover:text-amber-500 transition">Qui Sommes-Nous</a></li>
-                        <li><a href="mentions-legales.html" class="hover:text-amber-500 transition">Mentions Légales</a></li>
+                        <li><a href="a-propos.html" class="hover:text-[#C9A227] transition">Qui Sommes-Nous</a></li>
+                        <li><a href="mentions-legales.html" class="hover:text-[#C9A227] transition">Mentions Légales</a></li>
                     </ul>
                 </div>
             </div>
@@ -1041,23 +1031,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   <div class="max-w-7xl mx-auto space-y-4">
     
     <!-- Ligne 1 : Badges Réglementaires & Sécurité -->
-    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/50 pb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 border-[#0E2A47] border-slate-800/50 pb-4">
       <div class="flex flex-wrap items-center gap-4 text-[11px]">
         <!-- Statut opérationnel -->
-        <div class="flex items-center space-x-1.5 bg-slate-900/80 px-2.5 py-1 rounded-full border border-slate-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
+          <span class="w-2 h-2 rounded-full bg-[#C9A227]merald-500 animate-pulse"></span>
           <span class="text-slate-300 font-medium">Système Opérationnel</span>
         </div>
         
         <!-- Badge Sécurité TLS -->
         <div class="flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+          <svg class="w-3.5 h-3.5 text-[#C9A227]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
           <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
         </div>
 
         <!-- Badge CDP Sénégal -->
         <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <svg class="w-3.5 h-3.5 text-[#C9A227]merald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
           <span>bureau d'études numérique indépendant</span>
         </div>
       </div>
@@ -1088,11 +1078,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       <!-- Liens Réglementaires Incompressibles -->
       <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
-        <a href="mentions-legales.html" class="hover:text-amber-400 transition-colors">Mentions Légales</a>
+        <a href="mentions-legales.html" class="hover:text-[#C9A227] transition-colors">Mentions Légales</a>
         <span class="text-slate-700">•</span>
         <span class="text-slate-700">•</span>
         <span class="text-slate-700">•</span>
-        <a href="mailto:admin@chantiersur.com" class="text-amber-400 hover:text-amber-300 transition-colors font-medium">Support : admin@chantiersur.com</a>
+        <a href="mailto:admin@chantiersur.com" class="text-[#C9A227] hover:text-amber-300 transition-colors font-medium">Support : admin@chantiersur.com</a>
       </nav>
     </div>
 
@@ -1205,10 +1195,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (btn) {
           const badge = btn.querySelector('span');
           if (i === tabIndex) {
-            btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white border-2 border-[#0B1325] ring-2 ring-[#0B1325]/15 shadow-xl focus:outline-none cursor-pointer';
+            btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white border-[#0E2A47] border-[#0E2A47] ring-[#0E2A47] ring-[#0E2A47]/15 shadow-xl focus:outline-none cursor-pointer';
             if (badge) badge.className = 'text-xs font-black uppercase tracking-wider text-amber-800';
           } else {
-            btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white/70 border-2 border-slate-200 hover:border-slate-300 shadow-sm focus:outline-none cursor-pointer';
+            btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white/70 border-[#0E2A47] border-slate-200 hover:border-slate-300 shadow-sm focus:outline-none cursor-pointer';
             if (badge) badge.className = 'text-xs font-bold uppercase tracking-wider text-slate-700';
           }
         }
@@ -1285,9 +1275,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bullet = pane.querySelector('.bullet-' + i);
         if (bullet) {
           if (i === targetStep) {
-            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0B1325] text-white font-bold flex items-center justify-center text-sm shadow';
+            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow';
           } else if (i < targetStep) {
-            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0B1325] text-white font-bold flex items-center justify-center text-sm shadow opacity-50';
+            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow opacity-50';
           } else {
             bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm';
           }
@@ -1369,7 +1359,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const overlay = document.createElement('div');
             overlay.id = 'cs-coherence-modal';
-            overlay.className = 'fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-200';
+            overlay.className = 'fixed inset-0 bg-[#0E2A47]/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-200';
             overlay.setAttribute('role', 'dialog');
             overlay.setAttribute('aria-modal', 'true');
             overlay.setAttribute('aria-labelledby', 'coherence-modal-title');
@@ -1377,14 +1367,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             const cardsHtml = incoherences.map((item) => {
               if (item.type === 'gabarit') {
                 return `
-                  <div class="bg-slate-900/90 border border-amber-500/30 rounded-xl p-4 space-y-3">
-                    <div class="flex items-center gap-2 text-amber-400 font-semibold text-sm">
+                  <div class="bg-[#0E2A47]/90 border border-[#C9A227]/30 rounded-xl p-4 space-y-3">
+                    <div class="flex items-center gap-2 text-[#C9A227] font-semibold text-sm">
                       <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
                       <span>${item.title}</span>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-slate-950/60 p-3 rounded-lg border border-slate-800">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-[#0E2A47]/60 p-3 rounded-lg border border-slate-800">
                       <div>
                         <span class="text-slate-400">Hauteur estimée du projet :</span>
                         <span class="font-bold text-slate-100 ml-1">${item.hauteurProjet}</span>
@@ -1399,19 +1389,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                       </div>
                       <div class="sm:col-span-2">
                         <span class="text-slate-400">Écart constaté :</span>
-                        <span class="font-semibold text-amber-400 ml-1">${item.depassement}</span>
+                        <span class="font-semibold text-[#C9A227] ml-1">${item.depassement}</span>
                       </div>
                     </div>
-                    <p class="text-[11px] leading-relaxed text-amber-200/90 bg-amber-950/30 border border-amber-500/20 p-2.5 rounded-lg">
+                    <p class="text-[11px] leading-relaxed text-amber-200/90 bg-amber-950/30 border border-[#C9A227]/20 p-2.5 rounded-lg">
                       ${item.legalNotice}
                     </p>
                   </div>
                 `;
               } else {
                 return `
-                  <div class="bg-slate-900/90 border border-slate-700/60 rounded-xl p-4 space-y-2">
+                  <div class="bg-[#0E2A47]/90 border border-slate-700/60 rounded-xl p-4 space-y-2">
                     <div class="flex items-center gap-2 text-slate-200 font-semibold text-sm">
-                      <svg class="w-4 h-4 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-4 h-4 shrink-0 text-[#C9A227]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                       </svg>
                       <span>${item.title}</span>
@@ -1424,14 +1414,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             overlay.innerHTML = `
               <div class="relative w-full max-w-lg bg-[#0F172A] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col my-8">
-                <div class="p-5 border-b border-slate-800 flex items-start gap-3 bg-gradient-to-r from-slate-900 to-[#0F172A]">
-                  <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                <div class="p-5 border-[#0E2A47] border-slate-800 flex items-start gap-3 bg-gradient-to-r from-slate-900 to-[#0F172A]">
+                  <div class="w-10 h-10 rounded-xl bg-[#C9A227]/10 border border-[#C9A227]/20 flex items-center justify-center text-[#C9A227] shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h3 id="coherence-modal-title" class="text-base font-bold text-white leading-snug">
+                    <h3 style="font-family: 'Archivo', sans-serif;" id="coherence-modal-title" class="text-[#0E2A47]ase font-bold text-white leading-snug">
                       Points d'attention — Analyse indicative d'urbanisme
                     </h3>
                     <p class="text-xs text-slate-400 mt-0.5">
@@ -1444,11 +1434,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                   ${cardsHtml}
                 </div>
 
-                <div class="p-4 bg-slate-900/60 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5">
-                  <button type="button" id="btn-modal-cancel" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors">
+                <div class="p-4 bg-[#0E2A47]/60 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5">
+                  <button type="button" id="btn-modal-cancel" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#0c243d] hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors">
                     Modifier les données
                   </button>
-                  <button type="button" id="btn-modal-continue" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 transition-all">
+                  <button type="button" id="btn-modal-continue" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#C9A227] to-[#B38F1F] hover:from-[#C9A227] hover:to-[#C9A227] text-slate-950 text-xs font-bold shadow-lg shadow-[#C9A227]/20 transition-all">
                     Continuer vers le paiement
                   </button>
                 </div>
@@ -1681,12 +1671,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0) {
             const errModal = document.createElement('div');
             errModal.id = 'pdf-error-modal';
-            errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+            errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
             errModal.innerHTML = `
-              <div class="bg-slate-900 border-2 border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
-                <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-                <div class="text-red-500 text-5xl mb-4">⚠️</div>
-                <h3 class="text-xl font-bold text-white mb-2">Erreur : Aucune ligne validée – retournez à l'écran de validation.</h3>
+              <div class="bg-[#0E2A47] border-[#0E2A47] border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+                <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
+                <div class="text-red-500 text-[#0E2A47]xl mb-4">⚠️</div>
+                <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white mb-2">Erreur : Aucune ligne validée – retournez à l'écran de validation.</h3>
               </div>
             `;
             document.body.appendChild(errModal);
@@ -1697,13 +1687,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           // Modale succès Audit
           const modal = document.createElement('div');
           modal.id = 'pdf-success-modal';
-          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
           modal.innerHTML = `
-            <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
-              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-              <div class="w-16 h-16 bg-amber-500/20 text-[#F59E0B] rounded-full flex items-center justify-center mx-auto text-3xl">📄</div>
-              <h3 class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
-              <button id="btn-force-download" class="w-full py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+            <div class="bg-[#0E2A47] border-[#0E2A47] border-[#C9A227] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
+              <div class="w-16 h-16 bg-[#C9A227]/20 text-[#C9A227] rounded-full flex items-center justify-center mx-auto text-[#0E2A47]xl">📄</div>
+              <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
+              <button id="btn-force-download" class="w-full py-4 bg-[#C9A227] hover:bg-[#C9A227] text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-[#0E2A47]ase cursor-pointer">
                 📥 Télécharger mon Rapport PDF
               </button>
             </div>
@@ -1777,14 +1767,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Création d'une modale visible à l'écran
         const modal = document.createElement('div');
         modal.id = 'pdf-success-modal';
-        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
         modal.innerHTML = `
-          <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
-              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-            <div class="w-16 h-16 bg-amber-500/20 text-[#F59E0B] rounded-full flex items-center justify-center mx-auto text-3xl">📄</div>
-            <h3 id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
-            <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#F59E0B] uppercase">${s}</strong> est prêt.</p>
-            <button id="btn-force-download" class="w-full py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+          <div class="bg-[#0E2A47] border-[#0E2A47] border-[#C9A227] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
+              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-[#0E2A47]xl font-bold cursor-pointer leading-none">&times;</button>
+            <div class="w-16 h-16 bg-[#C9A227]/20 text-[#C9A227] rounded-full flex items-center justify-center mx-auto text-[#0E2A47]xl">📄</div>
+            <h3 style="font-family: 'Archivo', sans-serif;" id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
+            <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#C9A227] uppercase">${s}</strong> est prêt.</p>
+            <button id="btn-force-download" class="w-full py-4 bg-[#C9A227] hover:bg-[#C9A227] text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-[#0E2A47]ase cursor-pointer">
               📥 Télécharger mon Rapport PDF
             </button>
             <p id="pdf-status" class="text-xs text-slate-700 font-medium">Le téléchargement démarre également en arrière-plan...</p>
@@ -1808,7 +1798,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                  throw new Error("Erreur : Aucune ligne validée – retournez à l'écran de validation");
               }
               if (window.devisLinesState) { finalData.devis_lines = window.devisLinesState; } gen(finalData);
-              if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
+              if (statusEl) statusEl.innerHTML = '<span class="text-[#C9A227]merald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
             } catch(err) {
               console.error("Erreur PDF:", err);
               document.getElementById('pdf-modal-title').innerText = "Validation requise";
@@ -1819,7 +1809,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                   <div class="mt-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-left">
                     <span class="text-rose-600 font-bold">${err.message}</span>
                   </div>
-                  <button id="btn-return-validation" class="mt-4 w-full py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-all text-base cursor-pointer">
+                  <button id="btn-return-validation" class="mt-4 w-full py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-all text-[#0E2A47]ase cursor-pointer">
                     Retourner à l'écran de validation
                   </button>
                 `;
@@ -1850,11 +1840,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const div = document.createElement('div');
     div.className = 'devis-line-item bg-white border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-4 relative';
-    div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
+    div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-[#C9A227] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
       
       <div class="w-full md:w-3/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Lot / Macro-Lot</label>
-        <select class="dl-lot w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+        <select class="dl-lot w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
           <option value="Gros œuvre & structure">Gros œuvre & structure</option>
           <option value="Étanchéité & toiture">Étanchéité & toiture</option>
           
@@ -1864,12 +1854,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       
       <div class="w-full md:w-3/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Désignation</label>
-        <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" placeholder="Ex: Exemple de lignes..." required>
+        <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" placeholder="Ex: Exemple de lignes..." required>
       </div>
 
       <div class="w-full md:w-2/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nature du prix</label>
-        <select class="dl-nature w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
+        <select class="dl-nature w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
           <option value="Fourniture et pose">Fourniture et pose</option>
           <option value="Fourniture seule">Fourniture seule</option>
           <option value="Main d'œuvre seule">Main d'œuvre seule</option>
@@ -1878,7 +1868,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       <div class="w-full md:w-1/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Unité</label>
-        <select class="dl-unit w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" onchange="window.recalcDevisLine(this)">
+        <select class="dl-unit w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" onchange="window.recalcDevisLine(this)">
           <option value="m³">m³</option>
           <option value="m²">m²</option>
           <option value="ml">ml</option>
@@ -1895,17 +1885,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       <div class="w-full md:w-1/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Quantité</label>
-        <input type="number" step="0.01" class="dl-qty w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" value="0" oninput="window.recalcDevisLine(this)">
+        <input type="number" step="0.01" class="dl-qty w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" value="0" oninput="window.recalcDevisLine(this)">
       </div>
 
       <div class="w-full md:w-2/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">PU HT</label>
-        <input type="number" class="dl-pu w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none" value="0" oninput="window.recalcDevisLine(this)">
+        <input type="number" class="dl-pu w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" value="0" oninput="window.recalcDevisLine(this)">
       </div>
 
       <div class="w-full md:w-2/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Total HT</label>
-        <input type="number" class="dl-total w-full bg-slate-200 border border-slate-300 rounded-lg px-2 py-2 text-sm text-slate-900 font-bold outline-none" value="0" readonly>
+        <input type="number" class="dl-total w-full bg-slate-200 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] font-bold outline-none" value="0" readonly>
       </div>
 
       <button type="button" onclick="this.closest('.devis-line-item').remove(); window.updateDevisTotal();" class="text-slate-400 hover:text-red-500 transition-colors mt-4 md:mt-0" title="Supprimer la ligne">
@@ -1957,6 +1947,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 </body>
 </html>
+
 
 
 

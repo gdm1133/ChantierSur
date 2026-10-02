@@ -1,4 +1,4 @@
-﻿  // =========================================================================
+  // =========================================================================
   // 3. LIVRABLE : AUDIT DEVIS (4 PAGES)
   // =========================================================================
   function renderAudit(doc, data, refDoc, currentDate) {
@@ -154,7 +154,7 @@
     
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(14);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text(formatFCFA(totalDevisTTC), MARGIN_LEFT + 5, currentY + 22);
     doc.text(formatFCFA(totalTheoTTC), MARGIN_LEFT + USABLE_WIDTH / 2 + 5, currentY + 22);
     

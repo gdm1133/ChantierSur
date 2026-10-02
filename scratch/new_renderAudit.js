@@ -1,4 +1,4 @@
-﻿function renderAudit(doc, data, refDoc, currentDate) {
+function renderAudit(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
 
     // -- Extraction des données du client --
@@ -86,13 +86,13 @@
     // -- En-tête cartouche --
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(10);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('ChantierSur.com', leftMargin, y);
     doc.setFont('NotoSans', 'normal');
     doc.text(Dossier :   |  Date : , pageWidth - rightMargin, y, { align: 'right' });
     y += 6;
     doc.setFont('NotoSans', 'bold');
-    doc.setTextColor(245, 158, 11);
+    doc.setTextColor(201, 162, 39);
     doc.text("BUREAU D'ÉTUDES NUMÉRIQUE INDÉPENDANT  •  AUDIT TECHNIQUE BTP • SÉNÉGAL", leftMargin, y);
     y += 5;
     doc.setTextColor(100, 100, 100);
@@ -104,7 +104,7 @@
     y += 12;
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(17);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('RAPPORT D\'AUDIT TECHNIQUE DE DEVIS BTP', leftMargin, y);
     y += 7;
 
@@ -152,7 +152,7 @@
     // -----------------------------------------------------------
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie I • Identification du devis & de l\'entreprise', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -194,7 +194,7 @@
     if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie II • Contrôle arithmétique et analyse des écarts', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -266,7 +266,7 @@
     if (y > 230) addPage();
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(11.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('Partie III • Analyse contractuelle & Recommandations', leftMargin, y);
     y += 5;
     drawConfidentialBanner();
@@ -347,7 +347,7 @@
     doc.rect(leftMargin, y, usableWidth, 24, 'D');
     doc.setFont('NotoSans', 'bold');
     doc.setFontSize(8.5);
-    doc.setTextColor(11, 19, 37);
+    doc.setTextColor(14, 42, 71);
     doc.text('DOCUMENT GÉNÉRÉ AUTOMATIQUEMENT PAR CHANTIERSUR.COM', leftMargin + 5, y + 6);
     doc.setFont('NotoSans', 'normal');
     doc.setFontSize(8);
