@@ -175,16 +175,18 @@ exports.handler = async (event) => {
     { k: 'assurances', t: 'Assurances', r: 'En cas de sinistre ou d\'effondrement, vous paierez de votre poche.', a: 'Exiger l\'attestation d\'assurance Responsabilité Civile et Décennale.' }
   ];
   let absentes = 0;
+  let missingNames = [];
   clausesMap.forEach(c => {
     if (!data.devis?.conditions || !data.devis.conditions[c.k]) {
       anomalies.push({ titre: 'Clause absente : ' + c.t, constat: `Aucune mention concernant la clause: ${c.t}.`, risque: c.r, action: c.a });
       absentes++;
+      missingNames.push(c.t.toLowerCase());
     }
   });
   if (absentes > 0) {
       const sAbs = absentes > 1 ? 's' : '';
       const clausePrefix = absentes === 1 ? 'la' : 'les';
-      topActions.push(`Ajouter ${clausePrefix} ${absentes} clause${sAbs} de sécurité manquante${sAbs} (pénalités, retenue, etc).`);
+      topActions.push(`Ajouter ${clausePrefix} ${absentes} clause${sAbs} de sécurité manquante${sAbs} (${missingNames.join(', ')}).`);
   }
 
   let acompteStr = 'Non précisé';
@@ -429,7 +431,8 @@ exports.handler = async (event) => {
     let percVerif = totalHTIndiqueDevis > 0 ? ((totalHTCalcule - sumForfaits) / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
     let scoreText = `SCORE: ${percVerif} du montant vérifié arithmétiquement | ${percNonVerifStr} forfaitaire (non vérifiable).`;
     let scoreLines = wrapText(scoreText, width - 100, boldFont, 8);
-    let scoreHeight = (scoreLines.length * 12) + 15;
+    let extraNote = ecartGlobalHT !== 0 ? `Note : l'écart détecté de ${fmtCfa(Math.abs(ecartGlobalHT))} explique la différence.` : null;
+    let scoreHeight = (scoreLines.length * 12) + 15 + (extraNote ? 12 : 0);
     checkPageBreak(scoreHeight + 10);
     currentPage.drawRectangle({ x: 40, y: currentY - scoreHeight, width: width - 80, height: scoreHeight, color: rgb(0.95,0.95,0.95) });
     let scY = currentY - 15;
@@ -437,6 +440,9 @@ exports.handler = async (event) => {
         currentPage.drawText(l, { x: 50, y: scY, size: 8, font: boldFont, color: COLOR_NAVY });
         scY -= 12;
     });
+    if (extraNote) {
+        currentPage.drawText(extraNote, { x: 50, y: scY, size: 7, font: regularFont, color: COLOR_RED });
+    }
     currentY -= (scoreHeight + 10);
 
     // Encadré Enjeu
@@ -608,7 +614,7 @@ exports.handler = async (event) => {
     if (missingClausesCount > 0) {
         const sCl2 = missingClausesCount > 1 ? 's' : '';
         const absentStr2 = missingClausesCount > 1 ? 'absentes' : 'absente';
-        parts.push(`${missingClausesCount} clause${sCl2} bloquante${sCl2} ${absentStr2}`);
+        parts.push(`${missingClausesCount} clause${sCl2} ${absentStr2}`);
     }
     let verdictJustif = parts.length > 0 ? parts.join(' et ') + '.' : "Toutes les vérifications arithmétiques et contractuelles sont correctes.";
     let justifLines = wrapText('Justification: ' + verdictJustif, width - 100, regularFont, 9);
