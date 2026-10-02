@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog ChantierSur - Sécurité et Devis Construction au Sénégal</title>
+    <meta name="description" content="Découvrez les conseils d'experts de ChantierSur pour sécuriser vos chantiers, éviter les arnaques de devis et maîtriser vos coûts de construction au Sénégal.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #BF382B;
+            --dark-navy: #1A2530;
+            --light-bg: #F8F9FA;
+        }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--dark-navy);
+            background-color: var(--light-bg);
+        }
+        .hero-section {
+            background: linear-gradient(rgba(26, 37, 48, 0.8), rgba(26, 37, 48, 0.9)), url('../assets/blog/hero-devis.jpg') center/cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        .filter-bar {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .filter-btn {
+            background: none;
+            border: 2px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin-right: 10px;
+            color: var(--dark-navy);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            color: white;
+        }
+        .blog-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            height: 100%;
+            background: white;
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        .blog-img-wrapper {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        .blog-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary-red);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .read-time {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .blog-content {
+            padding: 25px;
+        }
+        .blog-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark-navy);
+            text-decoration: none;
+        }
+        .blog-title:hover {
+            color: var(--primary-red);
+        }
+        .blog-excerpt {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .read-more {
+            color: var(--primary-red);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Le Blog ChantierSur</h1>
+            <p class="lead">Guides experts sur la sécurité et la maîtrise des coûts de construction au Sénégal.</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+            <div class="filters mb-2 mb-md-0">
+                <button class="filter-btn active">Tous</button>
+                <button class="filter-btn">Sécurité</button>
+                <button class="filter-btn">Devis & Coûts</button>
+                <button class="filter-btn">Guides</button>
+            </div>
+            <div class="search-box">
+                <input type="text" class="form-control rounded-pill" placeholder="Rechercher un article...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Articles Grid -->
+    <section class="container mb-5">
+        <div class="row g-4">
+            
+            <!-- Article 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-card">
+                    <a href="/blog/securite-chantier-senegal-accidents.html">
+                        <div class="blog-img-wrapper">
+                            <span class="category-badge">Sécurité</span>
+                            <span class="read-time"><i class="far fa-clock"></i> 7 min</span>
+                            <img src="../assets/blog/hero-accidents.jpg" alt="Sécurité chantier Sénégal accidents" class="blog-img" loading="lazy">
+                        </div>
+                    </a>
+                    <div class="blog-content">
+                        <a href="/blog/securite-chantier-senegal-accidents.html" class="blog-title d-block">Sécurité sur les chantiers au Sénégal : les 7 accidents les plus fréquents et comment les éviter</a>
+                        <p class="blog-excerpt">Les accidents de chantier sont une réalité tragique au Sénégal. Découvrez les dangers les plus courants et les mesures de prévention indispensables pour protéger vos équipes.</p>
+                        <a href="/blog/securite-chantier-senegal-accidents.html" class="read-more">Lire l'article <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-card">
+                    <a href="/blog/epi-chantier.html">
+                        <div class="blog-img-wrapper">
+                            <span class="category-badge">Sécurité</span>
+                            <span class="read-time"><i class="far fa-clock"></i> 6 min</span>
+                            <img src="../assets/blog/hero-epi.jpg" alt="EPI sur un chantier" class="blog-img" loading="lazy">
+                        </div>
+                    </a>
+                    <div class="blog-content">
+                        <a href="/blog/epi-chantier.html" class="blog-title d-block">EPI sur un chantier : la check-list complète (casque, gants, chaussures, lunettes, harnais)</a>
+                        <p class="blog-excerpt">Le port des Équipements de Protection Individuelle (EPI) est la première ligne de défense sur un chantier. Voici le guide complet de l'équipement obligatoire.</p>
+                        <a href="/blog/epi-chantier.html" class="read-more">Lire l'article <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article 5 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="blog-card">
+                    <a href="/blog/verifier-devis-construction.html">
+                        <div class="blog-img-wrapper">
+                            <span class="category-badge">Devis & Coûts</span>
+                            <span class="read-time"><i class="far fa-clock"></i> 8 min</span>
+                            <img src="../assets/blog/hero-devis.jpg" alt="Vérifier un devis de construction" class="blog-img" loading="lazy">
+                        </div>
+                    </a>
+                    <div class="blog-content">
+                        <a href="/blog/verifier-devis-construction.html" class="blog-title d-block">Comment vérifier un devis de construction avant de signer : la méthode en 8 points</a>
+                        <p class="blog-excerpt">Ne signez jamais un devis à l'aveugle. Découvrez notre méthodologie rigoureuse en 8 points pour déjouer les pièges, repérer les anomalies et sécuriser votre investissement.</p>
+                        <a href="/blog/verifier-devis-construction.html" class="read-more">Lire l'article <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
