@@ -43,6 +43,63 @@
     </style>
 </head>
 <body class="min-h-screen pt-12 flex flex-col items-center w-full">
+
+<!-- TOPBAR RÉGLEMENTAIRE -->
+  <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+          Conformité 
+        </span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">Droit COCC Sénégal</span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#0EA5E9] hover:underline">admin@chantiersur.com</a></span>
+        <div class="flex items-center space-x-2">
+          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
+          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#0E2A47] border border-slate-700 text-[#0EA5E9] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+            <option value="XOF" selected>FCFA (XOF)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar US ($)</option>
+            <option value="CAD">Dollar Canadien ($ CAD)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="bg-[#0E2A47] border-b border-[#1B4F72] sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO SANS SOUS-TITRE -->
+      <a href="index.html" class="flex items-center space-x-3 group"><div class="flex items-center space-x-3"><img src="assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
+
+      <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+        <a href="#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
+        <a href="a-propos.html" class="text-slate-300 hover:text-[#0EA5E9] transition-colors">Qui Sommes-Nous</a> <a href="blog/index.html" class="text-white hover:text-[#0EA5E9] transition-colors font-bold ml-4 border border-[#1B4F72] px-3 py-1 rounded-md">Le Blog</a>
+      </nav>
+
+      <!-- MENU BURGER MOBILE -->
+      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none" aria-label="Menu Mobile">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- TIROIR DÉROULANT MOBILE -->
+    <div id="mobile-drawer" class="hidden md:hidden bg-white border-[#0E2A47] border-slate-200 px-6 py-5 space-y-4 shadow-lg">
+      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#0EA5E9] font-semibold py-1">Simulateur & Services</a>
+      <a href="a-propos.html" class="block text-slate-300 hover:text-[#0EA5E9] font-semibold py-1">Qui Sommes-Nous</a><a href="blog/index.html" class="block text-white hover:text-[#0EA5E9] font-semibold py-1">Le Blog</a>
+    </div>
+  </header>
+
     <main class="max-w-3xl w-full bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden mb-12 mx-4">
         
         <div class="h-64 w-full relative">
