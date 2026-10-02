@@ -66,9 +66,13 @@ exports.handler = async (event) => {
     let mInd = typeof l.montantIndique === 'number' ? l.montantIndique : 0;
     let isForfait = (pu === 0 && mInd > 0) || String(l.unite).toLowerCase().includes('forf');
     
-    let lotName = (l.lot && l.lot.trim() !== '' && l.lot !== '-') ? l.lot.toUpperCase().replace(/^[- ]+/, '') : 'SANS LOT PRÉCISÉ';
+    if (typeof l.lot === 'string') {
+      l.lot = l.lot.replace(/^[-—\s]+/, '');
+    }
+    let lotName = (l.lot && l.lot.trim() !== '' && l.lot !== '-') ? l.lot.toUpperCase() : 'SANS LOT PRÉCISÉ';
     if (lotName === 'LOT GÉNÉRAL' && l.designation && l.designation.toLowerCase().includes('plomberie')) {
       lotName = 'PLOMBERIE SANITAIRE';
+      l.lot = 'PLOMBERIE SANITAIRE';
     }
     if (!sousTotauxLot[lotName]) sousTotauxLot[lotName] = { indique: 0, calcule: 0 };
     
@@ -119,8 +123,8 @@ exports.handler = async (event) => {
       risque: 'Surfacturation ou incohérence dans le contrat.',
       action: 'Exiger un devis corrigé arithmétiquement parfait avant signature.'
     });
-    const erreurPrefix = anomaliesArith.length === 1 ? "l'" : 'les ';
-    topActions.push(`Faire corriger ${erreurPrefix}${anomaliesArith.length} erreur${sArith} de calcul arithmétique.`);
+    const erreurPrefix = anomaliesArith.length === 1 ? "l'" : `les ${anomaliesArith.length} `;
+    topActions.push(`Faire corriger ${erreurPrefix}erreur${sArith} de calcul arithmétique.`);
   }
   if (forfaits.length > 0) {
     anomalies.push({
