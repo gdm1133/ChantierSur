@@ -459,6 +459,45 @@
 
   </div>
 </div>
+<script>/* Pure JS accordion */
+document.addEventListener('DOMContentLoaded', function() {
+  var btns = document.querySelectorAll('.accordion-button');
+  btns.forEach(function(btn) {
+    // Remove Bootstrap data attributes so Bootstrap JS doesn't interfere
+    var targetId = btn.getAttribute('data-bs-target') || btn.getAttribute('data-target');
+    btn.removeAttribute('data-bs-toggle');
+    btn.removeAttribute('data-bs-target');
+    btn.addEventListener('click', function() {
+      var targetEl = document.querySelector(targetId);
+      if (!targetEl) return;
+      var isOpen = targetEl.classList.contains('show');
+      // Close all first
+      document.querySelectorAll('.accordion-collapse.show').forEach(function(el) {
+        el.classList.remove('show');
+        el.style.display = '';
+      });
+      document.querySelectorAll('.accordion-button').forEach(function(b) {
+        b.classList.add('collapsed');
+      });
+      if (!isOpen) {
+        targetEl.classList.add('show');
+        targetEl.style.display = 'block';
+        btn.classList.remove('collapsed');
+      }
+    });
+    // Initialize: if has class 'show', make visible; otherwise hide
+    var targetId2 = btn.getAttribute('data-bs-target') || targetId;
+  });
+  // Show elements with class show, hide others
+  document.querySelectorAll('.accordion-collapse').forEach(function(el) {
+    if (el.classList.contains('show')) {
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+});
+</script>
 </body>
 </html>
 
