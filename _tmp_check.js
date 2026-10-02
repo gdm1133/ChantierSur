@@ -74,10 +74,8 @@
         // GRILLE TARIFAIRE "EXÉCUTIVE" CHANTIERSUR (Positionnement Bureau d'Études Premium)
         const PRICING_RULES = {
       1: { base: 149000, perLevelAbove1: 25000 }, // Esquisse
-      2: { base: 199000, perLevelAbove1: 30000 }, // BQE Gros Œuvre
-      3: { base: 249000, perLevelAbove1: 40000 }, // Audit Devis
-      4: { base: 99000, perLevelAbove1: 15000 }   // Finitions
-    };
+            3: { base: 249000, perLevelAbove1: 40000 }, // Audit Devis
+          };
 
     window.calculateServicePrice = function(paneId) {
       const rule = PRICING_RULES[paneId];
@@ -433,7 +431,7 @@
         project_location: fd.get('project_location') || '',
         land_status: fd.get('land_status') || '',
         lot_number: (fd.get('lot_number') || '').trim() || 'Non spécifié',
-        // Spécifiques Finitions
+        // Spécifiques 
         water_rooms: parseInt(fd.get('water_rooms'), 10) || 4,
         delai_reserves: parseInt(fd.get('delai_reserves'), 10) || 15,
         tile_type: fd.get('tile_type') || 'gres_cerame_60',
@@ -612,7 +610,7 @@
         <select class="dl-lot w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
           <option value="Gros œuvre & structure">Gros œuvre & structure</option>
           <option value="Étanchéité & toiture">Étanchéité & toiture</option>
-          <option value="Second œuvre & finitions">Second œuvre & finitions</option>
+          
           <option value="Installation & travaux préparatoires">Installation & travaux préparatoires</option>
         </select>
       </div>
@@ -794,4 +792,5 @@
   };
 
   
+
 

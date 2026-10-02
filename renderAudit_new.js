@@ -28,7 +28,7 @@
     const macroLots = {
       'Gros œuvre & structure': { devis: 0, theo: 0, keywords: ['terrassement', 'fondation', 'béton', 'bét', 'maçonnerie', 'dalle', 'poteau', 'poutre', 'enduit', 'chape', 'fouille'] },
       'Étanchéité & toiture': { devis: 0, theo: 0, keywords: ['étanch', 'etanch', 'toiture', 'acrotère', 'acrotere'] },
-      'Second œuvre & finitions': { devis: 0, theo: 0, keywords: ['menuiserie', 'porte', 'fenêtre', 'fenetre', 'garde-corps', 'carrelage', 'faïence', 'faience', 'peinture', 'plomberie', 'sanitaire', 'électricité', 'electricite', 'forage'] },
+      ' & ': { devis: 0, theo: 0, keywords: ['menuiserie', 'porte', 'fenêtre', 'fenetre', 'garde-corps', 'carrelage', 'faïence', 'faience', 'peinture', 'plomberie', 'sanitaire', 'électricité', 'electricite', 'forage'] },
       'Installation & travaux préparatoires': { devis: 0, theo: 0, keywords: ['installation', 'chantier', 'base vie', 'clôture', 'cloture'] }
     };
 
@@ -39,7 +39,7 @@
           return mlName;
         }
       }
-      return 'Second œuvre & finitions'; // fallback
+      return ' & '; // fallback
     }
 
     const processedLines = lines.map((line, idx) => {
@@ -294,7 +294,7 @@
         ['Acompte Démarrage', "Installation de chantier et livraison premiers matériaux", '15 %'],
         ['Tranche 1', "Achèvement des fondations et dalle RDC", '25 %'],
         ['Tranche 2', "Achèvement du gros œuvre / mise hors d'eau", '25 %'],
-        ['Tranche 3', "Achèvement du second œuvre", '20 %'],
+        ['Tranche 3', "Achèvement du ", '20 %'],
         ['Tranche 4', "Réception provisoire (remise des clés et PV)", '10 %'],
         ['Retenue de Garantie', "Levée des réserves à 1 an (ou caution bancaire substitutive)", '5 %']
       ],
@@ -338,5 +338,6 @@
     doc.setFontSize(6.5);
     doc.text(doc.splitTextToSize("Ce document est un audit numérique indicatif d'aide à la décision. Il ne s'agit ni d'une expertise judiciaire, ni d'un visa officiel de bureau d'études, ni d'une contre-expertise légale. Toute validation structurelle nécessite le cachet d'un BET agréé inscrit à l'ordre.", USABLE_WIDTH - 8), MARGIN_LEFT + 4, currentY + 11);
   }
+
 
 

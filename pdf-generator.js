@@ -118,12 +118,12 @@
     peinture: "NF DTU 59.1 (Travaux de peinture) • NF T36-005"
   };
 
-  function verifierTermesFinitions(terme) {
+  function verifierTermes(terme) {
     const interdits = ['hydrocarbures', 'art' + 'icle 767', 'art' + 'icle 768'];
     const lower = (terme || '').toLowerCase();
     for (let int of interdits) {
       if (lower.includes(int)) {
-        throw new Error(`Terme interdit en second œuvre : ${int}`);
+        throw new Error(`Terme interdit en  : ${int}`);
       }
     }
     return true;
@@ -189,7 +189,7 @@
       noticeText = `Document indicatif d'aide à la décision généré automatiquement. Bordereau estimatif — à confirmer par BET avant toute commande. Maître d'Ouvrage : ${clientName.toUpperCase()} • Tél : ${clientPhone} • Réf : ${lotNumber}.`;
     } else if (serviceType === 'audit') {
       noticeText = `Document indicatif d'aide à la décision généré automatiquement. Il ne constitue ni une expertise judiciaire, ni le visa d'un bureau d'études agréé. Les fourchettes de prix doivent être confirmées par des professionnels qualifiés. Dossier : ${refDoc}.`;
-    } else if (serviceType === 'finitions') {
+    } else if (serviceType === '') {
       noticeText = `Document indicatif d'aide à la décision généré automatiquement. Bordereau estimatif — les quantitatifs et prix doivent être confirmés par des professionnels qualifiés avant toute commande. Ne constitue ni une note de calcul ni le visa d'un BET agréé. Dossier : ${refDoc}.`;
     } else {
       noticeText = `Document technique indicatif d'aide à la décision généré automatiquement pour le compte de ${clientName.toUpperCase()}. Dossier : ${refDoc}.`;
@@ -619,7 +619,7 @@
     const budgetTceRows = [
       ["1. Terrassements, Fouilles & Fondations", formatFCFA(pTerrassement), `Ratio : ${RATIOS_2026.terrassement} FCFA/m² — ${sdpTotale} m²`],
       ["2. Superstructure Béton Armé Eurocode 2", formatFCFA(pGrosOeuvre), `Ratio : ${RATIOS_2026.grosOeuvre} FCFA/m² — ${sdpTotale} m²`],
-      ["3. Second œuvre, Fluides & Électricité", formatFCFA(pSecondOeuvre), `Ratio : ${RATIOS_2026.secondOeuvre} FCFA/m² — ${sdpTotale} m²`],
+      ["3. , Fluides & Électricité", formatFCFA(pSecondOeuvre), `Ratio : ${RATIOS_2026.secondOeuvre} FCFA/m² — ${sdpTotale} m²`],
       ["4. Étanchéité Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), `Ratio : ${RATIOS_2026.etancheite} FCFA/m² — ${sdpTotale} m²`],
     ];
     if (pIncendie > 0) budgetTceRows.push(["5. Équipements Sécurité Incendie (Provision)", formatFCFA(pIncendie), "Provision obligatoire IGH/4e famille — à valider BET."]);
@@ -1309,7 +1309,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     doc.text("L'Équipe ChantierSur.com", PAGE_WIDTH - MARGIN_RIGHT - 50, y);
 }
 
-  function renderFinitions(doc, data, refDoc, currentDate) {
+  function render(doc, data, refDoc, currentDate) {
     setupDocumentFonts(doc);
     const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
@@ -1327,7 +1327,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     const lotNumber = data.lot_number || 'Non spécifié';
     const delaiReserves = parseInt(data.delai_reserves, 10) || 15;
 
-    // Ratios second œuvre 2026
+    // Ratios  2026
     const sSolCarrelee = Math.round(surface * 0.82);
     const sMursFaience = Math.round(surface * 0.35);
     const sToitureTerrasse = Math.max(25, Math.round(surface / totalLevelsCount));
@@ -1405,12 +1405,12 @@ function renderAudit(doc, data, refDoc, currentDate) {
 
     const totalSecondOeuvreFournitures = totalLotCarrelageF + totalFaienceF + totalEtancheiteF + totalEtancheiteHumideF + totalPlomberieF + totalElectriciteF + totalMenuiseriesF + totalPeintureF;
     const totalMainOeuvreF = Math.round(totalSecondOeuvreFournitures * 0.38);
-    const totalTCEFinitions = totalSecondOeuvreFournitures + totalMainOeuvreF;
+    const totalTCE = totalSecondOeuvreFournitures + totalMainOeuvreF;
 
     // =========================================================================
     // PAGE 1 : CARRELAGE & ÉTANCHÉITÉ TOITURE
     // =========================================================================
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie I : Revêtements de Sol, Faïences Murales & Étanchéité Toiture", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique  & ", "Partie I : Revêtements de Sol, Faïences Murales & Étanchéité Toiture", refDoc, currentDate, clientName, clientPhone, lotNumber, '');
 
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
@@ -1420,7 +1420,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     doc.setFont(getFontFamily(doc), 'bold');
     doc.setFontSize(8.2);
     doc.setTextColor(...COLOR_NAVY);
-    doc.text("PARAMÈTRES DES FINITIONS & SPÉCIFICATIONS DU STANDING", MARGIN_LEFT + 4, 56);
+    doc.text("PARAMÈTRES DES  & SPÉCIFICATIONS DU STANDING", MARGIN_LEFT + 4, 56);
 
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(7.5);
@@ -1486,7 +1486,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     // PAGE 2 : PLOMBERIE EU/EP & ÉLECTRICITÉ
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie II : Plomberie Sanitaire (EU/EP) & Électricité Basse Tension (NF C 15-100)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique  & ", "Partie II : Plomberie Sanitaire (EU/EP) & Électricité Basse Tension (NF C 15-100)", refDoc, currentDate, clientName, clientPhone, lotNumber, '');
 
     currentY = 52;
     drawSectionTitle(doc, currentY, "III. LOT PLOMBERIE SANITAIRE & ÉVACUATIONS EU/EP (DTU 60.1)");
@@ -1540,7 +1540,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     // PAGE 3 : MENUISERIES & PEINTURE (DÉCOMPOSITION Q — PU)
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie III : Menuiseries Int./Ext. (Q — PU) & Peintures Normalisées (DTU 59.1)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique  & ", "Partie III : Menuiseries Int./Ext. (Q — PU) & Peintures Normalisées (DTU 59.1)", refDoc, currentDate, clientName, clientPhone, lotNumber, '');
 
     currentY = 52;
     drawSectionTitle(doc, currentY, "V. LOT MENUISERIES EXTÉRIEURES & INTÉRIEURES (DÉCOMPOSITION Q — PU)");
@@ -1567,7 +1567,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VI. LOT PEINTURE, ENDUITS & FINITIONS DÉCORATIVES (DTU 59.1)");
+    drawSectionTitle(doc, currentY, "VI. LOT PEINTURE, ENDUITS &  DÉCORATIVES (DTU 59.1)");
 
     const peintureRows = [
       ["Enduit de Rebouchage & Ratissage Complet", `${sMursEnduit} m²`, `${formatFCFA(puEnduit)} / m²`, formatFCFA(montantEnduit), "Deux passes croisées avec ponçage fin anti-rayures"],
@@ -1593,29 +1593,29 @@ function renderAudit(doc, data, refDoc, currentDate) {
     // PAGE 4 : RÉCAPITULATIF BUDGÉTAIRE & PV DE RÉCEPTION CONTRADICTOIRE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Bordereau Technique Finitions & Second œuvre", "Partie IV : Synthèse Budgétaire TCE & Procès-Verbal de Réception Contradictoire (Code Civil)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'finitions');
+    drawUnifiedHeader(doc, "Bordereau Technique  & ", "Partie IV : Synthèse Budgétaire TCE & Procès-Verbal de Réception Contradictoire (Code Civil)", refDoc, currentDate, clientName, clientPhone, lotNumber, '');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "VII. RÉCAPITULATIF BUDGÉTAIRE GLOBAL SECOND œUVRE TCE");
+    drawSectionTitle(doc, currentY, "VII. RÉCAPITULATIF BUDGÉTAIRE GLOBAL  TCE");
 
     const recapTceRows = [
-      ["Lot 1 : Carrelages, Faïences, Colles & Joints", formatFCFA(totalLotCarrelageF + totalFaienceF), `${Math.round(((totalLotCarrelageF + totalFaienceF) / totalTCEFinitions) * 100)} %`, "Grès cérame, colles C2TE et joints hydrofuges inclus"],
-      ["Lot 2 : Étanchéité Toiture Terrasse & Pièces Humides", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), `${Math.round(((totalEtancheiteF + totalEtancheiteHumideF) / totalTCEFinitions) * 100)} %`, "Complexe bicouche 4 mm sablé et SEL salles d'eau"],
-      ["Lot 3 : Plomberie Sanitaire & Réseau Évacuations EU/EP", formatFCFA(totalPlomberieF), `${Math.round((totalPlomberieF / totalTCEFinitions) * 100)} %`, "Sanitaires, mitigeurs et réseaux sans soudure encastrée"],
-      ["Lot 4 : Électricité, Tableaux & Lignes Clim (NF C 15-100)", formatFCFA(totalElectriciteF), `${Math.round((totalElectriciteF / totalTCEFinitions) * 100)} %`, `${nbPointsElec} points électriques, disjoncteurs et réseau terre`],
-      ["Lot 5 : Menuiseries Intérieures & Extérieures", formatFCFA(totalMenuiseriesF), `${Math.round((totalMenuiseriesF / totalTCEFinitions) * 100)} %`, "Portes isoplanes, châssis alu et baie vitrée salon"],
-      ["Lot 6 : Peinture Intérieure & Enduits Ratissés", formatFCFA(totalPeintureF), `${Math.round((totalPeintureF / totalTCEFinitions) * 100)} %`, "Enduits croisés et 2 couches acrylique veloutée"],
-      ["Main d'œuvre Spécialisée Pose & Finitions", formatFCFA(totalMainOeuvreF), `${Math.round((totalMainOeuvreF / totalTCEFinitions) * 100)} %`, "Artisans qualifiés avec assurance et respect des DTU"],
-      ["BUDGET TOTAL ESTIMATIF SECOND œUVRE TCE", formatFCFA(totalTCEFinitions), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalTCEFinitions / surface))} / m² SDP`]
+      ["Lot 1 : Carrelages, Faïences, Colles & Joints", formatFCFA(totalLotCarrelageF + totalFaienceF), `${Math.round(((totalLotCarrelageF + totalFaienceF) / totalTCE) * 100)} %`, "Grès cérame, colles C2TE et joints hydrofuges inclus"],
+      ["Lot 2 : Étanchéité Toiture Terrasse & Pièces Humides", formatFCFA(totalEtancheiteF + totalEtancheiteHumideF), `${Math.round(((totalEtancheiteF + totalEtancheiteHumideF) / totalTCE) * 100)} %`, "Complexe bicouche 4 mm sablé et SEL salles d'eau"],
+      ["Lot 3 : Plomberie Sanitaire & Réseau Évacuations EU/EP", formatFCFA(totalPlomberieF), `${Math.round((totalPlomberieF / totalTCE) * 100)} %`, "Sanitaires, mitigeurs et réseaux sans soudure encastrée"],
+      ["Lot 4 : Électricité, Tableaux & Lignes Clim (NF C 15-100)", formatFCFA(totalElectriciteF), `${Math.round((totalElectriciteF / totalTCE) * 100)} %`, `${nbPointsElec} points électriques, disjoncteurs et réseau terre`],
+      ["Lot 5 : Menuiseries Intérieures & Extérieures", formatFCFA(totalMenuiseriesF), `${Math.round((totalMenuiseriesF / totalTCE) * 100)} %`, "Portes isoplanes, châssis alu et baie vitrée salon"],
+      ["Lot 6 : Peinture Intérieure & Enduits Ratissés", formatFCFA(totalPeintureF), `${Math.round((totalPeintureF / totalTCE) * 100)} %`, "Enduits croisés et 2 couches acrylique veloutée"],
+      ["Main d'œuvre Spécialisée Pose & ", formatFCFA(totalMainOeuvreF), `${Math.round((totalMainOeuvreF / totalTCE) * 100)} %`, "Artisans qualifiés avec assurance et respect des DTU"],
+      ["BUDGET TOTAL ESTIMATIF  TCE", formatFCFA(totalTCE), "100 %", `Ratio moyen : env. ${formatFCFA(Math.round(totalTCE / surface))} / m² SDP`]
     ];
 
     // Vérification de la somme des lignes récapitulatives
     const sommeLignesRecap = (totalLotCarrelageF + totalFaienceF) + (totalEtancheiteF + totalEtancheiteHumideF) + totalPlomberieF + totalElectriciteF + totalMenuiseriesF + totalPeintureF + totalMainOeuvreF;
-    if (sommeLignesRecap !== totalTCEFinitions) throw new Error("Incohérence somme récapitulative finitions");
+    if (sommeLignesRecap !== totalTCE) throw new Error("Incohérence somme récapitulative ");
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Lot Technique Second œuvre', 'Montant Estimatif HT', 'Quote-Part TCE', 'Observations & Priorités']],
+      [['Lot Technique ', 'Montant Estimatif HT', 'Quote-Part TCE', 'Observations & Priorités']],
       recapTceRows,
       {
         0: { cellWidth: 50, fontStyle: 'bold' },
@@ -1693,8 +1693,8 @@ function renderAudit(doc, data, refDoc, currentDate) {
       renderExpress(doc, data, refDoc, currentDate);
     } else if (service === 'audit') {
       renderAudit(doc, data, refDoc, currentDate);
-    } else if (service === 'finitions') {
-      renderFinitions(doc, data, refDoc, currentDate);
+    } else if (service === '') {
+      render(doc, data, refDoc, currentDate);
     } else {
       renderOtherServices(doc, data, service, refDoc, currentDate);
     }
@@ -1713,7 +1713,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
       doc.setFontSize(6.8);
       doc.setTextColor(148, 163, 184);
       doc.text("ChantierSur.com � Bureau d'�tudes Num�rique Ind�pendant � Dakar, R�publique du S�n�gal.", MARGIN_LEFT, pageHeight - 11);
-      if (service === 'finitions') {
+      if (service === '') {
         doc.text("Document g�n�r� automatiquement � titre indicatif � ChantierSur.com � Bureau d'�tudes num�rique ind�pendant.", MARGIN_LEFT, pageHeight - 7);
       } else {
         doc.text("Document g�n�r� automatiquement � titre indicatif � ChantierSur.com � Bureau d'�tudes num�rique ind�pendant.", MARGIN_LEFT, pageHeight - 7);
@@ -1732,19 +1732,20 @@ function renderAudit(doc, data, refDoc, currentDate) {
   window.renderEsquisse = renderEsquisse;
   window.renderExpress = renderExpress;
   window.renderAudit = renderAudit;
-  window.renderFinitions = renderFinitions;
+  window.render = render;
   window.renderOtherServices = renderOtherServices;
   window.ChantierSurPDF = {
     renderEsquisse,
     renderExpress,
     renderAudit,
-    renderFinitions,
+    render,
     renderOtherServices
   };
 
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
 
 
 

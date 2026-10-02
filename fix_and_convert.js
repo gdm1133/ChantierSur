@@ -1,4 +1,4 @@
-var ado = new ActiveXObject("ADODB.Stream");
+﻿var ado = new ActiveXObject("ADODB.Stream");
 ado.Type = 2; // adTypeText
 ado.Charset = "unicode"; // Read as UTF-16
 ado.Open();
@@ -15,7 +15,7 @@ var newAudit = adoNew.ReadText();
 adoNew.Close();
 
 var startIdx = oldText.indexOf("function renderAudit(");
-var endIdx = oldText.indexOf("function renderFinitions(");
+var endIdx = oldText.indexOf("function render(");
 
 if (startIdx !== -1 && endIdx !== -1) {
     var before = oldText.substring(0, startIdx);
@@ -33,3 +33,4 @@ if (startIdx !== -1 && endIdx !== -1) {
 } else {
     WScript.Echo("Indices not found!");
 }
+

@@ -115,11 +115,11 @@
           scope: 'tce',
           standing: 'moyen'
         },
-        finitions: {
-          service: 'finitions',
+        : {
+          service: '',
           surface: 250,
           exact_levels: 1,
-          client_name: 'Ibrahima Fall (Dossier Test Finitions)',
+          client_name: 'Ibrahima Fall (Dossier Test )',
           client_phone: '771112233',
           phone_prefix: '+221',
           project_location: 'Dakar - Zone Urbaine',
@@ -180,7 +180,7 @@
           if (key === 'esquisse') renderEsquisse(doc, payload, refDoc, currentDate);
           else if (key === 'express') renderExpress(doc, payload, refDoc, currentDate);
           else if (key === 'audit') renderAudit(doc, payload, refDoc, currentDate);
-          else if (key === 'finitions') renderFinitions(doc, payload, refDoc, currentDate);
+          else if (key === '') render(doc, payload, refDoc, currentDate);
 
           // Pagination
           const totalPages = doc.internal.getNumberOfPages();
@@ -198,8 +198,8 @@
             doc.setFontSize(6.4);
             doc.setTextColor(100, 116, 139);
             doc.text("ChantierSur.com • Bureau d'Études Numérique Indépendant • Dakar, République du Sénégal.", 20, pageHeight - 11);
-            if (key === 'finitions') {
-              doc.text("Document généré automatiquement à titre indicatif • Normes DTU Second Œuvre (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", 20, pageHeight - 7);
+            if (key === '') {
+              doc.text("Document généré automatiquement à titre indicatif • Normes DTU  (52.1, 59.1, 60.1, 43.1) & NF C 15-100.", 20, pageHeight - 7);
             } else {
               doc.text("Document généré automatiquement à titre indicatif •  & Code des Obligations Civiles et Commerciales.", 20, pageHeight - 7);
             }
@@ -218,14 +218,14 @@
           const has768 = fullJoinedText.includes("Article 768");
           const hasHydrocarbures = fullJoinedText.toLowerCase().includes("hydrocarbures");
           const hasMenacePenale = fullJoinedText.includes("RESPONSABILITÉ CIVILE ET PÉNALE");
-          const hasBaelInFinitions = key === 'finitions' && fullJoinedText.includes("BAEL");
+          const hasBaelIn = key === '' && fullJoinedText.includes("BAEL");
 
           record(key.toUpperCase(), "Absence d'Articles inexistants (767, 768 COCC)", !has767 && !has768, `Art. 767: ${has767}, Art. 768: ${has768}`);
           record(key.toUpperCase(), "Absence de menace pénale ('RESPONSABILITÉ CIVILE ET PÉNALE')", !hasMenacePenale, `Présence menace: ${hasMenacePenale}`);
           record(key.toUpperCase(), "Absence de 'hydrocarbures' dans la plomberie", !hasHydrocarbures, `Hydrocarbures: ${hasHydrocarbures}`);
           
-          if (key === 'finitions') {
-            record(key.toUpperCase(), "Exclusion stricte du BAEL 91 en Second Œuvre", !hasBaelInFinitions, `Mention BAEL: ${hasBaelInFinitions}`);
+          if (key === '') {
+            record(key.toUpperCase(), "Exclusion stricte du BAEL 91 en ", !hasBaelIn, `Mention BAEL: ${hasBaelIn}`);
           }
 
           // Contrôle du retrait complet de la phrase de test UTF-8 (toutes variantes)
@@ -326,7 +326,7 @@
             }
           }
 
-          if (key === 'finitions') {
+          if (key === '') {
             const hasParamDelai = fullJoinedText.includes("15 jours");
             record(key.toUpperCase(), "Reliquat 5 : Délai de levée des réserves paramétrable présent", hasParamDelai, `Présence 15 jours: ${hasParamDelai}`);
           }
@@ -387,4 +387,5 @@
   </script>
 </body>
 </html>
+
 

@@ -14,7 +14,7 @@
         <select class="dl-lot w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-[#0B1325] outline-none">
           <option value="Gros œuvre & structure">Gros œuvre & structure</option>
           <option value="Étanchéité & toiture">Étanchéité & toiture</option>
-          <option value="Second œuvre & finitions">Second œuvre & finitions</option>
+          
           <option value="Installation & travaux préparatoires">Installation & travaux préparatoires</option>
         </select>
       </div>
@@ -148,3 +148,4 @@
     document.getElementById('recap-total-tva').textContent = tva.toLocaleString('fr-FR') + ' FCFA';
     document.getElementById('recap-total-ttc').textContent = totalTTC.toLocaleString('fr-FR') + ' FCFA';
   };
+

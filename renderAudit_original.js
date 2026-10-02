@@ -118,7 +118,7 @@
     peinture: "NF DTU 59.1 (Travaux de peinture) â€¢ NF T36-005"
   };
 
-  function verifierTermesFinitions(terme) {
+  function verifierTermes(terme) {
     const interdits = ['hydrocarbures', 'art' + 'icle 767', 'art' + 'icle 768'];
     const lower = (terme || '').toLowerCase();
     for (let int of interdits) {
@@ -189,7 +189,7 @@
       noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Bordereau estimatif â€” Ã  confirmer par BET avant toute commande. MaÃ®tre d'Ouvrage : ${clientName.toUpperCase()} â€¢ TÃ©l : ${clientPhone} â€¢ RÃ©f : ${lotNumber}.`;
     } else if (serviceType === 'audit') {
       noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Il ne constitue ni une expertise judiciaire, ni le visa d'un bureau d'Ã©tudes agrÃ©Ã©. Les fourchettes de prix doivent Ãªtre confirmÃ©es par des professionnels qualifiÃ©s. Dossier : ${refDoc}.`;
-    } else if (serviceType === 'finitions') {
+    } else if (serviceType === '') {
       noticeText = `Document indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement. Bordereau estimatif â€” les quantitatifs et prix doivent Ãªtre confirmÃ©s par des professionnels qualifiÃ©s avant toute commande. Ne constitue ni une note de calcul ni le visa d'un BET agrÃ©Ã©. Dossier : ${refDoc}.`;
     } else {
       noticeText = `Document technique indicatif d'aide Ã  la dÃ©cision gÃ©nÃ©rÃ© automatiquement pour le compte de ${clientName.toUpperCase()}. Dossier : ${refDoc}.`;
@@ -1130,7 +1130,7 @@
     const macroLots = {
       'Gros Å“uvre & structure': { total: 0, keywords: ['terrassement', 'fondation', 'bÃ©ton', 'bÃ©t', 'maÃ§onnerie', 'dalle', 'poteau', 'poutre', 'enduit', 'chape', 'fouille'] },
       'Ã‰tanchÃ©itÃ© & toiture': { total: 0, keywords: ['Ã©tanch', 'etanch', 'toiture', 'acrotÃ¨re', 'acrotere'] },
-      'Second Å“uvre & finitions': { total: 0, keywords: ['menuiserie', 'porte', 'fenÃªtre', 'fenetre', 'garde-corps', 'carrelage', 'faÃ¯ence', 'faience', 'peinture', 'plomberie', 'sanitaire', 'Ã©lectricitÃ©', 'electricite', 'forage'] },
+      'Second Å“uvre & ': { total: 0, keywords: ['menuiserie', 'porte', 'fenÃªtre', 'fenetre', 'garde-corps', 'carrelage', 'faÃ¯ence', 'faience', 'peinture', 'plomberie', 'sanitaire', 'Ã©lectricitÃ©', 'electricite', 'forage'] },
       'Installation & travaux prÃ©paratoires': { total: 0, keywords: ['installation', 'chantier', 'base vie', 'clÃ´ture', 'cloture'] }
     };
 
@@ -1141,7 +1141,7 @@
           return mlName;
         }
       }
-      return 'Second Å“uvre & finitions'; // fallback
+      return 'Second Å“uvre & '; // fallback
     }
 
     // Process each line to calculate Theoretical values
@@ -1419,4 +1419,5 @@
     doc.text("Ce document est un audit de cohÃ©rence indicatif. Il ne constitue ni une certification lÃ©gale ni un arbitrage.", 15, 275);
     doc.text(`GÃ©nÃ©rÃ© le ${currentDate} | RÃ©f: ${refDoc}`, 15, 280);
   }
+
 

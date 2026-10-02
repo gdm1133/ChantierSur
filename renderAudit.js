@@ -1,4 +1,4 @@
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+﻿    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
@@ -150,7 +150,7 @@
         "Terrassements, fondations, poteaux, poutres, dalles, maçonneries"
       ],
       [
-        "Second œuvre & Finitions",
+        " & ",
         scope === 'go_seul' ? "Exclu" : formatFCFA(partSoSoumis),
         scope === 'go_seul' ? "Exclu" : formatFCFA(partSoRef),
         scope === 'go_seul' ? "-" : fmtEcart(ecartSo),
@@ -358,4 +358,5 @@
     doc.text(disclaimerAudit, MARGIN_LEFT + 4, currentY + 10);
     doc.text(`Rapport de contre-expertise émis à Dakar le ${currentDate}. Dossier Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 17.5);
   }
+
 

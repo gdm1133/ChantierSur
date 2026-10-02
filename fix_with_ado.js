@@ -1,4 +1,4 @@
-var fs = new ActiveXObject("Scripting.FileSystemObject");
+﻿var fs = new ActiveXObject("Scripting.FileSystemObject");
 var ado = new ActiveXObject("ADODB.Stream");
 
 ado.Type = 2;
@@ -17,7 +17,7 @@ var newAudit = adoNew.ReadText();
 adoNew.Close();
 
 var startIdx = oldText.indexOf("function renderAudit(");
-var endIdx = oldText.indexOf("function renderFinitions(");
+var endIdx = oldText.indexOf("function render(");
 
 if (startIdx !== -1 && endIdx !== -1) {
     var before = oldText.substring(0, startIdx);
@@ -35,3 +35,4 @@ if (startIdx !== -1 && endIdx !== -1) {
 } else {
     WScript.Echo("Indices not found");
 }
+

@@ -7,7 +7,7 @@ let startIndex = html.indexOf('<!-- FORMULAIRE 3 : Audit Devis BTP -->');
 if (startIndex === -1) {
   startIndex = html.indexOf('<!-- FORMULAIRE 3 : Audit Devis');
 }
-let endIndex = html.indexOf('<!-- FORMULAIRE 4 : FINITIONS', startIndex);
+let endIndex = html.indexOf('<!-- FORMULAIRE 4 : ', startIndex);
 if(endIndex === -1) {
   endIndex = html.indexOf('<!-- FORMULAIRE 4', startIndex);
 }
@@ -26,3 +26,4 @@ newHtml = newHtml.substring(0, jsStartIndex) + newJs + "\n" + newHtml.substring(
 
 fs.writeFileSync('app_privee.html', newHtml, 'utf8');
 console.log('Replacement done.');
+

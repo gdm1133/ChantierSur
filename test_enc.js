@@ -1,4 +1,4 @@
-var fs = new ActiveXObject("Scripting.FileSystemObject");
+﻿var fs = new ActiveXObject("Scripting.FileSystemObject");
 var ado = new ActiveXObject("ADODB.Stream");
 
 ado.Type = 2;
@@ -9,6 +9,7 @@ var oldText = ado.ReadText();
 ado.Close();
 
 var startIdx = oldText.indexOf("function renderAudit(");
-var endIdx = oldText.indexOf("function renderFinitions(");
+var endIdx = oldText.indexOf("function render(");
 
 WScript.Echo("Indices unicode: start " + startIdx + ", end " + endIdx);
+

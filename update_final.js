@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 let html = fs.readFileSync('index.html', 'utf8');
 
 // Replace Tabs Grid
@@ -25,7 +25,7 @@ const newGrid = `<!-- GRILLE DES 4 SERVICES -->
 
   <!-- CARTE 4 -->
   <div id="tab-card-4" onclick="window.switchTab(4)" class="tab-card cursor-pointer p-5 rounded-2xl bg-slate-900/60 border-2 border-slate-800 hover:border-slate-700 transition-all">
-    <h3 class="text-base font-bold text-white mb-1">4. Finitions & Second Œuvre</h3>
+    <h3 class="text-base font-bold text-white mb-1">4.  & </h3>
     <p class="text-xs text-slate-400">Phase Post-Gros Œuvre</p>
   </div>
 </div>`;
@@ -141,3 +141,4 @@ html = html.replace(scriptRegex, newScript);
 
 fs.writeFileSync('index.html', html, 'utf8');
 console.log('Update complete');
+
