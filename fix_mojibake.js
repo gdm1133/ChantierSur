@@ -1,0 +1,1 @@
+﻿const fs = require("fs"); let c = fs.readFileSync("app_privee.html", "utf-8"); c = c.replace(/Ã©/g, "é").replace(/Ã\s/g, "à ").replace(/â€“/g, "–").replace(/â€”/g, "—").replace(/Ã\xa0/g, "à").replace(/Ã¨/g, "è").replace(/Ãª/g, "ê"); fs.writeFileSync("app_privee.html", c, "utf-8");

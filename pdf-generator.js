@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ChantierSur.com - Moteur Officiel de Génération des Livrables BTP & Juridiques
  * Version 3.0 — Perfectionnement Visuel & Rigueur Fonctionnelle
  * Conforme : Eurocode 2 Révisé 99 • Code de l'Urbanisme du Sénégal • Droit Code Civil • Normes DTU
@@ -1170,7 +1170,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
     };
 
     // ----- PAGE 1 : IDENTIFICATION ET SOMMAIRE -----
-    drawUnifiedHeader(doc, "AUDIT TECHNIQUE ET CONFORMITÉ DEVIS", "Partie 1 - Informations et Synthèse Globale", refDoc, currentDate, clientName, clientPhone, "AUDIT", "audit");
+    drawUnifiedHeader(doc, "AUDIT TECHNIQUE ET Conformité StructurelleDEVIS", "Partie 1 - Informations et Synthèse Globale", refDoc, currentDate, clientName, clientPhone, "AUDIT", "audit");
     
     // Cartouche nominatif
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -1237,7 +1237,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
 
     // ----- PAGE 2 : DÉTAIL DES LOTS ET VÉRIFICATION -----
     addPage();
-    drawUnifiedHeader(doc, "AUDIT TECHNIQUE ET CONFORMITÉ DEVIS", "Partie 2 - Détail Analytique du Devis", refDoc, currentDate, clientName, clientPhone, "AUDIT", "audit");
+    drawUnifiedHeader(doc, "AUDIT TECHNIQUE ET Conformité StructurelleDEVIS", "Partie 2 - Détail Analytique du Devis", refDoc, currentDate, clientName, clientPhone, "AUDIT", "audit");
     y = 50;
 
     drawSectionTitle(doc, y, "4. VÉRIFICATION DÉTAILLÉE LIGNE PAR LIGNE");
@@ -1260,12 +1260,12 @@ function renderAudit(doc, data, refDoc, currentDate) {
     ));
     y = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
 
-    // ----- PAGE 3 : MÉTHODOLOGIE ET RECOMMANDATIONS -----
+    // ----- PAGE 3 : MéthodologieET RECOMMANDATIONS -----
     addPage();
-    drawUnifiedHeader(doc, "AUDIT TECHNIQUE ET CONFORMITÉ DEVIS", "Partie 3 - Méthodologie et Cadre Légal (Sénégal)", refDoc, currentDate, clientName, clientPhone, "AUDIT", "audit");
+    drawUnifiedHeader(doc, "AUDIT TECHNIQUE ET Conformité StructurelleDEVIS", "Partie 3 - Méthodologieet Cadre Légal (Sénégal)", refDoc, currentDate, clientName, clientPhone, "AUDIT", "audit");
     y = 50;
 
-    drawSectionTitle(doc, y, "5. MÉTHODOLOGIE D'AUDIT");
+    drawSectionTitle(doc, y, "5. MéthodologieD'AUDIT");
     y += 10;
     doc.setFont(getFontFamily(doc), 'normal');
     doc.setFontSize(9);
@@ -1745,6 +1745,7 @@ function renderAudit(doc, data, refDoc, currentDate) {
   // Alias universels
   window.generatePDF = window.generateProjectPDF;
 })();
+
 
 
 

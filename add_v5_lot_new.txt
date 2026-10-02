@@ -1,0 +1,71 @@
+window.devisLinesState = window.devisLinesState || [];
+
+window.addV5Lot = function(data = null) {
+    const defaultDesc = data && data.designation ? data.designation : '';
+    const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
+    window.devisLinesState.push({ designation: defaultDesc, montant_indique: defaultMontant });
+    window.renderV5LotsState();
+};
+
+window.updateV5Lot = function(index, field, value) {
+    if (window.devisLinesState && window.devisLinesState[index]) {
+        window.devisLinesState[index][field] = field === 'montant_indique' ? (parseFloat(value) || 0) : value;
+        window.calcV5TotalsState();
+    }
+};
+
+window.removeV5Lot = function(index) {
+    if (window.devisLinesState) {
+        window.devisLinesState.splice(index, 1);
+        window.renderV5LotsState();
+    }
+};
+
+window.renderV5LotsState = function() {
+    const container = document.getElementById('v5-lots-container');
+    container.innerHTML = '';
+    if (!window.devisLinesState) return;
+    window.devisLinesState.forEach((lot, index) => {
+        const div = document.createElement('div');
+        div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
+        
+        const safeDesc = (lot.designation || '').toString().replace(/"/g, '&quot;');
+        const safeMontant = (lot.montant_indique || '').toString().replace(/"/g, '&quot;');
+        
+        div.innerHTML = `<input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: Maçonnerie)" value="${safeDesc}" oninput="window.updateV5Lot(${index}, 'designation', this.value)">` +
+                        `<input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="${safeMontant}" oninput="window.updateV5Lot(${index}, 'montant_indique', this.value)">` +
+                        `<button type="button" onclick="window.removeV5Lot(${index})" class="text-rose-500 font-bold">X</button>`;
+        container.appendChild(div);
+    });
+    window.calcV5TotalsState();
+};
+
+window.calcV5TotalsState = function() {
+    let totalHT = 0;
+    let validLots = 0;
+    
+    if (window.devisLinesState) {
+        window.devisLinesState.forEach(lot => {
+            if (lot.designation && lot.designation.length > 0 && lot.montant_indique >= 0) {
+                validLots++;
+                totalHT += parseFloat(lot.montant_indique) || 0;
+            }
+        });
+    }
+    
+    document.getElementById('v5-total-ht').innerText = totalHT.toLocaleString('fr-FR') + ' FCFA';
+    const tvaRate = parseFloat(document.getElementById('v5-tva-rate').value) || 0;
+    const totalTTC = totalHT * (1 + (tvaRate / 100));
+    document.getElementById('v5-total-ttc').innerText = totalTTC.toLocaleString('fr-FR') + ' FCFA';
+    
+    const btn = document.getElementById('v5-btn-audit');
+    const msg = document.getElementById('v5-error-msg');
+    
+    if (validLots > 0) {
+        btn.disabled = false;
+        msg.classList.add('hidden');
+    } else {
+        btn.disabled = true;
+        msg.classList.remove('hidden');
+    }
+};

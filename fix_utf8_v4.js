@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 
 function walkDir(dir, callback) {
@@ -18,13 +18,13 @@ walkDir('.', function(filePath) {
         content = content.replace(/gÃ©nÃ©rÃ©/g, 'généré');
         
         // 2. Fix BAEL and Footer
-        const oldFooter1 = "Document généré automatiquement à titre indicatif • BAEL 91 R99 & Code des Obligations Civiles et Commerciales.";
-        const oldFooter2 = "Document généré automatiquement à titre indicatif • BAEL 91 R99";
+        const oldFooter1 = "Document généré automatiquement à titre indicatif •  & Code des Obligations Civiles et Commerciales.";
+        const oldFooter2 = "Document généré automatiquement à titre indicatif • ";
         const newFooter = "Document généré automatiquement à titre indicatif • ChantierSur.com — Bureau d'études numérique indépendant";
         
         content = content.split(oldFooter1).join(newFooter);
         content = content.split(oldFooter2).join(newFooter);
-        content = content.split("BAEL 91 R99 & Code des Obligations Civiles et Commerciales.").join("ChantierSur.com — Bureau d'études numérique indépendant");
+        content = content.split(" & Code des Obligations Civiles et Commerciales.").join("ChantierSur.com — Bureau d'études numérique indépendant");
         
         // Fix 9.4 COCC art. 743 & BT01/BT02
         content = content.replace(/COCC, art\. 743/g, "Code des Obligations Civiles et Commerciales");
@@ -49,3 +49,4 @@ walkDir('.', function(filePath) {
         }
     }
 });
+

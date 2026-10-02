@@ -1,4 +1,4 @@
-exports.handler = async (event) => {
+﻿exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -37,7 +37,7 @@ Données du projet :
 
 Mission :
 1. Si un plan ou croquis est joint : analyse la géométrie, extraits les portées critiques, estime le ratio de ferraillage réglementaire (kg/m³) et de ciment (sacs/m²).
-2. Si un devis est joint : compare poste par poste les quantités de l'artisan aux ratios BAEL 91 R99 de la zone et quantifie l'écart financier exact en FCFA.
+2. Si un devis est joint : compare poste par poste les quantités de l'artisan aux ratios  de la zone et quantifie l'écart financier exact en FCFA.
 
 Format impératif : Réponds UNIQUEMENT avec un objet JSON valide (strictement aucun bloc de code markdown, pas de texte avant ni après).
 {
@@ -128,3 +128,4 @@ Format impératif : Réponds UNIQUEMENT avec un objet JSON valide (strictement a
     };
   }
 };
+

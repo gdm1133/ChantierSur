@@ -1,0 +1,51 @@
+        // Création d'une modale visible à l'écran
+        const modal = document.createElement('div');
+        modal.id = 'pdf-success-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4';
+        modal.innerHTML = `
+          <div class="bg-slate-900 border-2 border-[#F59E0B] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5" id="pdf-modal-card">
+            <div class="w-16 h-16 bg-amber-500/20 text-[#F59E0B] rounded-full flex items-center justify-center mx-auto text-3xl">📄</div>
+            <h3 id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
+            <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#F59E0B] uppercase">${s}</strong> est prêt.</p>
+            <button id="btn-force-download" class="w-full py-4 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+              📥 Télécharger mon Rapport PDF
+            </button>
+            <p id="pdf-status" class="text-xs text-slate-700 font-medium">Le téléchargement démarre également en arrière-plan...</p>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Déclencheur
+        function triggerPDF() {
+          const statusEl = document.getElementById('pdf-status');
+          const gen = window.generateProjectPDF || window.generatePDF;
+          if (typeof gen === 'function') {
+            try {
+              if (window.devisLinesState && window.devisLinesState.length === 0) {
+                 throw new Error("Aucune ligne validée – retournez à l'écran de validation");
+              }
+              gen(finalData);
+              if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
+            } catch(err) {
+              console.error("Erreur PDF:", err);
+              document.getElementById('pdf-modal-title').innerText = "Validation requise";
+              document.getElementById('pdf-modal-desc').style.display = 'none';
+              document.getElementById('btn-force-download').style.display = 'none';
+              if (statusEl) {
+                statusEl.innerHTML = `
+                  <div class="mt-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-left">
+                    <span class="text-rose-600 font-bold">${err.message}</span>
+                  </div>
+                  <button id="btn-return-validation" class="mt-4 w-full py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-all text-base cursor-pointer">
+                    Retourner à l'écran de validation
+                  </button>
+                `;
+                document.getElementById('btn-return-validation').addEventListener('click', () => {
+                  document.getElementById('pdf-success-modal').remove();
+                });
+              }
+            }
+          } else {
+            if (statusEl) statusEl.innerHTML = '<span class="text-rose-400 font-bold">Erreur : moteur pdf-generator.js non détecté.</span>';
+          }
+        }

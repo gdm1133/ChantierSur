@@ -1,0 +1,34 @@
+window.confirmOCR = function() {
+    const tbody = document.getElementById('ocr-validation-table-body');
+    const rows = tbody.querySelectorAll('tr');
+    
+    let validatedLines = [];
+    let validCount = 0;
+    
+    rows.forEach(row => {
+        const lot = row.querySelector('.ocr-input-lot').value.trim();
+        const des = row.querySelector('.ocr-input-des').value.trim();
+        const unit = row.querySelector('.ocr-input-unit').value.trim();
+        const qte = parseFloat(row.querySelector('.ocr-input-qte').value) || 0;
+        const pu = parseFloat(row.querySelector('.ocr-input-pu').value) || 0;
+        const total = parseFloat(row.querySelector('.ocr-input-total').value) || 0;
+        
+        if (des.length > 0 && total >= 0) {
+            const finalDes = lot ? `[${lot}] ${des}` : des;
+            validatedLines.push({ designation: finalDes, montant_indique: total, quantite: qte, pu: pu, unite: unit });
+            validCount++;
+        }
+    });
+    
+    if (validCount === 0) {
+        alert("Veuillez valider au moins une ligne.");
+        return;
+    }
+    
+    window.devisLinesState = window.devisLinesState || [];
+    window.devisLinesState.push(...validatedLines);
+    console.log("validation: " + window.devisLinesState.length + " lignes");
+    
+    window.renderV5LotsState();
+    window.cancelOCR(); // Reset OCR UI
+};

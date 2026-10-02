@@ -65,7 +65,7 @@
         formule = 'V=SDP×0.35 m³';
         puRefVal = 145000;
         puRefText = '130k-160k';
-        refLegale = 'BAEL 91 R99';
+        refLegale = '';
       } else if (text.includes('maçonnerie') || text.includes('agglo')) {
         qteTheo = parseFloat((surface * 2.5 * totalLevelsCount).toFixed(1));
         formule = 'S=SDP×2.5';
@@ -95,7 +95,7 @@
         formule = 'Ratio kg/m³ béton';
         puRefVal = 800;
         puRefText = '750-900';
-        refLegale = 'BAEL 91 R99';
+        refLegale = '';
       } else if (text.includes('terrassement') || text.includes('fouille')) {
         qteTheo = parseFloat((surface * 1.5).toFixed(1));
         formule = 'V≈Surface×1.5m';
@@ -311,7 +311,7 @@
     const clauses = [
       ["1. Prix Forfaitaire", "Le devis doit explicitement mentionner « Marché à Prix Forfaitaire ». Aucun avenant pour erreur de métré de l'entrepreneur n'est acceptable (Art. L.88 Code Construction)."],
       ["2. Pénalités de Retard", "Mention obligatoire : « Pénalités de retard fixées à 1/1000ème du marché par jour calendaire, plafonnées à 5% » (Application stricte de l'Art. 98 COCC)."],
-      ["3. Conformité DTU", "L'entreprise s'engage à respecter les normes DTU en vigueur et le BAEL 91 R99. Toute malfaçon entraîne démolition/reprise à ses frais exclusifs."],
+      ["3. Conformité StructurelleDTU", "L'entreprise s'engage à respecter les normes DTU en vigueur et le . Toute malfaçon entraîne démolition/reprise à ses frais exclusifs."],
       ["4. Réception des Travaux", "La réception (avec ou sans réserves) doit faire l'objet d'un Procès-Verbal écrit contradictoire (Art. 740 COCC). C'est le point de départ des garanties."],
       ["5. Retenue de Garantie", "Application d'une retenue de 5% sur tous les acomptes, libérable à la fin de l'année de parfait achèvement, sauf si caution bancaire à première demande fournie (Art. 742 COCC)."]
     ];
@@ -338,3 +338,5 @@
     doc.setFontSize(6.5);
     doc.text(doc.splitTextToSize("Ce document est un audit numérique indicatif d'aide à la décision. Il ne s'agit ni d'une expertise judiciaire, ni d'un visa officiel de bureau d'études, ni d'une contre-expertise légale. Toute validation structurelle nécessite le cachet d'un BET agréé inscrit à l'ordre.", USABLE_WIDTH - 8), MARGIN_LEFT + 4, currentY + 11);
   }
+
+

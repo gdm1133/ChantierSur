@@ -1,0 +1,28 @@
+﻿        let realData = null;
+        try {
+          const saved = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
+          if (saved) {
+            realData = JSON.parse(saved);
+          }
+        } catch(e) {}
+
+        // 2. Si aucune saisie pr�alable n'est trouv�e (test direct de l'URL sans formulaire), utiliser le mod�le de test
+        const finalData = (realData && realData.client_name) ? realData : {
+          service: s,
+          surface: 240,
+          facade_width: 10,
+          facade_width_2: 0,
+          street_width: 12,
+          exact_levels: 2,
+          client_name: 'Moussa Ndiaye (Dossier Test)',
+          client_email: 'client@chantiersur.com',
+          client_phone: '771234567',
+          phone_prefix: '+221',
+          project_location: 'Dakar - Almadies / Ngor / Ouakam',
+          land_status: 'Titre Foncier (TF)',
+          lot_number: 'Lot N� 45',
+          parcel_config: 'bande',
+          building_usage: 'unifamilial',
+          standing: 'moyen',
+          sanitation_type: 'autonome',
+          neighbor_status: 'vide'

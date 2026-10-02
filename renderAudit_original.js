@@ -110,7 +110,7 @@
 
   // RÃ©fÃ©rentiel des normes applicables par lot
   const NORMES_PAR_LOT = {
-    grosOeuvre: "BAEL 91 R99 â€¢ DTU 13.12 (Fondations) â€¢ DTU 20.1 (MaÃ§onneries)",
+    grosOeuvre: " â€¢ DTU 13.12 (Fondations) â€¢ DTU 20.1 (MaÃ§onneries)",
     carrelage: "NF DTU 52.1 (RevÃªtements de sol scellÃ©s) â€¢ NF P61-202",
     etancheite: "NF DTU 43.1 (Toitures terrasses) â€¢ Avis Technique CSTB",
     plomberie: "NF DTU 60.1 (Plomberie sanitaire & EU/EP) â€¢ NF DTU 60.11",
@@ -477,10 +477,10 @@
     // PAGE 2 : DESCENTE DE CHARGES & PRÃ‰-DIMENSIONNEMENT SEMELLE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie II : Descente de Charges (BAEL 91 R99) & Dimensionnement des Fondations", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & FaisabilitÃ© Technique", "Partie II : Descente de Charges () & Dimensionnement des Fondations", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÃ‰ORIQUE SUR LE POTEAU LE PLUS CHARGÃ‰ (BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÃ‰ORIQUE SUR LE POTEAU LE PLUS CHARGÃ‰ ()");
 
     // Fonction locale : virgule dÃ©cimale franÃ§aise
     const fr1 = v => v.toFixed(1).replace('.', ',');
@@ -514,7 +514,7 @@
       ["Surface Portante Minimale Requise (S)", `${fr2(parseFloat(surfaceSemelleRequise))} mÂ²`, "Formule DTU 13.12 : S >= 1,05 â€” N_ser / q_adm"],
       ["Dimensionnement Semelle CarrÃ©e (A â€” B)", `${fr2(coteSemelleCarrer)} m â€” ${fr2(coteSemelleCarrer)} m`, "Section d'assise au sol sous le poteau le plus chargÃ©"],
       ["Ã‰paisseur Minimale de la Semelle (H)", `${epaisseurSemelle} cm (d >= ${(epaisseurSemelle - 5)} cm)`, "Condition de rigiditÃ© : d >= (A - a)/4 pour Ã©viter le poinÃ§onnement"],
-      ["Enrobage RÃ©glementaire des Aciers", enrobageAciers, "Obligation BAEL 91 R99 pour prÃ©venir la corrosion des armatures"],
+      ["Enrobage RÃ©glementaire des Aciers", enrobageAciers, "Obligation  pour prÃ©venir la corrosion des armatures"],
       ["Nature Stratigraphique du Terrain", natureSol, "Profil gÃ©ologique dominant dans la zone choisie"],
       ["Mode de Fondation PrÃ©conisÃ©", modeFondation, hasBasement ? "Cuvelage Ã©tanche requis en sous-sol" : "AdaptÃ© pour Ã©viter les tassements diffÃ©rentiels"]
     ];
@@ -643,7 +643,7 @@
     const etapesTeledac = [
       ["1. Bornage Contradictoire", "GÃ©omÃ¨tre-Expert AgrÃ©Ã© (OGES)", "Plan de bornage rÃ©gulier et scellement des bornes physiques."],
       ["2. Plans Architecturaux VisÃ©s", "Architecte inscrit Ã  l'ODAS", "Recours Ã  l'architecte obligatoire pour la construction ou la modification de bÃ¢timents (art. R.407, dÃ©cret nÂ° 2025-1194)."],
-      ["3. Note de Calcul de StabilitÃ©", "Bureau d'Ã‰tudes Techniques (BET)", "Justification des sections de bÃ©ton et armatures selon BAEL 91 R99."],
+      ["3. Note de Calcul de StabilitÃ©", "Bureau d'Ã‰tudes Techniques (BET)", "Justification des sections de bÃ©ton et armatures selon ."],
       ["4. DÃ©pÃ´t Plateforme TELEDAC", "Direction de l'Urbanisme / Mairie", "Instruction administrative prÃ©alable â€” arrÃªtÃ© signÃ© obligatoire avant ouverture de chantier (dÃ©lai estimÃ© selon commune)."],
       ["5. Contrat & Clauses COCC", "Entreprise GÃ©nÃ©rale / TÃ¢cheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrÃªt."]
     ];
@@ -793,7 +793,7 @@
     // =========================================================================
     // PAGE 1 : CUBATURES & SYNTHÃˆSE DES RATIOS
     // =========================================================================
-    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros Å“uvre", "Partie I : MÃ©trÃ© Volumique BÃ©ton & Besoins en MatÃ©riaux Structurels (BAEL 91 R99)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
+    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros Å“uvre", "Partie I : MÃ©trÃ© Volumique BÃ©ton & Besoins en MatÃ©riaux Structurels ()", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
 
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
@@ -819,7 +819,7 @@
     doc.text(`Nature du Sol : ${soilType === 'rocheux' ? 'Rocheux compact' : (soilType === 'sable' ? 'Sable dunaire' : 'Normal / LatÃ©ritique')}`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. SYNTHÃˆSE DES RATIOS D'INGÃ‰NIERIE & CUBATURES PRINCIPALES (BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "I. SYNTHÃˆSE DES RATIOS D'INGÃ‰NIERIE & CUBATURES PRINCIPALES ()");
 
     const ratioAcierDetail = isMarine
       ? `Ratio effectif : ${ratioAcierM3} kg/mÂ³ de bÃ©ton (base ${ratioAcierM3 - 5} kg + 5 kg/mÂ³ zone marine inclus)`
@@ -852,7 +852,7 @@
     const securiteRows = [
       ["Classe de RÃ©sistance BÃ©ton", "B25 (fc28 >= 25 MPa)", "RecommandÃ© selon les rÃ¨gles professionnelles pour poteaux, poutres et planchers"],
       ["Dosage usuel recommandÃ©", "350 kg/mÂ³ (CEM II 42.5R)", "7 sacs de 50 kg par mÃ¨tre cube de bÃ©ton mis en Å“uvre"],
-      ["Calage d'Enrobage PrÃ©conisÃ©", `${enrobageCmStr} cm avec cales bÃ©ton`, isMarine ? "Milieu marin agressif (BAEL 91 R99, art. A.7.2.4)" : "Milieu non agressif standard (recommandation BAEL 91 R99)"],
+      ["Calage d'Enrobage PrÃ©conisÃ©", `${enrobageCmStr} cm avec cales bÃ©ton`, isMarine ? "Milieu marin agressif (, art. A.7.2.4)" : "Milieu non agressif standard (recommandation )"],
       ["Vibration du BÃ©ton Frais", "Aiguille vibrante recommandÃ©e", "DÃ©conseillÃ© : risque de nids de cailloux (serrage manuel au fer Ã  bÃ©ton Ã  proscrire)"]
     ];
 
@@ -1035,7 +1035,7 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VIII. DÃ‰LAIS DE DÃ‰COFFRAGE RECOMMANDÃ‰S (RÃˆGLES PROFESSIONNELLES BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "VIII. DÃ‰LAIS DE DÃ‰COFFRAGE RECOMMANDÃ‰S (RÃˆGLES PROFESSIONNELLES )");
 
     const clausesRows = [
       ["Joues de Poutres & Faces de Poteaux", SEUILS_TECHNIQUES.decoffrageJoues, "DÃ©coffrage possible sans mise en charge. Arrosage immÃ©diat pour cure."],
@@ -1074,7 +1074,7 @@
       "â€¢ ArrÃªtÃ© nÂ° 09852 du 24 juin 2024 (prix du ciment type 32.5) ;",
       "â€¢ DÃ©cret nÂ° 2022-2295, art. 118-119 (retenue de garantie â€” marchÃ©s publics uniquement) ;",
       "â€¢ ANSD, Indice des coÃ»ts des BTP (IBTP), T2 2026 ;",
-      "â€¢ BAEL 91 R99 (rÃ¨gles professionnelles, rÃ©fÃ©rence technique) ;",
+      "â€¢  (rÃ¨gles professionnelles, rÃ©fÃ©rence technique) ;",
       "â€¢ NF P 06-001 (charges d'exploitation â€” norme d'usage courant)."
     ];
     let refY = currentY + 9.8;
@@ -1167,7 +1167,7 @@
       // Heuristics for Theoretical Quantities & PU based on Dakar 2026 Mercuriales
       if (text.includes('bÃ©ton') || text.includes('beton')) {
         qteTheo = (surface * (levels + 1) * 0.35).toFixed(1);
-        formule = "V = SDP Ã— 0.35 mÂ³/mÂ² (BAEL 91 R99)";
+        formule = "V = SDP Ã— 0.35 mÂ³/mÂ² ()";
         puRef = "130000 - 160000";
         sourceRef = "ANSD IBTP T2 2026";
         montantTheo = parseFloat(qteTheo) * 145000;
@@ -1394,7 +1394,7 @@
     doc.setFontSize(9);
     doc.setTextColor(50, 50, 50);
     const clauses = [
-      "1. ConformitÃ© : Les travaux doivent respecter les normes (BAEL 91 R99, DTU 20.1, NF C 15-100) sous peine de reprise aux frais de l'entrepreneur.",
+      "1. ConformitÃ© : Les travaux doivent respecter les normes (, DTU 20.1, NF C 15-100) sous peine de reprise aux frais de l'entrepreneur.",
       "2. Prix ferme et dÃ©finitif : Le devis est forfaitaire (Art. L.88 Code de la construction). Aucun supplÃ©ment non approuvÃ© par avenant Ã©crit ne sera payÃ©.",
       "3. PÃ©nalitÃ©s de retard : FixÃ©es Ã  25 000 FCFA par jour de retard, exigibles aprÃ¨s mise en demeure (Art. 153/154 du COCC).",
       "4. SÃ©curitÃ© : L'entrepreneur est seul responsable de la sÃ©curitÃ© sur le chantier (DÃ©cret 2022-2295 art. 118-119).",
@@ -1419,3 +1419,4 @@
     doc.text("Ce document est un audit de cohÃ©rence indicatif. Il ne constitue ni une certification lÃ©gale ni un arbitrage.", 15, 275);
     doc.text(`GÃ©nÃ©rÃ© le ${currentDate} | RÃ©f: ${refDoc}`, 15, 280);
   }
+

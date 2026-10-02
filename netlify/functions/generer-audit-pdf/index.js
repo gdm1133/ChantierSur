@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const fontkitModule = require('@pdf-lib/fontkit');
@@ -320,7 +320,7 @@ exports.handler = async (event) => {
     currentY -= 12;
     currentPage.drawText(`NINEA : ${ninea} | RCCM : ${rccm}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 12;
-    currentPage.drawText(`L'audit couvre : calculs arithmétiques, détection des forfaits, conformité TVA, présence des clauses contractuelles vitales.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
+    currentPage.drawText(`L'audit couvre : calculs arithmétiques, détection des forfaits, Conformité StructurelleTVA, présence des clauses contractuelles vitales.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
     currentY -= 12;
     currentPage.drawText(`L'audit ne couvre pas : l'analyse des prix du marché.`, { x: 40, y: currentY, size: 8, font: regularFont, color: COLOR_SLATE });
     currentY -= 12;
@@ -650,3 +650,4 @@ exports.handler = async (event) => {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 };
+

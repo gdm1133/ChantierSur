@@ -1,4 +1,4 @@
-    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
+﻿    const clientName = (data.client_name || 'Maître d\'Ouvrage').trim();
     const rawPrefix = (data.phone_prefix || '+221').trim();
     let rawPhone = (data.client_phone || '770000000').toString().trim();
     rawPhone = rawPhone.replace(/^\+?221/, '').replace(/^0+/, '').trim();
@@ -101,7 +101,7 @@
     // =========================================================================
     // PAGE 1 : CUBATURES & SYNTHÈSE DES RATIOS
     // =========================================================================
-    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros œuvre", "Partie I : Métré Volumique Béton & Besoins en Matériaux Structurels (BAEL 91 R99)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
+    drawUnifiedHeader(doc, "Bordereau Quantitatif Estimatif (BQE) Gros œuvre", "Partie I : Métré Volumique Béton & Besoins en Matériaux Structurels ()", refDoc, currentDate, clientName, clientPhone, lotNumber, 'express');
 
     doc.setFillColor(...COLOR_BG_LIGHT);
     doc.roundedRect(MARGIN_LEFT, 50, USABLE_WIDTH, 34, 2, 2, 'F');
@@ -127,7 +127,7 @@
     doc.text(`Nature du Sol : ${soilType === 'rocheux' ? 'Rocheux compact' : (soilType === 'sable' ? 'Sable dunaire' : 'Normal / Latéritique')}`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. SYNTHÈSE DES RATIOS D'INGÉNIERIE & CUBATURES PRINCIPALES (BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "I. SYNTHÈSE DES RATIOS D'INGÉNIERIE & CUBATURES PRINCIPALES ()");
 
     const ratioAcierDetail = isMarine
       ? `Ratio effectif : ${ratioAcierM3} kg/m³ de béton (base ${ratioAcierM3 - 5} kg + 5 kg/m³ zone marine inclus)`
@@ -160,7 +160,7 @@
     const securiteRows = [
       ["Classe de Résistance Béton", "B25 (fc28 >= 25 MPa)", "Recommandé selon les règles professionnelles pour poteaux, poutres et planchers"],
       ["Dosage usuel recommandé", "350 kg/m³ (CEM II 42.5R)", "7 sacs de 50 kg par mètre cube de béton mis en œuvre"],
-      ["Calage d'Enrobage Préconisé", `${enrobageCmStr} cm avec cales béton`, isMarine ? "Milieu marin agressif (BAEL 91 R99, art. A.7.2.4)" : "Milieu non agressif standard (recommandation BAEL 91 R99)"],
+      ["Calage d'Enrobage Préconisé", `${enrobageCmStr} cm avec cales béton`, isMarine ? "Milieu marin agressif (, art. A.7.2.4)" : "Milieu non agressif standard (recommandation )"],
       ["Vibration du Béton Frais", "Aiguille vibrante recommandée", "Déconseillé : risque de nids de cailloux (serrage manuel au fer à béton à proscrire)"]
     ];
 
@@ -343,7 +343,7 @@
     ));
 
     currentY = doc.lastAutoTable.finalY + TITLE_BEFORE_GAP_MM;
-    drawSectionTitle(doc, currentY, "VIII. DÉLAIS DE DÉCOFFRAGE RECOMMANDÉS (RÈGLES PROFESSIONNELLES BAEL 91 R99)");
+    drawSectionTitle(doc, currentY, "VIII. DÉLAIS DE DÉCOFFRAGE RECOMMANDÉS (RÈGLES PROFESSIONNELLES )");
 
     const clausesRows = [
       ["Joues de Poutres & Faces de Poteaux", SEUILS_TECHNIQUES.decoffrageJoues, "Décoffrage possible sans mise en charge. Arrosage immédiat pour cure."],
@@ -382,7 +382,7 @@
       "• Arrêté n° 09852 du 24 juin 2024 (prix du ciment type 32.5) ;",
       "• Décret n° 2022-2295, art. 118-119 (retenue de garantie — marchés publics uniquement) ;",
       "• ANSD, Indice des coûts des BTP (IBTP), T2 2026 ;",
-      "• BAEL 91 R99 (règles professionnelles, référence technique) ;",
+      "•  (règles professionnelles, référence technique) ;",
       "• NF P 06-001 (charges d'exploitation — norme d'usage courant)."
     ];
     let refY = currentY + 9.8;
@@ -414,3 +414,4 @@
     doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 11);
     doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
   }
+

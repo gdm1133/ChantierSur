@@ -1,4 +1,4 @@
-
+﻿
 
 exports.handler = async (event, context) => {
     // Only allow POST requests
@@ -48,7 +48,7 @@ exports.handler = async (event, context) => {
                         <h2 style="color: #F59E0B;">ChantierSur.com - Ingénierie & BTP</h2>
                         <p>Bonjour,</p>
                         <p>Nous vous remercions pour votre confiance. Vous trouverez en pièce jointe votre dossier technique <strong>${service.toUpperCase()}</strong> (Réf: ${ref}) généré par nos systèmes.</p>
-                        <p>Ce document est certifié conforme aux normes BAEL 91 R99 et au droit sénégalais (COCC).</p>
+                        <p>Ce document est certifié conforme aux normes  et au droit sénégalais (COCC).</p>
                         <p>En cas de perte, vous pouvez revérifier son authenticité sur notre plateforme à l'aide de votre numéro de référence.</p>
                         <p>Cordialement,<br/><strong>L'équipe Ingénierie ChantierSur</strong></p>
                     </div>
@@ -83,3 +83,4 @@ exports.handler = async (event, context) => {
         };
     }
 };
+
