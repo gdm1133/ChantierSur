@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
+  <!-- CANARY-FRONTEND-FINAL-20261010 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
   <meta name="author" content="ChantierSur Technologies SARL">
   
   <meta property="og:title" content="ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal">
-  <meta property="og:description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91, Audit de devis et Conformité Structurellejuridique COCC.">
+  <meta property="og:description" content="Sécurisez votre construction au Sénégal. Chiffrage exact BAEL 91, Audit de devis et conformité structurelle et juridique.">
   <meta property="og:image" content="https://chantiersur.com/assets/img/img_bael.jpg">
   <meta property="og:url" content="https://chantiersur.com">
   <meta property="og:type" content="website">
@@ -20,7 +21,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/logo/logo-a-favicon.png">
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
-  <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact , Audit de devis et Conformité Structurellejuridique COCC.">
+  <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact , Audit de devis et conformité structurelle et juridique.">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -36,7 +37,7 @@
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
-          Droit COCC Sénégal
+          Conformité juridique
         </span>
         <span class="hidden sm:inline">•</span>
         <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
@@ -60,14 +61,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- LOGO SANS SOUS-TITRE -->
-      <a href="index.html" class="flex items-center space-x-3 group"><img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto"><span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span></a>
+      <a href="app_privee.html" class="flex items-center space-x-3 group"><img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto"><span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span></a>
       <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
       <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
         <a href="#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
         <a href="a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a> <a href="blog/index.html" class="text-slate-300 hover:text-white transition-colors">Blog</a>
       </nav>
       <!-- MENU BURGER MOBILE -->
-      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none" aria-label="Menu Mobile">
+      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white focus:outline-none" aria-label="Menu Mobile">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -192,7 +193,7 @@
       <!-- CHAMP CONDITIONNEL SECONDE FAÇADE (MASQUÉ PAR DÉFAUT) -->
       <div id="facade-2-container" class="hidden">
         <label class="block text-xs font-bold text-[#0E2A47] uppercase mb-2">2nde Façade sur rue (m)</label>
-        <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-[#F0F9FF]/40 border-[#0E2A47] border-[#0EA5E9] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
+        <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-[#F0F9FF]/40 border-[#0E2A47] border-[#1B4F72] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
       </div>
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
@@ -339,7 +340,7 @@
     </div>
     <div class="flex justify-between items-center pt-4">
       <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
-      <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl text-[#0E2A47]ase flex items-center space-x-3 cursor-pointer">
+      <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
         <span>Éditer mon Rapport d'Esquisse</span>
         <span>&rarr;</span>
       </button>
@@ -859,28 +860,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     <section id="blog-section" class="mt-16 pt-12 border-t border-slate-200">
       <div class="text-center mb-10">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-3">
-          <span>Centre de Ressources & IngÃ©nierie</span>
+          <span>Centre de Ressources & Ingénierie</span>
         </div>
-        <h2 style="font-family: ''Archivo'', sans-serif; font-weight: 800;" class="text-3xl font-extrabold text-[#0E2A47]">
+        <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800;" class="text-3xl font-extrabold text-[#0E2A47]">
           Le Blog & Guides Techniques
         </h2>
         <p class="text-slate-600 max-w-2xl mx-auto text-base mt-2">
-          Analyses de cas rÃ©els, rÃ©glementation sÃ©nÃ©galaise et bonnes pratiques pour sÃ©curiser vos chantiers.
+          Analyses de cas réels, réglementation sénégalaise et bonnes pratiques pour sécuriser vos chantiers.
         </p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <!-- Carte 1 -->
         <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
           <div class="h-48 overflow-hidden relative">
-            <img src="assets/img/hero_accidents_chantier_1790921176621.jpg" alt="SÃ©curitÃ© chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
-            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">SÃ©curitÃ©</span>
+            <img src="assets/img/hero-securite-chantier-senegal-accidents.webp" alt="Sécurité chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
           </div>
           <div class="p-6 flex flex-col flex-grow">
-            <h3 style="font-family: ''Archivo'', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
-              <a href="blog/securite-chantier-senegal-accidents.html" class="hover:text-[#1B4F72] transition-colors">Les 7 accidents les plus frÃ©quents sur les chantiers au SÃ©nÃ©gal</a>
+            <h3 style="font-family: 'Archivo', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+              <a href="blog/securite-chantier-senegal-accidents.html" class="hover:text-[#1B4F72] transition-colors">Les 7 accidents les plus fréquents sur les chantiers au Sénégal</a>
             </h3>
             <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
-              Chutes de hauteur, effondrements de tranchÃ©es, Ã©lectrisations : dÃ©couvrez les dangers majeurs et les mesures de prÃ©vention indispensables.
+              Chutes de hauteur, effondrements de tranchées, électrisations : découvrez les dangers majeurs et les mesures de prévention indispensables.
             </p>
             <a href="blog/securite-chantier-senegal-accidents.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
               <span>Lire le guide</span>
@@ -891,15 +892,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         <!-- Carte 2 -->
         <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
           <div class="h-48 overflow-hidden relative">
-            <img src="assets/img/hero_devis_chantier_1790921202418.jpg" alt="VÃ©rifier devis construction" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
-            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & CoÃ»ts</span>
+            <img src="assets/img/hero-verifier-devis-construction.webp" alt="Vérifier devis construction" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
           </div>
           <div class="p-6 flex flex-col flex-grow">
-            <h3 style="font-family: ''Archivo'', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
-              <a href="blog/verifier-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Comment vÃ©rifier un devis de construction avant de signer</a>
+            <h3 style="font-family: 'Archivo', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+              <a href="blog/verifier-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Comment vérifier un devis de construction avant de signer</a>
             </h3>
             <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
-              La mÃ©thode en 8 points d'un bureau d'Ã©tudes pour repÃ©rer les surfacturations, forfaits abusifs et omissions volontaires.
+              La méthode en 8 points d'un bureau d'études pour repérer les surfacturations, forfaits abusifs et omissions volontaires.
             </p>
             <a href="blog/verifier-devis-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
               <span>Lire le guide</span>
@@ -911,14 +912,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
           <div class="h-48 overflow-hidden relative">
             <img src="assets/img/hero_epi_chantier_1790921192324.jpg" alt="EPI chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
-            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Ã‰quipements</span>
+            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Équipements</span>
           </div>
           <div class="p-6 flex flex-col flex-grow">
-            <h3 style="font-family: ''Archivo'', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
-              <a href="blog/epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">EPI obligatoires sur chantier : la check-list complÃ¨te</a>
+            <h3 style="font-family: 'Archivo', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+              <a href="blog/epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">EPI obligatoires sur chantier : la check-list complète</a>
             </h3>
             <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
-              Casque, chaussures coquÃ©es, harnais, gants : les Ã©quipements vitaux et les responsabilitÃ©s lÃ©gales du maÃ®tre d'ouvrage.
+              Casque, chaussures coquées, harnais, gants : les équipements vitaux et les responsabilités légales du maître d'ouvrage.
             </p>
             <a href="blog/epi-chantier.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
               <span>Lire le guide</span>
@@ -929,7 +930,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
       <div class="text-center">
         <a href="blog/index.html" class="inline-flex items-center space-x-2 px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all">
-          <span>Découvrir tous les 12 articles du Blog</span>
+          <span>Découvrir tous les guides du Blog</span>
           <span>&rarr;</span>
         </a>
       </div>
@@ -937,45 +938,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   </main>
   <!-- FOOTER OFFICIEL -->
   <footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 mt-12 text-slate-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                <!-- Col 1 -->
-                  <div>
-                      <a href="index.html" class="flex items-center space-x-3 group mb-4"><img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto"><span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span></a>
-                    <p class="text-[#0EA5E9] font-bold mb-4">Bâtissez sans angle mort.</p>
-                    <div class="bg-[#0E2A47] p-3 rounded-lg border border-slate-800">
-                        <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
-                    </div>
-                </div>
-                <!-- Col 2 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Ingénierie & Services</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="index.html#services-section" class="hover:text-[#0EA5E9] transition">Esquisse Faisabilité</a></li>
-                        
-                        <li><a href="index.html#services-section" class="hover:text-[#0EA5E9] transition">Audit Devis</a></li>
-                        
-                    </ul>
-                </div>
-                <!-- Col 3 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Rigueur & Méthodologie</h4>
-                                        <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="points-darret.html" class="hover:text-[#0EA5E9] transition">Les 6 Points d'Arrêt</a></li>
-                        <li><a href="guide-diaspora.html" class="hover:text-[#0EA5E9] transition">Guide Diaspora & WhatsApp</a></li>
-                    </ul>
-                </div>
-                <!-- Col 4 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Cadre Légal & Sécurité</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="a-propos.html" class="hover:text-[#0EA5E9] transition">Qui Sommes-Nous</a></li>
-                        <li><a href="mentions-legales.html" class="hover:text-[#0EA5E9] transition">Mentions Légales</a></li>
-                    </ul>
-                </div>
-            </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Col 1 : Marque & Manifeste -->
+        <div>
+          <a href="app_privee.html" class="flex items-center space-x-3 group mb-4">
+            <img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+            <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+          </a>
+          <p class="text-slate-300 font-semibold mb-4 text-sm">Bâtissez sans angle mort.</p>
+          <div class="bg-[#0B1E32] p-3 rounded-lg border border-[#1B4F72]">
+            <p class="text-xs text-slate-300"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
+          </div>
         </div>
-    </footer>
+
+        <!-- Col 2 : Ingénierie & Services -->
+        <div>
+          <h4 class="text-white font-bold mb-4 text-base">Ingénierie & Services</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="#services-section" class="hover:text-white transition-colors">Esquisse Faisabilité</a></li>
+            <li><a href="#services-section" class="hover:text-white transition-colors">Audit Devis</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 : Cadre Légal & Société -->
+        <div>
+          <h4 class="text-white font-bold mb-4 text-base">Cadre Légal & Société</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="a-propos.html" class="hover:text-white transition-colors">Qui Sommes-Nous</a></li>
+            <li><a href="mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales</a></li>
+            <li><a href="blog/index.html" class="hover:text-white transition-colors">Blog</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('mobile-menu-toggle');
@@ -1023,7 +1020,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         <!-- Badge Sécurité TLS -->
         <div class="flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-[#0EA5E9]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+          <svg class="w-3.5 h-3.5 text-[#0E2A47]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
           <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
         </div>
         <!-- Badge CDP Sénégal -->
@@ -1300,8 +1297,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const cardsHtml = incoherences.map((item) => {
               if (item.type === 'gabarit') {
                 return `
-                  <div class="bg-[#0E2A47]/90 border border-[#0EA5E9]/30 rounded-xl p-4 space-y-3">
-                    <div class="flex items-center gap-2 text-[#0EA5E9] font-semibold text-sm">
+                  <div class="bg-[#0E2A47]/90 border border-[#1B4F72]/30 rounded-xl p-4 space-y-3">
+                    <div class="flex items-center gap-2 text-[#0E2A47] font-semibold text-sm">
                       <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
@@ -1322,7 +1319,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                       </div>
                       <div class="sm:col-span-2">
                         <span class="text-slate-400">Écart constaté :</span>
-                        <span class="font-semibold text-[#0EA5E9] ml-1">${item.depassement}</span>
+                        <span class="font-semibold text-[#0E2A47] ml-1">${item.depassement}</span>
                       </div>
                     </div>
                     <p class="text-[11px] leading-relaxed text-slate-200 bg-[#0E2A47]/40 border border-[#1B4F72] p-2.5 rounded-lg">
@@ -1334,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return `
                   <div class="bg-[#0E2A47]/90 border border-slate-700/60 rounded-xl p-4 space-y-2">
                     <div class="flex items-center gap-2 text-slate-200 font-semibold text-sm">
-                      <svg class="w-4 h-4 shrink-0 text-[#0EA5E9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-4 h-4 shrink-0 text-[#0E2A47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                       </svg>
                       <span>${item.title}</span>
@@ -1347,13 +1344,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             overlay.innerHTML = `
               <div class="relative w-full max-w-lg bg-[#0F172A] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col my-8">
                 <div class="p-5 border-[#0E2A47] border-slate-800 flex items-start gap-3 bg-gradient-to-r from-slate-900 to-[#0F172A]">
-                  <div class="w-10 h-10 rounded-xl bg-[#0EA5E9]/10 border border-[#0EA5E9]/20 flex items-center justify-center text-[#0EA5E9] shrink-0">
+                  <div class="w-10 h-10 rounded-xl bg-[#1B4F72]/10 border border-[#1B4F72]/20 flex items-center justify-center text-[#0E2A47] shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h3 style="font-family: 'Archivo', sans-serif;" id="coherence-modal-title" class="text-[#0E2A47]ase font-bold text-white leading-snug">
+                    <h3 style="font-family: 'Archivo', sans-serif;" id="coherence-modal-title" class="text-base font-bold text-white leading-snug">
                       Points d'attention — Analyse indicative d'urbanisme
                     </h3>
                     <p class="text-xs text-slate-400 mt-0.5">
@@ -1582,7 +1579,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0) {
             const errModal = document.createElement('div');
             errModal.id = 'pdf-error-modal';
-            errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
+            errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
             errModal.innerHTML = `
               <div class="bg-white border-b border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
                 <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
@@ -1598,13 +1595,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           // Modale succès Audit
           const modal = document.createElement('div');
           modal.id = 'pdf-success-modal';
-          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
+          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
           modal.innerHTML = `
-            <div class="bg-white border-b border-[#0EA5E9] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+            <div class="bg-white border-b border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
               <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-              <div class="w-16 h-16 bg-[#0EA5E9]/20 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
+              <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
               <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
-              <button id="btn-force-download" class="w-full py-4 bg-[#0EA5E9] hover:bg-[#0EA5E9] text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-[#0E2A47]ase cursor-pointer">
+              <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
                 📥 Télécharger mon Rapport PDF
               </button>
             </div>
@@ -1675,14 +1672,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Création d'une modale visible à l'écran
         const modal = document.createElement('div');
         modal.id = 'pdf-success-modal';
-        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]lack/80 backdrop-blur-sm p-4';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
         modal.innerHTML = `
-          <div class="bg-white border-b border-[#0EA5E9] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
+          <div class="bg-white border-b border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
               <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-            <div class="w-16 h-16 bg-[#0EA5E9]/20 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
+            <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
             <h3 style="font-family: 'Archivo', sans-serif;" id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
-            <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#0EA5E9] uppercase">${s}</strong> est prêt.</p>
-            <button id="btn-force-download" class="w-full py-4 bg-[#0EA5E9] hover:bg-[#0EA5E9] text-slate-950 font-extrabold rounded-xl shadow-lg transition-all text-[#0E2A47]ase cursor-pointer">
+            <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#0E2A47] uppercase">${s}</strong> est prêt.</p>
+            <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
               📥 Télécharger mon Rapport PDF
             </button>
             <p id="pdf-status" class="text-xs text-slate-700 font-medium">Le téléchargement démarre également en arrière-plan...</p>
@@ -1715,7 +1712,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                   <div class="mt-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-left">
                     <span class="text-rose-600 font-bold">${err.message}</span>
                   </div>
-                  <button id="btn-return-validation" class="mt-4 w-full py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-all text-[#0E2A47]ase cursor-pointer">
+                  <button id="btn-return-validation" class="mt-4 w-full py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-all text-base cursor-pointer">
                     Retourner à l'écran de validation
                   </button>
                 `;
@@ -1743,7 +1740,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const idx = window.devisLineCount;
     const div = document.createElement('div');
     div.className = 'devis-line-item bg-white border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-4 relative';
-    div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-[#0EA5E9] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
+    div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-[#0E2A47] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
       
       <div class="w-full md:w-3/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Lot / Macro-Lot</label>
