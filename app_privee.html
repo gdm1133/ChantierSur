@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
+  <!-- CANARY-CORRECTIF-20261010 -->
   <!-- CANARY-FRONTEND-FINAL-20261010 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -1003,6 +1004,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
               });
             }
+
+            function handleHash() {
+              const h = window.location.hash.toLowerCase();
+              if (h === '#audit' || h === '#pane-3') {
+                if (typeof window.switchTab === 'function') window.switchTab(3);
+              } else if (h === '#esquisse' || h === '#pane-1') {
+                if (typeof window.switchTab === 'function') window.switchTab(1);
+              }
+            }
+            handleHash();
+            window.addEventListener('hashchange', handleHash);
         });
     </script>
 <!-- SOUS-PIED DE PAGE INSTITUTIONNEL & LÉGAL -->

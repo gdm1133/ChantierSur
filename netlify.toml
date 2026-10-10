@@ -5,3 +5,16 @@
 [functions]
   included_files = ["netlify/functions/generer-audit-pdf/*.ttf"]
 
+
+
+[[redirects]]
+  from = "/points-darret.html"
+  to = "/blog/points-darret.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/guide-diaspora.html"
+  to = "/blog/guide-diaspora.html"
+  status = 301
+  force = true
