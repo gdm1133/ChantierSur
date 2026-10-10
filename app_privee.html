@@ -1,53 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
+  <!-- CANARY-HOMEPAGE-20261010 -->
   <!-- CANARY-CORRECTIF-20261010 -->
-  <!-- CANARY-FRONTEND-FINAL-20261010 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <!-- SEO & Open Graph / Réseaux Sociaux -->
-  <meta name="keywords" content="construction sénégal, bureau d'études dakar, devis BTP sénégal, ingénierie civile, audit chantier, construire au sénégal diaspora, Audit bâtiment">
+  <meta name="keywords" content="construction sénégal, bureau d'études dakar, audit devis BTP sénégal, ingénierie civile dakar, esquisse faisabilité sénégal, construire au sénégal diaspora">
   <meta name="author" content="ChantierSur Technologies SARL">
   
   <meta property="og:title" content="ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal">
-  <meta property="og:description" content="Sécurisez votre construction au Sénégal. Chiffrage exact aux états limites, Audit de devis et conformité structurelle et juridique.">
-  <meta property="og:image" content="https://chantiersur.com/assets/img/hero-verifier-devis-construction.webp">
+  <meta property="og:description" content="Bâtissez au Sénégal sans angle mort. Bureau d'études indépendant : études d'esquisse et contre-expertise de devis BTP.">
+  <meta property="og:image" content="https://chantiersur.com/assets/img/hero-homepage.webp">
   <meta property="og:url" content="https://chantiersur.com">
   <meta property="og:type" content="website">
+  
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ChantierSur.com | Audit BTP Sénégal">
+  <meta name="twitter:title" content="ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal">
   <meta name="twitter:description" content="Bâtissez au Sénégal sans angle mort ni surfacturation.">
-  <meta name="twitter:image" content="https://chantiersur.com/assets/img/hero-verifier-devis-construction.webp">
+  <meta name="twitter:image" content="https://chantiersur.com/assets/img/hero-homepage.webp">
+  
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/logo/logo-a-favicon.png">
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
-  <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact , Audit de devis et conformité structurelle et juridique.">
+  <meta name="description" content="Bâtissez au Sénégal sans angle mort. Bureau d'études indépendant : études d'esquisse et contre-expertise de devis de construction.">
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <!-- Google Fonts: Inter & Archivo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
-    .tab-card { transition: all 0.2s ease-in-out; }
+    :root {
+      --primary-navy: #0E2A47;
+      --accent-blue: #1B4F72;
+      --light-bg: #F8FAFC;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1E293B;
+      background-color: var(--light-bg);
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Archivo', sans-serif;
+    }
   </style>
 </head>
-<body class="bg-white text-[#0E2A47] min-h-screen flex flex-col antialiased selection:bg-[#0E2A47] selection:text-white">
-  <!-- TOPBAR RÉGLEMENTAIRE -->
+<body class="bg-[#F8FAFC] text-[#0E2A47] min-h-screen flex flex-col antialiased selection:bg-[#0E2A47] selection:text-white">
+
+  <!-- TOPBAR RÉGLEMENTAIRE UNIFIÉE -->
   <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
-          Conformité juridique
+          Conformité réglementaire & juridique
         </span>
         <span class="hidden sm:inline">•</span>
-        <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
+        <span class="whitespace-nowrap">Bureau d'études d'ingénierie indépendant</span>
       </div>
       <div class="flex items-center space-x-4">
-        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors">admin@chantiersur.com</a></span>
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-slate-300 hover:text-white transition-colors font-bold">admin@chantiersur.com</a></span>
         <div class="flex items-center space-x-2">
           <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
-          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+          <select id="currency-select" onchange="window.updateCurrencyDisplay()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
             <option value="XOF" selected>FCFA (XOF)</option>
             <option value="EUR">Euro (€)</option>
             <option value="USD">Dollar US ($)</option>
@@ -57,871 +78,401 @@
       </div>
     </div>
   </div>
+
   <!-- NAVIGATION HEADER -->
   <header class="bg-[#0E2A47] border-b border-[#1B4F72] sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      
-      <!-- LOGO SANS SOUS-TITRE -->
-      <a href="app_privee.html" class="flex items-center space-x-3 group"><img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto"><span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span></a>
-      <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
+      <a href="app_privee.html" class="flex items-center space-x-3 group">
+        <img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+        <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+      </a>
       <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
         <a href="#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
-        <a href="a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a> <a href="blog/index.html" class="text-slate-300 hover:text-white transition-colors">Blog</a>
+        <a href="a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a>
+        <a href="blog/index.html" class="text-slate-300 hover:text-white transition-colors">Blog</a>
       </nav>
-      <!-- MENU BURGER MOBILE -->
+      <div class="hidden sm:flex items-center space-x-4">
+        <a href="#services-section" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all shadow-md">
+          Nos Services & Tarifs
+        </a>
+      </div>
       <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white focus:outline-none" aria-label="Menu Mobile">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
     </div>
-    <!-- TIROIR DÉROULANT MOBILE -->
-    <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg"><a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a><a href="a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a><a href="blog/index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a></div>
+    <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg">
+      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a>
+      <a href="a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
+      <a href="blog/index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a>
+      <a href="#services-section" onclick="toggleMobileMenu()" class="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all">Nos Services & Tarifs</a>
+    </div>
   </header>
-  <!-- HERO SECTION AVEC VIDÉO -->
-  <section class="relative w-full h-[60vh] min-h-[400px] sm:h-[70vh] flex items-center justify-center overflow-hidden border-[#0E2A47] border-slate-200 bg-slate-100">
-    <!-- Vidéo en arrière-plan -->
-    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-screen">
-      <source src="assets/video/marketing_video.mp4" type="video/mp4">
-      Votre navigateur ne supporte pas la vidéo.
-    </video>
+
+  <!-- HERO SECTION ATTRACTIVE AVEC IMAGE DE FOND SÉNÉGALAISE -->
+  <section class="relative min-h-[580px] sm:min-h-[640px] flex items-center justify-center overflow-hidden bg-[#0E2A47] text-white">
+    <!-- Image de fond sobre avec overlay institutionnel -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" style="background-image: url('assets/img/hero-homepage.webp');"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0E2A47] via-[#0E2A47]/90 to-[#1B4F72]/85"></div>
     
-    <!-- Overlay de dégradé pour améliorer la lisibilité du texte -->
-    <div class="absolute inset-0 bg-gradient-to-b from-white/90 via-slate-50/75 to-[#F8FAFC] pointer-events-none"></div>
     <!-- Contenu du Hero -->
-    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 mt-8">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold tracking-widest uppercase shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-[#1B4F72] animate-pulse"></span>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 py-16 sm:py-24">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#EAF0F6] text-xs font-bold tracking-widest uppercase shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>DE LA CONFIANCE AVEUGLE À LA PREUVE</span>
       </div>
-      <h1 style="font-family: 'Archivo', sans-serif;" class="text-4xl sm:text-6xl font-black text-[#0E2A47] tracking-tight leading-tight">
+      
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-tight">
         Bâtissez au Sénégal <br class="hidden sm:block" />
-        <span class="text-[#0E2A47]">sans angle mort.</span>
+        <span class="text-white">sans angle mort.</span>
       </h1>
-      <p class="text-lg sm:text-xl text-slate-700 max-w-2xl mx-auto font-medium">
-        L'expertise d'un bureau d'études pour sécuriser vos investissements : ingénierie numérique, métrés précis et aide à la décision.
+      
+      <p class="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed">
+        Bureau d'études indépendant & plateforme d'ingénierie numérique. Nous auditons vos devis, recalculons vos métrés et validons votre implantation foncière avec une rigueur mathématique absolue. Protégez votre investissement des surfacturations et des vices de construction.
       </p>
       
-      <div class="pt-6 flex justify-center">
-          <a href="#services-section" class="group px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl hover:-translate-y-1 text-lg flex items-center space-x-2">
-            <span>Démarrer mon Audit Technique</span>
-            <svg class="w-6 h-6 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-          </a>
+      <!-- 2 BOUTONS UNIQUEMENT DANS LE HERO -->
+      <div class="pt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+        <a href="esquisse-faisabilite.html" class="w-full sm:w-auto px-8 py-4 bg-[#EAF0F6] hover:bg-white text-[#0E2A47] font-extrabold rounded-xl transition-all shadow-xl hover:-translate-y-0.5 text-base flex items-center justify-center space-x-2">
+          <span>Esquisse & Faisabilité</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="audit-devis.html" class="w-full sm:w-auto px-8 py-4 bg-[#1B4F72] hover:bg-[#23689b] text-white font-extrabold rounded-xl border border-white/30 transition-all shadow-xl hover:-translate-y-0.5 text-base flex items-center justify-center space-x-2">
+          <span>Audit Devis</span>
+          <span>&rarr;</span>
+        </a>
       </div>
     </div>
   </section>
-  <!-- SECTION PRINCIPALE : SIMULATEUR & SERVICES -->
-  <main id="services-section" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-    <div class="text-center mb-8">
-      <h2 style="font-family: 'Archivo', sans-serif;" class="text-2xl sm:text-2xl font-bold text-[#0E2A47]">Nos Formules d'Ingénierie & Devis Immédiats</h2>
-      <p class="text-slate-700 font-medium text-sm mt-1">Sélectionnez une formule pour paramétrer votre dossier technique</p>
-    </div>
-    <!-- LES 4 BOUTONS ONGLETS DÉCLENCHEURS DIRECTS -->
-    <div class="max-w-3xl mx-auto flex flex-col sm:flex-row justify-center items-stretch gap-6 mb-10">
-      
-      <!-- ONGLET 1 -->
-      <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card flex-1 max-w-sm text-left p-6 sm:p-8 rounded-[16px] bg-white border border-[#EAF0F6] hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(14,42,71,0.1)] focus:outline-none focus:ring-2 focus:ring-[#B8C9DB] focus:ring-offset-2 transition-all duration-250 cursor-pointer">
-        <h3 style="font-family: 'Archivo', sans-serif;" class="text-[20px] sm:text-[22px] font-bold text-[#0E2A47] mb-3">Esquisse & Faisabilité</h3>
-        <p class="text-[16px] text-[#1A1A1A] leading-[1.6]">Implantation, gabarit parcellaire et faisabilité structurelle.</p>
-      </button>
-      <!-- ONGLET 3 -->
-      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card flex-1 max-w-sm text-left p-6 sm:p-8 rounded-[16px] bg-white border border-[#EAF0F6] hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(14,42,71,0.1)] focus:outline-none focus:ring-2 focus:ring-[#B8C9DB] focus:ring-offset-2 transition-all duration-250 cursor-pointer hover:border-[#B8C9DB] hover:shadow-[0_10px_25px_rgba(14,42,71,0.08)]">
-        <h3 style="font-family: 'Archivo', sans-serif;" class="text-[20px] sm:text-[22px] font-bold text-[#0E2A47] mb-3">Audit Devis</h3>
-        <p class="text-[16px] text-[#1A1A1A] leading-[1.6]">Détection des surfacturations & ratios matériaux stricts.</p>
-      </button>
-    </div>
-    <!-- CONTENEUR DES FORMULAIRES -->
-    <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl relative">
-      
-      <!-- ============================================== -->
-      <!-- FORMULAIRE 1 : ESQUISSE & FAISABILITÉ          -->
-      <!-- ============================================== -->
-      <form id="pane-1" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
-  
-  <!-- EN-TÊTE DU FORMULAIRE & STEPPER -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between border-[#0E2A47] border-slate-200 pb-6 gap-4">
-    <div>
-      <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-[#0E2A47]">1. Dossier d'Esquisse & Faisabilité Technique</h3>
-      <p class="text-xs text-slate-700 font-medium mt-0.5">Étude nominative préalable • Règles d'urbanisme DUA</p>
-    </div>
-    <div class="flex items-center space-x-3">
-      <div class="bullet-1 w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow">1</div>
-      <div class="w-8 h-0.5 bg-slate-300"></div>
-      <div class="bullet-2 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm">2</div>
-      <div class="w-8 h-0.5 bg-slate-300"></div>
-      <div class="bullet-3 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm">3</div>
-    </div>
-  </div>
-  <!-- ÉTAPE 1 : GÉOMÉTRIE DE LA PARCELLE & GABARIT -->
-  <div class="step-container step-1 space-y-6">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface totale parcelle (m²)</label>
-        <input type="number" name="surface" value="200" min="50" max="3000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Façade principale sur rue (m)</label>
-        <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-        <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-          <option value="0">RDC Simple (Villa plain-pied)</option>
-          <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
-          <option value="2">R+2 (Immeuble R+2)</option>
-          <option value="3">R+3 (Immeuble R+3)</option>
-          <option value="4">R+4 (Immeuble R+4)</option>
-          <option value="5">R+5 (Immeuble R+5)</option>
-          <option value="6">R+6 (Immeuble R+6)</option>
-          <option value="7">R+7 (Immeuble R+7)</option>
-          <option value="8">R+8 (Immeuble R+8)</option>
-          <option value="9">R+9 (Immeuble R+9)</option>
-          <option value="10">R+10 (Tour / Immeuble R+10)</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Configuration de la parcelle</label>
-        <select name="parcel_config" id="parcel-config-select" onchange="window.handleParcelConfigChange(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
-          <option value="bande" selected>En bande (1 façade sur rue)</option>
-          <option value="angle">En angle (2 façades sur rues)</option>
-          <option value="traversante">Traversante (2 façades opposées)</option>
-          <option value="isolee">Isolée (4 côtés dégagés)</option>
-        </select>
-      </div>
-      
-      <!-- CHAMP CONDITIONNEL SECONDE FAÇADE (MASQUÉ PAR DÉFAUT) -->
-      <div id="facade-2-container" class="hidden">
-        <label class="block text-xs font-bold text-[#0E2A47] uppercase mb-2">2nde Façade sur rue (m)</label>
-        <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-[#F0F9FF]/40 border-[#0E2A47] border-[#1B4F72] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
-        <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
-          <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
-          <option value="locatif">Immeuble locatif / Appartements</option>
-          <option value="mixte">Mixte (Commerce RDC + Logements)</option>
-          <option value="bureaux">Bureaux tertiaires / Professionnel</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Standing de construction</label>
-        <select name="standing" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
-          <option value="moyen" selected>Moyen Standing (Équilibré & Robuste)</option>
-          <option value="economique">Économique / Locatif standard</option>
-          <option value="haut">Haut Standing (Prestations Premium)</option>
-        </select>
-      </div>
-    </div>
-    <div class="flex justify-end pt-4">
-      <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
-        <span>Suivant</span>
-        <span>&rarr;</span>
-      </button>
-    </div>
-  </div>
-  <!-- ÉTAPE 2 : SOL, ASSAINISSEMENT & TITRE FONCIER -->
-  <div class="step-container step-2 hidden space-y-6">
-    <div>
-      <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
-      <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-        <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
-          <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Zone rocheuse/marine - Enrobage 4,5 cm)</option>
-          <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
-          <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
-        </optgroup>
-        <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
-          <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Cuvelage/Drainage)</option>
-          <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
-        </optgroup>
-        <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
-          <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
-          <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
-        </optgroup>
-        <optgroup label="📍 Régions & Petite Côte">
-          <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
-          <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique stable)</option>
-          <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Statut Juridique Foncier</label>
-        <select name="land_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
-          <option value="Titre Foncier (TF)" selected>Titre Foncier Définitif (TF)</option>
-          <option value="Bail Emphytéotique">Bail Emphytéotique de l'État</option>
-          <option value="Délibération Communale">Délibération Communale / Affectation</option>
-          <option value="En cours de régularisation">En cours de régularisation foncière</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro de Titre Foncier / Lot / NICAD</label>
-        <input type="text" name="lot_number" placeholder="Ex: TF N° 12.845/DP ou Lot N° 45" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Raccordement Assainissement Eaux Usées</label>
-        <select name="sanitation_type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
-          <option value="autonome" selected>Fosse toutes eaux étanche + Puits perdu (Autonome)</option>
-          <option value="onas">Réseau collectif public ONAS existant</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">État de la mitoyenneté directe</label>
-        <select name="neighbor_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
-          <option value="vide" selected>Parcelles voisines nues (non bâties)</option>
-          <option value="bati_un_cote">Bâtiment mitoyen existant sur un côté</option>
-          <option value="bati_deux_cotes">Bâtiments mitoyens sur les deux côtés</option>
-        </select>
-      </div>
-    </div>
-    <div class="flex justify-between pt-4">
-      <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
-      <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
-        <span>Suivant</span>
-        <span>&rarr;</span>
-      </button>
-    </div>
-  </div>
-  <!-- ÉTAPE 3 : DONNÉES PERSONNELLES DU MAÎTRE D'OUVRAGE & PAIEMENT -->
-  <div class="step-container step-3 hidden space-y-6">
-    <div class="bg-[#F0F9FF]/80 border border-[#1B4F72] p-4 rounded-xl flex items-center justify-between">
-      <div>
-        <p class="text-xs uppercase font-bold text-[#0E2A47]">Total Prestation d'Étude Personnalisée</p>
-        <div class="flex items-baseline space-x-2 mt-0.5">
-          <span id="price-val-1" class="text-2xl font-black text-[#0E2A47]">149 000 FCFA</span>
-          <span id="price-converted-1" class="text-xs text-[#5A6C7D] font-bold">(≈ 227 €)</span>
+
+  <!-- BANDEAU DE CONFIANCE & RÉASSURANCE -->
+  <section class="bg-white border-y border-slate-200 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+      <div class="flex flex-col items-center p-4">
+        <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center mb-3 text-xl font-bold">
+          ⚖️
         </div>
+        <h3 class="font-bold text-base text-[#0E2A47] mb-1">Bureau d'Études Indépendant</h3>
+        <p class="text-xs text-slate-600 max-w-xs">Aucune affiliation commerciale avec les entrepreneurs ou artisans. Notre expertise est 100% impartiale.</p>
+      </div>
+
+      <div class="flex flex-col items-center p-4">
+        <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center mb-3 text-xl font-bold">
+          🔒
+        </div>
+        <h3 class="font-bold text-base text-[#0E2A47] mb-1">Chiffrement TLS 1.3 & Confidentialité</h3>
+        <p class="text-xs text-slate-600 max-w-xs">Vos données personnelles, plans et devis techniques sont cryptés et protégés par le secret professionnel.</p>
+      </div>
+
+      <div class="flex flex-col items-center p-4">
+        <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center mb-3 text-xl font-bold">
+          💳
+        </div>
+        <h3 class="font-bold text-base text-[#0E2A47] mb-1">Paiements Sécurisés BCEAO</h3>
+        <p class="text-xs text-slate-600 max-w-xs">Règlement instantané et protégé par Wave, Orange Money et Cartes Bancaires (Visa, Mastercard).</p>
       </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label>
-        <input type="text" name="client_name" placeholder="Ex: El Hadji Abdoulaye Diop" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
+  </section>
+
+  <!-- SECTION SERVICES : 2 CARTES VISUELLES (AUCUN FORMULAIRE) -->
+  <section id="services-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-3">
+        <span>Expertise & Ingénierie Préventive</span>
       </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Adresse Email (Envoi & Archives)</label>
-        <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0E2A47]">
+        Nos Prestations d'Ingénierie
+      </h2>
+      <p class="text-slate-600 max-w-2xl mx-auto text-base mt-2">
+        Choisissez l'étude adaptée à l'avancement de votre projet immobilier pour obtenir un chiffrage et une conformité rigoureuse.
+      </p>
     </div>
-    <div>
-      <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
-      <div class="flex">
-        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
-          <option value="+221" selected>🇸🇳 SN (+221)</option>
-          <option value="+33">🇫🇷 FR (+33)</option>
-          <option value="+39">🇮🇹 IT (+39)</option>
-          <option value="+34">🇪🇸 ES (+34)</option>
-          <option value="+1">🇺🇸 US (+1)</option>
-          <option value="+1">🇨🇦 CA (+1)</option>
-          <option value="+225">🇨🇮 CI (+225)</option>
-          <option value="+241">🇬🇦 GA (+241)</option>
-          <option value="+222">🇲🇷 MR (+222)</option>
-          <option value="+220">🇬🇲 GM (+220)</option>
-          <option value="+223">🇲🇱 ML (+223)</option>
-          <option value="+212">🇲🇦 MA (+212)</option>
-          <option value="+32">🇧🇪 BE (+32)</option>
-          <option value="+49">🇩🇪 DE (+49)</option>
-          <option value="+44">🇬🇧 UK (+44)</option>
-          <option value="+41">🇨🇭 CH (+41)</option>
-          <option value="+242">🇨🇬 CG (+242)</option>
-          <option value="+243">🇨🇩 CD (+243)</option>
-          <option value="+971">🇦🇪 AE (+971)</option>
-          <option value="+966">🇸🇦 SA (+966)</option>
-          <option value="+224">🇬🇳 GN (+224)</option>
-        </select>
-        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
-      </div>
-      <p class="text-[11px] text-slate-700 font-medium mt-1">Ce numéro figurera sur le rapport pour authentifier la propriété du dossier.</p>
-    </div>
-    <div class="flex justify-between items-center pt-4">
-      <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
-      <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
-        <span>Éditer mon Rapport d'Esquisse</span>
-        <span>&rarr;</span>
-      </button>
-    </div>
-  </div>
-</form>
-      <!-- ============================================== -->
-      <!-- FORMULAIRE 2 : BQE GROS ŒUVRE EXPRESS          -->
-      <!-- ============================================== -->
-<!-- ============================================== -->
-<!-- FORMULAIRE 2 : BQE GROS ŒUVRE EXPRESS (BUDGET) -->
-<!-- ============================================== -->
-  <!-- FORMULAIRE 3 : Audit Devis BTP -->
-  <!-- ============================================== -->
-  <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
-  <!-- 2.1 Bloc Informations du client -->
-  <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0E2A47]">Informations du client</h4>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom complet</label>
-            <input type="text" name="client_name" placeholder="Nom complet" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <!-- CARTE 1 : ESQUISSE & FAISABILITÉ -->
+      <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group">
+        <div class="h-64 overflow-hidden relative">
+          <img src="assets/img/service-card-esquisse.webp" alt="Étude d'esquisse et faisabilité de terrain au Sénégal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E2A47]/80 via-transparent to-transparent"></div>
+          <span class="absolute top-4 left-4 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow">
+            Foncier & Urbanisme
+          </span>
+          <span class="absolute bottom-4 left-4 text-white font-bold text-sm">
+            Décret n° 2025-1194 • Loi n° 2023-20
+          </span>
         </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Email</label>
-            <input type="email" name="client_email" placeholder="Email" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-        </div>
-    </div>
-    
-    <div>
-      <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
-      <div class="flex">
-        <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
-          <option value="+221" selected>🇸🇳 SN (+221)</option>
-          <option value="+33">🇫🇷 FR (+33)</option>
-          <option value="+39">🇮🇹 IT (+39)</option>
-          <option value="+34">🇪🇸 ES (+34)</option>
-          <option value="+1">🇺🇸 US (+1)</option>
-          <option value="+1">🇨🇦 CA (+1)</option>
-          <option value="+225">🇨🇮 CI (+225)</option>
-          <option value="+241">🇬🇦 GA (+241)</option>
-          <option value="+222">🇲🇷 MR (+222)</option>
-          <option value="+220">🇬🇲 GM (+220)</option>
-          <option value="+223">🇲🇱 ML (+223)</option>
-          <option value="+212">🇲🇦 MA (+212)</option>
-          <option value="+32">🇧🇪 BE (+32)</option>
-          <option value="+49">🇩🇪 DE (+49)</option>
-          <option value="+44">🇬🇧 UK (+44)</option>
-          <option value="+41">🇨🇭 CH (+41)</option>
-          <option value="+242">🇨🇬 CG (+242)</option>
-          <option value="+243">🇨🇩 CD (+243)</option>
-          <option value="+971">🇦🇪 AE (+971)</option>
-          <option value="+966">🇸🇦 SA (+966)</option>
-          <option value="+224">🇬🇳 GN (+224)</option>
-        </select>
-        <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none font-mono text-sm transition-all" required>
-      </div>
-    </div>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Ville</label>
-            <input type="text" name="client_city" placeholder="Ville" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
-            <select name="exact_levels" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
-              <option value="0">RDC Simple (Villa plain-pied)</option>
-              <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
-              <option value="2">R+2 (Immeuble R+2)</option>
-              <option value="3">R+3 (Immeuble R+3)</option>
-              <option value="4">R+4 (Immeuble R+4)</option>
-              <option value="5">R+5 (Immeuble R+5)</option>
-              <option value="6">R+6 (Immeuble R+6)</option>
-              <option value="7">R+7 (Immeuble R+7)</option>
-              <option value="8">R+8 (Immeuble R+8)</option>
-              <option value="9">R+9 (Immeuble R+9)</option>
-              <option value="10">R+10 (Tour / Immeuble R+10)</option>
-            </select>
-        </div>
-    </div>
-  </div>
-  <!-- 2.1b Bloc Identification du Devis -->
-  <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0E2A47]">Identification du devis</h4>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet du devis (Type de projet) <span class="text-red-500">*</span></label>
-            <input type="text" name="devis_object" placeholder="Ex: Construction d'une villa R+1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3" required>
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom de l'entreprise / Tâcheron</label>
-            <input type="text" name="devis_company" placeholder="Ex: Eiffage Sénégal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Date du devis</label>
-            <input type="date" name="devis_date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA</label>
-            <input type="text" name="devis_ninea" placeholder="Numéro d'identification nationale" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">RCCM</label>
-            <input type="text" name="devis_rccm" placeholder="Registre de commerce" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
-    </div>
-  </div>
-  <!-- 2.2 Bloc Import et Validation OCR Mistral -->
-  <div class="step-container space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-200" id="ocr-upload-section">
-    <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis (Recommandé)</h4>
-    <p class="text-sm text-slate-600 mb-4">
-      Prenez les pages en photo UNE PAR UNE. Vérifiez que la lumière est suffisante et le texte bien net.
-    </p>
-    
-    <label class="cursor-pointer bg-white border-[#0E2A47] border-dashed border-slate-300 hover:border-[#0E2A47] rounded-xl p-8 flex flex-col items-center justify-center transition-colors group">
-      <svg class="w-12 h-12 text-slate-400 group-hover:text-[#0E2A47] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-      <span class="text-slate-800 font-bold text-center">Photographier une page</span>
-      <span class="text-xs text-slate-500 mt-2 text-center">Répétez l'opération pour chaque page du devis</span>
-      <input type="file" accept="image/*" capture="environment" id="ocr-camera-input" class="hidden" onchange="window.handleOCRPhotoSelect(event)">
-    </label>
-    <div id="ocr-thumbnails-container" class="flex flex-wrap gap-4 mt-4 hidden"></div>
-    
-    <div id="ocr-loading-indicator" class="hidden text-center p-4">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-[#0E2A47]-2 border-[#0E2A47]"></div>
-      <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse du document en cours...</p>
-    </div>
-    <div class="flex justify-end mt-4">
-        <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors shadow-lg disabled:bg-slate-400">Lancer l'analyse des pages</button>
-    </div>
-    <p class="text-[10px] text-slate-500 text-center mt-2">
-      En continuant, vous acceptez que les photos soient traitées de manière sécurisée pour l'extraction. Elles sont supprimées immédiatement après traitement.
-    </p>
-  </div>
-  <!-- Ecran de Validation OCR -->
-  <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-xl border-[#0E2A47] border-[#0E2A47] shadow-lg">
-    <h4 class="text-lg font-bold text-[#0E2A47]">Validation des lignes détectées</h4>
-    <p class="text-sm text-[#0E2A47] bg-[#F0F9FF] p-3 rounded-lg font-medium border border-[#1B4F72]">
-      ⚠️ Vérifiez attentivement les lignes ci-dessous. Modifiez les erreurs éventuelles avant de valider. Les lignes non valides ne seront pas intégrées à l'audit.
-    </p>
-    <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-sm">
-            <thead>
-                <tr class="bg-slate-100 border-[#0E2A47] border-slate-300 text-slate-700">
-                    <th class="p-2 font-bold">Lot</th>
-                    <th class="p-2 font-bold">Désignation</th>
-                    <th class="p-2 font-bold w-20">Unité</th>
-                    <th class="p-2 font-bold w-24">Quantité</th>
-                    <th class="p-2 font-bold w-32">PU HT</th>
-                    <th class="p-2 font-bold w-32">Montant</th>
-                    <th class="p-2 text-center w-12">Action</th>
-                </tr>
-            </thead>
-            <tbody id="ocr-validation-table-body">
-                <!-- Rows injected by JS -->
-            </tbody>
-        </table>
-    </div>
-    <div class="flex justify-end gap-4 mt-4">
-        <button type="button" onclick="window.cancelOCR()" class="px-4 py-2 text-slate-600 hover:text-[#0E2A47] font-bold">Annuler</button>
-        <button type="button" onclick="window.confirmOCR()" class="px-6 py-2 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors">Valider ces lignes</button>
-    </div>
-  </div>
-  <canvas id="ocr-canvas" style="display:none;"></canvas>
-  <!-- 2.3 Bloc Lots du devis (Saisie manuelle / Récap) -->
-  <div class="step-container space-y-6">
-    <div class="flex justify-between items-center">
-        <h4 class="text-lg font-bold text-[#0E2A47]">Lots validés (Saisie manuelle)</h4>
-        <button type="button" onclick="window.addV5Lot()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors">+ Ajouter un lot manuel</button>
-    </div>
-    <div id="v5-lots-container" class="space-y-4"></div>
-  </div>
-  <!-- 2.4 Bloc Totaux -->
-  <div class="step-container space-y-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-    <h4 class="text-lg font-bold text-[#0E2A47]">Totaux du devis</h4>
-    <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total HT indiqué sur le devis (FCFA) <span class="text-red-500">*</span></label>
-        <input type="number" name="devis_total_ht" placeholder="Ex: 15000000" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none" required>
-        <p class="text-[10px] text-slate-500 mt-1">Le montant exact écrit par l'entrepreneur, même s'il est faux.</p>
-    </div>
-    <div class="flex justify-between items-center">
-      <span class="font-bold text-sm">Taux TVA (%) :</span>
-      <input type="number" id="v5-tva-rate" name="devis_tva_taux" value="18" oninput="window.calcV5TotalsState()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-2 text-right font-bold">
-    </div>
-    
-    <div class="mt-4 pt-4 border-t border-slate-300">
-        <h5 class="text-sm font-bold text-[#0E2A47] mb-2">Calcul automatique (selon vos lignes)</h5>
-        <div class="flex justify-between text-sm text-slate-600 mb-1"><span>Total HT Recalculé :</span><span id="v5-total-ht" class="font-mono">0</span></div>
-        <div class="flex justify-between font-bold text-lg text-[#0E2A47] pt-1"><span>Total TTC Recalculé :</span><span id="v5-total-ttc" class="font-mono">0</span></div>
-    </div>
-  </div>
-  <!-- 2.5 Bloc Conditions contractuelles -->
-  <div class="step-container space-y-6">
-    <h4 class="text-lg font-bold text-[#0E2A47]">Conditions contractuelles</h4>
-    <p class="text-sm text-slate-600 mb-4">Laissez vide si non précisé sur le devis (l'audit le signalera comme un risque).</p>
-    
-    <div class="grid grid-cols-1 gap-4">
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Acompte à la signature</label>
-            <div class="flex">
-                <input type="number" name="devis_acompte" placeholder="Ex: 30" class="w-full bg-slate-50 border border-r-0 border-slate-300 rounded-l-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
-                <select name="devis_acompte_type" class="bg-slate-100 border border-slate-300 rounded-r-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] cursor-pointer">
-                  <option value="percent" selected>%</option>
-                  <option value="fcfa">FCFA</option>
-                </select>
+        
+        <div class="p-8 flex flex-col flex-grow justify-between space-y-6">
+          <div>
+            <h3 class="text-2xl font-bold text-[#0E2A47] mb-3">Esquisse & Faisabilité</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+              Vérifiez la constructibilité réelle de votre parcelle, l'implantation géométrique et le respect strict du gabarit volumétrique (prospect) avant de signer un bail ou de déposer un permis de construire.
+            </p>
+            <ul class="text-xs text-slate-600 space-y-2 mb-4">
+              <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Calcul du prospect et des retraits obligatoires</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Recommandations de fondations selon le sol</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Rapport officiel nominatif immédiat</li>
+            </ul>
+          </div>
+          
+          <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <span class="text-[11px] uppercase font-bold text-slate-500 block">Tarif de l'étude</span>
+              <span class="text-2xl font-black text-[#0E2A47]">À partir de 149 000 FCFA</span>
+              <span class="text-xs text-slate-500 block">(Revalorisé selon le niveau d'élévation)</span>
             </div>
+            <a href="esquisse-faisabilite.html" class="w-full sm:w-auto px-6 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all text-center text-sm">
+              Découvrir le service &rarr;
+            </a>
+          </div>
         </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Échéancier de paiement</label>
-            <input type="text" name="echeancier" placeholder="Ex: Selon avancement ou Mensuel" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+      </div>
+
+      <!-- CARTE 2 : AUDIT DEVIS -->
+      <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group">
+        <div class="h-64 overflow-hidden relative">
+          <img src="assets/img/service-card-audit.webp" alt="Audit de devis de construction au Sénégal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0E2A47]/80 via-transparent to-transparent"></div>
+          <span class="absolute top-4 left-4 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow">
+            Contre-Expertise Économique
+          </span>
+          <span class="absolute bottom-4 left-4 text-white font-bold text-sm">
+            Capture Photo / OCR & Analyse Mathématique
+          </span>
         </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Retenue de garantie (%)</label>
-            <input type="number" name="retenue" placeholder="Ex: 5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
+        
+        <div class="p-8 flex flex-col flex-grow justify-between space-y-6">
+          <div>
+            <h3 class="text-2xl font-bold text-[#0E2A47] mb-3">Audit Devis BTP</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+              Contre-expertise minutieuse du devis soumis par votre entreprise ou tâcheron. Nous traquons les erreurs de calcul, les prix unitaires abusifs, les omissions de postes critiques et les clauses déséquilibrées.
+            </p>
+            <ul class="text-xs text-slate-600 space-y-2 mb-4">
+              <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Recalcul arithmétique intégral PU × Quantités</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Étalonnage face aux prix réels du marché à Dakar</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span> Rapport contradictoire pour négocier sereinement</li>
+            </ul>
+          </div>
+          
+          <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <span class="text-[11px] uppercase font-bold text-slate-500 block">Tarif de l'audit</span>
+              <span class="text-2xl font-black text-[#0E2A47]">À partir de 249 000 FCFA</span>
+              <span class="text-xs text-slate-500 block">(Revalorisé selon le niveau d'élévation)</span>
+            </div>
+            <a href="audit-devis.html" class="w-full sm:w-auto px-6 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all text-center text-sm">
+              Découvrir le service &rarr;
+            </a>
+          </div>
         </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pénalités de retard</label>
-            <input type="text" name="penalites" placeholder="Ex: 1/1000 du montant par jour" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Gestion des avenants</label>
-            <input type="text" name="avenants" placeholder="Ex: Sur devis préalable validé" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Assurances (RC / Décennale)</label>
-            <input type="text" name="assurances" placeholder="Ex: Attestation fournie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3">
-        </div>
+      </div>
     </div>
-  </div>
-  <div id="v5-error-msg" class="text-rose-600 font-bold hidden">Veuillez saisir ou valider au moins un lot avec son montant pour lancer l'audit.</div>
-  
-  <div class="flex justify-end pt-4">
-    <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-400">Lancer l'audit</button>
-  </div>
-</form>
-<script>
-window.ocrImages = [];
-window.devisLinesState = window.devisLinesState || [];
-window.addV5Lot = function(data = null) {
-    const defaultDesc = data && data.designation ? data.designation : '';
-    const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
-    window.devisLinesState.push({ lot: '', designation: defaultDesc, unite: 'u', quantite: 1, pu: defaultMontant, montantIndique: defaultMontant });
-    window.renderV5LotsState();
-};
-window.updateV5Lot = function(index, field, value) {
-    if (window.devisLinesState && window.devisLinesState[index]) {
-        window.devisLinesState[index][field] = field === 'montantIndique' ? (parseFloat(value) || 0) : value;
-        window.calcV5TotalsState();
-    }
-};
-window.removeV5Lot = function(index) {
-    if (window.devisLinesState) {
-        window.devisLinesState.splice(index, 1);
-        window.renderV5LotsState();
-    }
-};
-window.renderV5LotsState = function() {
-    const container = document.getElementById('v5-lots-container');
-    container.innerHTML = '';
-    if (!window.devisLinesState) return;
-    window.devisLinesState.forEach((lot, index) => {
-        const div = document.createElement('div');
-        div.className = 'flex gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
-        
-        const safeDesc = (lot.designation || '').toString().replace(/"/g, '&quot;');
-        const safeMontant = (lot.montantIndique !== undefined ? lot.montantIndique : '').toString().replace(/"/g, '&quot;');
-        
-        div.innerHTML = `<input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Description du lot (ex: Maçonnerie)" value="${safeDesc}" oninput="window.updateV5Lot(${index}, 'designation', this.value)">` +
-                        `<input type="number" min="0" class="lot-montant w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2" placeholder="Montant FCFA" value="${safeMontant}" oninput="window.updateV5Lot(${index}, 'montant', this.value)">` +
-                        `<button type="button" onclick="window.removeV5Lot(${index})" class="text-rose-500 font-bold">X</button>`;
-        container.appendChild(div);
-    });
-    window.calcV5TotalsState();
-};
-window.calcV5TotalsState = function() {
-    let totalHT = 0;
-    let validLots = 0;
-    
-    if (window.devisLinesState) {
-        window.devisLinesState.forEach(lot => {
-            if (lot.designation && lot.designation.length > 0 && lot.montantIndique >= 0) {
-                validLots++;
-                totalHT += parseFloat(lot.montantIndique) || 0;
-            }
-        });
-    }
-    
-    document.getElementById('v5-total-ht').innerText = totalHT.toLocaleString('fr-FR') + ' FCFA';
-    const tvaRate = parseFloat(document.getElementById('v5-tva-rate').value) || 0;
-    const totalTTC = totalHT * (1 + (tvaRate / 100));
-    document.getElementById('v5-total-ttc').innerText = totalTTC.toLocaleString('fr-FR') + ' FCFA';
-    
-    const btn = document.getElementById('v5-btn-audit');
-    const msg = document.getElementById('v5-error-msg');
-    
-    if (validLots > 0) {
-        btn.disabled = false;
-        msg.classList.add('hidden');
-    } else {
-        btn.disabled = true;
-        msg.classList.remove('hidden');
-    }
-};
-window.handleOCRPhotoSelect = async function(event) {
-    const files = event.target.files;
-    if (!files || files.length === 0) return;
-    
-    document.getElementById('ocr-thumbnails-container').classList.remove('hidden');
-    document.getElementById('ocr-loading-indicator').classList.remove('hidden');
-    document.getElementById('ocr-loading-text').innerText = "Compression de la page...";
-    
-    const canvas = document.getElementById('ocr-canvas');
-    const ctx = canvas.getContext('2d');
-    const file = files[0];
-    
-    try {
-        const base64 = await compressImage(file, canvas, ctx);
-        window.ocrImages.push(base64);
-        renderOCRThumbnails();
-    } catch (e) {
-        alert("Erreur lors de la lecture de l'image.");
-    } finally {
-        document.getElementById('ocr-loading-indicator').classList.add('hidden');
-        document.getElementById('ocr-camera-input').value = ""; // Reset
-    }
-};
-window.renderOCRThumbnails = function() {
-    const container = document.getElementById('ocr-thumbnails-container');
-    container.innerHTML = '';
-    
-    window.ocrImages.forEach((imgBase64, index) => {
-        const div = document.createElement('div');
-        div.className = 'relative w-24 h-24';
-        
-        const img = document.createElement('img');
-        img.src = imgBase64;
-        img.className = 'w-full h-full object-cover rounded-lg border-[#0E2A47] border-slate-300';
-        
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.innerHTML = 'X';
-        btn.className = 'absolute -top-2 -right-2 bg-rose-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md';
-        btn.onclick = () => {
-            window.ocrImages.splice(index, 1);
-            window.renderOCRThumbnails();
-        };
-        
-        div.appendChild(img);
-        div.appendChild(btn);
-        container.appendChild(div);
-    });
-    
-    document.getElementById('btn-lancer-analyse').disabled = window.ocrImages.length === 0;
-};
-window.startOCRAnalysis = async function() {
-    if (window.ocrImages.length === 0) return;
-    
-    document.getElementById('ocr-loading-indicator').classList.remove('hidden');
-    document.getElementById('ocr-loading-text').innerText = "Analyse des pages en cours (cela peut prendre jusqu'à 45 secondes)...";
-    document.getElementById('btn-lancer-analyse').disabled = true;
-    
-    try {
-        const response = await fetch('/.netlify/functions/mistral-ocr', {
-            method: 'POST',
-            body: JSON.stringify({ images: window.ocrImages }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        
-        const result = await response.json();
-        if (!response.ok) {
-            throw new Error(result.message || result.error || "Erreur serveur.");
-        }
-        
-        if (result.error) throw new Error(result.message || result.error);
-        if (result.lines && result.lines.length > 0) {
-            window.renderOCRValidation(result.lines);
-        } else {
-            throw new Error("Aucune ligne détectée.");
-        }
-    } catch (e) {
-        alert("Erreur OCR : " + e.message + "\n\nVeuillez utiliser la saisie manuelle.");
-    } finally {
-        document.getElementById('ocr-loading-indicator').classList.add('hidden');
-        document.getElementById('btn-lancer-analyse').disabled = false;
-    }
-};
-function compressImage(file, canvas, ctx) {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-                let width = img.width;
-                let height = img.height;
-                // Agressive compression: 1200px max
-                const MAX_DIM = 1200;
-                
-                if (width > height && width > MAX_DIM) {
-                    height *= MAX_DIM / width;
-                    width = MAX_DIM;
-                } else if (height > MAX_DIM) {
-                    width *= MAX_DIM / height;
-                    height = MAX_DIM;
-                }
-                
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-                // Agressive compression: 0.6 quality
-                resolve(canvas.toDataURL('image/jpeg', 0.6));
-            };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
-window.renderOCRValidation = function(lines) {
-    const tbody = document.getElementById('ocr-validation-table-body');
-    tbody.innerHTML = '';
-    
-    lines.forEach((line, index) => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-[#0E2A47] border-slate-200 hover:bg-slate-50 transition-colors bg-white';
-        tr.id = 'ocr-val-row-' + index;
-        
-        // Use regex for numbers formatting
-        const pu = line.pu_ht || 0;
-        const total = line.montant_indique || (line.quantite * pu) || 0;
-        tr.innerHTML = `
-            <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-lot" value="${line.lot || ''}"></td>
-            <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-des" value="${line.designation || ''}"></td>
-            <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-u text-center" value="${line.unite || 'u'}"></td>
-            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-q text-center" value="${line.quantite || 1}"></td>
-            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-pu text-right" value="${pu}"></td>
-            <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-total font-bold text-right text-[#0E2A47]lue-800" value="${total}"></td>
-            <td class="p-2 text-center"><button type="button" onclick="document.getElementById('ocr-val-row-${index}').remove()" class="text-rose-500 font-bold p-1 hover:bg-rose-50 rounded">X</button></td>
-        `;
-        tbody.appendChild(tr);
-    });
-    
-    document.getElementById('ocr-validation-screen').classList.remove('hidden');
-    document.getElementById('ocr-upload-section').classList.add('hidden');
-};
-window.cancelOCR = function() {
-    document.getElementById('ocr-validation-screen').classList.add('hidden');
-    document.getElementById('ocr-upload-section').classList.remove('hidden');
-    window.ocrImages = [];
-    window.renderOCRThumbnails();
-};
-window.confirmOCR = function() {
-    const tbody = document.getElementById('ocr-validation-table-body');
-    const rows = tbody.querySelectorAll('tr');
-    
-    let validatedLines = [];
-    let validCount = 0;
-    
-    rows.forEach(row => {
-        const lot = row.querySelector('.ocr-input-lot').value.trim();
-        const des = row.querySelector('.ocr-input-des').value.trim();
-        const unit = row.querySelector('.ocr-input-u').value.trim();
-        const qte = parseFloat(row.querySelector('.ocr-input-q').value) || 0;
-        const pu = parseFloat(row.querySelector('.ocr-input-pu').value) || 0;
-        const total = parseFloat(row.querySelector('.ocr-input-total').value) || 0;
-        
-        if (des.length > 0 && total >= 0) {
-            const finalDes = lot ? `[${lot}] ${des}` : des;
-            validatedLines.push({ lot: lot, designation: des, unite: unit, quantite: qte, pu: pu, montantIndique: total });
-            validCount++;
-        }
-    });
-    
-    if (validCount === 0) {
-        alert("Veuillez valider au moins une ligne.");
-        return;
-    }
-    
-    window.devisLinesState = window.devisLinesState || [];
-    window.devisLinesState.push(...validatedLines);
-    console.log("validation: " + window.devisLinesState.length + " lignes");
-    
-    window.renderV5LotsState();
-    window.cancelOCR(); // Reset OCR UI
-};
-// Add initial lot on load and check Mistral API status
-document.addEventListener('DOMContentLoaded', async () => { 
-    window.addV5Lot(); 
-    
-    // Check Mistral OCR availability
-    try {
-        const res = await fetch('/.netlify/functions/mistral-ocr');
-        if (res.status === 503 || res.status === 401) {
-            const data = await res.json();
-            if (data.error === "missing_key" || data.error === "ocr_failed") {
-                const uploadSection = document.getElementById('ocr-upload-section');
-                uploadSection.innerHTML = `
-                    <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis</h4>
-                    <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl font-medium text-sm">
-                        Service d'analyse photo temporairement indisponible — utilisez la saisie manuelle.
-                    </div>
-                `;
-            }
-        }
-    } catch(e) {
-        // Ignore network errors on init
-    }
-});
-</script>
-      <!-- FORMULAIRE 4 :  &         -->
-      <!-- ============================================== -->
-      <!-- ==================================================== --> 
-<!-- FORMULAIRE 4 :  &  --> 
-<!-- ==================================================== --> 
+  </section>
+
+  <!-- SECTION L'ESPRIT DE LA COMPAGNIE -->
+  <section class="bg-white py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto space-y-16">
+      <div class="text-center max-w-3xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-3">
+          <span>Notre Philosophie</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0E2A47]">
+          L'Esprit de la Compagnie
+        </h2>
+        <p class="text-slate-600 text-base mt-2">
+          Pourquoi nous avons fondé ChantierSur : restaurer la vérité des chiffres et la rigueur d'ingénierie dans la construction au Sénégal.
+        </p>
+      </div>
+
+      <!-- BLOC 1 : INDÉPENDANCE & RIGUEUR -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+          <img src="assets/img/esprit-compagnie-1.webp" alt="Ingénieurs ChantierSur inspectant des plans d'exécution" class="w-full h-80 sm:h-96 object-cover">
+        </div>
+        <div class="space-y-5">
+          <div class="w-10 h-10 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-lg">01</div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-[#0E2A47] leading-snug">
+            Une indépendance sans compromis pour défendre vos intérêts
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+            ChantierSur n'est ni un entrepreneur, ni un intermédiaire commercial, ni un courtier. Nous ne percevons aucune commission sur les marchés de travaux et nous ne fournissons aucun matériau.
+          </p>
+          <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+            Cette indépendance radicale garantit que chaque remarque, chaque réserve sur un métré et chaque alerte sur un prix unitaire ne poursuit qu'un seul but : protéger votre budget et garantir la sécurité structurelle de votre futur bâtiment.
+          </p>
+          <div class="pt-2 text-xs font-bold text-[#0E2A47] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E2A47]"></span>
+            <span>Rapports impartiaux opposables en cas de litige</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOC 2 : PREUVE PLUTÔT QUE CONFIANCE AVEUGLE & PROTECTION DE LA DIASPORA -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-5 order-2 md:order-1">
+          <div class="w-10 h-10 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-lg">02</div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-[#0E2A47] leading-snug">
+            De la confiance aveugle à la preuve : sécuriser la diaspora
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+            Bâtir au pays lorsqu'on réside à Paris, New York, Milan ou Abidjan relève trop souvent du parcours du combattant : devis imprécis, rallonges budgétaires inexpliquées, non-respect des règles d'urbanisme entraînant des blocages administratifs.
+          </p>
+          <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+            Nous substituons à la complaisance verbale la rigueur de la preuve écrite. Nos outils numériques analysent vos devis en temps réel et nos ingénieurs vérifient les volumes au millimètre pour que vous gardiez le plein contrôle de votre investissement à distance.
+          </p>
+          <div class="pt-2 text-xs font-bold text-[#0E2A47] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0E2A47]"></span>
+            <span>Un tiers de confiance technique pour bâtir en toute sérénité</span>
+          </div>
+        </div>
+        <div class="rounded-3xl overflow-hidden shadow-xl border border-slate-200 order-1 md:order-2">
+          <img src="assets/img/esprit-compagnie-2.webp" alt="Supervision rigoureuse de chantier de villa moderne à Dakar" class="w-full h-80 sm:h-96 object-cover">
+        </div>
+      </div>
     </div>
-    <!-- ============================================== -->
-    <!-- SECTION BLOG & GUIDES TECHNIQUES               -->
-    <!-- ============================================== -->
-    <section id="blog-section" class="mt-16 pt-12 border-t border-slate-200">
-      <div class="text-center mb-10">
+  </section>
+
+  <!-- SECTION COMMENT ÇA MARCHE EN 3 ÉTAPES SIMPLES -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-3">
+        <span>Processus Clair & Transparent</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0E2A47]">
+        Comment ça marche ?
+      </h2>
+      <p class="text-slate-600 max-w-2xl mx-auto text-base mt-2">
+        Trois étapes simples et fluides pour passer de l'incertitude à la certitude technique.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- ÉTAPE 1 -->
+      <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative flex flex-col justify-between">
+        <div>
+          <div class="w-14 h-14 rounded-2xl bg-[#0E2A47] text-white flex items-center justify-center font-black text-xl mb-6 shadow-md">
+            1
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47] mb-3">Choisissez votre étude</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Sélectionnez <strong>Esquisse & Faisabilité</strong> pour vérifier le potentiel de votre terrain ou <strong>Audit Devis</strong> pour analyser le chiffrage de votre entrepreneur.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-[#1B4F72]">
+          Tarification par niveau claire et connue à l'avance
+        </div>
+      </div>
+
+      <!-- ÉTAPE 2 -->
+      <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative flex flex-col justify-between">
+        <div>
+          <div class="w-14 h-14 rounded-2xl bg-[#0E2A47] text-white flex items-center justify-center font-black text-xl mb-6 shadow-md">
+            2
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47] mb-3">Transmettez vos données</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Remplissez les caractéristiques de votre projet (dimensions, niveau d'élévation) ou photographiez simplement les pages de votre devis via notre outil sécurisé.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-[#1B4F72]">
+          Traitement confidentiel et chiffré des pièces
+        </div>
+      </div>
+
+      <!-- ÉTAPE 3 -->
+      <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative flex flex-col justify-between">
+        <div>
+          <div class="w-14 h-14 rounded-2xl bg-[#0E2A47] text-white flex items-center justify-center font-black text-xl mb-6 shadow-md">
+            3
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47] mb-3">Recevez votre rapport PDF</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Obtenez votre rapport nominatif certifié avec calculs d'ingénierie complets, alertes sur les anomalies détectées et arguments concrets de négociation.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-[#1B4F72]">
+          Livrable officiel téléchargeable immédiatement
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEASER BLOG GARDÉ EN PLACE (3 ARTICLES + LIEN VERS LES 14) -->
+  <section id="blog-section" class="bg-white py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-3">
           <span>Centre de Ressources & Ingénierie</span>
         </div>
-        <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800;" class="text-3xl font-extrabold text-[#0E2A47]">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0E2A47]">
           Le Blog & Guides Techniques
         </h2>
         <p class="text-slate-600 max-w-2xl mx-auto text-base mt-2">
           Analyses de cas réels, réglementation sénégalaise et bonnes pratiques pour sécuriser vos chantiers.
         </p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <!-- Carte 1 -->
-        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+        <article class="bg-[#F8FAFC] rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
           <div class="h-48 overflow-hidden relative">
-            <img src="assets/img/hero-securite-chantier-senegal-accidents.webp" alt="Sécurité chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <img src="assets/img/hero-securite-chantier-senegal-accidents.webp" alt="Sécurité chantier au Sénégal" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
             <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
           </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <h3 style="font-family: 'Archivo', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
-              <a href="blog/securite-chantier-senegal-accidents.html" class="hover:text-[#1B4F72] transition-colors">Les 7 accidents les plus fréquents sur les chantiers au Sénégal</a>
-            </h3>
-            <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
-              Chutes de hauteur, effondrements de tranchées, électrisations : découvrez les dangers majeurs et les mesures de prévention indispensables.
-            </p>
+          <div class="p-6 flex flex-col flex-grow justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+                <a href="blog/securite-chantier-senegal-accidents.html" class="hover:text-[#1B4F72] transition-colors">Les 7 accidents les plus fréquents sur les chantiers au Sénégal</a>
+              </h3>
+              <p class="text-sm text-slate-600 line-clamp-3 mb-4">
+                Chutes de hauteur, effondrements de tranchées, électrisations : découvrez les dangers majeurs et les mesures de prévention indispensables.
+              </p>
+            </div>
             <a href="blog/securite-chantier-senegal-accidents.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
               <span>Lire le guide</span>
               <span>&rarr;</span>
             </a>
           </div>
         </article>
+
         <!-- Carte 2 -->
-        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+        <article class="bg-[#F8FAFC] rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
           <div class="h-48 overflow-hidden relative">
             <img src="assets/img/hero-verifier-devis-construction.webp" alt="Vérifier devis construction" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
             <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
           </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <h3 style="font-family: 'Archivo', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
-              <a href="blog/verifier-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Comment vérifier un devis de construction avant de signer</a>
-            </h3>
-            <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
-              La méthode en 8 points d'un bureau d'études pour repérer les surfacturations, forfaits abusifs et omissions volontaires.
-            </p>
+          <div class="p-6 flex flex-col flex-grow justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+                <a href="blog/verifier-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Comment vérifier un devis de construction avant de signer</a>
+              </h3>
+              <p class="text-sm text-slate-600 line-clamp-3 mb-4">
+                La méthode en 8 points d'un bureau d'études pour repérer les surfacturations, forfaits abusifs et omissions volontaires.
+              </p>
+            </div>
             <a href="blog/verifier-devis-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
               <span>Lire le guide</span>
               <span>&rarr;</span>
             </a>
           </div>
         </article>
+
         <!-- Carte 3 -->
-        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+        <article class="bg-[#F8FAFC] rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
           <div class="h-48 overflow-hidden relative">
-            <img src="assets/img/hero-epi-chantier.webp" alt="Équipements de protection individuelle complets pour chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <img src="assets/img/hero-epi-chantier.webp" alt="Équipements de protection individuelle" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
             <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Équipements</span>
           </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <h3 style="font-family: 'Archivo', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
-              <a href="blog/epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">EPI obligatoires sur chantier : la check-list complète</a>
-            </h3>
-            <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
-              Casque, chaussures coquées, harnais, gants : les équipements vitaux et les responsabilités légales du maître d'ouvrage.
-            </p>
+          <div class="p-6 flex flex-col flex-grow justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+                <a href="blog/epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">EPI obligatoires sur chantier : la check-list complète</a>
+              </h3>
+              <p class="text-sm text-slate-600 line-clamp-3 mb-4">
+                Casque, chaussures coquées, harnais, gants : les équipements vitaux et les responsabilités légales du maître d'ouvrage.
+              </p>
+            </div>
             <a href="blog/epi-chantier.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
               <span>Lire le guide</span>
               <span>&rarr;</span>
@@ -929,16 +480,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </article>
       </div>
+
       <div class="text-center">
-        <a href="blog/index.html" class="inline-flex items-center space-x-2 px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all">
+        <a href="blog/index.html" class="inline-flex items-center space-x-2 px-8 py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all">
           <span>Découvrir tous les 14 articles du Blog</span>
           <span>&rarr;</span>
         </a>
       </div>
-    </section>
-  </main>
-  <!-- FOOTER OFFICIEL -->
-    <!-- FOOTER UNIFIÉ 3 COLONNES -->
+    </div>
+  </section>
+
+  <!-- FOOTER UNIFIÉ 3 COLONNES -->
   <footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 text-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -948,899 +500,85 @@ document.addEventListener('DOMContentLoaded', async () => {
             <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
           </a>
           <p class="text-slate-300 font-bold mb-4">Bâtissez sans angle mort.</p>
+          <div class="text-xs text-slate-300 space-y-2">
+            <p>Bureau d'études techniques & ingénierie numérique indépendant.</p>
+            <p class="text-slate-400">Dakar, Sénégal • Enregistré au RCCM & NINEA.</p>
+            <p class="text-slate-400">Paiements sécurisés Wave, Orange Money et Cartes Bancaires via passerelle agréée BCEAO.</p>
+          </div>
         </div>
-
+        
         <div>
-          <h4 class="text-white font-bold mb-4">Solutions & Expertises</h4>
+          <h4 style="font-family: 'Archivo', sans-serif;" class="text-base font-bold text-white mb-4">Services d'Ingénierie</h4>
           <ul class="space-y-2 text-sm text-slate-300">
-            <li><a href="app_privee.html#services-section" class="hover:text-white transition">Esquisse Faisabilité</a></li>
-            <li><a href="app_privee.html#services-section" class="hover:text-white transition">Audit Devis BTP</a></li>
-            <li><a href="blog/index.html" class="hover:text-white transition">Articles & Guides Techniques</a></li>
+            <li><a href="esquisse-faisabilite.html" class="hover:text-white transition-colors">Esquisse & Faisabilité Technique</a></li>
+            <li><a href="audit-devis.html" class="hover:text-white transition-colors">Audit & Contre-Expertise de Devis</a></li>
+            <li><a href="a-propos.html" class="hover:text-white transition-colors">Qui Sommes-Nous</a></li>
+            <li><a href="blog/index.html" class="hover:text-white transition-colors">Guides & Articles Techniques</a></li>
           </ul>
         </div>
-
+        
         <div>
-          <h4 class="text-white font-bold mb-4">Légal & Déontologie</h4>
+          <h4 style="font-family: 'Archivo', sans-serif;" class="text-base font-bold text-white mb-4">Cadre Légal & Réglementaire</h4>
           <ul class="space-y-2 text-sm text-slate-300">
-            <li><a href="a-propos.html" class="hover:text-white transition">Qui Sommes-Nous</a></li>
-            <li><a href="mentions-legales.html" class="hover:text-white transition">Mentions Légales</a></li>
-            <li><a href="mailto:admin@chantiersur.com" class="hover:text-white transition">Contact & Support</a></li>
+            <li><a href="mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales & CGU</a></li>
+            <li><a href="mentions-legales.html#politique-confidentialite" class="hover:text-white transition-colors">Politique de Confidentialité</a></li>
+            <li><a href="mentions-legales.html#conformite-fonciere" class="hover:text-white transition-colors">Décret n° 2025-1194 (Urbanisme)</a></li>
+            <li><a href="mentions-legales.html#tarification-officielle" class="hover:text-white transition-colors">Barème & Tarification Officielle</a></li>
+            <li><a href="mailto:admin@chantiersur.com" class="hover:text-white transition-colors">Contact : admin@chantiersur.com</a></li>
           </ul>
         </div>
+      </div>
+      
+      <div class="pt-6 border-t border-[#1B4F72] text-center text-xs text-slate-400">
+        <p>&copy; 2026 ChantierSur Technologies SARL. Tous droits réservés. Plateforme d'ingénierie et d'audit BTP indépendante.</p>
       </div>
     </div>
   </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('mobile-menu-toggle');
-            const menuDrawer = document.getElementById('mobile-menu-drawer');
-            const burgerIcon = document.getElementById('burger-icon');
-            const closeIcon = document.getElementById('close-icon');
-            if (menuToggle && menuDrawer) {
-              menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isHidden = menuDrawer.classList.toggle('hidden');
-                burgerIcon.classList.toggle('hidden', !isHidden);
-                closeIcon.classList.toggle('hidden', isHidden);
-              });
-              // Fermer le menu lors d'un clic sur un lien
-              document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                  menuDrawer.classList.add('hidden');
-                  burgerIcon.classList.remove('hidden');
-                  closeIcon.classList.add('hidden');
-                });
-              });
-              // Fermer lors d'un clic à l'extérieur
-              document.addEventListener('click', (e) => {
-                if (!menuDrawer.contains(e.target) && !menuToggle.contains(e.target) && !menuDrawer.classList.contains('hidden')) {
-                  menuDrawer.classList.add('hidden');
-                  burgerIcon.classList.remove('hidden');
-                  closeIcon.classList.add('hidden');
-                }
-              });
-            }
 
-            function handleHash() {
-              const h = window.location.hash.toLowerCase();
-              if (h === '#audit' || h === '#pane-3') {
-                if (typeof window.switchTab === 'function') window.switchTab(3);
-              } else if (h === '#esquisse' || h === '#pane-1') {
-                if (typeof window.switchTab === 'function') window.switchTab(1);
-              }
-            }
-            handleHash();
-            window.addEventListener('hashchange', handleHash);
-        });
-    </script>
-<!-- SOUS-PIED DE PAGE INSTITUTIONNEL & LÉGAL -->
-<div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
-  <div class="max-w-7xl mx-auto space-y-4">
-    
-    <!-- Ligne 1 : Badges Réglementaires & Sécurité -->
-    <div class="flex flex-wrap items-center justify-between gap-3 border-[#0E2A47] border-slate-800/50 pb-4">
-      <div class="flex flex-wrap items-center gap-4 text-[11px]">
-        <!-- Statut opérationnel -->
-        <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-slate-300 font-medium">Système Opérationnel</span>
-        </div>
-        
-        <!-- Badge Sécurité TLS -->
-        <div class="flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-[#0E2A47]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-          <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
-        </div>
-        <!-- Badge CDP Sénégal -->
-        <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-          <span>bureau d'études numérique indépendant</span>
-        </div>
-      </div>
-      <!-- Partenaires & Protocoles Agréés -->
-      <div class="flex items-center space-x-3 text-[11px] text-slate-400">
-        <span>Paiements sécurisés : Wave, Orange Money, Visa</span>
-      </div>
-    </div>
-    <!-- Ligne 2 : Clause de Non-Substitut d'Architecte (Obligation Légale) -->
-    <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
-      <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
-    </p>
-    <!-- Ligne 3 : Copyright, Liens Légaux & Contact -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
-      <div class="text-slate-400 text-center md:text-left">
-        &copy; 2026 ChantierSur Technologies SARL. Tous droits réservés.
-        <span class="hidden sm:inline text-slate-700">|</span>
-        <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
-      </div>
-      <!-- Liens Réglementaires Incompressibles -->
-      <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
-        <a href="mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales</a>
-        <span class="text-slate-600">•</span>
-        <a href="blog/index.html" class="hover:text-white transition-colors">Blog</a>
-        <span class="text-slate-600">•</span>
-        <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
-      </nav>
-    </div>
-  </div>
-</div>
-  <!-- 1. Moteurs jsPDF officiels -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-  <!-- 2. Polices vectorielles Unicode Noto Sans -->
-  <script src="noto-sans-vfs.js"></script>
-  <!-- 3. Script Métier ChantierSur -->
-  <script src="pdf-generator.js?v=3.1"></script>
+  <!-- SCRIPT MINIMAL SANS FORMULAIRE -->
   <script>
-    window.handleParcelConfigChange = function(val) {
-      const f2Container = document.getElementById('facade-2-container');
-      if (f2Container) {
-        if (val === 'angle' || val === 'traversante') {
-          f2Container.classList.remove('hidden');
-        } else {
-          f2Container.classList.add('hidden');
-        }
-      }
-    };
-    // TAUX DE CONVERSION OFFICIELS (Valeurs par défaut, mises à jour via API)
-    let CONVERSION_RATES = {
-      XOF: 1,
-      EUR: 655.957, // Le FCFA est arrimé à l'Euro avec un taux fixe
-      USD: 600.0,
-      CAD: 440.0
-    };
-    // Actualisation avec les taux du jour
-    async function fetchLiveRates() {
-      try {
-        const res = await fetch('https://open.er-api.com/v6/latest/XOF');
-        const data = await res.json();
-        if (data && data.rates) {
-          if (data.rates.USD) CONVERSION_RATES.USD = 1 / data.rates.USD;
-          if (data.rates.CAD) CONVERSION_RATES.CAD = 1 / data.rates.CAD;
-          window.updateAllPrices(); // Rafraîchit l'affichage avec les taux du jour
-        }
-      } catch (err) {
-        console.error("Impossible de récupérer les taux de change du jour :", err);
-      }
-    }
-    
-    // Lancement de l'actualisation au démarrage
-    fetchLiveRates();
-        // GRILLE TARIFAIRE "EXÉCUTIVE" CHANTIERSUR (Positionnement Bureau d'Études Premium)
-        const PRICING_RULES = {
-      1: { base: 149000, perLevelAbove1: 25000 }, // Esquisse
-            3: { base: 249000, perLevelAbove1: 40000 }, // Audit Devis
-          };
-    window.calculateServicePrice = function(paneId) {
-      const rule = PRICING_RULES[paneId];
-      if (!rule) return 199000;
-      const pane = document.getElementById('pane-' + paneId);
-      if (!pane) return rule.base;
-      const fd = new FormData(pane);
-      const currentDossierId = 'CS-' + Date.now();
-      const levels = parseInt(fd.get('exact_levels') || '0', 10);
-      const extraLevels = Math.max(0, levels);
-      return rule.base + (extraLevels * rule.perLevelAbove1);
-    };
-    // MISE À JOUR DE L'AFFICHAGE DES PRIX ET CONVERSIONS
-    window.updateAllPrices = function() {
-      const currencySelect = document.getElementById('currency-select');
-      const activeCurrency = currencySelect ? currencySelect.value : 'XOF';
-      const rate = CONVERSION_RATES[activeCurrency] || 1;
-      for (let i = 1; i <= 4; i++) {
-        const priceXOF = window.calculateServicePrice(i);
-        const priceValEl = document.getElementById('price-val-' + i);
-        const priceConvEl = document.getElementById('price-converted-' + i);
-        if (priceValEl) {
-          priceValEl.textContent = priceXOF.toLocaleString('fr-FR') + ' FCFA';
-        }
-        if (priceConvEl) {
-          if (activeCurrency === 'XOF') {
-            const eurEquiv = (priceXOF / CONVERSION_RATES.EUR).toFixed(2);
-            priceConvEl.textContent = `(≈ ${eurEquiv} €)`;
-          } else {
-            const converted = (priceXOF / rate).toFixed(2);
-            const symbols = { EUR: '€', USD: '$US', CAD: '$ CAD' };
-            priceConvEl.textContent = `(≈ ${converted} ${symbols[activeCurrency]})`;
-          }
-        }
-      }
-    };
-    // APPEL AU CHARGEMENT INITIAL
-    document.addEventListener('DOMContentLoaded', window.updateAllPrices);
-    // 1. BASCULE DES ONGLETS
-    window.switchTab = function(tabIndex) {
-      for (let i = 1; i <= 4; i++) {
-        const btn = document.getElementById('tab-btn-' + i);
-        const pane = document.getElementById('pane-' + i);
-        if (btn) {
-          const badge = btn.querySelector('span');
-          if (i === tabIndex) {
-            btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white border-[#0E2A47] border-[#0E2A47] ring-[#0E2A47] ring-[#0E2A47]/15 shadow-xl focus:outline-none cursor-pointer';
-            if (badge) badge.className = 'text-xs font-black uppercase tracking-wider text-[#0E2A47]';
-          } else {
-            btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white/70 border-[#0E2A47] border-slate-200 hover:border-slate-300 shadow-sm focus:outline-none cursor-pointer';
-            if (badge) badge.className = 'text-xs font-bold uppercase tracking-wider text-slate-700';
-          }
-        }
-        if (pane) {
-          if (i === tabIndex) {
-            pane.classList.remove('hidden');
-          } else {
-            pane.classList.add('hidden');
-          }
-        }
-      }
-    };
-    // 2. NAVIGATION DANS LES ÉTAPES (SUIVANT / RETOUR)
-    window.goToStep = function(paneId, targetStep) {
-      const pane = document.getElementById('pane-' + paneId);
-      if (!pane) return;
-      const activeStep = pane.querySelector('.step-container:not(.hidden)');
-      if (activeStep) {
-        let currentStepNum = 1;
-        for (let i = 1; i <= 6; i++) {
-          if (activeStep.classList.contains('step-' + i)) {
-            currentStepNum = i;
-            break;
-          }
-        }
-        if (targetStep > currentStepNum) {
-          // Hook for Audit Step 2 -> 3 (Sanitize lines)
-          if (paneId === 3 && currentStepNum === 2) {
-             const lines = activeStep.querySelectorAll('.devis-line-item');
-             lines.forEach(line => {
-                const des = (line.querySelector('.dl-designation').value || '').trim();
-                const qte = parseFloat(line.querySelector('.dl-qty').value) || 0;
-                const total = parseFloat(line.querySelector('.dl-total').value) || 0;
-                // Supprimer les lignes vides
-                if (!des && qte === 0 && total === 0) {
-                    line.remove();
-                }
-             });
-             if(window.updateDevisTotal) window.updateDevisTotal();
-          }
-          // Hook for Audit Step 4 -> 5 (Update Recapitulative Table before payment)
-          if (paneId === 3 && currentStepNum === 3 && targetStep === 4) {
-             if(window.populateAuditRecap) window.populateAuditRecap();
-          }
-          const fields = activeStep.querySelectorAll('input, select, textarea');
-          let hasError = false;
-          for (let field of fields) {
-            // Prevent silent validation failure on hidden fields
-            if (field.offsetParent === null || field.type === 'hidden' || field.closest('.hidden')) continue;
-            
-            if (!field.checkValidity()) {
-              field.reportValidity();
-              hasError = true;
-              break;
-            }
-          }
-          if (hasError) return;
-        }
-      }
-      pane.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
-      const nextStepEl = pane.querySelector('.step-' + targetStep);
-      if (nextStepEl) nextStepEl.classList.remove('hidden');
-      // Update bullets
-      for (let i = 1; i <= 6; i++) {
-        const bullet = pane.querySelector('.bullet-' + i);
-        if (bullet) {
-          if (i === targetStep) {
-            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow';
-          } else if (i < targetStep) {
-            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow opacity-50';
-          } else {
-            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm';
-          }
-        }
-      }
-      window.scrollTo({ top: pane.offsetTop - 100, behavior: 'smooth' });
-    };
-    // 3. PAIEMENT PAYTECH & SAUVEGARDE PROJET
-  window.getDevisLines = function() { return window.devisLinesState || []; };
-    window.initiatePayment = async function(paneId, serviceKey) {
-      const pane = document.getElementById('pane-' + paneId);
-      if (!pane) return;
-      const fd = new FormData(pane);
-      const currentDossierId = 'CS-' + Date.now();
-      const clientName = (fd.get('client_name') || '').trim();
-      const clientEmail = (fd.get('client_email') || '').trim();
-      const rawPrefix = (fd.get('phone_prefix') || '+221').trim();
-      let rawPhone = (fd.get('client_phone') || '').toString().trim();
-      if (!clientName || !clientEmail || !rawPhone) {
-        alert("Veuillez renseigner votre nom, votre adresse email et votre numéro de téléphone.");
-        return;
-      }
-      // --- CONTRÔLE INDICATIF URBANISME (DÉCRET N° 2025-1194 & LOI N° 2023-20) ---
-      if (serviceKey === 'esquisse') {
-        const nivCheck = parseInt(fd.get('exact_levels'), 10) || 1;
-        const surfCheck = parseFloat(fd.get('surface')) || 200;
-        const usageCheck = fd.get('building_usage') || 'unifamilial';
-        const streetWidthCheck = parseFloat(fd.get('street_width')) || 12;
-        const reculCheck = streetWidthCheck >= 15 ? 4.0 : 3.0;
-        const sdpEstimeeCheck = Math.round(surfCheck * 0.65 * (nivCheck + 1) * 0.90);
-        const hauteurFaitageCheck = (nivCheck + 1) * 3.10 + 1.20;
-        // Configuration paramétrable du prospect (art. R.448, décret n° 2025-1194)
-        const GABARIT_CONFIG = {
-          prospectCoef: 1.5, // H = 1,5L (emprise de la voie + retrait)
-          tolerancePct: 10,   // Tolérance indicative (+10%) avant affichage informatif
-          source: "art. R.448, décret n° 2025-1194"
-        };
-        const empriseVoie = streetWidthCheck;
-        const retraitVoie = reculCheck;
-        const hMaxCheck = GABARIT_CONFIG.prospectCoef * (empriseVoie + retraitVoie);
-        let incoherences = [];
-        if (usageCheck === 'unifamilial' && (sdpEstimeeCheck > 500 || nivCheck > 2)) {
-          incoherences.push({
-            type: 'usage',
-            title: 'Destination du bâtiment',
-            text: 'La destination « Résidentiel Unifamilial » semble atypique pour un bâtiment de R+' + nivCheck +
-              ' (≈ ' + sdpEstimeeCheck.toLocaleString('fr-FR') + ' m² de SDP estimée). Vérifiez la destination réelle (habitat collectif, mixte ou bureaux).'
-          });
-        }
-        if (hauteurFaitageCheck > hMaxCheck * (1 + GABARIT_CONFIG.tolerancePct / 100)) {
-          const depM = (hauteurFaitageCheck - hMaxCheck).toFixed(1).replace('.', ',');
-          const depPct = Math.round(((hauteurFaitageCheck - hMaxCheck) / hMaxCheck) * 100);
-          incoherences.push({
-            type: 'gabarit',
-            title: 'Prospect volumétrique sur voie publique',
-            hauteurProjet: hauteurFaitageCheck.toFixed(1).replace('.', ',') + ' m (R+' + nivCheck + ')',
-            seuilRef: hMaxCheck.toFixed(1).replace('.', ',') + ' m',
-            formuleCalcul: '1,5 × (' + empriseVoie.toFixed(1).replace('.', ',') + ' m voie + ' + retraitVoie.toFixed(1).replace('.', ',') + ' m retrait) = ' + hMaxCheck.toFixed(1).replace('.', ',') + ' m',
-            depassement: '+' + depM + ' m (' + depPct + ' %)',
-            legalNotice: 'Seuil de référence : H ≤ 1,5 × (voie + retrait) — ' + GABARIT_CONFIG.source + '. Valeur indicative calculée avec les données saisies ; le document d’urbanisme de la zone (SAUDAK / PCU / PAZ) peut fixer une autre valeur — à confirmer auprès de la Direction de l’Urbanisme.'
-          });
-        }
-        if (incoherences.length > 0) {
-          const continuer = await new Promise((resolve) => {
-            let existing = document.getElementById('cs-coherence-modal');
-            if (existing) existing.remove();
-            const overlay = document.createElement('div');
-            overlay.id = 'cs-coherence-modal';
-            overlay.className = 'fixed inset-0 bg-[#0E2A47]/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-200';
-            overlay.setAttribute('role', 'dialog');
-            overlay.setAttribute('aria-modal', 'true');
-            overlay.setAttribute('aria-labelledby', 'coherence-modal-title');
-            const cardsHtml = incoherences.map((item) => {
-              if (item.type === 'gabarit') {
-                return `
-                  <div class="bg-[#0E2A47]/90 border border-[#1B4F72]/30 rounded-xl p-4 space-y-3">
-                    <div class="flex items-center gap-2 text-[#0E2A47] font-semibold text-sm">
-                      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                      </svg>
-                      <span>${item.title}</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-[#0E2A47]/60 p-3 rounded-lg border border-slate-800">
-                      <div>
-                        <span class="text-slate-400">Hauteur estimée du projet :</span>
-                        <span class="font-bold text-slate-100 ml-1">${item.hauteurProjet}</span>
-                      </div>
-                      <div>
-                        <span class="text-slate-400">Seuil indicatif de référence :</span>
-                        <span class="font-bold text-[#B8C9DB] ml-1">${item.seuilRef}</span>
-                      </div>
-                      <div class="sm:col-span-2">
-                        <span class="text-slate-400">Base du calcul affichée :</span>
-                        <span class="font-mono text-slate-200 ml-1">${item.formuleCalcul}</span>
-                      </div>
-                      <div class="sm:col-span-2">
-                        <span class="text-slate-400">Écart constaté :</span>
-                        <span class="font-semibold text-[#0E2A47] ml-1">${item.depassement}</span>
-                      </div>
-                    </div>
-                    <p class="text-[11px] leading-relaxed text-slate-200 bg-[#0E2A47]/40 border border-[#1B4F72] p-2.5 rounded-lg">
-                      ${item.legalNotice}
-                    </p>
-                  </div>
-                `;
-              } else {
-                return `
-                  <div class="bg-[#0E2A47]/90 border border-slate-700/60 rounded-xl p-4 space-y-2">
-                    <div class="flex items-center gap-2 text-slate-200 font-semibold text-sm">
-                      <svg class="w-4 h-4 shrink-0 text-[#0E2A47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                      </svg>
-                      <span>${item.title}</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">${item.text}</p>
-                  </div>
-                `;
-              }
-            }).join('');
-            overlay.innerHTML = `
-              <div class="relative w-full max-w-lg bg-[#0F172A] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col my-8">
-                <div class="p-5 border-[#0E2A47] border-slate-800 flex items-start gap-3 bg-gradient-to-r from-slate-900 to-[#0F172A]">
-                  <div class="w-10 h-10 rounded-xl bg-[#1B4F72]/10 border border-[#1B4F72]/20 flex items-center justify-center text-[#0E2A47] shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 style="font-family: 'Archivo', sans-serif;" id="coherence-modal-title" class="text-base font-bold text-white leading-snug">
-                      Points d'attention — Analyse indicative d'urbanisme
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">
-                      Vérification indicative basée sur le décret n° 2025-1194 (non bloquante)
-                    </p>
-                  </div>
-                </div>
-                <div class="p-5 space-y-3 max-h-[60vh] overflow-y-auto">
-                  ${cardsHtml}
-                </div>
-                <div class="p-4 bg-[#0E2A47]/60 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5">
-                  <button type="button" id="btn-modal-cancel" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#0c243d] hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors">
-                    Modifier les données
-                  </button>
-                  <button type="button" id="btn-modal-continue" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#0E2A47] hover:bg-[#1B4F72] text-white text-xs font-bold shadow-lg transition-all">
-                    Continuer vers le paiement
-                  </button>
-                </div>
-              </div>
-            `;
-            function cleanup(result) {
-              window.removeEventListener('keydown', handleKey);
-              overlay.classList.add('opacity-0');
-              setTimeout(() => {
-                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-              }, 150);
-              resolve(result);
-            }
-            function handleKey(e) {
-              if (e.key === 'Escape') cleanup(false);
-            }
-            overlay.querySelector('#btn-modal-cancel').addEventListener('click', () => cleanup(false));
-            overlay.querySelector('#btn-modal-continue').addEventListener('click', () => cleanup(true));
-            overlay.addEventListener('click', (e) => {
-              if (e.target === overlay) cleanup(false);
-            });
-            window.addEventListener('keydown', handleKey);
-            document.body.appendChild(overlay);
-          });
-          if (!continuer) return;
-        }
-      }
-      // --- FIN CONTRÔLE INDICATIF URBANISME ---
-      // Nettoyage téléphonique universel anti-dédoublement
-      const prefixDigits = rawPrefix.replace(/\D/g, '');
-      rawPhone = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
-      if (prefixDigits && rawPhone.startsWith(prefixDigits)) {
-        rawPhone = rawPhone.substring(prefixDigits.length).replace(/^0+/, '');
-      }
-      // Calcul dynamique du montant selon le niveau
-      const exactAmount = window.calculateServicePrice ? window.calculateServicePrice(paneId) : 25000;
-      // Données réelles complètes du projet
-      const projectData = {
-        service: serviceKey,
-        surface: parseFloat(fd.get('surface')) || 250,
-        exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
-        slab_type: fd.get('slab_type') || 'hourdis16',
-        has_basement: fd.get('has_basement') || 'non',
-        concrete_method: fd.get('concrete_method') || 'betonniere',
-        quoted_amount: parseFloat(fd.get('quoted_amount')) || 45000000,
-        contract_scope: fd.get('contract_scope') || 'tce_clef_en_main',
-        contractor_type: fd.get('contractor_type') || 'tacheron',
-        advance_requested: parseInt(fd.get('advance_requested'), 10) || 30,
-        has_guarantee: fd.get('has_guarantee') || 'aucune',
-        ceiling_height: parseFloat(fd.get('ceiling_height')) || 3.0,
-        project_location: fd.get('project_location') || '',
-        land_status: fd.get('land_status') || '',
-        lot_number: (fd.get('lot_number') || '').trim() || 'Non spécifié',
-        // Spécifiques 
-        water_rooms: parseInt(fd.get('water_rooms'), 10) || 4,
-        delai_reserves: parseInt(fd.get('delai_reserves'), 10) || 15,
-        tile_type: fd.get('tile_type') || 'gres_cerame_60',
-        joinery_type: fd.get('joinery_type') || 'alu_vitre',
-        terrace_usage: fd.get('terrace_usage') || 'accessible_carrelee',
-        ac_system: fd.get('ac_system') || 'split_individuel',
-        standing: fd.get('standing') || 'moyen',
-        building_usage: fd.get('building_usage') || 'unifamilial',
-        parcel_config: fd.get('parcel_config') || 'bande',
-        facade_width: parseFloat(fd.get('facade_width')) || 10,
-        facade_width_2: parseFloat(fd.get('facade_width_2')) || 0,
-        street_width: parseFloat(fd.get('street_width')) || 12,
-        sanitation_type: fd.get('sanitation_type') || 'autonome',
-        neighbor_status: fd.get('neighbor_status') || 'vide',
-        energy_backup: fd.get('energy_backup') || 'standard',
-        client_name: clientName,
-        client_email: clientEmail,
-        phone_prefix: rawPrefix,
-        client_phone: rawPhone,
-        exact_amount: exactAmount,
-        timestamp: Date.now(),
-        // Nouveaux champs pour Audit
-        devis_number: (fd.get('devis_number') || '').trim(),
-        devis_date: (fd.get('devis_date') || '').trim(),
-        devis_company: (fd.get('devis_company') || '').trim(),
-        devis_object: (fd.get('devis_object') || '').trim(),
-        devis_total_ht: parseFloat(fd.get('devis_total_ht')) || 0,
-        devis_acompte: parseInt(fd.get('devis_acompte'), 10) || 30,
-        devis_lines: window.getDevisLines ? window.getDevisLines() : []
-      };
-      // 1. Sauvegarde immédiate dans les stockages du navigateur
-      try {
-        localStorage.setItem('cs_project_data', JSON.stringify(projectData));
-        sessionStorage.setItem('cs_project_data', JSON.stringify(projectData));
-      } catch(e) {}
-      if (serviceKey === 'audit') {
-        const lines = window.getDevisLines ? window.getDevisLines() : [];
-        if (!lines || lines.length === 0) {
-          alert("Erreur : Aucune ligne validée – retournez à l'écran de validation.");
-          return;
-        }
-        
-        const canonicalData = {
-          dossier: currentDossierId,
-          client: {
-            nom: clientName,
-            telephone: rawPrefix + ' ' + rawPhone,
-            email: clientEmail
-          },
-          identification: {
-            objetDevis: (fd.get('devis_object') || '').trim(),
-            entrepriseNom: (fd.get('devis_company') || '').trim(),
-            ninea: (fd.get('devis_ninea') || '').trim(),
-            rccm: (fd.get('devis_rccm') || '').trim(),
-          },
-          totaux: {
-            htIndique: parseFloat(fd.get('devis_total_ht')) || 0,
-            tauxTVA: parseFloat(fd.get('devis_tva_taux')) || 18,
-            montantTVA: (parseFloat(fd.get('devis_total_ht')) || 0) * ((parseFloat(fd.get('devis_tva_taux')) || 18) / 100),
-            ttc: (parseFloat(fd.get('devis_total_ht')) || 0) * (1 + ((parseFloat(fd.get('devis_tva_taux')) || 18) / 100))
-          },
-          devis: {
-            objet: (fd.get('devis_object') || '').trim(),
-            reference: (fd.get('devis_number') || '').trim(),
-            date: (fd.get('devis_date') || '').trim(),
-            batiment: fd.get('building_usage') || '',
-            niveaux: parseInt(fd.get('exact_levels'), 10) || 1,
-            sdp: parseFloat(fd.get('surface')) || 0,
-            localisation: fd.get('project_location') || '',
-            entreprise: {
-              nom: (fd.get('devis_company') || '').trim(),
-              ninea: (fd.get('devis_ninea') || '').trim(),
-              rccm: (fd.get('devis_rccm') || '').trim(),
-              telephone: (fd.get('company_phone') || '').trim(),
-              adresse: (fd.get('company_address') || '').trim()
-            },
-            lignes: lines,
-            totalHTIndique: parseFloat(fd.get('devis_total_ht')) || 0,
-            tvaTaux: parseFloat(fd.get('devis_tva_taux')) || 18,
-            conditions: {
-              acompte: parseFloat(fd.get('devis_acompte')) || 0,
-              acompteType: (fd.get('devis_acompte_type') || 'percent').trim(),
-              echeancier: (fd.get('echeancier') || '').trim(),
-              retenueGarantie: parseFloat(fd.get('retenue')) || 0,
-              penalites: (fd.get('penalites') || '').trim(),
-              avenants: (fd.get('avenants') || '').trim(),
-              assurances: (fd.get('assurances') || '').trim(),
-              validite: (fd.get('validite') || '').trim(),
-              delai: (fd.get('delai') || '').trim(),
-              prixFerme: fd.get('prix_ferme') === 'oui'
-            }
-          }
-        };
-        try {
-          localStorage.setItem('chantiersur_audit_dossier_' + currentDossierId, JSON.stringify(canonicalData));
-          localStorage.setItem('current_audit_dossier', currentDossierId);
-        } catch(e) {
-          alert("Erreur : Impossible de sauvegarder les données. Veuillez réessayer.");
-          return;
-        }
-      }
-      // Mise à jour visuelle du bouton
-      const btn = document.getElementById('pay-btn-' + paneId);
-      const originalText = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = 'Édition du dossier en cours...';
-      }
-      // 2. Appel PayTech ou bascule directe
-      try {
-        const response = await fetch('/.netlify/functions/paytech', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
-            item_price: exactAmount, // Montant dynamique transmis (ex: 199000)
-            currency: 'XOF',
-            service: serviceKey,
-            ref_command: 'CS-' + Date.now(),
-            client_name: clientName,
-            client_email: clientEmail,
-            client_phone: `${prefixDigits}${rawPhone}`
-          })
-        });
-        const data = await response.json();
-        if (data && data.redirect_url) {
-          window.location.href = data.redirect_url;
-          return;
-        }
-      } catch (err) {
-        console.warn("PayTech indisponible, bascule directe vers le livrable...");
-      }
-      // Redirection immédiate avec les données réelles sauvegardées
-      window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=${serviceKey}`;
-    };
-    // 4. MENU BURGER MOBILE
-    window.toggleMobileMenu = function() {
+    function toggleMobileMenu() {
       const drawer = document.getElementById('mobile-drawer');
       if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    const CONVERSION_RATES = {
+      XOF: 1,
+      EUR: 655.957,
+      USD: 605.00,
+      CAD: 445.00
     };
-      // 5. TEST DIRECT PDF PAR URL (?payment=success&service=...)
+
+    async function fetchLiveRates() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/EUR');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && data.rates) {
+          const eurToXof = 655.957;
+          if (data.rates.USD) CONVERSION_RATES.USD = eurToXof / data.rates.USD;
+          if (data.rates.CAD) CONVERSION_RATES.CAD = eurToXof / data.rates.CAD;
+        }
+      } catch (err) {}
+    }
+    fetchLiveRates();
+
+    window.updateCurrencyDisplay = function() {
+      // Pour information utilisateur
+    };
+
+    // Redirection historique de sécurité si retour paiement vers accueil
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment') === 'success') {
         const s = urlParams.get('service') || 'esquisse';
-        // Modale d'erreur "Aucune ligne validée" pour Audit
         if (s === 'audit') {
-          const storedDossierId = localStorage.getItem('current_audit_dossier');
-          let auditState = null;
-          try {
-            if (storedDossierId) {
-              const rawAudit = localStorage.getItem('chantiersur_audit_dossier_' + storedDossierId);
-              if (rawAudit) auditState = JSON.parse(rawAudit);
-            }
-          } catch(e) {}
-          
-          if (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0) {
-            const errModal = document.createElement('div');
-            errModal.id = 'pdf-error-modal';
-            errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
-            errModal.innerHTML = `
-              <div class="bg-white border-b border-red-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
-                <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-                <div class="text-red-500 text-2xl mb-4">⚠️</div>
-                <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white mb-2">Erreur : Aucune ligne validée – retournez à l'écran de validation.</h3>
-              </div>
-            `;
-            document.body.appendChild(errModal);
-            document.getElementById('pdf-error-close').addEventListener('click', () => errModal.remove());
-            return;
-          }
-          
-          // Modale succès Audit
-          const modal = document.createElement('div');
-          modal.id = 'pdf-success-modal';
-          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
-          modal.innerHTML = `
-            <div class="bg-white border-b border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
-              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-              <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
-              <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
-              <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
-                📥 Télécharger mon Rapport PDF
-              </button>
-            </div>
-          `;
-          document.body.appendChild(modal);
-          document.getElementById('pdf-modal-close').addEventListener('click', () => modal.remove());
-          
-          document.getElementById('btn-force-download').addEventListener('click', () => {
-            document.getElementById('btn-force-download').innerHTML = 'Génération en cours...';
-            document.getElementById('btn-force-download').disabled = true;
-            fetch('/.netlify/functions/generer-audit-pdf', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(auditState)
-            }).then(response => {
-              if (!response.ok) { return response.text().then(t => { throw new Error('Erreur réseau: ' + t); }); }
-              return response.blob();
-            }).then(blob => {
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'ChantierSur_AUDIT_' + storedDossierId + '.pdf';
-              document.body.appendChild(a);
-              a.click();
-              a.remove();
-              window.URL.revokeObjectURL(url);
-              document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
-              document.getElementById('btn-force-download').disabled = false;
-            }).catch(e => {
-              alert('Erreur lors du téléchargement : ' + e.message);
-              document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
-              document.getElementById('btn-force-download').disabled = false;
-            });
-          });
-          return;
+          window.location.href = 'audit-devis.html?payment=success&service=audit';
+        } else {
+          window.location.href = 'esquisse-faisabilite.html?payment=success&service=esquisse';
         }
-        // 1. Recherche prioritaire des vraies données saisies par le client pour esquisse/express/
-        let realData = null;
-        try {
-          const saved = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
-          if (saved) {
-            realData = JSON.parse(saved);
-          }
-        } catch(e) {}
-        // 2. Si aucune saisie préalable n'est trouvée (test direct de l'URL sans formulaire), utiliser le modèle de test
-        const finalData = (realData && realData.client_name) ? realData : {
-          service: s,
-          surface: 240,
-          facade_width: 10,
-          facade_width_2: 0,
-          street_width: 12,
-          exact_levels: 2,
-          client_name: 'Moussa Ndiaye (Dossier Test)',
-          client_email: 'client@chantiersur.com',
-          client_phone: '771234567',
-          phone_prefix: '+221',
-          project_location: 'Dakar - Almadies / Ngor / Ouakam',
-          land_status: 'Titre Foncier (TF)',
-          lot_number: 'Lot N° 45',
-          parcel_config: 'bande',
-          building_usage: 'unifamilial',
-          standing: 'moyen',
-          sanitation_type: 'autonome',
-          neighbor_status: 'vide'
-        };
-        finalData.service = s;
-        console.log("etat au paiement: " + (window.devisLinesState ? window.devisLinesState.length : 0) + " lignes");
-        // Création d'une modale visible à l'écran
-        const modal = document.createElement('div');
-        modal.id = 'pdf-success-modal';
-        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
-        modal.innerHTML = `
-          <div class="bg-white border-b border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative" id="pdf-modal-card">
-              <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold cursor-pointer leading-none">&times;</button>
-            <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
-            <h3 style="font-family: 'Archivo', sans-serif;" id="pdf-modal-title" class="text-xl font-bold text-white">Paiement Validé & Livrable Prêt</h3>
-            <p id="pdf-modal-desc" class="text-sm text-slate-300">Votre dossier officiel pour la formule <strong class="text-[#0E2A47] uppercase">${s}</strong> est prêt.</p>
-            <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
-              📥 Télécharger mon Rapport PDF
-            </button>
-            <p id="pdf-status" class="text-xs text-slate-700 font-medium">Le téléchargement démarre également en arrière-plan...</p>
-          </div>
-        `;
-        document.body.appendChild(modal);
-          const closeModal = () => { modal.remove(); document.removeEventListener('keydown', escListener); };
-          document.getElementById('pdf-modal-close').addEventListener('click', closeModal);
-          modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-          const escListener = (e) => { if (e.key === 'Escape') closeModal(); };
-          document.addEventListener('keydown', escListener);
-        // Déclencheur
-        function triggerPDF() {
-          const statusEl = document.getElementById('pdf-status');
-          const gen = window.generateProjectPDF || window.generatePDF;
-          if (typeof gen === 'function') {
-            try {
-              if (window.devisLinesState && window.devisLinesState.length === 0) {
-                 throw new Error("Erreur : Aucune ligne validée – retournez à l'écran de validation");
-              }
-              if (window.devisLinesState) { finalData.devis_lines = window.devisLinesState; } gen(finalData);
-              if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✓ Téléchargement lancé avec succès !</span>';
-            } catch(err) {
-              console.error("Erreur PDF:", err);
-              document.getElementById('pdf-modal-title').innerText = "Validation requise";
-              document.getElementById('pdf-modal-desc').style.display = 'none';
-              document.getElementById('btn-force-download').style.display = 'none';
-              if (statusEl) {
-                statusEl.innerHTML = `
-                  <div class="mt-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-left">
-                    <span class="text-rose-600 font-bold">${err.message}</span>
-                  </div>
-                  <button id="btn-return-validation" class="mt-4 w-full py-4 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-all text-base cursor-pointer">
-                    Retourner à l'écran de validation
-                  </button>
-                `;
-                document.getElementById('btn-return-validation').addEventListener('click', () => {
-                  document.getElementById('pdf-success-modal').remove();
-                });
-              }
-            }
-          } else {
-            if (statusEl) statusEl.innerHTML = '<span class="text-rose-400 font-bold">Erreur : moteur pdf-generator.js non détecté.</span>';
-          }
-        }
-        document.getElementById('btn-force-download').addEventListener('click', triggerPDF);
-        // Modal visuelle et téléchargement
-        setTimeout(triggerPDF, 800);
       }
     });
-    // 6. GESTION DES LIGNES DU DEVIS (MODULE AUDIT)
-    let devisLineCount = 0;
-    
-  window.addDevisLine = function() {
-    const container = document.getElementById('devis-lines-container');
-    if (!container) return;
-    window.devisLineCount = (window.devisLineCount || 0) + 1;
-    const idx = window.devisLineCount;
-    const div = document.createElement('div');
-    div.className = 'devis-line-item bg-white border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-4 relative';
-    div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-[#0E2A47] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
-      
-      <div class="w-full md:w-3/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Lot / Macro-Lot</label>
-        <select class="dl-lot w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
-          <option value="Gros œuvre & structure">Gros œuvre & structure</option>
-          <option value="Étanchéité & toiture">Étanchéité & toiture</option>
-          
-          <option value="Installation & travaux préparatoires">Installation & travaux préparatoires</option>
-        </select>
-      </div>
-      
-      <div class="w-full md:w-3/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Désignation</label>
-        <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" placeholder="Ex: Exemple de lignes..." required>
-      </div>
-      <div class="w-full md:w-2/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nature du prix</label>
-        <select class="dl-nature w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
-          <option value="Fourniture et pose">Fourniture et pose</option>
-          <option value="Fourniture seule">Fourniture seule</option>
-          <option value="Main d'œuvre seule">Main d'œuvre seule</option>
-        </select>
-      </div>
-      <div class="w-full md:w-1/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Unité</label>
-        <select class="dl-unit w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" onchange="window.recalcDevisLine(this)">
-          <option value="m³">m³</option>
-          <option value="m²">m²</option>
-          <option value="ml">ml</option>
-          <option value="U">U</option>
-          <option value="kg">kg</option>
-          <option value="T">T</option>
-          <option value="sac">sac</option>
-          <option value="paquet">paquet</option>
-          <option value="voyage">voyage</option>
-          <option value="jour">jour</option>
-          <option value="forfait">forfait</option>
-        </select>
-      </div>
-      <div class="w-full md:w-1/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Quantité</label>
-        <input type="number" step="0.01" class="dl-qty w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" value="0" oninput="window.recalcDevisLine(this)">
-      </div>
-      <div class="w-full md:w-2/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">PU HT</label>
-        <input type="number" class="dl-pu w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" value="0" oninput="window.recalcDevisLine(this)">
-      </div>
-      <div class="w-full md:w-2/12">
-        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Total HT</label>
-        <input type="number" class="dl-total w-full bg-slate-200 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] font-bold outline-none" value="0" readonly>
-      </div>
-      <button type="button" onclick="this.closest('.devis-line-item').remove(); window.updateDevisTotal();" class="text-slate-400 hover:text-red-500 transition-colors mt-4 md:mt-0" title="Supprimer la ligne">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-      </button>`;
-    container.appendChild(div);
-  };
-  window.recalcDevisLine = function(el) {
-    const line = el.closest('.devis-line-item');
-    const unit = line.querySelector('.dl-unit').value;
-    const qtyInput = line.querySelector('.dl-qty');
-    const puInput = line.querySelector('.dl-pu');
-    const totalInput = line.querySelector('.dl-total');
-    if (unit === 'forfait') {
-      qtyInput.value = '';
-      qtyInput.disabled = true;
-      puInput.value = '';
-      puInput.disabled = true;
-      totalInput.readOnly = false;
-      totalInput.classList.remove('bg-slate-200');
-      totalInput.classList.add('bg-white');
-    } else {
-      qtyInput.disabled = false;
-      puInput.disabled = false;
-      totalInput.readOnly = true;
-      totalInput.classList.add('bg-slate-200');
-      totalInput.classList.remove('bg-white');
-      const q = parseFloat(qtyInput.value) || 0;
-      const p = parseFloat(puInput.value) || 0;
-      totalInput.value = Math.round(q * p);
-    }
-    window.updateDevisTotal();
-  };
-  window.updateDevisTotal = function() {
-    const lines = document.querySelectorAll('.devis-line-item');
-    let total = 0;
-    lines.forEach(line => {
-      total += parseFloat(line.querySelector('.dl-total').value) || 0;
-    });
-    
-    document.getElementById('devis-line-counter').textContent = lines.length + ' ligne(s)';
-    document.getElementById('devis-total-provisoire').textContent = total.toLocaleString('fr-FR');
-  };
-</script>
+  </script>
 </body>
 </html>

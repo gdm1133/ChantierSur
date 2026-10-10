@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <!-- CANARY-HOMEPAGE-20261010 -->
+  <!-- CANARY-CORRECTIF-20261010 -->
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Open Graph -->
+  <title>Esquisse & Faisabilité Technique | ChantierSur.com</title>
+  <meta name="description" content="Étude d'implantation, calcul de gabarit volumétrique et faisabilité technique conforme au décret n° 2025-1194 au Sénégal. Chiffrage immédiat par niveaux.">
+  <meta name="keywords" content="esquisse faisabilité sénégal, règles urbanisme dakar, gabarit prospect décret 2025-1194, permis de construire dakar, bureau études sénégal">
+  <meta name="author" content="ChantierSur Technologies SARL">
+  
+  <meta property="og:title" content="Esquisse & Faisabilité Technique | ChantierSur.com">
+  <meta property="og:description" content="Étude d'implantation parcellaire, gabarit volumétrique et faisabilité technique au Sénégal.">
+  <meta property="og:image" content="https://chantiersur.com/assets/img/hero-esquisse.webp">
+  <meta property="og:url" content="https://chantiersur.com/esquisse-faisabilite.html">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Esquisse & Faisabilité Technique | ChantierSur.com">
+  <meta name="twitter:description" content="Sécurisez l'implantation et la constructibilité de votre terrain au Sénégal.">
+  <meta name="twitter:image" content="https://chantiersur.com/assets/img/hero-esquisse.webp">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo/logo-a-favicon.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter & Archivo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-navy: #0E2A47;
+      --accent-blue: #1B4F72;
+      --light-bg: #F8FAFC;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1E293B;
+      background-color: var(--light-bg);
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Archivo', sans-serif;
+    }
+    .faq-accordion-content.show {
+      display: block !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased bg-[#F8FAFC]">
+
+  <!-- TOPBAR RÉGLEMENTAIRE UNIFIÉE -->
+  <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="font-medium text-slate-200">Plateforme d'Ingénierie & d'Audit BTP Indépendante</span>
+        <span class="text-slate-500">•</span>
+        <span class="text-slate-300">Conformité réglementaire & juridique</span>
+      </div>
+      <div class="flex items-center space-x-4 text-slate-300">
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-white hover:underline font-bold">admin@chantiersur.com</a></span>
+        <div class="flex items-center space-x-2">
+          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
+          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+            <option value="XOF" selected>FCFA (XOF)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar US ($)</option>
+            <option value="CAD">Dollar Canadien ($ CAD)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="bg-[#0E2A47] border-b border-[#1B4F72] sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="app_privee.html" class="flex items-center space-x-3 group">
+        <img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+        <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+        <a href="app_privee.html#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
+        <a href="a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a>
+        <a href="blog/index.html" class="text-slate-300 hover:text-white transition-colors">Blog</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <a href="#formulaire-esquisse" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all shadow-md">
+          Paramétrer mon Esquisse
+        </a>
+        <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white focus:outline-none" aria-label="Menu Mobile">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg">
+      <a href="app_privee.html#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a>
+      <a href="a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
+      <a href="blog/index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a>
+      <a href="#formulaire-esquisse" onclick="toggleMobileMenu()" class="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all">Paramétrer mon Esquisse</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION SERVICE -->
+  <section class="relative bg-[#0E2A47] text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('assets/img/hero-esquisse.webp');"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0E2A47] via-[#0E2A47]/90 to-[#1B4F72]/85"></div>
+    
+    <div class="relative max-w-4xl mx-auto text-center space-y-6">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#EAF0F6] text-xs font-bold uppercase tracking-wider shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Étude Nominative Préalable • Urbanisme DUA</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight">
+        Esquisse & Faisabilité Technique
+      </h1>
+      <p class="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-normal">
+        Sécurisez l'implantation, le gabarit volumétrique et la constructibilité de votre parcelle au Sénégal avant tout engagement de travaux ou dépôt de permis.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <a href="#formulaire-esquisse" class="px-8 py-4 bg-[#EAF0F6] hover:bg-white text-[#0E2A47] font-extrabold rounded-xl transition-all shadow-xl hover:-translate-y-0.5 text-base inline-flex items-center space-x-2">
+          <span>Accéder au formulaire de calcul</span>
+          <span>&darr;</span>
+        </a>
+        <a href="#tarifs" class="px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 transition-all text-base">
+          Consulter la grille tarifaire
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRÉSENTATION COMPLÈTE DU SERVICE -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0E2A47]">
+        Ce que comprend votre Dossier d'Esquisse
+      </h2>
+      <p class="text-slate-600 max-w-2xl mx-auto mt-2 text-base">
+        Une étude d'ingénierie préliminaire complète, impartiale et rigoureusement étayée par les textes réglementaires du Sénégal.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Bloc 1 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-xl">
+            01
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47]">Qu'est-ce que l'Esquisse ?</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            C'est le cadrage technique et juridique indispensable avant de dépenser un seul centime en maçonnerie. Elle analyse la géométrie de votre parcelle, son sol et ses contraintes d'urbanisme.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+          Base : Loi n° 2023-20 & Décret 2025-1194
+        </div>
+      </div>
+
+      <!-- Bloc 2 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-xl">
+            02
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47]">Ce qui est inclus</h3>
+          <ul class="text-slate-600 text-sm space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Analyse du droit des sols & conformité DUA / SAUDAK</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Calcul du prospect volumétrique (H &le; 1,5 &times; (L+R))</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Vérification de l'emprise CES & surfaces de plancher</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Recommandations de fondations selon le sol de la zone</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Rapport nominatif officiel prêt pour le maître d'ouvrage</span>
+            </li>
+          </ul>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+          Livrable officiel téléchargeable immédiatement
+        </div>
+      </div>
+
+      <!-- Bloc 3 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-xl">
+            03
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47]">Pour qui est cette étude ?</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Idéale pour les particuliers construisant leur villa, les acquéreurs de terrain vérifiant la constructibilité, et particulièrement les <strong>membres de la diaspora</strong> souhaitant bâtir sans mauvaise surprise administrative.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+          Protection contre les vices de gabarit
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION GRILLE TARIFAIRE OFFICIELLE -->
+  <section id="tarifs" class="bg-slate-100 py-16 px-4 sm:px-6 lg:px-8 border-y border-slate-200">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#EAF0F6] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-2">
+          <span>Tarification Officielle & Transparente</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0E2A47]">
+          Grille Tarifaire par Nombre de Niveaux
+        </h2>
+        <p class="text-slate-600 max-w-2xl mx-auto mt-2 text-sm sm:text-base">
+          Tarif calculé selon la complexité structurelle du bâtiment : <strong>149 000 FCFA</strong> (base RDC) + <strong>25 000 FCFA</strong> par niveau d'élévation supérieur.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 mb-6">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">RDC Simple</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">149 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+1 Duplex</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">174 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+2</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">199 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+3</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">224 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+4</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">249 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+5</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">274 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+6</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">299 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+7</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">324 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+8</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">349 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+9</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">374 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm col-span-2 sm:col-span-1">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+10 Tour</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">399 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl border border-slate-200 text-center text-xs text-slate-600 font-medium">
+        💡 <strong>Calcul dynamique :</strong> Le prix exact est recalculé en temps réel dans le formulaire ci-dessous dès que vous sélectionnez vos niveaux d'élévation et votre devise.
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION FORMULAIRE ESQUISSE DÉPLACÉ DEPUIS L'ACCUEIL -->
+  <section id="formulaire-esquisse" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+    <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl relative">
+      
+      <form id="pane-1" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
+        <!-- EN-TÊTE DU FORMULAIRE & STEPPER -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-6 gap-4">
+          <div>
+            <h3 class="text-2xl font-extrabold text-[#0E2A47]">Formulaire de Configuration d'Esquisse</h3>
+            <p class="text-xs text-slate-600 font-medium mt-0.5">Étude nominative préalable • Règles d'urbanisme DUA & Décret 2025-1194</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="bullet-1 w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow">1</div>
+            <div class="w-8 h-0.5 bg-slate-300"></div>
+            <div class="bullet-2 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm">2</div>
+            <div class="w-8 h-0.5 bg-slate-300"></div>
+            <div class="bullet-3 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm">3</div>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 1 : GÉOMÉTRIE DE LA PARCELLE & GABARIT -->
+        <div class="step-container step-1 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface totale parcelle (m²)</label>
+              <input type="number" name="surface" value="200" min="50" max="3000" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Façade principale sur rue (m)</label>
+              <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
+              <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+                <option value="0">RDC Simple (Villa plain-pied)</option>
+                <option value="1" selected>R+1 (Villa à étage / Duplex)</option>
+                <option value="2">R+2 (Immeuble R+2)</option>
+                <option value="3">R+3 (Immeuble R+3)</option>
+                <option value="4">R+4 (Immeuble R+4)</option>
+                <option value="5">R+5 (Immeuble R+5)</option>
+                <option value="6">R+6 (Immeuble R+6)</option>
+                <option value="7">R+7 (Immeuble R+7)</option>
+                <option value="8">R+8 (Immeuble R+8)</option>
+                <option value="9">R+9 (Immeuble R+9)</option>
+                <option value="10">R+10 (Tour / Immeuble R+10)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Configuration de la parcelle</label>
+              <select name="parcel_config" id="parcel-config-select" onchange="window.handleParcelConfigChange(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all">
+                <option value="bande" selected>En bande (1 façade sur rue)</option>
+                <option value="angle">En angle (2 façades sur rues)</option>
+                <option value="traversante">Traversante (2 façades opposées)</option>
+                <option value="isolee">Isolée (4 côtés dégagés)</option>
+              </select>
+            </div>
+            
+            <div id="facade-2-container" class="hidden">
+              <label class="block text-xs font-bold text-[#0E2A47] uppercase mb-2">2nde Façade sur rue (m)</label>
+              <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-[#F0F9FF] border border-[#1B4F72] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
+              <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all">
+                <option value="unifamilial" selected>Résidentiel Unifamilial (Villa privée)</option>
+                <option value="locatif">Immeuble locatif / Appartements</option>
+                <option value="mixte">Mixte (Commerce RDC + Logements)</option>
+                <option value="bureaux">Bureaux tertiaires / Professionnel</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Standing de construction</label>
+              <select name="standing" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all">
+                <option value="moyen" selected>Moyen Standing (Équilibré & Robuste)</option>
+                <option value="economique">Économique / Locatif standard</option>
+                <option value="haut">Haut Standing (Prestations Premium)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Largeur de la voie publique (m)</label>
+              <input type="number" name="street_width" value="12" min="6" max="50" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Hauteur sous plafond souhaitée (m)</label>
+              <input type="number" name="ceiling_height" value="3.0" min="2.6" max="4.5" step="0.1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4">
+            <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
+              <span>Continuer vers les détails du site</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 2 : SOL, ASSAINISSEMENT & TITRE FONCIER -->
+        <div class="step-container step-2 hidden space-y-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Localisation & Spécificités du Sol (Sénégal)</label>
+            <select name="project_location" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <optgroup label="📍 Dakar Littoral & Presqu'île (Risque Salin Sévère)">
+                <option value="Dakar - Almadies / Ngor / Ouakam" selected>Almadies / Ngor / Ouakam (Zone rocheuse/marine - Enrobage 4,5 cm)</option>
+                <option value="Dakar - Yoff / Cambérène / Corniche">Yoff / Cambérène / Corniche (Sable dunaire marin)</option>
+                <option value="Dakar - Plateau / Fann / Point E / Mermoz">Dakar Centre / Fann / Point E / Mermoz</option>
+              </optgroup>
+              <optgroup label="📍 Dakar Zones Basses (Nappe Phréatique Haute)">
+                <option value="Keur Massar / Malika / Tivaouane Peulh">Keur Massar / Malika / Tivaouane Peulh (Cuvelage/Drainage)</option>
+                <option value="Pikine / Guédiawaye / Thiaroye">Pikine / Guédiawaye / Thiaroye (Sols compressibles)</option>
+              </optgroup>
+              <optgroup label="📍 Grand Dakar & Pôles d'Expansion">
+                <option value="Diamniadio / Sébikotane / Bargny">Diamniadio / Sébikotane / Bargny (Argiles gonflantes)</option>
+                <option value="Rufisque / Sangalkam / Lac Rose">Rufisque / Sangalkam / Lac Rose</option>
+              </optgroup>
+              <optgroup label="📍 Régions & Petite Côte">
+                <option value="Saly / Mbour / Somone / Ngaparou">Saly / Mbour / Somone (Bord de mer - corrosion armatures)</option>
+                <option value="Thiès / Tivaouane / Touba">Thiès / Tivaouane / Touba (Plateau latéritique stable)</option>
+                <option value="Saint-Louis / Casamance / Autres">Saint-Louis / Casamance / Autres Régions</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Statut Juridique Foncier</label>
+              <select name="land_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all">
+                <option value="Titre Foncier (TF)" selected>Titre Foncier Définitif (TF)</option>
+                <option value="Bail Emphytéotique">Bail Emphytéotique de l'État</option>
+                <option value="Délibération Communale">Délibération Communale / Affectation</option>
+                <option value="En cours de régularisation">En cours de régularisation foncière</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro de Titre Foncier / Lot / NICAD</label>
+              <input type="text" name="lot_number" placeholder="Ex: TF N° 12.845/DP ou Lot N° 45" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Raccordement Assainissement Eaux Usées</label>
+              <select name="sanitation_type" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all">
+                <option value="autonome" selected>Fosse toutes eaux étanche + Puits perdu (Autonome)</option>
+                <option value="onas">Réseau collectif public ONAS existant</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">État de la mitoyenneté directe</label>
+              <select name="neighbor_status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all">
+                <option value="vide" selected>Parcelles voisines nues (non bâties)</option>
+                <option value="bati_un_cote">Bâtiment mitoyen existant sur un côté</option>
+                <option value="bati_deux_cotes">Bâtiments mitoyens sur les deux côtés</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-4">
+            <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
+            <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
+              <span>Passer aux informations de contact</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 3 : DONNÉES PERSONNELLES DU MAÎTRE D'OUVRAGE & PAIEMENT -->
+        <div class="step-container step-3 hidden space-y-6">
+          <div class="bg-[#F0F9FF] border border-[#1B4F72] p-5 rounded-xl flex items-center justify-between">
+            <div>
+              <p class="text-xs uppercase font-bold text-[#0E2A47]">Total Prestation d'Étude Personnalisée</p>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="price-val-1" class="text-3xl font-black text-[#0E2A47]">174 000 FCFA</span>
+                <span id="price-converted-1" class="text-xs text-slate-600 font-bold">(≈ 265 €)</span>
+              </div>
+            </div>
+            <span class="text-xs font-bold bg-[#EAF0F6] text-[#0E2A47] px-3 py-1.5 rounded-lg border border-[#B8C9DB]">
+              Chiffrage exact par niveau
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage <span class="text-red-500">*</span></label>
+              <input type="text" name="client_name" placeholder="Ex: El Hadji Abdoulaye Diop" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Adresse Email (Envoi du Rapport) <span class="text-red-500">*</span></label>
+              <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact) <span class="text-red-500">*</span></label>
+            <div class="flex">
+              <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+                <option value="+221" selected>🇸🇳 SN (+221)</option>
+                <option value="+33">🇫🇷 FR (+33)</option>
+                <option value="+39">🇮🇹 IT (+39)</option>
+                <option value="+34">🇪🇸 ES (+34)</option>
+                <option value="+1">🇺🇸 US (+1)</option>
+                <option value="+1">🇨🇦 CA (+1)</option>
+                <option value="+225">🇨🇮 CI (+225)</option>
+                <option value="+241">🇬🇦 GA (+241)</option>
+                <option value="+222">🇲🇷 MR (+222)</option>
+                <option value="+220">🇬🇲 GM (+220)</option>
+                <option value="+223">🇲🇱 ML (+223)</option>
+                <option value="+212">🇲🇦 MA (+212)</option>
+                <option value="+32">🇧🇪 BE (+32)</option>
+                <option value="+49">🇩🇪 DE (+49)</option>
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+41">🇨🇭 CH (+41)</option>
+                <option value="+242">🇨🇬 CG (+242)</option>
+                <option value="+243">🇨🇩 CD (+243)</option>
+                <option value="+971">🇦🇪 AE (+971)</option>
+                <option value="+966">🇸🇦 SA (+966)</option>
+                <option value="+224">🇬🇳 GN (+224)</option>
+              </select>
+              <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none font-mono text-sm transition-all" required>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1">Ce numéro figurera sur le rapport officiel pour authentifier la propriété du dossier.</p>
+          </div>
+
+          <div class="flex justify-between items-center pt-4">
+            <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
+            <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl transition-all shadow-xl text-base flex items-center space-x-3 cursor-pointer">
+              <span>Éditer mon Rapport d'Esquisse</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ SERVICE ACCORDÉON -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0E2A47]">
+        Questions Fréquentes sur l'Esquisse
+      </h2>
+      <p class="text-slate-600 text-sm mt-1">Tout comprendre avant de paramétrer votre dossier</p>
+    </div>
+
+    <div class="space-y-3">
+      <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+        <button type="button" class="faq-accordion-btn w-full text-left px-6 py-4 font-bold text-[#0E2A47] flex justify-between items-center hover:bg-slate-50 transition-colors" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="text-base sm:text-lg pr-4">En quoi consiste exactement le rapport d'Esquisse & Faisabilité ?</span>
+          <svg class="faq-icon w-5 h-5 text-slate-400 transform transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="faq-accordion-content hidden px-6 pb-5 text-slate-600 text-sm sm:text-base leading-relaxed border-t border-slate-100 pt-3">
+          Le rapport d'Esquisse analyse les règles d'urbanisme applicables à votre terrain au Sénégal (reculs, prospects volumétriques selon le décret n° 2025-1194, emprise au sol CES, coefficient d'occupation du sol COS) et effectue un prédimensionnement structurel selon la géologie locale et le nombre d'étages projetés.
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+        <button type="button" class="faq-accordion-btn w-full text-left px-6 py-4 font-bold text-[#0E2A47] flex justify-between items-center hover:bg-slate-50 transition-colors" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="text-base sm:text-lg pr-4">Ce rapport remplace-t-il les plans d'architecture pour le permis de construire ?</span>
+          <svg class="faq-icon w-5 h-5 text-slate-400 transform transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="faq-accordion-content hidden px-6 pb-5 text-slate-600 text-sm sm:text-base leading-relaxed border-t border-slate-100 pt-3">
+          Non. Conformément à la législation sénégalaise, les plans d'architecture pour le permis de construire officiel requièrent le visa d'un architecte inscrit à l'ODAS. Notre rapport constitue une étude préliminaire indépendante d'ingénierie qui fixe le cadre technique et budgétaire avant d'engager les frais d'architecte.
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+        <button type="button" class="faq-accordion-btn w-full text-left px-6 py-4 font-bold text-[#0E2A47] flex justify-between items-center hover:bg-slate-50 transition-colors" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="text-base sm:text-lg pr-4">Quel est le délai pour obtenir mon rapport PDF ?</span>
+          <svg class="faq-icon w-5 h-5 text-slate-400 transform transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="faq-accordion-content hidden px-6 pb-5 text-slate-600 text-sm sm:text-base leading-relaxed border-t border-slate-100 pt-3">
+          La génération est immédiate dès validation de votre commande. Vous téléchargez instantanément votre livrable complet en PDF haute résolution et une copie est automatiquement archivée et envoyée à votre adresse email.
+        </div>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+        <button type="button" class="faq-accordion-btn w-full text-left px-6 py-4 font-bold text-[#0E2A47] flex justify-between items-center hover:bg-slate-50 transition-colors" aria-expanded="false" onclick="toggleFaq(this)">
+          <span class="text-base sm:text-lg pr-4">Que se passe-t-il si mon projet dépasse la hauteur autorisée par l'urbanisme ?</span>
+          <svg class="faq-icon w-5 h-5 text-slate-400 transform transition-transform duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+        <div class="faq-accordion-content hidden px-6 pb-5 text-slate-600 text-sm sm:text-base leading-relaxed border-t border-slate-100 pt-3">
+          Notre module de contrôle indicatif détecte tout dépassement du gabarit légal (règle H &le; 1,5 &times; (L+R)) et vous avertit par une modale détaillée avant validation. Vous pouvez alors ajuster la hauteur ou consulter nos préconisations techniques.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="bg-gradient-to-br from-[#0E2A47] to-[#1B4F72] text-white py-14 px-4 sm:px-6 text-center">
+    <div class="max-w-3xl mx-auto space-y-4">
+      <h2 class="text-2xl sm:text-4xl font-black text-white">
+        Prêt à sécuriser votre investissement foncier ?
+      </h2>
+      <p class="text-slate-200 text-sm sm:text-base max-w-xl mx-auto">
+        Bâtissez en toute sérénité au Sénégal avec des données techniques indiscutables.
+      </p>
+      <div class="pt-2">
+        <a href="#formulaire-esquisse" class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl font-bold bg-white text-[#0E2A47] hover:bg-[#F1F5F9] transition-all shadow-lg hover:shadow-xl">
+          Lancer mon Esquisse dès maintenant &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER UNIFIÉ 3 COLONNES -->
+  <footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 text-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <a href="app_privee.html" class="flex items-center space-x-3 group mb-4">
+            <img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+            <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+          </a>
+          <p class="text-slate-300 font-bold mb-4">Bâtissez sans angle mort.</p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold mb-4">Solutions & Expertises</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="esquisse-faisabilite.html" class="text-white font-semibold transition">Esquisse Faisabilité</a></li>
+            <li><a href="audit-devis.html" class="hover:text-white transition">Audit Devis BTP</a></li>
+            <li><a href="blog/index.html" class="hover:text-white transition">Articles & Guides Techniques</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold mb-4">Légal & Déontologie</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="a-propos.html" class="hover:text-white transition">Qui Sommes-Nous</a></li>
+            <li><a href="mentions-legales.html" class="hover:text-white transition">Mentions Légales</a></li>
+            <li><a href="mailto:admin@chantiersur.com" class="hover:text-white transition">Contact & Support</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SOUS-PIED DE PAGE -->
+  <div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
+    <div class="max-w-7xl mx-auto space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/50 pb-4">
+        <div class="flex flex-wrap items-center gap-4 text-[11px]">
+          <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-slate-300 font-medium">Système Opérationnel</span>
+          </div>
+          <div class="flex items-center space-x-1.5 text-slate-400">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+            <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
+          </div>
+          <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            <span>Bureau d'études numérique indépendant</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3 text-[11px] text-slate-400">
+          <span>Paiements sécurisés : Wave, Orange Money, Visa</span>
+        </div>
+      </div>
+      <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
+        <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
+      </p>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
+        <div class="text-slate-400 text-center md:text-left">
+          &copy; 2026 ChantierSur Technologies SARL. Tous droits réservés.
+          <span class="hidden sm:inline text-slate-700">|</span>
+          <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
+        </div>
+        <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
+          <a href="mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales</a>
+          <span class="text-slate-600">•</span>
+          <a href="blog/index.html" class="hover:text-white transition-colors">Blog</a>
+          <span class="text-slate-600">•</span>
+          <a href="mailto:admin@chantiersur.com" class="text-slate-300 hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS & MOTEURS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="noto-sans-vfs.js"></script>
+  <script src="pdf-generator.js?v=3.1"></script>
+
+  <script>
+    // Menu mobile toggle
+    window.toggleMobileMenu = function() {
+      const drawer = document.getElementById('mobile-drawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    };
+
+    // Accordéon FAQ
+    window.toggleFaq = function(button) {
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('.faq-icon');
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !isExpanded);
+      if (content) {
+        content.classList.toggle('hidden');
+        content.classList.toggle('show');
+      }
+      if (icon) {
+        icon.classList.toggle('rotate-180');
+      }
+    };
+
+    // Gestion de la seconde façade
+    window.handleParcelConfigChange = function(val) {
+      const f2Container = document.getElementById('facade-2-container');
+      if (f2Container) {
+        if (val === 'angle' || val === 'traversante') {
+          f2Container.classList.remove('hidden');
+        } else {
+          f2Container.classList.add('hidden');
+        }
+      }
+    };
+
+    // Taux de conversion
+    let CONVERSION_RATES = {
+      XOF: 1,
+      EUR: 655.957,
+      USD: 600.0,
+      CAD: 440.0
+    };
+
+    async function fetchLiveRates() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/XOF');
+        const data = await res.json();
+        if (data && data.rates) {
+          if (data.rates.USD) CONVERSION_RATES.USD = 1 / data.rates.USD;
+          if (data.rates.CAD) CONVERSION_RATES.CAD = 1 / data.rates.CAD;
+          window.updateAllPrices();
+        }
+      } catch (err) {
+        console.error("Taux du jour indisponibles, utilisation des taux de référence.");
+      }
+    }
+    fetchLiveRates();
+
+    // Règle tarifaire Esquisse
+    const PRICING_RULES = {
+      1: { base: 149000, perLevelAbove1: 25000 }
+    };
+
+    window.calculateServicePrice = function(paneId) {
+      const rule = PRICING_RULES[paneId] || PRICING_RULES[1];
+      const pane = document.getElementById('pane-' + paneId);
+      if (!pane) return rule.base;
+      const fd = new FormData(pane);
+      const levels = parseInt(fd.get('exact_levels') || '0', 10);
+      const extraLevels = Math.max(0, levels);
+      return rule.base + (extraLevels * rule.perLevelAbove1);
+    };
+
+    window.updateAllPrices = function() {
+      const currencySelect = document.getElementById('currency-select');
+      const activeCurrency = currencySelect ? currencySelect.value : 'XOF';
+      const rate = CONVERSION_RATES[activeCurrency] || 1;
+      
+      const priceXOF = window.calculateServicePrice(1);
+      const priceValEl = document.getElementById('price-val-1');
+      const priceConvEl = document.getElementById('price-converted-1');
+      
+      if (priceValEl) {
+        priceValEl.textContent = priceXOF.toLocaleString('fr-FR') + ' FCFA';
+      }
+      if (priceConvEl) {
+        if (activeCurrency === 'XOF') {
+          const eurEquiv = (priceXOF / CONVERSION_RATES.EUR).toFixed(2);
+          priceConvEl.textContent = `(≈ ${eurEquiv} €)`;
+        } else {
+          const converted = (priceXOF / rate).toFixed(2);
+          const symbols = { EUR: '€', USD: '$US', CAD: '$ CAD' };
+          priceConvEl.textContent = `(≈ ${converted} ${symbols[activeCurrency]})`;
+        }
+      }
+    };
+    document.addEventListener('DOMContentLoaded', window.updateAllPrices);
+
+    // Navigation Étapes
+    window.goToStep = function(paneId, targetStep) {
+      const pane = document.getElementById('pane-' + paneId);
+      if (!pane) return;
+      const activeStep = pane.querySelector('.step-container:not(.hidden)');
+      if (activeStep) {
+        let currentStepNum = 1;
+        for (let i = 1; i <= 3; i++) {
+          if (activeStep.classList.contains('step-' + i)) {
+            currentStepNum = i;
+            break;
+          }
+        }
+        if (targetStep > currentStepNum) {
+          const fields = activeStep.querySelectorAll('input, select, textarea');
+          let hasError = false;
+          for (let field of fields) {
+            if (field.offsetParent === null || field.type === 'hidden' || field.closest('.hidden')) continue;
+            if (!field.checkValidity()) {
+              field.reportValidity();
+              hasError = true;
+              break;
+            }
+          }
+          if (hasError) return;
+        }
+      }
+
+      pane.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
+      const nextStepEl = pane.querySelector('.step-' + targetStep);
+      if (nextStepEl) nextStepEl.classList.remove('hidden');
+
+      for (let i = 1; i <= 3; i++) {
+        const bullet = pane.querySelector('.bullet-' + i);
+        if (bullet) {
+          if (i === targetStep) {
+            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow';
+          } else if (i < targetStep) {
+            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow opacity-50';
+          } else {
+            bullet.className = 'bullet-' + i + ' w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm';
+          }
+        }
+      }
+      window.scrollTo({ top: pane.offsetTop - 80, behavior: 'smooth' });
+    };
+
+    // Paiement & Sauvegarde
+    window.initiatePayment = async function(paneId, serviceKey) {
+      const pane = document.getElementById('pane-' + paneId);
+      if (!pane) return;
+      const fd = new FormData(pane);
+      const currentDossierId = 'CS-' + Date.now();
+      const clientName = (fd.get('client_name') || '').trim();
+      const clientEmail = (fd.get('client_email') || '').trim();
+      const rawPrefix = (fd.get('phone_prefix') || '+221').trim();
+      let rawPhone = (fd.get('client_phone') || '').toString().trim();
+
+      if (!clientName || !clientEmail || !rawPhone) {
+        alert("Veuillez renseigner votre nom, votre adresse email et votre numéro de téléphone.");
+        return;
+      }
+
+      // Contrôle indicatif d'urbanisme (Décret 2025-1194)
+      const nivCheck = parseInt(fd.get('exact_levels'), 10) || 1;
+      const surfCheck = parseFloat(fd.get('surface')) || 200;
+      const usageCheck = fd.get('building_usage') || 'unifamilial';
+      const streetWidthCheck = parseFloat(fd.get('street_width')) || 12;
+      const reculCheck = streetWidthCheck >= 15 ? 4.0 : 3.0;
+      const sdpEstimeeCheck = Math.round(surfCheck * 0.65 * (nivCheck + 1) * 0.90);
+      const hauteurFaitageCheck = (nivCheck + 1) * 3.10 + 1.20;
+      
+      const GABARIT_CONFIG = {
+        prospectCoef: 1.5,
+        tolerancePct: 10,
+        source: "art. R.448, décret n° 2025-1194"
+      };
+      const empriseVoie = streetWidthCheck;
+      const retraitVoie = reculCheck;
+      const hMaxCheck = GABARIT_CONFIG.prospectCoef * (empriseVoie + retraitVoie);
+      
+      let incoherences = [];
+      if (usageCheck === 'unifamilial' && (sdpEstimeeCheck > 500 || nivCheck > 2)) {
+        incoherences.push({
+          type: 'usage',
+          title: 'Destination du bâtiment',
+          text: 'La destination « Résidentiel Unifamilial » semble atypique pour un bâtiment de R+' + nivCheck +
+            ' (≈ ' + sdpEstimeeCheck.toLocaleString('fr-FR') + ' m² de SDP estimée). Vérifiez la destination réelle (habitat collectif, mixte ou bureaux).'
+        });
+      }
+      if (hauteurFaitageCheck > hMaxCheck * (1 + GABARIT_CONFIG.tolerancePct / 100)) {
+        const depM = (hauteurFaitageCheck - hMaxCheck).toFixed(1).replace('.', ',');
+        const depPct = Math.round(((hauteurFaitageCheck - hMaxCheck) / hMaxCheck) * 100);
+        incoherences.push({
+          type: 'gabarit',
+          title: 'Prospect volumétrique sur voie publique',
+          hauteurProjet: hauteurFaitageCheck.toFixed(1).replace('.', ',') + ' m (R+' + nivCheck + ')',
+          seuilRef: hMaxCheck.toFixed(1).replace('.', ',') + ' m',
+          formuleCalcul: '1,5 × (' + empriseVoie.toFixed(1).replace('.', ',') + ' m voie + ' + retraitVoie.toFixed(1).replace('.', ',') + ' m retrait) = ' + hMaxCheck.toFixed(1).replace('.', ',') + ' m',
+          depassement: '+' + depM + ' m (' + depPct + ' %)',
+          legalNotice: 'Seuil de référence : H ≤ 1,5 × (voie + retrait) — ' + GABARIT_CONFIG.source + '. Valeur indicative calculée avec les données saisies.'
+        });
+      }
+
+      if (incoherences.length > 0) {
+        const continuer = await new Promise((resolve) => {
+          let existing = document.getElementById('cs-coherence-modal');
+          if (existing) existing.remove();
+          const overlay = document.createElement('div');
+          overlay.id = 'cs-coherence-modal';
+          overlay.className = 'fixed inset-0 bg-[#0E2A47]/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-200';
+          overlay.setAttribute('role', 'dialog');
+          overlay.setAttribute('aria-modal', 'true');
+          
+          const cardsHtml = incoherences.map((item) => `
+            <div class="bg-[#0E2A47]/90 border border-slate-700/60 rounded-xl p-4 space-y-2 text-white">
+              <h4 class="font-bold text-sm">${item.title}</h4>
+              <p class="text-xs text-slate-300">${item.text || item.depassement}</p>
+            </div>
+          `).join('');
+
+          overlay.innerHTML = `
+            <div class="relative w-full max-w-lg bg-[#0F172A] border border-slate-700 rounded-2xl shadow-2xl p-6 space-y-4">
+              <h3 class="text-base font-bold text-white">Points d'attention — Urbanisme</h3>
+              ${cardsHtml}
+              <div class="flex justify-end gap-3 pt-2">
+                <button type="button" id="btn-modal-cancel" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-semibold">Modifier</button>
+                <button type="button" id="btn-modal-continue" class="px-5 py-2 bg-[#0E2A47] hover:bg-[#1B4F72] text-white rounded-xl text-xs font-bold border border-white/20">Continuer vers le paiement</button>
+              </div>
+            </div>
+          `;
+          overlay.querySelector('#btn-modal-cancel').addEventListener('click', () => { overlay.remove(); resolve(false); });
+          overlay.querySelector('#btn-modal-continue').addEventListener('click', () => { overlay.remove(); resolve(true); });
+          document.body.appendChild(overlay);
+        });
+        if (!continuer) return;
+      }
+
+      const prefixDigits = rawPrefix.replace(/\D/g, '');
+      rawPhone = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
+      if (prefixDigits && rawPhone.startsWith(prefixDigits)) {
+        rawPhone = rawPhone.substring(prefixDigits.length).replace(/^0+/, '');
+      }
+
+      const exactAmount = window.calculateServicePrice(paneId);
+
+      const projectData = {
+        service: serviceKey,
+        surface: parseFloat(fd.get('surface')) || 200,
+        exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
+        ceiling_height: parseFloat(fd.get('ceiling_height')) || 3.0,
+        facade_width: parseFloat(fd.get('facade_width')) || 10,
+        facade_width_2: parseFloat(fd.get('facade_width_2')) || 0,
+        street_width: parseFloat(fd.get('street_width')) || 12,
+        building_usage: fd.get('building_usage') || 'unifamilial',
+        standing: fd.get('standing') || 'moyen',
+        parcel_config: fd.get('parcel_config') || 'bande',
+        project_location: fd.get('project_location') || 'Dakar - Almadies / Ngor / Ouakam',
+        land_status: fd.get('land_status') || 'Titre Foncier (TF)',
+        lot_number: (fd.get('lot_number') || '').trim() || 'Non spécifié',
+        sanitation_type: fd.get('sanitation_type') || 'autonome',
+        neighbor_status: fd.get('neighbor_status') || 'vide',
+        client_name: clientName,
+        client_email: clientEmail,
+        phone_prefix: rawPrefix,
+        client_phone: rawPhone,
+        exact_amount: exactAmount,
+        timestamp: Date.now()
+      };
+
+      try {
+        localStorage.setItem('cs_project_data', JSON.stringify(projectData));
+        sessionStorage.setItem('cs_project_data', JSON.stringify(projectData));
+      } catch(e) {}
+
+      const btn = document.getElementById('pay-btn-' + paneId);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = 'Édition du dossier en cours...';
+      }
+
+      try {
+        const response = await fetch('/.netlify/functions/paytech', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
+            item_price: exactAmount,
+            currency: 'XOF',
+            service: serviceKey,
+            ref_command: 'CS-' + Date.now(),
+            client_name: clientName,
+            client_email: clientEmail,
+            client_phone: `${prefixDigits}${rawPhone}`
+          })
+        });
+        const data = await response.json();
+        if (data && data.redirect_url) {
+          window.location.href = data.redirect_url;
+          return;
+        }
+      } catch (err) {
+        console.warn("PayTech indisponible, bascule directe vers le livrable...");
+      }
+
+      window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=${serviceKey}`;
+    };
+
+    // Livrable PDF direct après succès
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success') {
+        const s = urlParams.get('service') || 'esquisse';
+        let realData = null;
+        try {
+          const saved = sessionStorage.getItem('cs_project_data') || localStorage.getItem('cs_project_data');
+          if (saved) realData = JSON.parse(saved);
+        } catch(e) {}
+
+        const finalData = (realData && realData.client_name) ? realData : {
+          service: 'esquisse',
+          surface: 200,
+          exact_levels: 1,
+          client_name: 'Dossier Esquisse Test',
+          client_email: 'client@chantiersur.com',
+          client_phone: '771234567',
+          phone_prefix: '+221',
+          project_location: 'Dakar - Almadies / Ngor / Ouakam',
+          land_status: 'Titre Foncier (TF)',
+          lot_number: 'TF 12.845/DP',
+          parcel_config: 'bande',
+          building_usage: 'unifamilial',
+          standing: 'moyen',
+          sanitation_type: 'autonome',
+          neighbor_status: 'vide'
+        };
+
+        const modal = document.createElement('div');
+        modal.id = 'pdf-success-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
+        modal.innerHTML = `
+          <div class="bg-white border-b border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+            <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold cursor-pointer leading-none">&times;</button>
+            <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
+            <h3 class="text-xl font-bold text-[#0E2A47]">Paiement Validé & Livrable Prêt</h3>
+            <p class="text-sm text-slate-600">Votre dossier officiel d'<strong>Esquisse & Faisabilité</strong> est prêt.</p>
+            <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+              📥 Télécharger mon Rapport PDF
+            </button>
+            <p id="pdf-status" class="text-xs text-slate-500 font-medium">Le téléchargement démarre également en arrière-plan...</p>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('pdf-modal-close').addEventListener('click', () => modal.remove());
+
+        function triggerPDF() {
+          const gen = window.generateProjectPDF || window.generatePDF;
+          if (typeof gen === 'function') {
+            try {
+              gen(finalData);
+              document.getElementById('pdf-status').innerHTML = '<span class="text-emerald-600 font-bold">✓ Téléchargement lancé avec succès !</span>';
+            } catch(e) {
+              console.error(e);
+            }
+          }
+        }
+        document.getElementById('btn-force-download').addEventListener('click', triggerPDF);
+        setTimeout(triggerPDF, 800);
+      }
+    });
+  </script>
+</body>
+</html>

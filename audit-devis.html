@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <!-- CANARY-HOMEPAGE-20261010 -->
+  <!-- CANARY-CORRECTIF-20261010 -->
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Open Graph -->
+  <title>Audit & Contre-Expertise de Devis BTP | ChantierSur.com</title>
+  <meta name="description" content="Audit indépendant de devis de construction au Sénégal. Détection des erreurs arithmétiques, prix unitaires abusifs et clauses à risque avant engagement.">
+  <meta name="keywords" content="audit devis sénégal, vérifier devis construction dakar, contre-expertise bâtiment dakar, bureau études indépendant sénégal">
+  <meta name="author" content="ChantierSur Technologies SARL">
+  
+  <meta property="og:title" content="Audit & Contre-Expertise de Devis BTP | ChantierSur.com">
+  <meta property="og:description" content="Détectez les erreurs arithmétiques, prix unitaires abusifs et clauses à risque sur vos devis de construction au Sénégal.">
+  <meta property="og:image" content="https://chantiersur.com/assets/img/hero-audit.webp">
+  <meta property="og:url" content="https://chantiersur.com/audit-devis.html">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Audit & Contre-Expertise de Devis BTP | ChantierSur.com">
+  <meta name="twitter:description" content="Protégez votre budget de construction au Sénégal grâce à une contre-expertise impartiale.">
+  <meta name="twitter:image" content="https://chantiersur.com/assets/img/hero-audit.webp">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo/logo-a-favicon.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter & Archivo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-navy: #0E2A47;
+      --accent-blue: #1B4F72;
+      --light-bg: #F8FAFC;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #1E293B;
+      background-color: var(--light-bg);
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Archivo', sans-serif;
+    }
+    .faq-accordion-content.show {
+      display: block !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased bg-[#F8FAFC]">
+
+  <!-- TOPBAR RÉGLEMENTAIRE UNIFIÉE -->
+  <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="font-medium text-slate-200">Plateforme d'Ingénierie & d'Audit BTP Indépendante</span>
+        <span class="text-slate-500">•</span>
+        <span class="text-slate-300">Conformité réglementaire & juridique</span>
+      </div>
+      <div class="flex items-center space-x-4 text-slate-300">
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-white hover:underline font-bold">admin@chantiersur.com</a></span>
+        <div class="flex items-center space-x-2">
+          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
+          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+            <option value="XOF" selected>FCFA (XOF)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar US ($)</option>
+            <option value="CAD">Dollar Canadien ($ CAD)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="bg-[#0E2A47] border-b border-[#1B4F72] sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="app_privee.html" class="flex items-center space-x-3 group">
+        <img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+        <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+        <a href="app_privee.html#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
+        <a href="a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a>
+        <a href="blog/index.html" class="text-slate-300 hover:text-white transition-colors">Blog</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <a href="#formulaire-audit" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all shadow-md">
+          Auditer mon Devis
+        </a>
+        <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white focus:outline-none" aria-label="Menu Mobile">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg">
+      <a href="app_privee.html#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a>
+      <a href="a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
+      <a href="blog/index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a>
+      <a href="#formulaire-audit" onclick="toggleMobileMenu()" class="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all">Auditer mon Devis</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION SERVICE -->
+  <section class="relative bg-[#0E2A47] text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('assets/img/hero-audit.webp');"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0E2A47] via-[#0E2A47]/90 to-[#1B4F72]/85"></div>
+    
+    <div class="relative max-w-4xl mx-auto text-center space-y-6">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#EAF0F6] text-xs font-bold uppercase tracking-wider shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Contre-Expertise Indépendante • Tolérance Zéro Anomalies</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight">
+        Audit & Contre-Expertise de Devis BTP
+      </h1>
+      <p class="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-normal">
+        Détectez les erreurs arithmétiques, prix unitaires abusifs, omissions de lots et clauses contractuelles déséquilibrées avant de verser le moindre acompte.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <a href="#formulaire-audit" class="px-8 py-4 bg-[#EAF0F6] hover:bg-white text-[#0E2A47] font-extrabold rounded-xl transition-all shadow-xl hover:-translate-y-0.5 text-base inline-flex items-center space-x-2">
+          <span>Déposer mon devis pour audit</span>
+          <span>&darr;</span>
+        </a>
+        <a href="#tarifs" class="px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 transition-all text-base">
+          Consulter la grille tarifaire
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRÉSENTATION DU SERVICE -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0E2A47]">
+        Ce que comprend votre Audit de Devis
+      </h2>
+      <p class="text-slate-600 max-w-2xl mx-auto mt-2 text-base">
+        Une vérification contradictoire complète par un bureau d'études impartial, conçue pour vous redonner le pouvoir lors de la négociation.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Bloc 1 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-xl">
+            01
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47]">Qu'est-ce que l'Audit Devis ?</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            C'est l'examen ligne par ligne du devis remis par votre entrepreneur général, tâcheron ou artisan. Nous vérifions la rigueur des calculs, la cohérence des métrés et la conformité des prix aux réalités économiques locales.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+          Méthodologie d'ingénierie contradictoire
+        </div>
+      </div>
+
+      <!-- Bloc 2 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-xl">
+            02
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47]">Ce qui est inclus</h3>
+          <ul class="text-slate-600 text-sm space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Contrôle arithmétique rigoureux (PU &times; Quantités vs Totaux)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Analyse comparative des prix unitaires face au marché sénégalais</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Détection des omissions techniques majeures (étanchéité, aciers)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Audit des conditions contractuelles (acompte, retenue, pénalités)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">&#10003;</span>
+              <span>Rapport d'expertise PDF nominatif et arguments de négociation</span>
+            </li>
+          </ul>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+          Capture photo/OCR ou saisie directe
+        </div>
+      </div>
+
+      <!-- Bloc 3 -->
+      <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-xl">
+            03
+          </div>
+          <h3 class="text-xl font-bold text-[#0E2A47]">Pour qui est cette contre-expertise ?</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Pour tout propriétaire, particulier ou membre de la <strong>diaspora sénégalaise</strong> qui s'apprête à signer un contrat de travaux et souhaite s'assurer que les sommes engagées correspondent à la réalité des prestations promises.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+          Protection directe de votre investissement
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION GRILLE TARIFAIRE OFFICIELLE -->
+  <section id="tarifs" class="bg-slate-100 py-16 px-4 sm:px-6 lg:px-8 border-y border-slate-200">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#EAF0F6] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-2">
+          <span>Tarification Officielle & Transparente</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0E2A47]">
+          Grille Tarifaire par Nombre de Niveaux
+        </h2>
+        <p class="text-slate-600 max-w-2xl mx-auto mt-2 text-sm sm:text-base">
+          Tarif calculé selon la hauteur et l'envergure du projet : <strong>249 000 FCFA</strong> (base RDC) + <strong>40 000 FCFA</strong> par niveau d'élévation supérieur.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 mb-6">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">RDC Simple</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">249 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+1 Duplex</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">289 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+2</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">329 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+3</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">369 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+4</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">409 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+5</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">449 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+6</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">489 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+7</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">529 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+8</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">569 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+9</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">609 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm col-span-2 sm:col-span-1">
+          <div class="text-xs font-bold text-slate-500 uppercase">R+10</div>
+          <div class="text-lg font-black text-[#0E2A47] mt-1">649 000</div>
+          <div class="text-[10px] text-slate-500">FCFA</div>
+        </div>
+      </div>
+
+      <div class="text-center bg-white p-4 rounded-xl border border-slate-200 max-w-xl mx-auto shadow-sm">
+        <p class="text-xs sm:text-sm font-semibold text-[#0E2A47]">
+          💡 <em>Le prix exact est recalculé en temps réel dans le formulaire selon vos niveaux.</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION FORMULAIRE OFFICIEL AUDIT -->
+  <section id="formulaire-audit" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#EAF0F6] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-2">
+        <span>Formulaire d'Audit Indépendant</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0E2A47]">
+        Soumettre votre Devis pour Contre-Expertise
+      </h2>
+      <p class="text-slate-600 text-sm sm:text-base mt-2">
+        Renseignez les détails du projet et importez les pages de votre devis (photo ou saisie manuelle).
+      </p>
+    </div>
+
+    <!-- CARTE FORMULAIRE PANE-3 -->
+    <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl">
+      <form id="pane-3" class="service-pane space-y-8" onsubmit="event.preventDefault();" novalidate>
+        
+        <!-- PRIX DYNAMIQUE TEMPS RÉEL -->
+        <div class="bg-[#F0F9FF]/80 border border-[#1B4F72] p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-xs uppercase font-bold text-[#0E2A47]">Montant de la Contre-Expertise</p>
+            <div class="flex items-baseline space-x-2 mt-0.5">
+              <span id="price-val-3" class="text-2xl font-black text-[#0E2A47]">289 000 FCFA</span>
+              <span id="price-converted-3" class="text-xs text-[#5A6C7D] font-bold">(≈ 440 €)</span>
+            </div>
+          </div>
+          <div class="text-right text-xs text-slate-500 font-medium">
+            Tarif ajusté selon le niveau sélectionné ci-dessous
+          </div>
+        </div>
+
+        <!-- 2.1 BLOC INFORMATIONS DU CLIENT -->
+        <div class="step-container space-y-6">
+          <h4 class="text-lg font-bold text-[#0E2A47] border-b border-slate-100 pb-2">1. Informations du Maître d'Ouvrage</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom complet du Maître d'Ouvrage <span class="text-red-500">*</span></label>
+              <input type="text" name="client_name" placeholder="Ex: El Hadji Abdoulaye Diop" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Adresse Email (Envoi du Rapport) <span class="text-red-500">*</span></label>
+              <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire) <span class="text-red-500">*</span></label>
+            <div class="flex">
+              <select name="phone_prefix" class="bg-slate-100 border border-r-0 border-slate-300 rounded-l-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] max-w-[140px] sm:max-w-[170px] cursor-pointer">
+                <option value="+221" selected>🇸🇳 SN (+221)</option>
+                <option value="+33">🇫🇷 FR (+33)</option>
+                <option value="+39">🇮🇹 IT (+39)</option>
+                <option value="+34">🇪🇸 ES (+34)</option>
+                <option value="+1">🇺🇸 US (+1)</option>
+                <option value="+1">🇨🇦 CA (+1)</option>
+                <option value="+225">🇨🇮 CI (+225)</option>
+                <option value="+241">🇬🇦 GA (+241)</option>
+                <option value="+222">🇲🇷 MR (+222)</option>
+                <option value="+220">🇬🇲 GM (+220)</option>
+                <option value="+223">🇲🇱 ML (+223)</option>
+                <option value="+212">🇲🇦 MA (+212)</option>
+                <option value="+32">🇧🇪 BE (+32)</option>
+                <option value="+49">🇩🇪 DE (+49)</option>
+                <option value="+44">🇬🇧 UK (+44)</option>
+                <option value="+41">🇨🇭 CH (+41)</option>
+                <option value="+242">🇨🇬 CG (+242)</option>
+                <option value="+243">🇨🇩 CD (+243)</option>
+                <option value="+971">🇦🇪 AE (+971)</option>
+                <option value="+966">🇸🇦 SA (+966)</option>
+                <option value="+224">🇬🇳 GN (+224)</option>
+              </select>
+              <input type="tel" name="client_phone" placeholder="771234567" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full bg-slate-50 border border-slate-300 rounded-r-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none font-mono text-sm transition-all" required>
+            </div>
+            <p class="text-[11px] text-slate-500 font-medium mt-1">Ce numéro figurera sur le rapport officiel pour authentifier la propriété du dossier.</p>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Ville d'implantation du chantier</label>
+              <input type="text" name="client_city" placeholder="Ex: Dakar, Thiès, Saly, Saint-Louis..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
+              <select name="exact_levels" onchange="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+                <option value="0">RDC Simple (Villa plain-pied) — 249 000 FCFA</option>
+                <option value="1" selected>R+1 (Villa à étage / Duplex) — 289 000 FCFA</option>
+                <option value="2">R+2 (Immeuble R+2) — 329 000 FCFA</option>
+                <option value="3">R+3 (Immeuble R+3) — 369 000 FCFA</option>
+                <option value="4">R+4 (Immeuble R+4) — 409 000 FCFA</option>
+                <option value="5">R+5 (Immeuble R+5) — 449 000 FCFA</option>
+                <option value="6">R+6 (Immeuble R+6) — 489 000 FCFA</option>
+                <option value="7">R+7 (Immeuble R+7) — 529 000 FCFA</option>
+                <option value="8">R+8 (Immeuble R+8) — 569 000 FCFA</option>
+                <option value="9">R+9 (Immeuble R+9) — 609 000 FCFA</option>
+                <option value="10">R+10 (Tour / Immeuble R+10) — 649 000 FCFA</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.1b BLOC IDENTIFICATION DU DEVIS -->
+        <div class="step-container space-y-6">
+          <h4 class="text-lg font-bold text-[#0E2A47] border-b border-slate-100 pb-2">2. Identification du Devis Fourni</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Objet du devis (Type de projet) <span class="text-red-500">*</span></label>
+              <input type="text" name="devis_object" placeholder="Ex: Construction d'une villa R+1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" required>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom de l'entreprise / Tâcheron</label>
+              <input type="text" name="devis_company" placeholder="Ex: Entreprise BTP / Nom de l'artisan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Date du devis</label>
+              <input type="date" name="devis_date" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">NINEA de l'entreprise (si mentionné)</label>
+              <input type="text" name="devis_ninea" placeholder="Numéro d'identification nationale" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">RCCM (si mentionné)</label>
+              <input type="text" name="devis_rccm" placeholder="Registre de commerce de l'entreprise" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.2 BLOC IMPORT ET VALIDATION OCR MISTRAL -->
+        <div class="step-container space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-200" id="ocr-upload-section">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-[#EAF0F6] text-[#0E2A47] flex items-center justify-center font-bold text-sm">📸</div>
+            <h4 class="text-lg font-bold text-[#0E2A47]">Capture & Lecture Automatique du Devis (Recommandé)</h4>
+          </div>
+          <p class="text-sm text-slate-600">
+            Prenez les pages de votre devis en photo UNE PAR UNE ou importez les scans. Veillez à ce que la lumière soit suffisante et les montants bien lisibles.
+          </p>
+          
+          <label class="cursor-pointer bg-white border-2 border-dashed border-slate-300 hover:border-[#0E2A47] rounded-xl p-8 flex flex-col items-center justify-center transition-colors group">
+            <svg class="w-12 h-12 text-slate-400 group-hover:text-[#0E2A47] mb-3 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <span class="text-slate-800 font-bold text-center">Photographier ou ajouter une page</span>
+            <span class="text-xs text-slate-500 mt-1 text-center">Répétez l'opération pour chaque page du devis</span>
+            <input type="file" accept="image/*" capture="environment" id="ocr-camera-input" class="hidden" onchange="window.handleOCRPhotoSelect(event)">
+          </label>
+          <div id="ocr-thumbnails-container" class="flex flex-wrap gap-4 mt-4 hidden"></div>
+          
+          <div id="ocr-loading-indicator" class="hidden text-center p-4">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#0E2A47] border-t-transparent"></div>
+            <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse du document en cours...</p>
+          </div>
+          <div class="flex justify-end mt-4">
+            <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl transition-all shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed">
+              Lancer l'analyse des pages
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-500 text-center">
+            Les images sont traitées de manière chiffrée et éphémère pour l'extraction des postes puis purgées de nos serveurs.
+          </p>
+        </div>
+
+        <!-- ECRAN DE VALIDATION OCR -->
+        <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-2xl border-2 border-[#0E2A47] shadow-xl">
+          <h4 class="text-lg font-bold text-[#0E2A47]">Validation des Lignes Détectées</h4>
+          <p class="text-sm text-[#0E2A47] bg-[#F0F9FF] p-3 rounded-xl font-medium border border-[#1B4F72]">
+            ⚠️ Vérifiez attentivement les lignes ci-dessous. Modifiez les erreurs éventuelles avant de valider. Les lignes non valides ne seront pas intégrées à l'audit.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                  <th class="p-2 font-bold">Lot</th>
+                  <th class="p-2 font-bold">Désignation</th>
+                  <th class="p-2 font-bold w-20">Unité</th>
+                  <th class="p-2 font-bold w-24">Quantité</th>
+                  <th class="p-2 font-bold w-32">PU HT</th>
+                  <th class="p-2 font-bold w-32">Montant</th>
+                  <th class="p-2 text-center w-12">Action</th>
+                </tr>
+              </thead>
+              <tbody id="ocr-validation-table-body">
+                <!-- Rows injected by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="flex justify-end gap-4 mt-4">
+            <button type="button" onclick="window.cancelOCR()" class="px-4 py-2 text-slate-600 hover:text-[#0E2A47] font-bold">Annuler</button>
+            <button type="button" onclick="window.confirmOCR()" class="px-6 py-2.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl transition-all shadow-md">Valider ces lignes</button>
+          </div>
+        </div>
+        <canvas id="ocr-canvas" style="display:none;"></canvas>
+
+        <!-- 2.3 BLOC LOTS DU DEVIS (Saisie manuelle / Récap) -->
+        <div class="step-container space-y-6">
+          <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2">
+            <h4 class="text-lg font-bold text-[#0E2A47]">3. Postes & Lots Validés</h4>
+            <button type="button" onclick="window.addV5Lot()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors cursor-pointer">+ Ajouter un lot manuel</button>
+          </div>
+          <div id="v5-lots-container" class="space-y-3"></div>
+        </div>
+
+        <!-- 2.4 BLOC TOTAUX -->
+        <div class="step-container space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+          <h4 class="text-lg font-bold text-[#0E2A47]">4. Totaux Portés sur le Devis</h4>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Total HT indiqué sur le devis (FCFA) <span class="text-red-500">*</span></label>
+            <input type="number" name="devis_total_ht" placeholder="Ex: 15000000" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] font-mono text-base focus:border-[#0E2A47] outline-none" required>
+            <p class="text-[11px] text-slate-500 mt-1">Le montant exact écrit par l'entrepreneur, même s'il comporte une erreur de calcul.</p>
+          </div>
+          <div class="flex justify-between items-center pt-2">
+            <span class="font-bold text-sm text-slate-700">Taux TVA (%) :</span>
+            <input type="number" id="v5-tva-rate" name="devis_tva_taux" value="18" oninput="window.calcV5TotalsState()" class="w-24 bg-white border border-slate-300 rounded-lg px-3 py-2 text-right font-bold text-slate-800">
+          </div>
+          
+          <div class="mt-4 pt-4 border-t border-slate-200">
+            <h5 class="text-xs font-bold uppercase tracking-wider text-[#0E2A47] mb-2">Calcul automatique de vérification (selon vos lignes)</h5>
+            <div class="flex justify-between text-sm text-slate-600 mb-1">
+              <span>Total HT recalculé par addition :</span>
+              <span id="v5-total-ht" class="font-mono font-bold text-slate-800">0 FCFA</span>
+            </div>
+            <div class="flex justify-between font-bold text-base text-[#0E2A47] pt-1">
+              <span>Total TTC recalculé (avec TVA) :</span>
+              <span id="v5-total-ttc" class="font-mono text-lg">0 FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.5 BLOC CONDITIONS CONTRACTUELLES -->
+        <div class="step-container space-y-6">
+          <h4 class="text-lg font-bold text-[#0E2A47] border-b border-slate-100 pb-2">5. Conditions Contractuelles & Juridiques</h4>
+          <p class="text-xs text-slate-500">Laissez vide si non précisé sur le devis (notre audit le signalera automatiquement comme un point de vulnérabilité).</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Acompte à la signature</label>
+              <div class="flex">
+                <input type="number" name="devis_acompte" placeholder="Ex: 30" class="w-full bg-slate-50 border border-r-0 border-slate-300 rounded-l-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+                <select name="devis_acompte_type" class="bg-slate-100 border border-slate-300 rounded-r-xl px-3 py-3 text-slate-800 text-xs sm:text-sm font-semibold outline-none focus:border-[#0E2A47] cursor-pointer">
+                  <option value="percent" selected>%</option>
+                  <option value="fcfa">FCFA</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Échéancier de paiement</label>
+              <input type="text" name="echeancier" placeholder="Ex: Selon avancement des travaux" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Retenue de garantie (%)</label>
+              <input type="number" name="retenue" placeholder="Ex: 5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pénalités de retard</label>
+              <input type="text" name="penalites" placeholder="Ex: 1/1000 par jour calendaire" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Gestion des travaux supplémentaires (Avenants)</label>
+              <input type="text" name="avenants" placeholder="Ex: Sur devis préalable écrit obligatoire" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Assurances (RC / Décennale)</label>
+              <input type="text" name="assurances" placeholder="Ex: Attestation d'assurance fournie" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
+            </div>
+          </div>
+        </div>
+
+        <div id="v5-error-msg" class="text-rose-600 font-bold hidden text-sm bg-rose-50 p-3 rounded-xl border border-rose-200">
+          ⚠️ Veuillez saisir ou valider au moins un lot avec son montant pour lancer l'audit.
+        </div>
+        
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 border-t border-slate-200">
+          <div class="text-left">
+            <span class="text-xs uppercase font-bold text-slate-500 block">Total de la prestation :</span>
+            <span class="text-xl font-black text-[#0E2A47]" id="price-val-3-bottom">289 000 FCFA</span>
+          </div>
+          <button type="button" id="v5-btn-audit" disabled onclick="initiatePayment(3, 'audit')" class="w-full sm:w-auto px-10 py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl transition-all shadow-xl disabled:bg-slate-300 disabled:cursor-not-allowed cursor-pointer text-base">
+            Lancer l'audit de mon devis &rarr;
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- SECTION FAQ -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0E2A47]">
+        Questions Fréquentes sur l'Audit Devis
+      </h2>
+      <p class="text-slate-600 text-sm mt-2">
+        Tout ce que vous devez savoir sur notre processus d'expertise contradictoire.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <!-- FAQ 1 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <button type="button" onclick="toggleFaq(this)" class="w-full text-left font-bold text-[#0E2A47] flex justify-between items-center text-base">
+          <span>Comment fonctionne la capture photo de mon devis ?</span>
+          <span class="faq-icon text-xl text-slate-400 font-bold">+</span>
+        </button>
+        <div class="faq-accordion-content hidden mt-4 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
+          Vous photographiez ou téléversez chaque page du document. Notre module d'ingénierie assisté par vision numérique extrait automatiquement les postes, métrés et prix unitaires. Un écran de validation vous permet de vérifier et corriger chaque ligne avant confirmation.
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <button type="button" onclick="toggleFaq(this)" class="w-full text-left font-bold text-[#0E2A47] flex justify-between items-center text-base">
+          <span>Que faire si mon entrepreneur m'a donné un devis sans détail des quantités ?</span>
+          <span class="faq-icon text-xl text-slate-400 font-bold">+</span>
+        </button>
+        <div class="faq-accordion-content hidden mt-4 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
+          Les forfaits globaux non décomposés constituent le piège le plus fréquent sur les chantiers. Notre rapport signalera explicitement cette anomalie comme un risque d'avenants imprévus et vous fournira la formulation contractuelle exacte pour exiger un bordereau quantitatif estimatif détaillé.
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <button type="button" onclick="toggleFaq(this)" class="w-full text-left font-bold text-[#0E2A47] flex justify-between items-center text-base">
+          <span>En quoi le rapport m'aide-t-il lors de la négociation ?</span>
+          <span class="faq-icon text-xl text-slate-400 font-bold">+</span>
+        </button>
+        <div class="faq-accordion-content hidden mt-4 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
+          Vous ne vous présentez plus en client hésitant, mais avec un dossier d'ingénierie nominatif pointant précisément les erreurs arithmétiques incontestables, les prix hors marché et les clauses protectrices obligatoires. Cela rééquilibre immédiatement le rapport de force.
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <button type="button" onclick="toggleFaq(this)" class="w-full text-left font-bold text-[#0E2A47] flex justify-between items-center text-base">
+          <span>Mes documents et mes données sont-ils protégés ?</span>
+          <span class="faq-icon text-xl text-slate-400 font-bold">+</span>
+        </button>
+        <div class="faq-accordion-content hidden mt-4 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
+          Absolument. En tant que bureau d'études indépendant, nous respectons le secret professionnel le plus strict. Les pièces transmises sont traitées de façon chiffrée et ne sont jamais communiquées à aucun artisan ou tiers commercial.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="bg-[#0E2A47] text-white py-16 px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="max-w-4xl mx-auto text-center space-y-6">
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+        Ne signez aucun devis sans contre-expertise
+      </h2>
+      <p class="text-slate-300 max-w-xl mx-auto text-base">
+        Sécurisez votre chantier, protégez vos économies et obtenez un rapport contradictoire d'ingénierie sous 48h ouvrées.
+      </p>
+      <div class="pt-2">
+        <a href="#formulaire-audit" class="px-8 py-4 bg-[#EAF0F6] hover:bg-white text-[#0E2A47] font-extrabold rounded-xl transition-all shadow-xl inline-flex items-center space-x-2 text-base">
+          <span>Transmettre mon devis maintenant</span>
+          <span>&uarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER UNIFIÉ 3 COLONNES -->
+  <footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 text-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <a href="app_privee.html" class="flex items-center space-x-3 group mb-4">
+            <img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+            <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+          </a>
+          <p class="text-slate-300 font-bold mb-4">Bâtissez sans angle mort.</p>
+          <div class="text-xs text-slate-300 space-y-2">
+            <p>Bureau d'études techniques & ingénierie numérique indépendant.</p>
+            <p class="text-slate-400">Dakar, Sénégal • Enregistré au RCCM & NINEA.</p>
+            <p class="text-slate-400">Paiements sécurisés Wave, Orange Money et Cartes Bancaires via passerelle agréée BCEAO.</p>
+          </div>
+        </div>
+        
+        <div>
+          <h4 style="font-family: 'Archivo', sans-serif;" class="text-base font-bold text-white mb-4">Services d'Ingénierie</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="esquisse-faisabilite.html" class="hover:text-white transition-colors">Esquisse & Faisabilité Technique</a></li>
+            <li><a href="audit-devis.html" class="hover:text-white transition-colors font-semibold text-white">Audit & Contre-Expertise de Devis</a></li>
+            <li><a href="a-propos.html" class="hover:text-white transition-colors">Qui Sommes-Nous</a></li>
+            <li><a href="blog/index.html" class="hover:text-white transition-colors">Guides & Articles Techniques</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 style="font-family: 'Archivo', sans-serif;" class="text-base font-bold text-white mb-4">Cadre Légal & Réglementaire</h4>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales & CGU</a></li>
+            <li><a href="mentions-legales.html#politique-confidentialite" class="hover:text-white transition-colors">Politique de Confidentialité</a></li>
+            <li><a href="mentions-legales.html#conformite-fonciere" class="hover:text-white transition-colors">Décret n° 2025-1194 (Urbanisme)</a></li>
+            <li><a href="mentions-legales.html#tarification-officielle" class="hover:text-white transition-colors">Barème & Tarification Officielle</a></li>
+            <li><a href="mailto:admin@chantiersur.com" class="hover:text-white transition-colors">Contact : admin@chantiersur.com</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="pt-6 border-t border-[#1B4F72] text-center text-xs text-slate-400">
+        <p>&copy; 2026 ChantierSur Technologies SARL. Tous droits réservés. Plateforme d'ingénierie et d'audit BTP indépendante.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS LOGIQUE AUDIT & CALCULS VERBATIM -->
+  <script>
+    // GESTION DU MENU MOBILE
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    // ACCORDÉON FAQ
+    function toggleFaq(btn) {
+      const content = btn.parentElement.querySelector('.faq-accordion-content');
+      const icon = btn.querySelector('.faq-icon');
+      if (!content) return;
+      const isOpen = content.classList.contains('show');
+      document.querySelectorAll('.faq-accordion-content').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.faq-icon').forEach(el => el.textContent = '+');
+      if (!isOpen) {
+        content.classList.add('show');
+        if (icon) icon.textContent = '−';
+      }
+    }
+
+    // TAUX DE CHANGE OFFICIELS & FLOTTANTS
+    const CONVERSION_RATES = {
+      XOF: 1,
+      EUR: 655.957,
+      USD: 605.00,
+      CAD: 445.00
+    };
+
+    async function fetchLiveRates() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/EUR');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && data.rates) {
+          const eurToXof = 655.957;
+          if (data.rates.USD) CONVERSION_RATES.USD = eurToXof / data.rates.USD;
+          if (data.rates.CAD) CONVERSION_RATES.CAD = eurToXof / data.rates.CAD;
+          window.updateAllPrices();
+        }
+      } catch (err) {
+        console.error("Impossible de récupérer les taux de change du jour :", err);
+      }
+    }
+    fetchLiveRates();
+
+    // GRILLE TARIFAIRE AUDIT (Base 249k + 40k par niveau)
+    const PRICING_RULES = {
+      3: { base: 249000, perLevelAbove1: 40000 },
+    };
+
+    window.calculateServicePrice = function(paneId) {
+      const rule = PRICING_RULES[paneId] || { base: 249000, perLevelAbove1: 40000 };
+      const pane = document.getElementById('pane-3');
+      if (!pane) return rule.base;
+      const fd = new FormData(pane);
+      const levels = parseInt(fd.get('exact_levels') || '0', 10);
+      const extraLevels = Math.max(0, levels);
+      return rule.base + (extraLevels * rule.perLevelAbove1);
+    };
+
+    window.updateAllPrices = function() {
+      const currencySelect = document.getElementById('currency-select');
+      const activeCurrency = currencySelect ? currencySelect.value : 'XOF';
+      const rate = CONVERSION_RATES[activeCurrency] || 1;
+      const priceXOF = window.calculateServicePrice(3);
+
+      const priceValEl = document.getElementById('price-val-3');
+      const priceValBottom = document.getElementById('price-val-3-bottom');
+      const priceConvEl = document.getElementById('price-converted-3');
+
+      const formatted = priceXOF.toLocaleString('fr-FR') + ' FCFA';
+      if (priceValEl) priceValEl.textContent = formatted;
+      if (priceValBottom) priceValBottom.textContent = formatted;
+
+      if (priceConvEl) {
+        if (activeCurrency === 'XOF') {
+          const eurEquiv = (priceXOF / CONVERSION_RATES.EUR).toFixed(2);
+          priceConvEl.textContent = `(≈ ${eurEquiv} €)`;
+        } else {
+          const converted = (priceXOF / rate).toFixed(2);
+          const symbols = { EUR: '€', USD: '$US', CAD: '$ CAD' };
+          priceConvEl.textContent = `(≈ ${converted} ${symbols[activeCurrency] || activeCurrency})`;
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', window.updateAllPrices);
+
+    // LOGIQUE DEVIS & LOTS V5
+    window.ocrImages = [];
+    window.devisLinesState = window.devisLinesState || [];
+
+    window.addV5Lot = function(data = null) {
+      const defaultDesc = data && data.designation ? data.designation : '';
+      const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
+      window.devisLinesState.push({ lot: '', designation: defaultDesc, unite: 'u', quantite: 1, pu: defaultMontant, montantIndique: defaultMontant });
+      window.renderV5LotsState();
+    };
+
+    window.updateV5Lot = function(index, field, value) {
+      if (window.devisLinesState && window.devisLinesState[index]) {
+        window.devisLinesState[index][field] = (field === 'montant' || field === 'montantIndique') ? (parseFloat(value) || 0) : value;
+        window.calcV5TotalsState();
+      }
+    };
+
+    window.removeV5Lot = function(index) {
+      if (window.devisLinesState) {
+        window.devisLinesState.splice(index, 1);
+        window.renderV5LotsState();
+      }
+    };
+
+    window.renderV5LotsState = function() {
+      const container = document.getElementById('v5-lots-container');
+      if (!container) return;
+      container.innerHTML = '';
+      if (!window.devisLinesState) return;
+      window.devisLinesState.forEach((lot, index) => {
+        const div = document.createElement('div');
+        div.className = 'flex gap-3 sm:gap-4 items-center bg-white p-3 rounded-xl border border-slate-200 lot-row';
+        
+        const safeDesc = (lot.designation || '').toString().replace(/"/g, '&quot;');
+        const safeMontant = (lot.montantIndique !== undefined ? lot.montantIndique : '').toString().replace(/"/g, '&quot;');
+        
+        div.innerHTML = `<input type="text" class="lot-desc flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47]" placeholder="Description du lot (ex: Maçonnerie, Électricité...)" value="${safeDesc}" oninput="window.updateV5Lot(${index}, 'designation', this.value)">` +
+                        `<input type="number" min="0" class="lot-montant w-36 sm:w-48 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] font-mono" placeholder="Montant FCFA" value="${safeMontant}" oninput="window.updateV5Lot(${index}, 'montantIndique', this.value)">` +
+                        `<button type="button" onclick="window.removeV5Lot(${index})" class="text-rose-500 font-bold p-2 hover:bg-rose-50 rounded cursor-pointer" title="Supprimer ce lot">✕</button>`;
+        container.appendChild(div);
+      });
+      window.calcV5TotalsState();
+    };
+
+    window.calcV5TotalsState = function() {
+      let totalHT = 0;
+      let validLots = 0;
+      
+      if (window.devisLinesState) {
+        window.devisLinesState.forEach(lot => {
+          if (lot.designation && lot.designation.length > 0 && lot.montantIndique >= 0) {
+            validLots++;
+            totalHT += parseFloat(lot.montantIndique) || 0;
+          }
+        });
+      }
+      
+      const totalHTEl = document.getElementById('v5-total-ht');
+      if (totalHTEl) totalHTEl.innerText = totalHT.toLocaleString('fr-FR') + ' FCFA';
+
+      const tvaRateInput = document.getElementById('v5-tva-rate');
+      const tvaRate = parseFloat(tvaRateInput ? tvaRateInput.value : 18) || 0;
+      const totalTTC = totalHT * (1 + (tvaRate / 100));
+
+      const totalTTCEl = document.getElementById('v5-total-ttc');
+      if (totalTTCEl) totalTTCEl.innerText = totalTTC.toLocaleString('fr-FR') + ' FCFA';
+      
+      const btn = document.getElementById('v5-btn-audit');
+      const msg = document.getElementById('v5-error-msg');
+      
+      if (validLots > 0) {
+        if (btn) btn.disabled = false;
+        if (msg) msg.classList.add('hidden');
+      } else {
+        if (btn) btn.disabled = true;
+        if (msg) msg.classList.remove('hidden');
+      }
+    };
+
+    // CAPTURE OCR
+    window.handleOCRPhotoSelect = async function(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+      
+      document.getElementById('ocr-thumbnails-container').classList.remove('hidden');
+      document.getElementById('ocr-loading-indicator').classList.remove('hidden');
+      document.getElementById('ocr-loading-text').innerText = "Compression de la page...";
+      
+      const canvas = document.getElementById('ocr-canvas');
+      const ctx = canvas.getContext('2d');
+      const file = files[0];
+      
+      try {
+        const base64 = await compressImage(file, canvas, ctx);
+        window.ocrImages.push(base64);
+        renderOCRThumbnails();
+      } catch (e) {
+        alert("Erreur lors de la lecture de l'image.");
+      } finally {
+        document.getElementById('ocr-loading-indicator').classList.add('hidden');
+        document.getElementById('ocr-camera-input').value = "";
+      }
+    };
+
+    window.renderOCRThumbnails = function() {
+      const container = document.getElementById('ocr-thumbnails-container');
+      container.innerHTML = '';
+      
+      window.ocrImages.forEach((imgBase64, index) => {
+        const div = document.createElement('div');
+        div.className = 'relative w-24 h-24';
+        
+        const img = document.createElement('img');
+        img.src = imgBase64;
+        img.className = 'w-full h-full object-cover rounded-lg border border-slate-300';
+        
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.innerHTML = '✕';
+        btn.className = 'absolute -top-2 -right-2 bg-rose-500 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md cursor-pointer';
+        btn.onclick = () => {
+          window.ocrImages.splice(index, 1);
+          window.renderOCRThumbnails();
+        };
+        
+        div.appendChild(img);
+        div.appendChild(btn);
+        container.appendChild(div);
+      });
+      
+      const launchBtn = document.getElementById('btn-lancer-analyse');
+      if (launchBtn) launchBtn.disabled = window.ocrImages.length === 0;
+    };
+
+    window.startOCRAnalysis = async function() {
+      if (window.ocrImages.length === 0) return;
+      
+      document.getElementById('ocr-loading-indicator').classList.remove('hidden');
+      document.getElementById('ocr-loading-text').innerText = "Analyse des pages en cours (cela peut prendre jusqu'à 45 secondes)...";
+      document.getElementById('btn-lancer-analyse').disabled = true;
+      
+      try {
+        const response = await fetch('/.netlify/functions/mistral-ocr', {
+          method: 'POST',
+          body: JSON.stringify({ images: window.ocrImages }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.message || result.error || "Erreur serveur.");
+        }
+        
+        if (result.error) throw new Error(result.message || result.error);
+        if (result.lines && result.lines.length > 0) {
+          window.renderOCRValidation(result.lines);
+        } else {
+          throw new Error("Aucune ligne détectée.");
+        }
+      } catch (e) {
+        alert("Erreur OCR : " + e.message + "\n\nVeuillez utiliser la saisie manuelle.");
+      } finally {
+        document.getElementById('ocr-loading-indicator').classList.add('hidden');
+        document.getElementById('btn-lancer-analyse').disabled = false;
+      }
+    };
+
+    function compressImage(file, canvas, ctx) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            const MAX_DIM = 1200;
+            
+            if (width > height && width > MAX_DIM) {
+              height *= MAX_DIM / width;
+              width = MAX_DIM;
+            } else if (height > MAX_DIM) {
+              width *= MAX_DIM / height;
+              height = MAX_DIM;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.6));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    window.renderOCRValidation = function(lines) {
+      const tbody = document.getElementById('ocr-validation-table-body');
+      tbody.innerHTML = '';
+      
+      lines.forEach((line, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-slate-200 hover:bg-slate-50 transition-colors bg-white';
+        tr.id = 'ocr-val-row-' + index;
+        
+        const pu = line.pu_ht || 0;
+        const total = line.montant_indique || (line.quantite * pu) || 0;
+        tr.innerHTML = `
+          <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-lot" value="${line.lot || ''}"></td>
+          <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-des" value="${line.designation || ''}"></td>
+          <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-u text-center" value="${line.unite || 'u'}"></td>
+          <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-q text-center" value="${line.quantite || 1}"></td>
+          <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-pu text-right" value="${pu}"></td>
+          <td class="p-2"><input type="number" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-total font-bold text-right text-[#0E2A47]" value="${total}"></td>
+          <td class="p-2 text-center"><button type="button" onclick="document.getElementById('ocr-val-row-${index}').remove()" class="text-rose-500 font-bold p-1 hover:bg-rose-50 rounded cursor-pointer">✕</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      
+      document.getElementById('ocr-validation-screen').classList.remove('hidden');
+      document.getElementById('ocr-upload-section').classList.add('hidden');
+    };
+
+    window.cancelOCR = function() {
+      document.getElementById('ocr-validation-screen').classList.add('hidden');
+      document.getElementById('ocr-upload-section').classList.remove('hidden');
+      window.ocrImages = [];
+      window.renderOCRThumbnails();
+    };
+
+    window.confirmOCR = function() {
+      const tbody = document.getElementById('ocr-validation-table-body');
+      const rows = tbody.querySelectorAll('tr');
+      
+      let validatedLines = [];
+      let validCount = 0;
+      
+      rows.forEach(row => {
+        const lot = row.querySelector('.ocr-input-lot').value.trim();
+        const des = row.querySelector('.ocr-input-des').value.trim();
+        const unit = row.querySelector('.ocr-input-u').value.trim();
+        const qte = parseFloat(row.querySelector('.ocr-input-q').value) || 0;
+        const pu = parseFloat(row.querySelector('.ocr-input-pu').value) || 0;
+        const total = parseFloat(row.querySelector('.ocr-input-total').value) || 0;
+        
+        if (des.length > 0 && total >= 0) {
+          validatedLines.push({ lot: lot, designation: des, unite: unit, quantite: qte, pu: pu, montantIndique: total });
+          validCount++;
+        }
+      });
+      
+      if (validCount === 0) {
+        alert("Veuillez valider au moins une ligne.");
+        return;
+      }
+      
+      window.devisLinesState = window.devisLinesState || [];
+      window.devisLinesState.push(...validatedLines);
+      window.renderV5LotsState();
+      window.cancelOCR();
+    };
+
+    window.getDevisLines = function() { 
+      return window.devisLinesState || []; 
+    };
+
+    // PAIEMENT ET GÉNÉRATION DE RAPPORT AUDIT
+    window.initiatePayment = async function(paneId, serviceKey) {
+      const pane = document.getElementById('pane-3');
+      if (!pane) return;
+      const fd = new FormData(pane);
+      const currentDossierId = 'CS-' + Date.now();
+      const clientName = (fd.get('client_name') || '').trim();
+      const clientEmail = (fd.get('client_email') || '').trim();
+      const rawPrefix = (fd.get('phone_prefix') || '+221').trim();
+      let rawPhone = (fd.get('client_phone') || '').toString().trim();
+      
+      if (!clientName || !clientEmail || !rawPhone) {
+        alert("Veuillez renseigner votre nom, votre adresse email et votre numéro de téléphone.");
+        return;
+      }
+
+      const lines = window.getDevisLines();
+      if (!lines || lines.length === 0) {
+        alert("Erreur : Veuillez saisir ou valider au moins un poste/lot avec son montant pour lancer l'audit.");
+        return;
+      }
+
+      const totalHtIndique = parseFloat(fd.get('devis_total_ht'));
+      if (!totalHtIndique || totalHtIndique <= 0) {
+        alert("Veuillez renseigner le Total HT indiqué sur le devis.");
+        return;
+      }
+
+      // Nettoyage téléphone
+      const prefixDigits = rawPrefix.replace(/\D/g, '');
+      rawPhone = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
+      if (prefixDigits && rawPhone.startsWith(prefixDigits)) {
+        rawPhone = rawPhone.substring(prefixDigits.length).replace(/^0+/, '');
+      }
+
+      const exactAmount = window.calculateServicePrice(3);
+
+      const canonicalData = {
+        dossier: currentDossierId,
+        client: {
+          nom: clientName,
+          telephone: rawPrefix + ' ' + rawPhone,
+          email: clientEmail
+        },
+        identification: {
+          objetDevis: (fd.get('devis_object') || '').trim(),
+          entrepriseNom: (fd.get('devis_company') || '').trim(),
+          ninea: (fd.get('devis_ninea') || '').trim(),
+          rccm: (fd.get('devis_rccm') || '').trim(),
+        },
+        totaux: {
+          htIndique: totalHtIndique,
+          tauxTVA: parseFloat(fd.get('devis_tva_taux')) || 18,
+          montantTVA: totalHtIndique * ((parseFloat(fd.get('devis_tva_taux')) || 18) / 100),
+          ttc: totalHtIndique * (1 + ((parseFloat(fd.get('devis_tva_taux')) || 18) / 100))
+        },
+        devis: {
+          objet: (fd.get('devis_object') || '').trim(),
+          reference: (fd.get('devis_number') || '').trim(),
+          date: (fd.get('devis_date') || '').trim(),
+          batiment: 'Bâtiment R+' + (fd.get('exact_levels') || '1'),
+          niveaux: parseInt(fd.get('exact_levels'), 10) || 1,
+          sdp: 0,
+          localisation: (fd.get('client_city') || '').trim(),
+          entreprise: {
+            nom: (fd.get('devis_company') || '').trim(),
+            ninea: (fd.get('devis_ninea') || '').trim(),
+            rccm: (fd.get('devis_rccm') || '').trim(),
+            telephone: '',
+            adresse: ''
+          },
+          lignes: lines,
+          totalHTIndique: totalHtIndique,
+          tvaTaux: parseFloat(fd.get('devis_tva_taux')) || 18,
+          conditions: {
+            acompte: parseFloat(fd.get('devis_acompte')) || 0,
+            acompteType: (fd.get('devis_acompte_type') || 'percent').trim(),
+            echeancier: (fd.get('echeancier') || '').trim(),
+            retenueGarantie: parseFloat(fd.get('retenue')) || 0,
+            penalites: (fd.get('penalites') || '').trim(),
+            avenants: (fd.get('avenants') || '').trim(),
+            assurances: (fd.get('assurances') || '').trim(),
+            validite: '',
+            delai: '',
+            prixFerme: true
+          }
+        }
+      };
+
+      try {
+        localStorage.setItem('chantiersur_audit_dossier_' + currentDossierId, JSON.stringify(canonicalData));
+        localStorage.setItem('current_audit_dossier', currentDossierId);
+        localStorage.setItem('cs_project_data', JSON.stringify({
+          service: 'audit',
+          client_name: clientName,
+          client_email: clientEmail,
+          client_phone: rawPhone,
+          phone_prefix: rawPrefix,
+          exact_amount: exactAmount
+        }));
+      } catch(e) {}
+
+      const btn = document.getElementById('v5-btn-audit');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = 'Préparation du dossier...';
+      }
+
+      // Appel PayTech ou bascule directe
+      try {
+        const response = await fetch('/.netlify/functions/paytech', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            item_name: 'ChantierSur - Pack AUDIT',
+            item_price: exactAmount,
+            currency: 'XOF',
+            service: 'audit',
+            ref_command: currentDossierId,
+            client_name: clientName,
+            client_email: clientEmail,
+            client_phone: `${prefixDigits}${rawPhone}`
+          })
+        });
+        const data = await response.json();
+        if (data && data.redirect_url) {
+          window.location.href = data.redirect_url;
+          return;
+        }
+      } catch (err) {
+        console.warn("PayTech indisponible, bascule directe vers le livrable...");
+      }
+
+      // Redirection immédiate de test
+      window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=audit`;
+    };
+
+    // DÉCLENCHEMENT TÉLÉCHARGEMENT PDF SI PAIEMENT SUCCÈS
+    window.addEventListener('DOMContentLoaded', () => {
+      window.addV5Lot();
+
+      // Vérification disponibilité Mistral
+      fetch('/.netlify/functions/mistral-ocr').then(res => {
+        if (res.status === 503 || res.status === 401) {
+          res.json().then(data => {
+            if (data.error === "missing_key" || data.error === "ocr_failed") {
+              const uploadSection = document.getElementById('ocr-upload-section');
+              if (uploadSection) {
+                uploadSection.innerHTML = `
+                  <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis</h4>
+                  <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-xl font-medium text-sm">
+                    Service d'analyse photo temporairement indisponible — veuillez utiliser la saisie manuelle des lots ci-dessous.
+                  </div>
+                `;
+              }
+            }
+          }).catch(()=>{});
+        }
+      }).catch(()=>{});
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success') {
+        const storedDossierId = localStorage.getItem('current_audit_dossier');
+        let auditState = null;
+        try {
+          if (storedDossierId) {
+            const rawAudit = localStorage.getItem('chantiersur_audit_dossier_' + storedDossierId);
+            if (rawAudit) auditState = JSON.parse(rawAudit);
+          }
+        } catch(e) {}
+        
+        if (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0) {
+          const errModal = document.createElement('div');
+          errModal.id = 'pdf-error-modal';
+          errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
+          errModal.innerHTML = `
+            <div class="bg-white border-b-4 border-rose-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+              <button id="pdf-error-close" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold cursor-pointer leading-none">&times;</button>
+              <div class="text-rose-500 text-3xl mb-4">⚠️</div>
+              <h3 style="font-family: 'Archivo', sans-serif;" class="text-lg font-bold text-[#0E2A47] mb-2">Erreur : Aucune ligne validée pour l'audit.</h3>
+              <p class="text-sm text-slate-600 mb-6">Veuillez renseigner et valider vos lignes de devis avant de générer le rapport.</p>
+              <button onclick="document.getElementById('pdf-error-modal').remove()" class="px-6 py-2.5 bg-[#0E2A47] text-white font-bold rounded-xl text-sm">Fermer</button>
+            </div>
+          `;
+          document.body.appendChild(errModal);
+          document.getElementById('pdf-error-close').addEventListener('click', () => errModal.remove());
+          return;
+        }
+        
+        // Modale succès Audit
+        const modal = document.createElement('div');
+        modal.id = 'pdf-success-modal';
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
+        modal.innerHTML = `
+          <div class="bg-white border-b-4 border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+            <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold cursor-pointer leading-none">&times;</button>
+            <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
+            <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-[#0E2A47]">Paiement Validé & Rapport Prêt</h3>
+            <p class="text-sm text-slate-600">Votre rapport contradictoire d'audit est prêt à être édité au format PDF certifié.</p>
+            <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
+              📥 Télécharger mon Rapport PDF
+            </button>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('pdf-modal-close').addEventListener('click', () => modal.remove());
+        
+        document.getElementById('btn-force-download').addEventListener('click', () => {
+          document.getElementById('btn-force-download').innerHTML = 'Génération en cours...';
+          document.getElementById('btn-force-download').disabled = true;
+          fetch('/.netlify/functions/generer-audit-pdf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(auditState)
+          }).then(response => {
+            if (!response.ok) { return response.text().then(t => { throw new Error('Erreur réseau: ' + t); }); }
+            return response.blob();
+          }).then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ChantierSur_AUDIT_' + storedDossierId + '.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+            document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
+            document.getElementById('btn-force-download').disabled = false;
+          }).catch(e => {
+            alert('Erreur lors du téléchargement : ' + e.message);
+            document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
+            document.getElementById('btn-force-download').disabled = false;
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
