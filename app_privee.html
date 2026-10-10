@@ -1,10 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <!-- SEO & Open Graph / Réseaux Sociaux -->
   <meta name="keywords" content="construction sénégal, bureau d'études dakar, devis BTP sénégal, norme BAEL 91, ingénierie civile, audit chantier, construire au sénégal diaspora, Audit bâtiment">
   <meta name="author" content="ChantierSur Technologies SARL">
@@ -14,28 +13,23 @@
   <meta property="og:image" content="https://chantiersur.com/assets/img/img_bael.jpg">
   <meta property="og:url" content="https://chantiersur.com">
   <meta property="og:type" content="website">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ChantierSur.com | Audit BTP Sénégal">
   <meta name="twitter:description" content="Bâtissez au Sénégal sans angle mort ni surfacturation.">
   <meta name="twitter:image" content="https://chantiersur.com/assets/img/img_bael.jpg">
-
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/logo/logo-a-favicon.png">
   <title>ChantierSur.com | Bureau d'Études Numérique & Audit BTP Sénégal</title>
   <meta name="description" content="Sécurisez votre construction au Sénégal. Chiffrage exact , Audit de devis et Conformité Structurellejuridique COCC.">
-
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
   
-
   <style>
     .tab-card { transition: all 0.2s ease-in-out; }
   </style>
 </head>
 <body class="bg-white text-[#0E2A47] min-h-screen flex flex-col antialiased selection:bg-[#0E2A47] selection:text-white">
-
   <!-- TOPBAR RÉGLEMENTAIRE -->
   <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
@@ -50,10 +44,10 @@
         <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
       </div>
       <div class="flex items-center space-x-4">
-        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#0EA5E9] hover:underline">admin@chantiersur.com</a></span>
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors">admin@chantiersur.com</a></span>
         <div class="flex items-center space-x-2">
           <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
-          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#0E2A47] border border-slate-700 text-[#0EA5E9] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
             <option value="XOF" selected>FCFA (XOF)</option>
             <option value="EUR">Euro (€)</option>
             <option value="USD">Dollar US ($)</option>
@@ -63,20 +57,17 @@
       </div>
     </div>
   </div>
-
   <!-- NAVIGATION HEADER -->
   <header class="bg-[#0E2A47] border-b border-[#1B4F72] sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- LOGO SANS SOUS-TITRE -->
-      <a href="index.html" class="flex items-center space-x-3 group"><div class="flex items-center space-x-3"><img src="assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
-
+      <a href="index.html" class="flex items-center space-x-3 group"><img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto"><span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span></a>
       <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
       <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
         <a href="#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
-        <a href="a-propos.html" class="text-slate-300 hover:text-[#0EA5E9] transition-colors">Qui Sommes-Nous</a> <a href="blog/index.html" class="text-white hover:text-[#0EA5E9] transition-colors font-bold ml-4 border border-[#1B4F72] px-3 py-1 rounded-md">Le Blog</a>
+        <a href="a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a> <a href="blog/index.html" class="text-slate-300 hover:text-white transition-colors">Blog</a>
       </nav>
-
       <!-- MENU BURGER MOBILE -->
       <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none" aria-label="Menu Mobile">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,14 +75,9 @@
         </svg>
       </button>
     </div>
-
     <!-- TIROIR DÉROULANT MOBILE -->
-    <div id="mobile-drawer" class="hidden md:hidden bg-white border-[#0E2A47] border-slate-200 px-6 py-5 space-y-4 shadow-lg">
-      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#0EA5E9] font-semibold py-1">Simulateur & Services</a>
-      <a href="a-propos.html" class="block text-slate-300 hover:text-[#0EA5E9] font-semibold py-1">Qui Sommes-Nous</a><a href="blog/index.html" class="block text-white hover:text-[#0EA5E9] font-semibold py-1">Le Blog</a>
-    </div>
+    <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg"><a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a><a href="a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a><a href="blog/index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a></div>
   </header>
-
   <!-- HERO SECTION AVEC VIDÉO -->
   <section class="relative w-full h-[60vh] min-h-[400px] sm:h-[70vh] flex items-center justify-center overflow-hidden border-[#0E2A47] border-slate-200 bg-slate-100">
     <!-- Vidéo en arrière-plan -->
@@ -101,17 +87,16 @@
     </video>
     
     <!-- Overlay de dégradé pour améliorer la lisibilité du texte -->
-    <div class="absolute inset-0 bg-gradient-to-[#B38F1F] from-white/90 via-slate-50/75 to-[#F8FAFC] pointer-events-none"></div>
-
+    <div class="absolute inset-0 bg-gradient-to-b from-white/90 via-slate-50/75 to-[#F8FAFC] pointer-events-none"></div>
     <!-- Contenu du Hero -->
     <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 mt-8">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#F0F9FF] border border-[#0EA5E9] text-[#0E2A47] text-xs font-black tracking-widest uppercase shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-[#0EA5E9] animate-pulse shadow-[0_0_8px_#0EA5E9]"></span>
-        <span>De la Confiance Aveugle à la Preuve</span>
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold tracking-widest uppercase shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-[#1B4F72] animate-pulse"></span>
+        <span>DE LA CONFIANCE AVEUGLE À LA PREUVE</span>
       </div>
       <h1 style="font-family: 'Archivo', sans-serif;" class="text-4xl sm:text-6xl font-black text-[#0E2A47] tracking-tight leading-tight">
         Bâtissez au Sénégal <br class="hidden sm:block" />
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] to-[#0EA5E9]">sans angle mort.</span>
+        <span class="text-[#0E2A47]">sans angle mort.</span>
       </h1>
       <p class="text-lg sm:text-xl text-slate-700 max-w-2xl mx-auto font-medium">
         L'expertise d'un bureau d'études pour sécuriser vos investissements : ingénierie numérique, métrés précis et aide à la décision.
@@ -125,32 +110,26 @@
       </div>
     </div>
   </section>
-
   <!-- SECTION PRINCIPALE : SIMULATEUR & SERVICES -->
   <main id="services-section" class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
-
     <div class="text-center mb-8">
       <h2 style="font-family: 'Archivo', sans-serif;" class="text-2xl sm:text-2xl font-bold text-[#0E2A47]">Nos Formules d'Ingénierie & Devis Immédiats</h2>
       <p class="text-slate-700 font-medium text-sm mt-1">Sélectionnez une formule pour paramétrer votre dossier technique</p>
     </div>
-
     <!-- LES 4 BOUTONS ONGLETS DÉCLENCHEURS DIRECTS -->
-    <div class="flex overflow-x-auto snap-x sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 pb-4 sm:pb-0">
+    <div class="max-w-3xl mx-auto flex flex-col sm:flex-row justify-center items-stretch gap-6 mb-10">
       
       <!-- ONGLET 1 -->
       <button type="button" id="tab-btn-1" onclick="switchTab(1)" class="tab-card flex-1 max-w-sm text-left p-6 sm:p-8 rounded-[16px] bg-white border border-[#EAF0F6] hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(14,42,71,0.1)] focus:outline-none focus:ring-2 focus:ring-[#B8C9DB] focus:ring-offset-2 transition-all duration-250 cursor-pointer">
         <h3 style="font-family: 'Archivo', sans-serif;" class="text-[20px] sm:text-[22px] font-bold text-[#0E2A47] mb-3">Esquisse & Faisabilité</h3>
         <p class="text-[16px] text-[#1A1A1A] leading-[1.6]">Implantation, gabarit parcellaire et faisabilité structurelle.</p>
       </button>
-
       <!-- ONGLET 3 -->
-      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card flex-1 max-w-sm text-left p-6 sm:p-8 rounded-[16px] bg-white border border-[#EAF0F6] hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(14,42,71,0.1)] focus:outline-none focus:ring-2 focus:ring-[#B8C9DB] focus:ring-offset-2 transition-all duration-250 cursor-pointer opacity-70 hover:opacity-100">
+      <button type="button" id="tab-btn-3" onclick="switchTab(3)" class="tab-card flex-1 max-w-sm text-left p-6 sm:p-8 rounded-[16px] bg-white border border-[#EAF0F6] hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(14,42,71,0.1)] focus:outline-none focus:ring-2 focus:ring-[#B8C9DB] focus:ring-offset-2 transition-all duration-250 cursor-pointer hover:border-[#B8C9DB] hover:shadow-[0_10px_25px_rgba(14,42,71,0.08)]">
         <h3 style="font-family: 'Archivo', sans-serif;" class="text-[20px] sm:text-[22px] font-bold text-[#0E2A47] mb-3">Audit Devis</h3>
         <p class="text-[16px] text-[#1A1A1A] leading-[1.6]">Détection des surfacturations & ratios matériaux stricts.</p>
       </button>
-
     </div>
-
     <!-- CONTENEUR DES FORMULAIRES -->
     <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl relative">
       
@@ -163,7 +142,7 @@
   <div class="flex flex-col sm:flex-row sm:items-center justify-between border-[#0E2A47] border-slate-200 pb-6 gap-4">
     <div>
       <h3 style="font-family: 'Archivo', sans-serif;" class="text-xl font-bold text-[#0E2A47]">1. Dossier d'Esquisse & Faisabilité Technique</h3>
-      <p class="text-xs text-slate-700 font-medium mt-0.5">Étude nominative préalable • Règles d'urbanisme DUA & </p>
+      <p class="text-xs text-slate-700 font-medium mt-0.5">Étude nominative préalable • Règles d'urbanisme DUA</p>
     </div>
     <div class="flex items-center space-x-3">
       <div class="bullet-1 w-8 h-8 rounded-full bg-[#0E2A47] text-white font-bold flex items-center justify-center text-sm shadow">1</div>
@@ -173,7 +152,6 @@
       <div class="bullet-3 w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-700 font-bold flex items-center justify-center text-sm">3</div>
     </div>
   </div>
-
   <!-- ÉTAPE 1 : GÉOMÉTRIE DE LA PARCELLE & GABARIT -->
   <div class="step-container step-1 space-y-6">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -202,7 +180,6 @@
         </select>
       </div>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Configuration de la parcelle</label>
@@ -216,10 +193,9 @@
       
       <!-- CHAMP CONDITIONNEL SECONDE FAÇADE (MASQUÉ PAR DÉFAUT) -->
       <div id="facade-2-container" class="hidden">
-        <label class="block text-xs font-bold text-amber-800 uppercase mb-2">2nde Façade sur rue (m)</label>
+        <label class="block text-xs font-bold text-[#0E2A47] uppercase mb-2">2nde Façade sur rue (m)</label>
         <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-[#F0F9FF]/40 border-[#0E2A47] border-[#0EA5E9] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
       </div>
-
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Destination de l'ouvrage</label>
         <select name="building_usage" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all">
@@ -230,7 +206,6 @@
         </select>
       </div>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Standing de construction</label>
@@ -241,7 +216,6 @@
         </select>
       </div>
     </div>
-
     <div class="flex justify-end pt-4">
       <button type="button" onclick="goToStep(1, 2)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
         <span>Suivant</span>
@@ -249,7 +223,6 @@
       </button>
     </div>
   </div>
-
   <!-- ÉTAPE 2 : SOL, ASSAINISSEMENT & TITRE FONCIER -->
   <div class="step-container step-2 hidden space-y-6">
     <div>
@@ -275,7 +248,6 @@
         </optgroup>
       </select>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Statut Juridique Foncier</label>
@@ -291,7 +263,6 @@
         <input type="text" name="lot_number" placeholder="Ex: TF N° 12.845/DP ou Lot N° 45" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Raccordement Assainissement Eaux Usées</label>
@@ -309,7 +280,6 @@
         </select>
       </div>
     </div>
-
     <div class="flex justify-between pt-4">
       <button type="button" onclick="goToStep(1, 1)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
       <button type="button" onclick="goToStep(1, 3)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-xl transition-all shadow-md flex items-center space-x-2 cursor-pointer">
@@ -318,7 +288,6 @@
       </button>
     </div>
   </div>
-
   <!-- ÉTAPE 3 : DONNÉES PERSONNELLES DU MAÎTRE D'OUVRAGE & PAIEMENT -->
   <div class="step-container step-3 hidden space-y-6">
     <div class="bg-[#F0F9FF]/80 border border-[#1B4F72] p-4 rounded-xl flex items-center justify-between">
@@ -326,12 +295,10 @@
         <p class="text-xs uppercase font-bold text-[#0E2A47]">Total Prestation d'Étude Personnalisée</p>
         <div class="flex items-baseline space-x-2 mt-0.5">
           <span id="price-val-1" class="text-2xl font-black text-[#0E2A47]">149 000 FCFA</span>
-          <span id="price-converted-1" class="text-xs text-amber-800 font-bold">(≈ 227 €)</span>
+          <span id="price-converted-1" class="text-xs text-[#5A6C7D] font-bold">(≈ 227 €)</span>
         </div>
       </div>
-
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
         <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage</label>
@@ -342,7 +309,6 @@
         <input type="email" name="client_email" placeholder="a.diop@domaine.sn" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] focus:ring-[#0E2A47] focus:ring-slate-400/20 outline-none transition-all" required>
       </div>
     </div>
-
     <div>
       <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Numéro Téléphone (WhatsApp / Contact Titulaire)</label>
       <div class="flex">
@@ -373,7 +339,6 @@
       </div>
       <p class="text-[11px] text-slate-700 font-medium mt-1">Ce numéro figurera sur le rapport pour authentifier la propriété du dossier.</p>
     </div>
-
     <div class="flex justify-between items-center pt-4">
       <button type="button" onclick="goToStep(1, 2)" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-200 cursor-pointer transition-colors">&larr; Retour</button>
       <button type="button" id="pay-btn-1" onclick="initiatePayment(1, 'esquisse')" class="px-8 py-4 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-extrabold rounded-xl transition-all shadow-xl text-[#0E2A47]ase flex items-center space-x-3 cursor-pointer">
@@ -382,16 +347,13 @@
       </button>
     </div>
   </div>
-
 </form>
-
       <!-- ============================================== -->
       <!-- FORMULAIRE 2 : BQE GROS ŒUVRE EXPRESS          -->
       <!-- ============================================== -->
 <!-- ============================================== -->
 <!-- FORMULAIRE 2 : BQE GROS ŒUVRE EXPRESS (BUDGET) -->
 <!-- ============================================== -->
-
   <!-- FORMULAIRE 3 : Audit Devis BTP -->
   <!-- ============================================== -->
   <form id="pane-3" class="service-pane hidden space-y-8" onsubmit="event.preventDefault();" novalidate>
@@ -462,7 +424,6 @@
         </div>
     </div>
   </div>
-
   <!-- 2.1b Bloc Identification du Devis -->
   <div class="step-container space-y-6">
     <h4 class="text-lg font-bold text-[#0E2A47]">Identification du devis</h4>
@@ -489,7 +450,6 @@
         </div>
     </div>
   </div>
-
   <!-- 2.2 Bloc Import et Validation OCR Mistral -->
   <div class="step-container space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-200" id="ocr-upload-section">
     <h4 class="text-lg font-bold text-[#0E2A47] mb-2">Capture du devis (Recommandé)</h4>
@@ -503,27 +463,23 @@
       <span class="text-xs text-slate-500 mt-2 text-center">Répétez l'opération pour chaque page du devis</span>
       <input type="file" accept="image/*" capture="environment" id="ocr-camera-input" class="hidden" onchange="window.handleOCRPhotoSelect(event)">
     </label>
-
     <div id="ocr-thumbnails-container" class="flex flex-wrap gap-4 mt-4 hidden"></div>
     
     <div id="ocr-loading-indicator" class="hidden text-center p-4">
       <div class="inline-block animate-spin rounded-full h-8 w-8 border-[#0E2A47]-2 border-[#0E2A47]"></div>
       <p class="mt-2 text-sm text-slate-600 font-semibold" id="ocr-loading-text">Analyse du document en cours...</p>
     </div>
-
     <div class="flex justify-end mt-4">
         <button type="button" id="btn-lancer-analyse" disabled onclick="window.startOCRAnalysis()" class="px-6 py-3 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors shadow-lg disabled:bg-slate-400">Lancer l'analyse des pages</button>
     </div>
-
     <p class="text-[10px] text-slate-500 text-center mt-2">
       En continuant, vous acceptez que les photos soient traitées de manière sécurisée pour l'extraction. Elles sont supprimées immédiatement après traitement.
     </p>
   </div>
-
   <!-- Ecran de Validation OCR -->
   <div id="ocr-validation-screen" class="hidden step-container space-y-6 bg-white p-6 rounded-xl border-[#0E2A47] border-[#0E2A47] shadow-lg">
     <h4 class="text-lg font-bold text-[#0E2A47]">Validation des lignes détectées</h4>
-    <p class="text-sm text-amber-700 bg-[#F0F9FF] p-3 rounded-lg font-medium border border-[#1B4F72]">
+    <p class="text-sm text-[#0E2A47] bg-[#F0F9FF] p-3 rounded-lg font-medium border border-[#1B4F72]">
       ⚠️ Vérifiez attentivement les lignes ci-dessous. Modifiez les erreurs éventuelles avant de valider. Les lignes non valides ne seront pas intégrées à l'audit.
     </p>
     <div class="overflow-x-auto">
@@ -549,9 +505,7 @@
         <button type="button" onclick="window.confirmOCR()" class="px-6 py-2 bg-[#0E2A47] hover:bg-[#0c243d] text-white font-bold rounded-lg transition-colors">Valider ces lignes</button>
     </div>
   </div>
-
   <canvas id="ocr-canvas" style="display:none;"></canvas>
-
   <!-- 2.3 Bloc Lots du devis (Saisie manuelle / Récap) -->
   <div class="step-container space-y-6">
     <div class="flex justify-between items-center">
@@ -560,7 +514,6 @@
     </div>
     <div id="v5-lots-container" class="space-y-4"></div>
   </div>
-
   <!-- 2.4 Bloc Totaux -->
   <div class="step-container space-y-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
     <h4 class="text-lg font-bold text-[#0E2A47]">Totaux du devis</h4>
@@ -580,7 +533,6 @@
         <div class="flex justify-between font-bold text-lg text-[#0E2A47] pt-1"><span>Total TTC Recalculé :</span><span id="v5-total-ttc" class="font-mono">0</span></div>
     </div>
   </div>
-
   <!-- 2.5 Bloc Conditions contractuelles -->
   <div class="step-container space-y-6">
     <h4 class="text-lg font-bold text-[#0E2A47]">Conditions contractuelles</h4>
@@ -619,7 +571,6 @@
         </div>
     </div>
   </div>
-
   <div id="v5-error-msg" class="text-rose-600 font-bold hidden">Veuillez saisir ou valider au moins un lot avec son montant pour lancer l'audit.</div>
   
   <div class="flex justify-end pt-4">
@@ -628,30 +579,25 @@
 </form>
 <script>
 window.ocrImages = [];
-
 window.devisLinesState = window.devisLinesState || [];
-
 window.addV5Lot = function(data = null) {
     const defaultDesc = data && data.designation ? data.designation : '';
     const defaultMontant = data && data.montant_indique ? data.montant_indique : '';
     window.devisLinesState.push({ lot: '', designation: defaultDesc, unite: 'u', quantite: 1, pu: defaultMontant, montantIndique: defaultMontant });
     window.renderV5LotsState();
 };
-
 window.updateV5Lot = function(index, field, value) {
     if (window.devisLinesState && window.devisLinesState[index]) {
         window.devisLinesState[index][field] = field === 'montantIndique' ? (parseFloat(value) || 0) : value;
         window.calcV5TotalsState();
     }
 };
-
 window.removeV5Lot = function(index) {
     if (window.devisLinesState) {
         window.devisLinesState.splice(index, 1);
         window.renderV5LotsState();
     }
 };
-
 window.renderV5LotsState = function() {
     const container = document.getElementById('v5-lots-container');
     container.innerHTML = '';
@@ -670,7 +616,6 @@ window.renderV5LotsState = function() {
     });
     window.calcV5TotalsState();
 };
-
 window.calcV5TotalsState = function() {
     let totalHT = 0;
     let validLots = 0;
@@ -700,7 +645,6 @@ window.calcV5TotalsState = function() {
         msg.classList.remove('hidden');
     }
 };
-
 window.handleOCRPhotoSelect = async function(event) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -724,7 +668,6 @@ window.handleOCRPhotoSelect = async function(event) {
         document.getElementById('ocr-camera-input').value = ""; // Reset
     }
 };
-
 window.renderOCRThumbnails = function() {
     const container = document.getElementById('ocr-thumbnails-container');
     container.innerHTML = '';
@@ -753,7 +696,6 @@ window.renderOCRThumbnails = function() {
     
     document.getElementById('btn-lancer-analyse').disabled = window.ocrImages.length === 0;
 };
-
 window.startOCRAnalysis = async function() {
     if (window.ocrImages.length === 0) return;
     
@@ -786,7 +728,6 @@ window.startOCRAnalysis = async function() {
         document.getElementById('btn-lancer-analyse').disabled = false;
     }
 };
-
 function compressImage(file, canvas, ctx) {
     return new Promise((resolve) => {
         const reader = new FileReader();
@@ -817,7 +758,6 @@ function compressImage(file, canvas, ctx) {
         reader.readAsDataURL(file);
     });
 }
-
 window.renderOCRValidation = function(lines) {
     const tbody = document.getElementById('ocr-validation-table-body');
     tbody.innerHTML = '';
@@ -830,7 +770,6 @@ window.renderOCRValidation = function(lines) {
         // Use regex for numbers formatting
         const pu = line.pu_ht || 0;
         const total = line.montant_indique || (line.quantite * pu) || 0;
-
         tr.innerHTML = `
             <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-lot" value="${line.lot || ''}"></td>
             <td class="p-2"><input type="text" class="w-full border border-slate-300 rounded px-2 py-1 text-xs ocr-input-des" value="${line.designation || ''}"></td>
@@ -846,14 +785,12 @@ window.renderOCRValidation = function(lines) {
     document.getElementById('ocr-validation-screen').classList.remove('hidden');
     document.getElementById('ocr-upload-section').classList.add('hidden');
 };
-
 window.cancelOCR = function() {
     document.getElementById('ocr-validation-screen').classList.add('hidden');
     document.getElementById('ocr-upload-section').classList.remove('hidden');
     window.ocrImages = [];
     window.renderOCRThumbnails();
 };
-
 window.confirmOCR = function() {
     const tbody = document.getElementById('ocr-validation-table-body');
     const rows = tbody.querySelectorAll('tr');
@@ -888,7 +825,6 @@ window.confirmOCR = function() {
     window.renderV5LotsState();
     window.cancelOCR(); // Reset OCR UI
 };
-
 // Add initial lot on load and check Mistral API status
 document.addEventListener('DOMContentLoaded', async () => { 
     window.addV5Lot(); 
@@ -913,37 +849,106 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 </script>
-
-
-
-
-
-
       <!-- FORMULAIRE 4 :  &         -->
       <!-- ============================================== -->
       <!-- ==================================================== --> 
 <!-- FORMULAIRE 4 :  &  --> 
 <!-- ==================================================== --> 
-
-
-
     </div>
-
+    <!-- ============================================== -->
+    <!-- SECTION BLOG & GUIDES TECHNIQUES               -->
+    <!-- ============================================== -->
+    <section id="blog-section" class="mt-16 pt-12 border-t border-slate-200">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] text-xs font-bold uppercase tracking-wider mb-3">
+          <span>Centre de Ressources & IngÃ©nierie</span>
+        </div>
+        <h2 style="font-family: ''Archivo'', sans-serif; font-weight: 800;" class="text-3xl font-extrabold text-[#0E2A47]">
+          Le Blog & Guides Techniques
+        </h2>
+        <p class="text-slate-600 max-w-2xl mx-auto text-base mt-2">
+          Analyses de cas rÃ©els, rÃ©glementation sÃ©nÃ©galaise et bonnes pratiques pour sÃ©curiser vos chantiers.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <!-- Carte 1 -->
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+          <div class="h-48 overflow-hidden relative">
+            <img src="assets/img/hero_accidents_chantier_1790921176621.jpg" alt="SÃ©curitÃ© chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">SÃ©curitÃ©</span>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <h3 style="font-family: ''Archivo'', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+              <a href="blog/securite-chantier-senegal-accidents.html" class="hover:text-[#1B4F72] transition-colors">Les 7 accidents les plus frÃ©quents sur les chantiers au SÃ©nÃ©gal</a>
+            </h3>
+            <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
+              Chutes de hauteur, effondrements de tranchÃ©es, Ã©lectrisations : dÃ©couvrez les dangers majeurs et les mesures de prÃ©vention indispensables.
+            </p>
+            <a href="blog/securite-chantier-senegal-accidents.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+              <span>Lire le guide</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </article>
+        <!-- Carte 2 -->
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+          <div class="h-48 overflow-hidden relative">
+            <img src="assets/img/hero_devis_chantier_1790921202418.jpg" alt="VÃ©rifier devis construction" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & CoÃ»ts</span>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <h3 style="font-family: ''Archivo'', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+              <a href="blog/verifier-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Comment vÃ©rifier un devis de construction avant de signer</a>
+            </h3>
+            <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
+              La mÃ©thode en 8 points d'un bureau d'Ã©tudes pour repÃ©rer les surfacturations, forfaits abusifs et omissions volontaires.
+            </p>
+            <a href="blog/verifier-devis-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+              <span>Lire le guide</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </article>
+        <!-- Carte 3 -->
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col">
+          <div class="h-48 overflow-hidden relative">
+            <img src="assets/img/hero_epi_chantier_1790921192324.jpg" alt="EPI chantier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+            <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Ã‰quipements</span>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <h3 style="font-family: ''Archivo'', sans-serif;" class="font-bold text-lg text-[#0E2A47] mb-2 leading-snug">
+              <a href="blog/epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">EPI obligatoires sur chantier : la check-list complÃ¨te</a>
+            </h3>
+            <p class="text-sm text-slate-600 line-clamp-3 mb-4 flex-grow">
+              Casque, chaussures coquÃ©es, harnais, gants : les Ã©quipements vitaux et les responsabilitÃ©s lÃ©gales du maÃ®tre d'ouvrage.
+            </p>
+            <a href="blog/epi-chantier.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+              <span>Lire le guide</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </article>
+      </div>
+      <div class="text-center">
+        <a href="blog/index.html" class="inline-flex items-center space-x-2 px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all">
+          <span>DÃ©couvrir tous les 12 articles du Blog</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </section>
   </main>
-
   <!-- FOOTER OFFICIEL -->
   <footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 mt-12 text-slate-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <!-- Col 1 -->
                   <div>
-                      <a href="index.html" class="flex items-center space-x-3 group mb-4"><div class="flex items-center space-x-3"><img src="assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
+                      <a href="index.html" class="flex items-center space-x-3 group mb-4"><img src="assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto"><span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span></a>
                     <p class="text-[#0EA5E9] font-bold mb-4">Bâtissez sans angle mort.</p>
                     <div class="bg-[#0E2A47] p-3 rounded-lg border border-slate-800">
                         <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
                     </div>
                 </div>
-
                 <!-- Col 2 -->
                 <div>
                     <h4 class="text-white font-bold mb-4">Ingénierie & Services</h4>
@@ -954,7 +959,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         
                     </ul>
                 </div>
-
                 <!-- Col 3 -->
                 <div>
                     <h4 class="text-white font-bold mb-4">Rigueur & Méthodologie</h4>
@@ -963,7 +967,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <li><a href="guide-diaspora.html" class="hover:text-[#0EA5E9] transition">Guide Diaspora & WhatsApp</a></li>
                     </ul>
                 </div>
-
                 <!-- Col 4 -->
                 <div>
                     <h4 class="text-white font-bold mb-4">Cadre Légal & Sécurité</h4>
@@ -975,14 +978,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         </div>
     </footer>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('mobile-menu-toggle');
             const menuDrawer = document.getElementById('mobile-menu-drawer');
             const burgerIcon = document.getElementById('burger-icon');
             const closeIcon = document.getElementById('close-icon');
-
             if (menuToggle && menuDrawer) {
               menuToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -990,7 +991,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 burgerIcon.classList.toggle('hidden', !isHidden);
                 closeIcon.classList.toggle('hidden', isHidden);
               });
-
               // Fermer le menu lors d'un clic sur un lien
               document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 link.addEventListener('click', () => {
@@ -999,7 +999,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                   closeIcon.classList.add('hidden');
                 });
               });
-
               // Fermer lors d'un clic à l'extérieur
               document.addEventListener('click', (e) => {
                 if (!menuDrawer.contains(e.target) && !menuToggle.contains(e.target) && !menuDrawer.classList.contains('hidden')) {
@@ -1029,30 +1028,21 @@ document.addEventListener('DOMContentLoaded', async () => {
           <svg class="w-3.5 h-3.5 text-[#0EA5E9]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
           <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
         </div>
-
         <!-- Badge CDP Sénégal -->
         <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
           <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
           <span>bureau d'études numérique indépendant</span>
         </div>
       </div>
-
       <!-- Partenaires & Protocoles Agréés -->
       <div class="flex items-center space-x-3 text-[11px] text-slate-400">
-        <span>paiements sécurisés : Wave, Orange Money, Visa</span>
-        <span class="font-semibold text-slate-300">Wave</span>
-        <span>•</span>
-        <span class="font-semibold text-slate-300">Orange Money</span>
-        <span>•</span>
-        <span class="font-semibold text-slate-300">Visa / CB (3D Secure v2)</span>
+        <span>Paiements sécurisés : Wave, Orange Money, Visa</span>
       </div>
     </div>
-
     <!-- Ligne 2 : Clause de Non-Substitut d'Architecte (Obligation Légale) -->
     <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
       <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
     </p>
-
     <!-- Ligne 3 : Copyright, Liens Légaux & Contact -->
     <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
       <div class="text-slate-400 text-center md:text-left">
@@ -1060,28 +1050,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         <span class="hidden sm:inline text-slate-700">|</span>
         <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
       </div>
-
       <!-- Liens Réglementaires Incompressibles -->
       <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
-        <a href="mentions-legales.html" class="hover:text-[#0EA5E9] transition-colors">Mentions Légales</a>
-        <span class="text-slate-700">•</span>
-        <span class="text-slate-700">•</span>
-        <span class="text-slate-700">•</span>
-        <a href="mailto:admin@chantiersur.com" class="text-[#0EA5E9] hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
+        <a href="mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales</a>
+        <span class="text-slate-600">•</span>
+        <a href="blog/index.html" class="hover:text-white transition-colors">Blog</a>
+        <span class="text-slate-600">•</span>
+        <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
       </nav>
     </div>
-
   </div>
 </div>
-
-
   <!-- 1. Moteurs jsPDF officiels -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-
   <!-- 2. Polices vectorielles Unicode Noto Sans -->
   <script src="noto-sans-vfs.js"></script>
-
   <!-- 3. Script Métier ChantierSur -->
   <script src="pdf-generator.js?v=3.1"></script>
   <script>
@@ -1095,7 +1079,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
     };
-
     // TAUX DE CONVERSION OFFICIELS (Valeurs par défaut, mises à jour via API)
     let CONVERSION_RATES = {
       XOF: 1,
@@ -1103,7 +1086,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       USD: 600.0,
       CAD: 440.0
     };
-
     // Actualisation avec les taux du jour
     async function fetchLiveRates() {
       try {
@@ -1121,13 +1103,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Lancement de l'actualisation au démarrage
     fetchLiveRates();
-
         // GRILLE TARIFAIRE "EXÉCUTIVE" CHANTIERSUR (Positionnement Bureau d'Études Premium)
         const PRICING_RULES = {
       1: { base: 149000, perLevelAbove1: 25000 }, // Esquisse
             3: { base: 249000, perLevelAbove1: 40000 }, // Audit Devis
           };
-
     window.calculateServicePrice = function(paneId) {
       const rule = PRICING_RULES[paneId];
       if (!rule) return 199000;
@@ -1139,22 +1119,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const extraLevels = Math.max(0, levels);
       return rule.base + (extraLevels * rule.perLevelAbove1);
     };
-
     // MISE À JOUR DE L'AFFICHAGE DES PRIX ET CONVERSIONS
     window.updateAllPrices = function() {
       const currencySelect = document.getElementById('currency-select');
       const activeCurrency = currencySelect ? currencySelect.value : 'XOF';
       const rate = CONVERSION_RATES[activeCurrency] || 1;
-
       for (let i = 1; i <= 4; i++) {
         const priceXOF = window.calculateServicePrice(i);
         const priceValEl = document.getElementById('price-val-' + i);
         const priceConvEl = document.getElementById('price-converted-' + i);
-
         if (priceValEl) {
           priceValEl.textContent = priceXOF.toLocaleString('fr-FR') + ' FCFA';
         }
-
         if (priceConvEl) {
           if (activeCurrency === 'XOF') {
             const eurEquiv = (priceXOF / CONVERSION_RATES.EUR).toFixed(2);
@@ -1167,27 +1143,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
     };
-
     // APPEL AU CHARGEMENT INITIAL
     document.addEventListener('DOMContentLoaded', window.updateAllPrices);
-
     // 1. BASCULE DES ONGLETS
     window.switchTab = function(tabIndex) {
       for (let i = 1; i <= 4; i++) {
         const btn = document.getElementById('tab-btn-' + i);
         const pane = document.getElementById('pane-' + i);
-
         if (btn) {
           const badge = btn.querySelector('span');
           if (i === tabIndex) {
             btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white border-[#0E2A47] border-[#0E2A47] ring-[#0E2A47] ring-[#0E2A47]/15 shadow-xl focus:outline-none cursor-pointer';
-            if (badge) badge.className = 'text-xs font-black uppercase tracking-wider text-amber-800';
+            if (badge) badge.className = 'text-xs font-black uppercase tracking-wider text-[#0E2A47]';
           } else {
             btn.className = 'tab-card flex-none w-[85vw] sm:w-auto snap-center text-left p-5 rounded-2xl bg-white/70 border-[#0E2A47] border-slate-200 hover:border-slate-300 shadow-sm focus:outline-none cursor-pointer';
             if (badge) badge.className = 'text-xs font-bold uppercase tracking-wider text-slate-700';
           }
         }
-
         if (pane) {
           if (i === tabIndex) {
             pane.classList.remove('hidden');
@@ -1197,12 +1169,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
     };
-
     // 2. NAVIGATION DANS LES ÉTAPES (SUIVANT / RETOUR)
     window.goToStep = function(paneId, targetStep) {
       const pane = document.getElementById('pane-' + paneId);
       if (!pane) return;
-
       const activeStep = pane.querySelector('.step-container:not(.hidden)');
       if (activeStep) {
         let currentStepNum = 1;
@@ -1212,7 +1182,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             break;
           }
         }
-
         if (targetStep > currentStepNum) {
           // Hook for Audit Step 2 -> 3 (Sanitize lines)
           if (paneId === 3 && currentStepNum === 2) {
@@ -1228,12 +1197,10 @@ document.addEventListener('DOMContentLoaded', async () => {
              });
              if(window.updateDevisTotal) window.updateDevisTotal();
           }
-
           // Hook for Audit Step 4 -> 5 (Update Recapitulative Table before payment)
           if (paneId === 3 && currentStepNum === 3 && targetStep === 4) {
              if(window.populateAuditRecap) window.populateAuditRecap();
           }
-
           const fields = activeStep.querySelectorAll('input, select, textarea');
           let hasError = false;
           for (let field of fields) {
@@ -1249,12 +1216,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (hasError) return;
         }
       }
-
       pane.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
-
       const nextStepEl = pane.querySelector('.step-' + targetStep);
       if (nextStepEl) nextStepEl.classList.remove('hidden');
-
       // Update bullets
       for (let i = 1; i <= 6; i++) {
         const bullet = pane.querySelector('.bullet-' + i);
@@ -1268,29 +1232,23 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         }
       }
-
       window.scrollTo({ top: pane.offsetTop - 100, behavior: 'smooth' });
     };
-
     // 3. PAIEMENT PAYTECH & SAUVEGARDE PROJET
   window.getDevisLines = function() { return window.devisLinesState || []; };
-
     window.initiatePayment = async function(paneId, serviceKey) {
       const pane = document.getElementById('pane-' + paneId);
       if (!pane) return;
-
       const fd = new FormData(pane);
       const currentDossierId = 'CS-' + Date.now();
       const clientName = (fd.get('client_name') || '').trim();
       const clientEmail = (fd.get('client_email') || '').trim();
       const rawPrefix = (fd.get('phone_prefix') || '+221').trim();
       let rawPhone = (fd.get('client_phone') || '').toString().trim();
-
       if (!clientName || !clientEmail || !rawPhone) {
         alert("Veuillez renseigner votre nom, votre adresse email et votre numéro de téléphone.");
         return;
       }
-
       // --- CONTRÔLE INDICATIF URBANISME (DÉCRET N° 2025-1194 & LOI N° 2023-20) ---
       if (serviceKey === 'esquisse') {
         const nivCheck = parseInt(fd.get('exact_levels'), 10) || 1;
@@ -1300,20 +1258,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const reculCheck = streetWidthCheck >= 15 ? 4.0 : 3.0;
         const sdpEstimeeCheck = Math.round(surfCheck * 0.65 * (nivCheck + 1) * 0.90);
         const hauteurFaitageCheck = (nivCheck + 1) * 3.10 + 1.20;
-
         // Configuration paramétrable du prospect (art. R.448, décret n° 2025-1194)
         const GABARIT_CONFIG = {
           prospectCoef: 1.5, // H = 1,5L (emprise de la voie + retrait)
           tolerancePct: 10,   // Tolérance indicative (+10%) avant affichage informatif
           source: "art. R.448, décret n° 2025-1194"
         };
-
         const empriseVoie = streetWidthCheck;
         const retraitVoie = reculCheck;
         const hMaxCheck = GABARIT_CONFIG.prospectCoef * (empriseVoie + retraitVoie);
-
         let incoherences = [];
-
         if (usageCheck === 'unifamilial' && (sdpEstimeeCheck > 500 || nivCheck > 2)) {
           incoherences.push({
             type: 'usage',
@@ -1322,7 +1276,6 @@ document.addEventListener('DOMContentLoaded', async () => {
               ' (≈ ' + sdpEstimeeCheck.toLocaleString('fr-FR') + ' m² de SDP estimée). Vérifiez la destination réelle (habitat collectif, mixte ou bureaux).'
           });
         }
-
         if (hauteurFaitageCheck > hMaxCheck * (1 + GABARIT_CONFIG.tolerancePct / 100)) {
           const depM = (hauteurFaitageCheck - hMaxCheck).toFixed(1).replace('.', ',');
           const depPct = Math.round(((hauteurFaitageCheck - hMaxCheck) / hMaxCheck) * 100);
@@ -1336,19 +1289,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             legalNotice: 'Seuil de référence : H ≤ 1,5 × (voie + retrait) — ' + GABARIT_CONFIG.source + '. Valeur indicative calculée avec les données saisies ; le document d’urbanisme de la zone (SAUDAK / PCU / PAZ) peut fixer une autre valeur — à confirmer auprès de la Direction de l’Urbanisme.'
           });
         }
-
         if (incoherences.length > 0) {
           const continuer = await new Promise((resolve) => {
             let existing = document.getElementById('cs-coherence-modal');
             if (existing) existing.remove();
-
             const overlay = document.createElement('div');
             overlay.id = 'cs-coherence-modal';
             overlay.className = 'fixed inset-0 bg-[#0E2A47]/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-opacity duration-200';
             overlay.setAttribute('role', 'dialog');
             overlay.setAttribute('aria-modal', 'true');
             overlay.setAttribute('aria-labelledby', 'coherence-modal-title');
-
             const cardsHtml = incoherences.map((item) => {
               if (item.type === 'gabarit') {
                 return `
@@ -1366,7 +1316,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                       </div>
                       <div>
                         <span class="text-slate-400">Seuil indicatif de référence :</span>
-                        <span class="font-bold text-amber-300 ml-1">${item.seuilRef}</span>
+                        <span class="font-bold text-[#B8C9DB] ml-1">${item.seuilRef}</span>
                       </div>
                       <div class="sm:col-span-2">
                         <span class="text-slate-400">Base du calcul affichée :</span>
@@ -1377,7 +1327,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <span class="font-semibold text-[#0EA5E9] ml-1">${item.depassement}</span>
                       </div>
                     </div>
-                    <p class="text-[11px] leading-relaxed text-amber-200/90 bg-amber-950/30 border border-[#0EA5E9]/20 p-2.5 rounded-lg">
+                    <p class="text-[11px] leading-relaxed text-slate-200 bg-[#0E2A47]/40 border border-[#1B4F72] p-2.5 rounded-lg">
                       ${item.legalNotice}
                     </p>
                   </div>
@@ -1396,7 +1346,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 `;
               }
             }).join('');
-
             overlay.innerHTML = `
               <div class="relative w-full max-w-lg bg-[#0F172A] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col my-8">
                 <div class="p-5 border-[#0E2A47] border-slate-800 flex items-start gap-3 bg-gradient-to-r from-slate-900 to-[#0F172A]">
@@ -1414,22 +1363,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </p>
                   </div>
                 </div>
-
                 <div class="p-5 space-y-3 max-h-[60vh] overflow-y-auto">
                   ${cardsHtml}
                 </div>
-
                 <div class="p-4 bg-[#0E2A47]/60 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5">
                   <button type="button" id="btn-modal-cancel" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#0c243d] hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors">
                     Modifier les données
                   </button>
-                  <button type="button" id="btn-modal-continue" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0EA5E9] to-[#B38F1F] hover:from-[#0EA5E9] hover:to-[#0EA5E9] text-slate-950 text-xs font-bold shadow-lg shadow-[#0EA5E9]/20 transition-all">
+                  <button type="button" id="btn-modal-continue" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#0E2A47] hover:bg-[#1B4F72] text-white text-xs font-bold shadow-lg transition-all">
                     Continuer vers le paiement
                   </button>
                 </div>
               </div>
             `;
-
             function cleanup(result) {
               window.removeEventListener('keydown', handleKey);
               overlay.classList.add('opacity-0');
@@ -1438,37 +1384,29 @@ document.addEventListener('DOMContentLoaded', async () => {
               }, 150);
               resolve(result);
             }
-
             function handleKey(e) {
               if (e.key === 'Escape') cleanup(false);
             }
-
             overlay.querySelector('#btn-modal-cancel').addEventListener('click', () => cleanup(false));
             overlay.querySelector('#btn-modal-continue').addEventListener('click', () => cleanup(true));
             overlay.addEventListener('click', (e) => {
               if (e.target === overlay) cleanup(false);
             });
             window.addEventListener('keydown', handleKey);
-
             document.body.appendChild(overlay);
           });
-
           if (!continuer) return;
         }
       }
       // --- FIN CONTRÔLE INDICATIF URBANISME ---
-
-
       // Nettoyage téléphonique universel anti-dédoublement
       const prefixDigits = rawPrefix.replace(/\D/g, '');
       rawPhone = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
       if (prefixDigits && rawPhone.startsWith(prefixDigits)) {
         rawPhone = rawPhone.substring(prefixDigits.length).replace(/^0+/, '');
       }
-
       // Calcul dynamique du montant selon le niveau
       const exactAmount = window.calculateServicePrice ? window.calculateServicePrice(paneId) : 25000;
-
       // Données réelles complètes du projet
       const projectData = {
         service: serviceKey,
@@ -1517,13 +1455,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         devis_acompte: parseInt(fd.get('devis_acompte'), 10) || 30,
         devis_lines: window.getDevisLines ? window.getDevisLines() : []
       };
-
       // 1. Sauvegarde immédiate dans les stockages du navigateur
       try {
         localStorage.setItem('cs_project_data', JSON.stringify(projectData));
         sessionStorage.setItem('cs_project_data', JSON.stringify(projectData));
       } catch(e) {}
-
       if (serviceKey === 'audit') {
         const lines = window.getDevisLines ? window.getDevisLines() : [];
         if (!lines || lines.length === 0) {
@@ -1582,7 +1518,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
           }
         };
-
         try {
           localStorage.setItem('chantiersur_audit_dossier_' + currentDossierId, JSON.stringify(canonicalData));
           localStorage.setItem('current_audit_dossier', currentDossierId);
@@ -1591,7 +1526,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
       }
-
       // Mise à jour visuelle du bouton
       const btn = document.getElementById('pay-btn-' + paneId);
       const originalText = btn ? btn.innerHTML : '';
@@ -1599,7 +1533,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         btn.disabled = true;
         btn.innerHTML = 'Édition du dossier en cours...';
       }
-
       // 2. Appel PayTech ou bascule directe
       try {
         const response = await fetch('/.netlify/functions/paytech', {
@@ -1616,7 +1549,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             client_phone: `${prefixDigits}${rawPhone}`
           })
         });
-
         const data = await response.json();
         if (data && data.redirect_url) {
           window.location.href = data.redirect_url;
@@ -1625,23 +1557,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       } catch (err) {
         console.warn("PayTech indisponible, bascule directe vers le livrable...");
       }
-
       // Redirection immédiate avec les données réelles sauvegardées
       window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=${serviceKey}`;
     };
-
     // 4. MENU BURGER MOBILE
     window.toggleMobileMenu = function() {
       const drawer = document.getElementById('mobile-drawer');
       if (drawer) drawer.classList.toggle('hidden');
     };
-
       // 5. TEST DIRECT PDF PAR URL (?payment=success&service=...)
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment') === 'success') {
         const s = urlParams.get('service') || 'esquisse';
-
         // Modale d'erreur "Aucune ligne validée" pour Audit
         if (s === 'audit') {
           const storedDossierId = localStorage.getItem('current_audit_dossier');
@@ -1715,7 +1643,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           });
           return;
         }
-
         // 1. Recherche prioritaire des vraies données saisies par le client pour esquisse/express/
         let realData = null;
         try {
@@ -1724,7 +1651,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             realData = JSON.parse(saved);
           }
         } catch(e) {}
-
         // 2. Si aucune saisie préalable n'est trouvée (test direct de l'URL sans formulaire), utiliser le modèle de test
         const finalData = (realData && realData.client_name) ? realData : {
           service: s,
@@ -1746,7 +1672,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           sanitation_type: 'autonome',
           neighbor_status: 'vide'
         };
-
         finalData.service = s;
         console.log("etat au paiement: " + (window.devisLinesState ? window.devisLinesState.length : 0) + " lignes");
         // Création d'une modale visible à l'écran
@@ -1766,13 +1691,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         `;
         document.body.appendChild(modal);
-
           const closeModal = () => { modal.remove(); document.removeEventListener('keydown', escListener); };
           document.getElementById('pdf-modal-close').addEventListener('click', closeModal);
           modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
           const escListener = (e) => { if (e.key === 'Escape') closeModal(); };
           document.addEventListener('keydown', escListener);
-
         // Déclencheur
         function triggerPDF() {
           const statusEl = document.getElementById('pdf-status');
@@ -1807,9 +1730,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (statusEl) statusEl.innerHTML = '<span class="text-rose-400 font-bold">Erreur : moteur pdf-generator.js non détecté.</span>';
           }
         }
-
         document.getElementById('btn-force-download').addEventListener('click', triggerPDF);
-
         // Modal visuelle et téléchargement
         setTimeout(triggerPDF, 800);
       }
@@ -1822,7 +1743,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!container) return;
     window.devisLineCount = (window.devisLineCount || 0) + 1;
     const idx = window.devisLineCount;
-
     const div = document.createElement('div');
     div.className = 'devis-line-item bg-white border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-4 relative';
     div.innerHTML = `<div class="absolute -top-3 -left-3 w-6 h-6 bg-[#0EA5E9] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm"> ${idx} </div>
@@ -1841,7 +1761,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Désignation</label>
         <input type="text" class="dl-designation w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" placeholder="Ex: Exemple de lignes..." required>
       </div>
-
       <div class="w-full md:w-2/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nature du prix</label>
         <select class="dl-nature w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none">
@@ -1850,7 +1769,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           <option value="Main d'œuvre seule">Main d'œuvre seule</option>
         </select>
       </div>
-
       <div class="w-full md:w-1/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Unité</label>
         <select class="dl-unit w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" onchange="window.recalcDevisLine(this)">
@@ -1867,35 +1785,29 @@ document.addEventListener('DOMContentLoaded', async () => {
           <option value="forfait">forfait</option>
         </select>
       </div>
-
       <div class="w-full md:w-1/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Quantité</label>
         <input type="number" step="0.01" class="dl-qty w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" value="0" oninput="window.recalcDevisLine(this)">
       </div>
-
       <div class="w-full md:w-2/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">PU HT</label>
         <input type="number" class="dl-pu w-full bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" value="0" oninput="window.recalcDevisLine(this)">
       </div>
-
       <div class="w-full md:w-2/12">
         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Total HT</label>
         <input type="number" class="dl-total w-full bg-slate-200 border border-slate-300 rounded-lg px-2 py-2 text-sm text-[#0E2A47] font-bold outline-none" value="0" readonly>
       </div>
-
       <button type="button" onclick="this.closest('.devis-line-item').remove(); window.updateDevisTotal();" class="text-slate-400 hover:text-red-500 transition-colors mt-4 md:mt-0" title="Supprimer la ligne">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
       </button>`;
     container.appendChild(div);
   };
-
   window.recalcDevisLine = function(el) {
     const line = el.closest('.devis-line-item');
     const unit = line.querySelector('.dl-unit').value;
     const qtyInput = line.querySelector('.dl-qty');
     const puInput = line.querySelector('.dl-pu');
     const totalInput = line.querySelector('.dl-total');
-
     if (unit === 'forfait') {
       qtyInput.value = '';
       qtyInput.disabled = true;
@@ -1916,7 +1828,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     window.updateDevisTotal();
   };
-
   window.updateDevisTotal = function() {
     const lines = document.querySelectorAll('.devis-line-item');
     let total = 0;
@@ -1927,43 +1838,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('devis-line-counter').textContent = lines.length + ' ligne(s)';
     document.getElementById('devis-total-provisoire').textContent = total.toLocaleString('fr-FR');
   };
-
-
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

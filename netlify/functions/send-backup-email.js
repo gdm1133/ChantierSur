@@ -1,4 +1,4 @@
-﻿
+
 
 exports.handler = async (event, context) => {
     // Only allow POST requests
@@ -45,7 +45,7 @@ exports.handler = async (event, context) => {
                 subject: `[ChantierSur] Votre Dossier Technique - Réf: ${ref}`,
                 html: `
                     <div style="font-family: sans-serif; color: #0B1325; max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #F59E0B;">ChantierSur.com - Ingénierie & BTP</h2>
+                        <h2 style="color: #0E2A47;">ChantierSur.com - Ingénierie & BTP</h2>
                         <p>Bonjour,</p>
                         <p>Nous vous remercions pour votre confiance. Vous trouverez en pièce jointe votre dossier technique <strong>${service.toUpperCase()}</strong> (Réf: ${ref}) généré par nos systèmes.</p>
                         <p>Ce document est certifié conforme aux normes  et au droit sénégalais (COCC).</p>

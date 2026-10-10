@@ -1,150 +1,44 @@
-﻿<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog ChantierSur - Sécurité et Devis Construction au Sénégal</title>
-    <meta name="description" content="Découvrez les conseils d'experts de ChantierSur pour sécuriser vos chantiers, éviter les arnaques de devis et maîtriser vos coûts de construction au Sénégal.">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary-red: #0EA5E9;
-            --dark-navy: #1A2530;
-            --light-bg: #F8F9FA;
-        }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: var(--dark-navy);
-            background-color: var(--light-bg);
-        }
-        .hero-section {
-            background: linear-gradient(rgba(26, 37, 48, 0.8), rgba(26, 37, 48, 0.9)), url('../assets/img/hero_devis_chantier_1790921202418.jpg') center/cover;
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        .hero-section h1 {
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-        .filter-bar {
-            background: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            margin-bottom: 40px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .filter-btn {
-            background: none;
-            border: 2px solid #ddd;
-            padding: 8px 20px;
-            border-radius: 25px;
-            margin-right: 10px;
-            color: var(--dark-navy);
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            color: white;
-        }
-        .blog-card {
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            height: 100%;
-            background: white;
-        }
-        .blog-card:hover {
-            transform: translateY(-5px);
-        }
-        .blog-img-wrapper {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-        }
-        .blog-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .category-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: var(--primary-red);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .read-time {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        .blog-content {
-            padding: 25px;
-        }
-        .blog-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--dark-navy);
-            text-decoration: none;
-        }
-        .blog-title:hover {
-            color: var(--primary-red);
-        }
-        .blog-excerpt {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .read-more {
-            color: var(--primary-red);
-            font-weight: 600;
-            text-decoration: none;
-        }
-        .read-more:hover {
-            text-decoration: underline;
-        }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog & Guides Techniques - ChantierSur.com</title>
+  <meta name="description" content="Découvrez les guides d'ingénierie et d'audit de ChantierSur : sécurité des chantiers, contre-expertise de devis, règles d'urbanisme et maîtrise des coûts au Sénégal.">
+  <link rel="icon" type="image/png" href="../assets/logo/logo-a-favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #0E2A47;
+      background-color: #F8FAFC;
+    }
+    .filter-btn.active {
+      background-color: #0E2A47;
+      color: white;
+      border-color: #0E2A47;
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-<!-- TOPBAR RÉGLEMENTAIRE -->
+  <!-- TOPBAR RÉGLEMENTAIRE -->
   <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
-          Conformité 
+          Droit COCC Sénégal
         </span>
-        <span class="hidden sm:inline">•</span>
-        <span class="whitespace-nowrap">Droit COCC Sénégal</span>
-        <span class="hidden sm:inline">•</span>
-        <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
+        <span class="hidden sm:inline text-slate-500">•</span>
+        <span class="whitespace-nowrap text-slate-300">bureau d'études numérique indépendant</span>
       </div>
       <div class="flex items-center space-x-4">
-        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#0EA5E9] hover:underline">admin@chantiersur.com</a></span>
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors">admin@chantiersur.com</a></span>
         <div class="flex items-center space-x-2">
           <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
-          <select id="currency-select" onchange="window.updateAllPrices()" class="bg-[#0E2A47] border border-slate-700 text-[#0EA5E9] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+          <select id="currency-select" onchange="window.updateAllPrices && window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
             <option value="XOF" selected>FCFA (XOF)</option>
             <option value="EUR">Euro (€)</option>
             <option value="USD">Dollar US ($)</option>
@@ -158,18 +52,21 @@
   <!-- NAVIGATION HEADER -->
   <header class="bg-[#0E2A47] border-b border-[#1B4F72] sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      
-      <!-- LOGO SANS SOUS-TITRE -->
-      <a href="../index.html" class="flex items-center space-x-3 group"><div class="flex items-center space-x-3"><img src="../assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
+      <!-- LOGO VERROUILLÉ : Sigle à gauche + Texte ChantierSur.com à droite (Archivo 800) -->
+      <a href="../app_privee.html" class="flex items-center space-x-3 group">
+        <img src="../assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+        <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+      </a>
 
-      <!-- NAVIGATION DESKTOP SANS "LANCER MON DOSSIER" -->
+      <!-- NAVIGATION DESKTOP -->
       <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
-        <a href="#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
-        <a href="../a-propos.html" class="text-slate-300 hover:text-[#0EA5E9] transition-colors">Qui Sommes-Nous</a> <a href="index.html" class="text-white hover:text-[#0EA5E9] transition-colors font-bold ml-4 border border-[#1B4F72] px-3 py-1 rounded-md">Le Blog</a>
+        <a href="../app_privee.html#services-section" class="text-slate-300 hover:text-white transition-colors">Simulateur & Services</a>
+        <a href="../a-propos.html" class="text-slate-300 hover:text-white transition-colors">Qui Sommes-Nous</a>
+        <a href="index.html" class="text-white hover:text-[#B8C9DB] transition-colors font-bold">Blog</a>
       </nav>
 
       <!-- MENU BURGER MOBILE -->
-      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none" aria-label="Menu Mobile">
+      <button id="burger-btn" type="button" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:text-white focus:outline-none" aria-label="Menu Mobile">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -177,204 +74,434 @@
     </div>
 
     <!-- TIROIR DÉROULANT MOBILE -->
-    <div id="mobile-drawer" class="hidden md:hidden bg-white border-[#0E2A47] border-slate-200 px-6 py-5 space-y-4 shadow-lg">
-      <a href="#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-[#0EA5E9] font-semibold py-1">Simulateur & Services</a>
-      <a href="../a-propos.html" class="block text-slate-300 hover:text-[#0EA5E9] font-semibold py-1">Qui Sommes-Nous</a><a href="index.html" class="block text-white hover:text-[#0EA5E9] font-semibold py-1">Le Blog</a>
+    <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg">
+      <a href="../app_privee.html#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a>
+      <a href="../a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
+      <a href="index.html" class="block text-white font-bold py-1">Blog</a>
     </div>
   </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <h1 style="font-family: 'Archivo', sans-serif;">Le Blog ChantierSur</h1>
-            <p class="lead">Guides experts sur la sécurité et la maîtrise des coûts de construction au Sénégal.</p>
-        </div>
-    </section>
-
-    <!-- Filter Bar -->
-    <div class="filter-bar">
-        <div class="container d-flex justify-content-between align-items-center flex-wrap">
-            <div class="filters mb-2 mb-md-0">
-                <button class="filter-btn active">Tous</button>
-                <button class="filter-btn">Sécurité</button>
-                <button class="filter-btn">Devis & Coûts</button>
-                <button class="filter-btn">Guides</button>
-            </div>
-            <div class="search-box">
-                <input type="text" class="form-control rounded-pill" placeholder="Rechercher un article...">
-            </div>
-        </div>
-    </div>
-
-    <!-- Articles Grid -->
-    <section class="container mb-5">
-        <div class="row g-4">
-            
-            <!-- Article 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-card">
-                    <a href="/blog/securite-chantier-senegal-accidents.html">
-                        <div class="blog-img-wrapper">
-                            <span class="category-badge">Sécurité</span>
-                            <span class="read-time"><i class="far fa-clock"></i> 7 min</span>
-                            <img src="../assets/img/hero_accidents_chantier_1790921176621.jpg" alt="Sécurité chantier Sénégal accidents" class="blog-img" loading="lazy">
-                        </div>
-                    </a>
-                    <div class="blog-content">
-                        <a href="/blog/securite-chantier-senegal-accidents.html" class="blog-title d-block">Sécurité sur les chantiers au Sénégal : les 7 accidents les plus fréquents et comment les éviter</a>
-                        <p class="blog-excerpt">Les accidents de chantier sont une réalité tragique au Sénégal. Découvrez les dangers les plus courants et les mesures de prévention indispensables pour protéger vos équipes.</p>
-                        <a href="/blog/securite-chantier-senegal-accidents.html" class="read-more">Lire l'article <i class="fas fa-arrow-right ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Article 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-card">
-                    <a href="/blog/epi-chantier.html">
-                        <div class="blog-img-wrapper">
-                            <span class="category-badge">Sécurité</span>
-                            <span class="read-time"><i class="far fa-clock"></i> 6 min</span>
-                            <img src="../assets/img/hero_epi_chantier_1790921192324.jpg" alt="EPI sur un chantier" class="blog-img" loading="lazy">
-                        </div>
-                    </a>
-                    <div class="blog-content">
-                        <a href="/blog/epi-chantier.html" class="blog-title d-block">EPI sur un chantier : la check-list complète (casque, gants, chaussures, lunettes, harnais)</a>
-                        <p class="blog-excerpt">Le port des Équipements de Protection Individuelle (EPI) est la première ligne de défense sur un chantier. Voici le guide complet de l'équipement obligatoire.</p>
-                        <a href="/blog/epi-chantier.html" class="read-more">Lire l'article <i class="fas fa-arrow-right ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Article 5 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-card">
-                    <a href="/blog/verifier-devis-construction.html">
-                        <div class="blog-img-wrapper">
-                            <span class="category-badge">Devis & Coûts</span>
-                            <span class="read-time"><i class="far fa-clock"></i> 8 min</span>
-                            <img src="../assets/img/hero_devis_chantier_1790921202418.jpg" alt="Vérifier un devis de construction" class="blog-img" loading="lazy">
-                        </div>
-                    </a>
-                    <div class="blog-content">
-                        <a href="/blog/verifier-devis-construction.html" class="blog-title d-block">Comment vérifier un devis de construction avant de signer : la méthode en 8 points</a>
-                        <p class="blog-excerpt">Ne signez jamais un devis à l'aveugle. Découvrez notre Méthodologierigoureuse en 8 points pour déjouer les pièges, repérer les anomalies et sécuriser votre investissement.</p>
-                        <a href="/blog/verifier-devis-construction.html" class="read-more">Lire l'article <i class="fas fa-arrow-right ms-1"></i></a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-<footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 mt-12 text-slate-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                <!-- Col 1 -->
-                  <div>
-                      <a href="../index.html" class="flex items-center space-x-3 group mb-4"><div class="flex items-center space-x-3"><img src="../assets/logo/logo-a-clair.png" alt="Logo" class="h-10 w-auto"><span class="text-2xl font-black tracking-tight text-white" style="font-family: 'Archivo', sans-serif;">ChantierSur</span></div></a>
-                    <p class="text-[#0EA5E9] font-bold mb-4">Bâtissez sans angle mort.</p>
-                    <div class="bg-[#0E2A47] p-3 rounded-lg border border-slate-800">
-                        <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
-                    </div>
-                </div>
-
-                <!-- Col 2 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Ingénierie & Services</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="../index.html#services-section" class="hover:text-[#0EA5E9] transition">Esquisse Faisabilité</a></li>
-                        
-                        <li><a href="../index.html#services-section" class="hover:text-[#0EA5E9] transition">Audit Devis</a></li>
-                        
-                    </ul>
-                </div>
-
-                <!-- Col 3 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Rigueur & Méthodologie</h4>
-                                        <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="../points-darret.html" class="hover:text-[#0EA5E9] transition">Les 6 Points d'Arrêt</a></li>
-                        <li><a href="../guide-diaspora.html" class="hover:text-[#0EA5E9] transition">Guide Diaspora & WhatsApp</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 4 -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Cadre Légal & Sécurité</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="../a-propos.html" class="hover:text-[#0EA5E9] transition">Qui Sommes-Nous</a></li>
-                        <li><a href="../mentions-legales.html" class="hover:text-[#0EA5E9] transition">Mentions Légales</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-<!-- SOUS-PIED DE PAGE INSTITUTIONNEL & LÉGAL -->
-<div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
-  <div class="max-w-7xl mx-auto space-y-4">
-    
-    <!-- Ligne 1 : Badges Réglementaires & Sécurité -->
-    <div class="flex flex-wrap items-center justify-between gap-3 border-[#0E2A47] border-slate-800/50 pb-4">
-      <div class="flex flex-wrap items-center gap-4 text-[11px]">
-        <!-- Statut opérationnel -->
-        <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-slate-300 font-medium">Système Opérationnel</span>
-        </div>
-        
-        <!-- Badge Sécurité TLS -->
-        <div class="flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-[#0EA5E9]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-          <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
-        </div>
-
-        <!-- Badge CDP Sénégal -->
-        <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
-          <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-          <span>bureau d'études numérique indépendant</span>
-        </div>
+  <!-- HERO SECTION BLOG -->
+  <section class="bg-gradient-to-b from-[#0E2A47] to-[#1B4F72] text-white py-16 px-4">
+    <div class="max-w-4xl mx-auto text-center space-y-4">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white/10 border border-[#B8C9DB]/40 text-[#EAF0F6] text-xs font-bold uppercase tracking-wider">
+        <span>Centre d'Ingénierie & d'Information</span>
       </div>
+      <h1 style="font-family: 'Archivo', sans-serif; font-weight: 800;" class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+        Le Blog & Guides Techniques
+      </h1>
+      <p class="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto font-medium">
+        Analyses de chantiers réels, décryptage de devis, check-lists de sécurité et réglementation de la construction au Sénégal.
+      </p>
+    </div>
+  </section>
 
-      <!-- Partenaires & Protocoles Agréés -->
-      <div class="flex items-center space-x-3 text-[11px] text-slate-400">
-        <span>paiements sécurisés : Wave, Orange Money, Visa</span>
-        <span class="font-semibold text-slate-300">Wave</span>
-        <span>•</span>
-        <span class="font-semibold text-slate-300">Orange Money</span>
-        <span>•</span>
-        <span class="font-semibold text-slate-300">Visa / CB (3D Secure v2)</span>
+  <!-- BARRE DE RECHERCHE ET FILTRES -->
+  <div class="bg-white border-b border-slate-200 sticky top-20 z-40 shadow-sm py-4 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex flex-wrap gap-2" id="filter-buttons">
+        <button class="filter-btn active px-4 py-2 rounded-full border border-slate-300 text-xs sm:text-sm font-bold transition-all" onclick="filterArticles('all')">Tous (12)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#EAF0F6] transition-all" onclick="filterArticles('securite')">Sécurité</button>
+        <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#EAF0F6] transition-all" onclick="filterArticles('devis')">Devis & Coûts</button>
+        <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#EAF0F6] transition-all" onclick="filterArticles('guides')">Guides</button>
+      </div>
+      <div class="w-full md:w-72">
+        <input type="text" id="search-input" onkeyup="searchArticles()" placeholder="Rechercher un guide..." class="w-full bg-[#F8FAFC] border border-slate-300 rounded-full px-4 py-2 text-sm text-[#0E2A47] placeholder-slate-400 focus:outline-none focus:border-[#0E2A47] transition">
       </div>
     </div>
-
-    <!-- Ligne 2 : Clause de Non-Substitut d'Architecte (Obligation Légale) -->
-    <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
-      <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
-    </p>
-
-    <!-- Ligne 3 : Copyright, Liens Légaux & Contact -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
-      <div class="text-slate-400 text-center md:text-left">
-        &copy; 2026 ChantierSur Technologies SARL. Tous droits réservés.
-        <span class="hidden sm:inline text-slate-700">|</span>
-        <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
-      </div>
-
-      <!-- Liens Réglementaires Incompressibles -->
-      <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
-        <a href="../mentions-legales.html" class="hover:text-[#0EA5E9] transition-colors">Mentions Légales</a>
-        <span class="text-slate-700">•</span>
-        <span class="text-slate-700">•</span>
-        <span class="text-slate-700">•</span>
-        <a href="mailto:admin@chantiersur.com" class="text-[#0EA5E9] hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
-      </nav>
-    </div>
-
   </div>
-</div>
+
+  <!-- GRILLE DES 12 ARTICLES -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
+
+      <!-- Article 1 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="securite">
+        <a href="securite-chantier-senegal-accidents.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/hero_accidents_chantier_1790921176621.jpg" alt="Sécurité sur les chantiers au Sénégal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">7 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="securite-chantier-senegal-accidents.html" class="hover:text-[#1B4F72] transition-colors">Sécurité sur les chantiers au Sénégal : les 7 accidents les plus fréquents</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Chutes de hauteur, effondrements de tranchées, électrisations : découvrez les dangers les plus courants et les mesures de prévention indispensables pour protéger vos équipes.
+          </p>
+          <a href="securite-chantier-senegal-accidents.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="securite">
+        <a href="epi-chantier.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/hero_epi_chantier_1790921192324.jpg" alt="EPI sur un chantier" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">6 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">EPI sur un chantier : la check-list complète obligatoire</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Le port des Équipements de Protection Individuelle est la première ligne de défense sur le terrain. Normes, entretien et obligations légales du maître d'ouvrage.
+          </p>
+          <a href="epi-chantier.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="devis">
+        <a href="verifier-devis-construction.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/hero_devis_chantier_1790921202418.jpg" alt="Vérifier un devis de construction" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">8 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="verifier-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Comment vérifier un devis de construction : la méthode en 8 points</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Ne signez jamais un devis à l'aveugle. Découvrez notre méthode rigoureuse pour repérer les surfacturations, ratios anormaux et omissions volontaires.
+          </p>
+          <a href="verifier-devis-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 4 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="devis">
+        <a href="arnaque-acompte-chantier.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/body_devis_1_1790921265069.jpg" alt="Arnaque acompte chantier" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">5 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="arnaque-acompte-chantier.html" class="hover:text-[#1B4F72] transition-colors">L'acompte excessif : l'arnaque classique des chantiers</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Exiger 40 % à 50 % avant le démarrage est un signal d'alerte critique. Comment échelonner contractuellement les paiements sans risque de fuite de l'artisan.
+          </p>
+          <a href="arnaque-acompte-chantier.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 5 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="securite">
+        <a href="chaleur-chantier-ouvriers.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/body_accidents_1_1790921227935.jpg" alt="Chaleur chantier ouvriers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">6 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="chaleur-chantier-ouvriers.html" class="hover:text-[#1B4F72] transition-colors">Chaleur et déshydratation sur les chantiers : protégez vos équipes</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Travailler sous 40°C expose au coup de chaleur mortel. Aménagement des horaires, rotations de tâches et protocoles d'hydratation indispensables.
+          </p>
+          <a href="chaleur-chantier-ouvriers.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 6 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="securite">
+        <a href="choisir-epi-chantier.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/body_epi_1_1790921245642.jpg" alt="Choisir ses EPI chantier" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">6 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="choisir-epi-chantier.html" class="hover:text-[#1B4F72] transition-colors">Bien choisir ses EPI : casque, gants, chaussures de sécurité</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Guide d'achat pratique et critères techniques : comment équiper vos maçons, ferrailleurs et électriciens sans fausse économie sur la sécurité.
+          </p>
+          <a href="choisir-epi-chantier.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 7 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="devis">
+        <a href="clauses-devis-construction.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/body_devis_2_1790921274580.jpg" alt="Clauses devis construction" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">7 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="clauses-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Les 5 clauses que votre devis doit contenir avant signature</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Pénalités de retard journalières, retenue de garantie de 5 %, calendrier détaillé et gestion des avenants : protégez votre investissement juridiquement.
+          </p>
+          <a href="clauses-devis-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 8 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="guides">
+        <a href="etude-faisabilite-construction.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/body_accidents_2_1790921236420.jpg" alt="Étude faisabilité construction" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Guides</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">8 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="etude-faisabilite-construction.html" class="hover:text-[#1B4F72] transition-colors">Étude de faisabilité : par où commencer avant de bâtir</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Sondages de sol, règles d'urbanisme DUA, marges de recul et dimensionnement préliminaire des fondations : sécurisez l'ouvrage avant le chantier.
+          </p>
+          <a href="etude-faisabilite-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 9 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="devis">
+        <a href="forfait-devis-construction.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/hero_devis_chantier_1790921202418.jpg" alt="Forfait dans un devis construction" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">6 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="forfait-devis-construction.html" class="hover:text-[#1B4F72] transition-colors">Le "forfait" dans un devis : ce que ça cache et quoi exiger</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Les lignes forfaitaires dissimulent les imprécisions et les surfacturations. Apprenez à exiger un décompte métrique rigoureux lot par lot.
+          </p>
+          <a href="forfait-devis-construction.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 10 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="devis">
+        <a href="prix-construction-villa-dakar.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/hero_accidents_chantier_1790921176621.jpg" alt="Prix construction villa Dakar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Devis & Coûts</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">9 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="prix-construction-villa-dakar.html" class="hover:text-[#1B4F72] transition-colors">Combien coûte la construction d'une villa à Dakar ? Le guide complet</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Ratios au m² selon le standing, décomposition des lots (gros œuvre, second œuvre, finitions) et écarts de prix par quartier (Almadies, Ngor, Mermoz, Rufisque).
+          </p>
+          <a href="prix-construction-villa-dakar.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 11 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="guides">
+        <a href="reception-travaux-guide.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/body_epi_2_1790921254831.jpg" alt="Réception travaux guide" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Guides</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">7 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="reception-travaux-guide.html" class="hover:text-[#1B4F72] transition-colors">Réception des travaux : le guide pour ne pas se faire avoir</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Procès-verbal de réception, consignation des réserves, retenue de garantie et actionnement des garanties décennale : la clôture sécurisée du chantier.
+          </p>
+          <a href="reception-travaux-guide.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 12 -->
+      <article class="article-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col" data-category="securite">
+        <a href="travail-en-hauteur-securite.html" class="block h-52 overflow-hidden relative group">
+          <img src="../assets/img/hero_epi_chantier_1790921192324.jpg" alt="Travail en hauteur sécurité" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+          <span class="absolute top-3 left-3 bg-[#0E2A47] text-white text-xs font-bold px-3 py-1 rounded-full">Sécurité</span>
+          <span class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">7 min</span>
+        </a>
+        <div class="p-6 flex flex-col flex-grow">
+          <h2 style="font-family: 'Archivo', sans-serif; font-weight: 700;" class="text-xl font-bold text-[#0E2A47] mb-3 leading-snug">
+            <a href="travail-en-hauteur-securite.html" class="hover:text-[#1B4F72] transition-colors">Travail en hauteur : échafaudages, échelles et harnais</a>
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-grow">
+            Les chutes de hauteur représentent la première cause d'accidents mortels. Règles d'ancrage, stabilité des plateformes et vérification avant tout usage.
+          </p>
+          <a href="travail-en-hauteur-securite.html" class="text-sm font-bold text-[#1B4F72] hover:text-[#0E2A47] flex items-center space-x-1">
+            <span>Lire l'article complet</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- FOOTER OFFICIEL -->
+  <footer class="bg-[#0E2A47] border-t border-[#1B4F72] pt-12 pb-8 mt-12 text-slate-100">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- Col 1 -->
+        <div>
+          <a href="../app_privee.html" class="flex items-center space-x-3 group mb-4">
+            <img src="../assets/logo/logo-a-clair.png" alt="Logo ChantierSur" class="h-10 w-auto">
+            <span class="text-2xl font-extrabold tracking-tight text-white" style="font-family: 'Archivo', sans-serif; font-weight: 800;">ChantierSur.com</span>
+          </a>
+          <p class="text-[#B8C9DB] font-semibold mb-4">Bâtissez sans angle mort.</p>
+          <div class="bg-[#0E2A47] p-3 rounded-lg border border-slate-800">
+            <p class="text-xs text-slate-400"><strong>Manifeste d'indépendance :</strong> Zéro commission perçue des artisans. Notre seul client est le maître d'ouvrage.</p>
+          </div>
+        </div>
+
+        <!-- Col 2 -->
+        <div>
+          <h4 class="text-white font-bold mb-4">Ingénierie & Services</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="../app_privee.html#services-section" class="hover:text-white transition">Esquisse Faisabilité</a></li>
+            <li><a href="../app_privee.html#services-section" class="hover:text-white transition">Audit Devis</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div>
+          <h4 class="text-white font-bold mb-4">Rigueur & Méthodologie</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="../points-darret.html" class="hover:text-white transition">Les 6 Points d'Arrêt</a></li>
+            <li><a href="../guide-diaspora.html" class="hover:text-white transition">Guide Diaspora & WhatsApp</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div>
+          <h4 class="text-white font-bold mb-4">Cadre Légal & Sécurité</h4>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="../a-propos.html" class="hover:text-white transition">Qui Sommes-Nous</a></li>
+            <li><a href="../mentions-legales.html" class="hover:text-white transition">Mentions Légales</a></li>
+            <li><a href="index.html" class="hover:text-white transition font-medium">Le Blog & Guides</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SOUS-PIED DE PAGE INSTITUTIONNEL & LÉGAL -->
+  <div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
+    <div class="max-w-7xl mx-auto space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-[#0E2A47] border-slate-800/50 pb-4">
+        <div class="flex flex-wrap items-center gap-4 text-[11px]">
+          <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-slate-300 font-medium">Système Opérationnel</span>
+          </div>
+          <div class="flex items-center space-x-1.5 text-slate-400">
+            <svg class="w-3.5 h-3.5 text-[#B8C9DB]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+            <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
+          </div>
+          <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            <span>bureau d'études numérique indépendant</span>
+          </div>
+        </div>
+
+        <!-- Partenaires & Protocoles Agréés -->
+        <div class="flex items-center space-x-3 text-[11px] text-slate-400">
+          <span>Paiements sécurisés : Wave, Orange Money, Visa</span>
+        </div>
+      </div>
+
+      <!-- Clause de Non-Substitut d'Architecte -->
+      <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
+        <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
+      </p>
+
+      <!-- Copyright & Liens -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
+        <div class="text-slate-400 text-center md:text-left">
+          &copy; 2026 ChantierSur Technologies SARL. Tous droits réservés.
+          <span class="hidden sm:inline text-slate-700">|</span>
+          <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
+        </div>
+
+        <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
+          <a href="../mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales</a>
+          <span class="text-slate-600">•</span>
+          <a href="index.html" class="hover:text-white transition-colors">Blog</a>
+          <span class="text-slate-600">•</span>
+          <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    function filterArticles(category) {
+      const cards = document.querySelectorAll('.article-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+      
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function searchArticles() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      const cards = document.querySelectorAll('.article-card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('h2').textContent.toLowerCase();
+        const excerpt = card.querySelector('p').textContent.toLowerCase();
+        if (title.includes(query) || excerpt.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
-
-
