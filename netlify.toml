@@ -3,7 +3,12 @@
   publish = "."
 
 [functions]
-  included_files = ["netlify/functions/generer-audit-pdf/*.ttf"]
+  included_files = [
+    "netlify/functions/generer-audit-pdf/*.ttf",
+    "netlify/functions/generer-audit-pdf/*.png",
+    "netlify/functions/generer-esquisse-pdf/*.ttf",
+    "netlify/functions/generer-esquisse-pdf/*.png"
+  ]
 
 
 

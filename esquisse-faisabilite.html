@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
-  <!-- CANARY-FORMS-FIX-20261011 -->
+  <!-- CANARY-UNIQUE-20261011 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -885,10 +885,9 @@
           }
         }
       }
-      const formCard = pane.closest('.bg-white') || pane;
-      const rect = formCard.getBoundingClientRect();
-      const scrollTop = window.pageYOffset + rect.top - 30;
-      window.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' });
+      const formContainer = document.getElementById('formulaire-esquisse') || pane.closest('section') || pane;
+      const targetY = formContainer.getBoundingClientRect().top + window.pageYOffset - 85;
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
 
     // Paiement & Sauvegarde
@@ -1048,32 +1047,66 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            action: 'test-checkout',
             item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
             item_price: exactAmount,
             currency: 'XOF',
             service: serviceKey,
-            ref_command: 'CS-' + Date.now(),
+            ref_command: currentDossierId,
             client_name: clientName,
             client_email: clientEmail,
-            client_phone: `${prefixDigits}${rawPhone}`
+            client_phone: `${prefixDigits}${rawPhone}`,
+            surface: parseFloat(fd.get('surface')) || 200,
+            project_location: fd.get('project_location') || 'Dakar',
+            ...projectData
           })
         });
         const data = await response.json();
-        if (data && data.redirect_url) {
+        if (data && data.token) {
+          window.location.href = window.location.origin + window.location.pathname + `?download_token=${encodeURIComponent(data.token)}&service=esquisse`;
+          return;
+        } else if (data && data.redirect_url) {
           window.location.href = data.redirect_url;
+          return;
+        } else if (data && data.error) {
+          alert("Erreur : " + data.error);
+          if (btn) { btn.disabled = false; btn.innerHTML = 'Commander mon étude &rarr;'; }
           return;
         }
       } catch (err) {
-        console.warn("PayTech indisponible, bascule directe vers le livrable...");
+        console.warn("PayTech indisponible, bascule directe vers le livrable...", err);
       }
 
-      window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=${serviceKey}`;
+      if (!window.location.hostname.includes('chantiersur.com')) {
+        window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=${serviceKey}`;
+      }
     };
 
-    // Livrable PDF direct après succès
+    // Livrable PDF direct après succès ou jeton valide
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('payment') === 'success') {
+      const downloadToken = urlParams.get('download_token');
+      const isForgedPayment = urlParams.get('payment') === 'success' && !downloadToken;
+      const isProduction = window.location.hostname.includes('chantiersur.com');
+
+      // SÉCURITÉ PRODUCTION (B5) : rejet formel de tout paramètre forged sans jeton
+      if (isForgedPayment && isProduction) {
+        const forgedModal = document.createElement('div');
+        forgedModal.id = 'pdf-forged-modal';
+        forgedModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
+        forgedModal.innerHTML = `
+          <div class="bg-white border-b-4 border-rose-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+            <div class="text-rose-500 text-3xl mb-4">🔒</div>
+            <h3 class="text-lg font-bold text-[#0E2A47] mb-2">Accès Non Autorisé</h3>
+            <p class="text-sm text-slate-600 mb-6">Le raccourci direct par URL est désactivé. Un règlement vérifié par PayTech avec jeton unique est obligatoire pour éditer le rapport.</p>
+            <button onclick="window.location.href='/esquisse-faisabilite.html'" class="px-6 py-2.5 bg-[#0E2A47] text-white font-bold rounded-xl text-sm">Retour au formulaire</button>
+          </div>
+        `;
+        document.body.appendChild(forgedModal);
+        return;
+      }
+
+      if (downloadToken || (!isProduction && urlParams.get('payment') === 'success')) {
         const s = urlParams.get('service') || 'esquisse';
         let realData = null;
         try {
@@ -1103,7 +1136,7 @@
         modal.id = 'pdf-success-modal';
         modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
         modal.innerHTML = `
-          <div class="bg-white border-b border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
+          <div class="bg-white border-b-4 border-[#1B4F72] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-5 relative">
             <button id="pdf-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold cursor-pointer leading-none">&times;</button>
             <div class="w-16 h-16 bg-[#EAF0F6] text-[#0E2A47] rounded-full flex items-center justify-center mx-auto text-2xl">📄</div>
             <h3 class="text-xl font-bold text-[#0E2A47]">Paiement Validé & Livrable Prêt</h3>
@@ -1111,22 +1144,57 @@
             <button id="btn-force-download" class="w-full py-4 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-extrabold rounded-xl shadow-lg transition-all text-base cursor-pointer">
               📥 Télécharger mon Rapport PDF
             </button>
-            <p id="pdf-status" class="text-xs text-slate-500 font-medium">Le téléchargement démarre également en arrière-plan...</p>
+            <p id="pdf-status" class="text-xs text-slate-500 font-medium">Génération certifiée haute résolution par le serveur...</p>
           </div>
         `;
         document.body.appendChild(modal);
         document.getElementById('pdf-modal-close').addEventListener('click', () => modal.remove());
 
         function triggerPDF() {
-          const gen = window.generateProjectPDF || window.generatePDF;
-          if (typeof gen === 'function') {
-            try {
-              gen(finalData);
-              document.getElementById('pdf-status').innerHTML = '<span class="text-emerald-600 font-bold">✓ Téléchargement lancé avec succès !</span>';
-            } catch(e) {
-              console.error(e);
+          const btn = document.getElementById('btn-force-download');
+          if (btn) { btn.innerHTML = 'Édition du PDF en cours...'; btn.disabled = true; }
+          // Appel fonction Netlify generer-esquisse-pdf
+          fetch('/.netlify/functions/generer-esquisse-pdf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...finalData,
+              download_token: downloadToken
+            })
+          }).then(response => {
+            if (!response.ok) return response.text().then(t => { throw new Error(t); });
+            return response.blob();
+          }).then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ChantierSur_Esquisse_${Date.now()}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+            if (btn) { btn.innerHTML = '📥 Télécharger mon Rapport PDF'; btn.disabled = false; }
+            document.getElementById('pdf-status').innerHTML = '<span class="text-emerald-600 font-bold">✓ Rapport officiel téléchargé avec succès !</span>';
+          }).catch(err => {
+            console.warn('Serveur non disponible, bascule moteur client...', err);
+            let msg = err.message;
+            try { const parsed = JSON.parse(err.message); if (parsed.error) msg = parsed.error; } catch(_) {}
+            if (msg.includes('expiré') || msg.includes('requis')) {
+              alert('Téléchargement : ' + msg);
+              if (btn) { btn.innerHTML = '📥 Télécharger mon Rapport PDF'; btn.disabled = false; }
+              return;
             }
-          }
+            const gen = window.generateProjectPDF || window.generatePDF;
+            if (typeof gen === 'function') {
+              try {
+                gen(finalData);
+                document.getElementById('pdf-status').innerHTML = '<span class="text-emerald-600 font-bold">✓ Téléchargement lancé avec succès !</span>';
+              } catch(e) {
+                console.error(e);
+              }
+            }
+            if (btn) { btn.innerHTML = '📥 Télécharger mon Rapport PDF'; btn.disabled = false; }
+          });
         }
         document.getElementById('btn-force-download').addEventListener('click', triggerPDF);
         setTimeout(triggerPDF, 800);

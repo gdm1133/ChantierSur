@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
-  <!-- CANARY-FORMS-FIX-20261011 -->
+  <!-- CANARY-UNIQUE-20261011 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -378,12 +378,10 @@
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Superficie du terrain (m²) <span class="text-red-500">*</span></label>
               <input type="number" id="audit-surface" name="surface" min="20" max="20000" placeholder="Ex: 250" value="200" oninput="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] font-bold focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
-              <p class="text-[11px] text-slate-500 font-medium mt-1">Pilote le tarif par surface (&gt; 2 000 m² sur devis).</p>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface de plancher SDP (m²) <span class="text-red-500">*</span></label>
               <input type="number" id="audit-sdp" name="sdp" min="10" max="20000" placeholder="Ex: 280" value="200" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] font-bold focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
-              <p class="text-[11px] text-slate-500 font-medium mt-1">Utilisée pour les ratios au m² et calculs d'audit.</p>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
@@ -427,8 +425,26 @@
             </div>
           </div>
 
+          <!-- ENCADRÉ SUR DEVIS (> 2000 m²) ÉTAPE 1 -->
+          <div id="sur-devis-notice-3-step1" class="hidden bg-[#F0F9FF] border border-[#1B4F72] rounded-2xl p-5 text-slate-800 text-sm space-y-2">
+            <div class="flex items-center space-x-2 font-bold text-[#0E2A47]">
+              <span>ℹ️ Projet supérieur à 2 000 m² : Tarification sur devis</span>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Pour les projets de plus de 2 000 m², le chiffrage de notre contre-expertise s'effectue sur devis sur-mesure par nos ingénieurs. Le paiement en ligne automatisé est désactivé.
+            </p>
+            <div class="pt-1 flex flex-wrap gap-2">
+              <a href="https://wa.me/221770000000?text=Bonjour%20ChantierSur,%20je%20souhaite%20un%20devis%20sur-mesure%20pour%20un%20audit%20de%20plus%20de%202000m2" target="_blank" rel="noopener" class="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition">
+                <span>💬 Contacter sur WhatsApp</span>
+              </a>
+              <a href="mailto:admin@chantiersur.com?subject=Demande%20de%20devis%20audit%20projet%20supérieur%20à%202000m2" class="inline-flex items-center space-x-1.5 px-4 py-2 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold text-xs rounded-xl shadow transition">
+                <span>✉️ admin@chantiersur.com</span>
+              </a>
+            </div>
+          </div>
+
           <div class="flex justify-end pt-4">
-            <button type="button" onclick="window.goToStep(3, 2)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all text-sm cursor-pointer">
+            <button type="button" id="btn-continue-step1" onclick="window.goToStep(3, 2)" class="px-8 py-3.5 bg-[#0E2A47] hover:bg-[#1B4F72] text-white font-bold rounded-xl shadow-md transition-all text-sm cursor-pointer">
               Continuer vers l'analyse du devis &rarr;
             </button>
           </div>
@@ -875,6 +891,8 @@
       const priceConvEl = document.getElementById('price-converted-3');
       const payBtn = document.getElementById('v5-btn-audit');
       const surDevisNotice = document.getElementById('sur-devis-notice-3');
+      const surDevisNoticeStep1 = document.getElementById('sur-devis-notice-3-step1');
+      const continueStep1Btn = document.getElementById('btn-continue-step1');
       
       if (priceResult === 'Sur devis') {
         const txt = 'Sur devis — contactez-nous';
@@ -887,6 +905,11 @@
           payBtn.setAttribute('title', 'Projet > 2 000 m² : devis sur-mesure');
         }
         if (surDevisNotice) surDevisNotice.classList.remove('hidden');
+        if (surDevisNoticeStep1) surDevisNoticeStep1.classList.remove('hidden');
+        if (continueStep1Btn) {
+          continueStep1Btn.disabled = true;
+          continueStep1Btn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
       } else {
         const priceXOF = priceResult;
         const formatted = priceXOF.toLocaleString('fr-FR') + ' FCFA';
@@ -913,6 +936,11 @@
           }
         }
         if (surDevisNotice) surDevisNotice.classList.add('hidden');
+        if (surDevisNoticeStep1) surDevisNoticeStep1.classList.add('hidden');
+        if (continueStep1Btn) {
+          continueStep1Btn.disabled = false;
+          continueStep1Btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
       }
     };
     document.addEventListener('DOMContentLoaded', window.updateAllPrices);
@@ -961,10 +989,9 @@
           }
         }
       }
-      const formCard = pane.closest('.bg-white') || pane;
-      const rect = formCard.getBoundingClientRect();
-      const scrollTop = window.pageYOffset + rect.top - 30;
-      window.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' });
+      const formContainer = document.getElementById('formulaire-audit') || pane.closest('section') || pane;
+      const targetY = formContainer.getBoundingClientRect().top + window.pageYOffset - 85;
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
 
     window.validateStep2AndContinue = function() {
@@ -1405,6 +1432,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            action: 'test-checkout',
             item_name: 'ChantierSur - Pack AUDIT',
             item_price: exactAmount,
             currency: 'XOF',
@@ -1412,23 +1440,37 @@
             ref_command: currentDossierId,
             client_name: clientName,
             client_email: clientEmail,
-            client_phone: `${prefixDigits}${rawPhone}`
+            client_phone: `${prefixDigits}${rawPhone}`,
+            surface: parseFloat(fd.get('surface')) || 200,
+            sdp: parseFloat(fd.get('sdp')) || 200,
+            devis: canonicalData.devis,
+            identification: canonicalData.identification,
+            totaux: canonicalData.totaux
           })
         });
         const data = await response.json();
-        if (data && data.redirect_url) {
+        if (data && data.token) {
+          window.location.href = window.location.origin + window.location.pathname + `?download_token=${encodeURIComponent(data.token)}&service=audit`;
+          return;
+        } else if (data && data.redirect_url) {
           window.location.href = data.redirect_url;
+          return;
+        } else if (data && data.error) {
+          alert("Erreur : " + data.error);
+          if (btn) { btn.disabled = false; btn.innerHTML = 'Commander l\'audit &rarr;'; }
           return;
         }
       } catch (err) {
-        console.warn("PayTech indisponible, bascule directe vers le livrable...");
+        console.warn("PayTech indisponible...", err);
       }
 
-      // Redirection immédiate de test
-      window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=audit`;
+      // En environnement de test uniquement si hors ligne
+      if (!window.location.hostname.includes('chantiersur.com')) {
+        window.location.href = window.location.origin + window.location.pathname + `?payment=success&service=audit`;
+      }
     };
 
-    // DÉCLENCHEMENT TÉLÉCHARGEMENT PDF SI PAIEMENT SUCCÈS
+    // DÉCLENCHEMENT TÉLÉCHARGEMENT PDF SI PAIEMENT SUCCÈS OU JETON VALIDE
     window.addEventListener('DOMContentLoaded', () => {
       window.addV5Lot();
 
@@ -1452,7 +1494,28 @@
       }).catch(()=>{});
 
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('payment') === 'success') {
+      const downloadToken = urlParams.get('download_token');
+      const isForgedPayment = urlParams.get('payment') === 'success' && !downloadToken;
+      const isProduction = window.location.hostname.includes('chantiersur.com');
+
+      // SÉCURITÉ PRODUCTION (B5) : rejet formel de tout paramètre forged sans jeton
+      if (isForgedPayment && isProduction) {
+        const forgedModal = document.createElement('div');
+        forgedModal.id = 'pdf-forged-modal';
+        forgedModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
+        forgedModal.innerHTML = `
+          <div class="bg-white border-b-4 border-rose-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl relative">
+            <div class="text-rose-500 text-3xl mb-4">🔒</div>
+            <h3 class="text-lg font-bold text-[#0E2A47] mb-2">Accès Non Autorisé</h3>
+            <p class="text-sm text-slate-600 mb-6">Le raccourci direct par URL est désactivé. Un règlement vérifié par PayTech avec jeton unique est obligatoire pour éditer le rapport.</p>
+            <button onclick="window.location.href='/audit-devis.html'" class="px-6 py-2.5 bg-[#0E2A47] text-white font-bold rounded-xl text-sm">Retour au formulaire</button>
+          </div>
+        `;
+        document.body.appendChild(forgedModal);
+        return;
+      }
+
+      if (downloadToken || (!isProduction && urlParams.get('payment') === 'success')) {
         const storedDossierId = localStorage.getItem('current_audit_dossier');
         let auditState = null;
         try {
@@ -1504,15 +1567,18 @@
           fetch('/.netlify/functions/generer-audit-pdf', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(auditState)
+            body: JSON.stringify({
+              ...auditState,
+              download_token: downloadToken
+            })
           }).then(response => {
-            if (!response.ok) { return response.text().then(t => { throw new Error('Erreur réseau: ' + t); }); }
+            if (!response.ok) { return response.text().then(t => { throw new Error(t); }); }
             return response.blob();
           }).then(blob => {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'ChantierSur_AUDIT_' + storedDossierId + '.pdf';
+            a.download = 'ChantierSur_AUDIT_' + (storedDossierId || Date.now()) + '.pdf';
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -1520,7 +1586,9 @@
             document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
             document.getElementById('btn-force-download').disabled = false;
           }).catch(e => {
-            alert('Erreur lors du téléchargement : ' + e.message);
+            let msg = e.message;
+            try { const parsed = JSON.parse(e.message); if (parsed.error) msg = parsed.error; } catch(_) {}
+            alert('Téléchargement : ' + msg);
             document.getElementById('btn-force-download').innerHTML = '📥 Télécharger mon Rapport PDF';
             document.getElementById('btn-force-download').disabled = false;
           });

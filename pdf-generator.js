@@ -76,10 +76,10 @@
 
   // Référentiel juridique certifié (Sénégal)
   const REFERENCES_JURIDIQUES = {
-    loiUrbanisme: "Loi n° 2023-20 du 29 décembre 2023 portant Code de l'urbanisme",
-    decretUrbanisme: "Décret n° 2025-1194 du 17 juillet 2025 portant partie réglementaire du Code de l'urbanisme",
-    decretConstruction: "Décret n° 2024-1495 du 30 juillet 2024 portant partie réglementaire du Code de la construction",
-    decretAbroge: "Décret n° 2009-1450 abrogé par l'art. R.596 du décret n° 2025-1194",
+    loiUrbanisme: "Loi n° 2021-22 du 2 mars 2021 (art. 28, 31) et règles d'urbanisme applicables",
+    decretUrbanisme: "Réglementation d'urbanisme et de construction en vigueur au Sénégal",
+    decretConstruction: "Réglementation de la construction en vigueur au Sénégal",
+    decretAbroge: "Réglementation d'urbanisme applicable au Sénégal",
     garantieDecennale: "Article 741 du Code Civil (Code Civil)",
     retenueGarantie: "Article 742 du Code Civil (Code Civil)",
     receptionTravaux: "Article 740 du Code Civil (Code Civil)",
@@ -108,14 +108,14 @@
     decoffrageJoues: "48 h à 7 jours"    // Poteaux et joues
   };
 
-  // Référentiel des normes applicables par lot
+  // Référentiel des normes applicables par lot (formulations professionnelles neutres)
   const NORMES_PAR_LOT = {
-    grosOeuvre: "Eurocode 2 • DTU 13.12 (Fondations) • DTU 20.1 (Maçonneries)",
-    carrelage: "NF DTU 52.1 (Revêtements de sol scellés) • NF P61-202",
-    etancheite: "NF DTU 43.1 (Toitures terrasses) • Avis Technique CSTB",
-    plomberie: "NF DTU 60.1 (Plomberie sanitaire & EU/EP) • NF DTU 60.11",
-    electricite: "NF C 15-100 (Installations basse tension) • NS 04-020",
-    peinture: "NF DTU 59.1 (Travaux de peinture) • NF T36-005"
+    grosOeuvre: "Méthodes de calcul génériques BA • Règles professionnelles fondations et maçonneries",
+    carrelage: "Règles professionnelles pour revêtements de sol scellés",
+    etancheite: "Recommandations techniques toitures terrasses et étanchéité",
+    plomberie: "Règles professionnelles plomberie sanitaire & évacuations",
+    electricite: "Règles d'installation électrique et sécurité basse tension",
+    peinture: "Recommandations professionnelles travaux de peinture"
   };
 
   function verifierTermes(terme) {
@@ -386,7 +386,7 @@
     // =========================================================================
     // PAGE 1 : GABARIT VOLUMÉTRIQUE & ALIGNEMENT
     // =========================================================================
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Prospect Volumétrique & Références Réglementaires (Loi 2023-20)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie I : Cartouche Foncier, Prospect Volumétrique & Références Réglementaires (Loi n° 2021-22)", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     // Cartouche nominatif
     doc.setFillColor(...COLOR_BG_LIGHT);
@@ -416,18 +416,18 @@
     doc.text(`Géométrie Parcelle : ${dimTxt}`, 108, 81);
 
     let currentY = 90;
-    drawSectionTitle(doc, currentY, "I. PROSPECT URBANISTIQUE & DROITS À BÂTIR (LOI 2023-20 & DÉCRET 2025-1194)");
+    drawSectionTitle(doc, currentY, "I. PROSPECT URBANISTIQUE & DROITS À BÂTIR (LÉGISLATION SÉNÉGALAISE)");
 
     const gabaritRows = [
       ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
       ["COS Projet (SDP / Surface)", cosProjet.toFixed(2).replace('.', ','), respecteCos ? `Conforme à l'hypothèse de référence de zone (${cosMax.toFixed(1).replace('.', ',')}) — à confirmer` : `Supérieur à l'hypothèse de zone (${cosMax.toFixed(1).replace('.', ',')}) — document d'urbanisme applicable à confirmer`],
-      ["Emprise au Sol Projetée (CES indicatif 0,65)", `${empriseSolMax} m²`, "Hypothèse de travail (art. R.40) — valeur exacte fixée par le document de zone"],
+      ["Emprise au Sol Projetée (CES indicatif 0,65)", `${empriseSolMax} m²`, "Hypothèse de travail (CES indicatif) — valeur exacte fixée par le document de zone"],
       ["Espaces Libres (Hypothèse 35%)", `${espacesLibres} m²`, "Hypothèse interne d'infiltration pluviale — à confirmer selon le plan de zone"],
       ["Surface Développée de Plancher Totale (SDP)", `env. ${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (hors trémies)`],
       ["Hauteur Totale du Bâtiment Projeté", `env. ${hauteurFaitage.replace('.', ',')} m`, "Dalle supérieure + acrotère de terrasse de 1,20 m"],
       ["Largeur de la Voie Publique Desservante", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m (valeur indicative — à confirmer selon plan de zone)`],
       ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit.toFixed(1).replace('.', ',')} mètres`, statutGabarit],
-      ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Art. R.41 à R.45 (décret n° 2025-1194) : 1 pl / 100 m² SHON (min. 1 par logement). Formule tracée."]
+      ["Places de Stationnement Indicatives", `${N_places} place(s)`, "Règle indicative de référence : 1 pl / 100 m² de surface utile (min. 1 par logement). Formule tracée."]
     ];
 
     doc.autoTable(createTableOptions(
@@ -446,13 +446,13 @@
 
     let angleDesc = "Alignement standard sur voie unique avec recul obligatoire de 3,00 m.";
     if (config === 'angle') {
-      angleDesc = `Parcelle d'Angle (${facade1}m — ${facade2}m) : Pan coupé théorique de 5 m minimum au carrefour (art. R.444, décret n° 2025-1194). Marges de recul selon document d'urbanisme.`;
+      angleDesc = `Parcelle d'Angle (${facade1}m — ${facade2}m) : Pan coupé théorique de 5 m recommandé au carrefour. Marges de recul selon document d'urbanisme.`;
     } else if (config === 'traversante') {
       angleDesc = "Parcelle Traversante : Accès distincts sur voies opposées. Retrait indicatif de 3,00 m sur les deux façades.";
     } else if (config === 'bande') {
       angleDesc = "Configuration en Bande : Murs mitoyens latéraux aveugles obligatoires (coupe-feu 2h). Aucune baie sans accord écrit.";
     } else {
-      angleDesc = "Parcelle Isolée : Marge d'isolement latérale de 2,50 m minimum selon art. R.445 (ou contiguïté jusqu'à 15 m).";
+      angleDesc = "Parcelle Isolée : Marge d'isolement latérale recommandée de 2,50 m minimum (ou contiguïté selon règles de zone).";
     }
 
     const mitoyenRows = [
@@ -477,10 +477,10 @@
     // PAGE 2 : DESCENTE DE CHARGES & PRÉ-DIMENSIONNEMENT SEMELLE
     // =========================================================================
     doc.addPage();
-    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie II : Descente de Charges (Eurocode 2) & Dimensionnement des Fondations", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
+    drawUnifiedHeader(doc, "Rapport d'Esquisse & Faisabilité Technique", "Partie II : Descente de Charges & Dimensionnement des Fondations", refDoc, currentDate, clientName, clientPhone, lotNumber, 'esquisse');
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ (Eurocode 2)");
+    drawSectionTitle(doc, currentY, "III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ (MÉTHODE GÉNÉRIQUE)");
 
     // Fonction locale : virgule décimale française
     const fr1 = v => v.toFixed(1).replace('.', ',');
@@ -490,14 +490,14 @@
     const descenteRows = [
       ["Surface d'Influence du Poteau Central", `${surfaceInfluence} m²`, "Trame structurelle courante 4,00 m — 4,00 m"],
       ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (env. ${fr1(gTotal / 9.81)} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
-      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${fr1(qTotal / 9.81)} T)`, `Norme NF P 06-001 selon usage : ${frQ(qUnit)} kN/m² par niveau`],
+      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${fr1(qTotal / 9.81)} T)`, `Pratique courante d'ingénierie selon usage : ${frQ(qUnit)} kN/m² par niveau`],
       ["Effort Normal Total de Service (N_ser)", `${nSer} kN (env. ${fr1(nSer / 9.81)} Tonnes)`, "N_ser = G + Q (Dimensionnement du sol sous semelle)"],
       ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (env. ${fr1(nUltime / 9.81)} Tonnes)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure)"]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Paramètre de Descente de Charges', 'Valeur Calculée', 'Hypothèse & Méthode de Calcul Eurocode 2']],
+      [['Paramètre de Descente de Charges', 'Valeur Calculée', 'Hypothèse & Méthode de Calcul Générique']],
       descenteRows,
       {
         0: { cellWidth: 60, fontStyle: 'bold' },
@@ -511,10 +511,10 @@
 
     const semelleRows = [
       ["Capacité Portante Admissible du Sol (q_adm)", `${frQ(portanceSolBars)} bars (${qAdmkNm2} kN/m²)`, "Valeur estimative — étude géotechnique obligatoire avant dimensionnement définitif."],
-      ["Surface Portante Minimale Requise (S)", `${fr2(parseFloat(surfaceSemelleRequise))} m²`, "Formule DTU 13.12 : S >= 1,05 — N_ser / q_adm"],
+      ["Surface Portante Minimale Requise (S)", `${fr2(parseFloat(surfaceSemelleRequise))} m²`, "Formule de stabilité : S >= 1,05 — N_ser / q_adm"],
       ["Dimensionnement Semelle Carrée (A — B)", `${fr2(coteSemelleCarrer)} m — ${fr2(coteSemelleCarrer)} m`, "Section d'assise au sol sous le poteau le plus chargé"],
       ["Épaisseur Minimale de la Semelle (H)", `${epaisseurSemelle} cm (d >= ${(epaisseurSemelle - 5)} cm)`, "Condition de rigidité : d >= (A - a)/4 pour éviter le poinçonnement"],
-      ["Enrobage Réglementaire des Aciers", enrobageAciers, "Obligation Eurocode 2 pour prévenir la corrosion des armatures"],
+      ["Enrobage des Aciers", enrobageAciers, "Recommandation d'ingénierie pour prévenir la corrosion des armatures"],
       ["Nature Stratigraphique du Terrain", natureSol, "Profil géologique dominant dans la zone choisie"],
       ["Mode de Fondation Préconisé", modeFondation, hasBasement ? "Cuvelage étanche requis en sous-sol" : "Adapté pour éviter les tassements différentiels"]
     ];
@@ -545,11 +545,11 @@
 
     let assainissementDesc = "Raccordement réseau tout-à-l'égout ONAS obligatoire avec boîte de branchement siphoïde.";
     if (sanitation === 'autonome') {
-      assainissementDesc = `Fosse septique toutes eaux (${Math.max(4, Math.round(occupantsEstimes * 0.4))} m³) + Puits perdu filtrant selon NS 17-074.`;
+      assainissementDesc = `Fosse septique toutes eaux (${Math.max(4, Math.round(occupantsEstimes * 0.4))} m³) + Puits perdu filtrant selon recommandations d'assainissement autonome.`;
     }
 
     currentY = 52;
-    drawSectionTitle(doc, currentY, "V. RÉSERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT (NS 17-074)");
+    drawSectionTitle(doc, currentY, "V. RÉSERVE HYDRAULIQUE (SEN'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT AUTONOME");
 
     const fluidesRows = [
       ["Bâche à Eau & Autonomie Coupure", `${formatNum(bacheLitres)} Litres (env. ${fr1(bacheLitres / 1000)} m³)`, "Réserve tampon 48h à 72h avec cuve enterrée béton étanche + surpresseur"],
@@ -618,11 +618,11 @@
 
     const budgetTceRows = [
       ["1. Terrassements, Fouilles & Fondations", formatFCFA(pTerrassement), `Ratio : ${RATIOS_2026.terrassement} FCFA/m² — ${sdpTotale} m²`],
-      ["2. Superstructure Béton Armé Eurocode 2", formatFCFA(pGrosOeuvre), `Ratio : ${RATIOS_2026.grosOeuvre} FCFA/m² — ${sdpTotale} m²`],
-      ["3. , Fluides & Électricité", formatFCFA(pSecondOeuvre), `Ratio : ${RATIOS_2026.secondOeuvre} FCFA/m² — ${sdpTotale} m²`],
+      ["2. Superstructure Béton Armé", formatFCFA(pGrosOeuvre), `Ratio : ${RATIOS_2026.grosOeuvre} FCFA/m² — ${sdpTotale} m²`],
+      ["3. Second Œuvre, Fluides & Électricité", formatFCFA(pSecondOeuvre), `Ratio : ${RATIOS_2026.secondOeuvre} FCFA/m² — ${sdpTotale} m²`],
       ["4. Étanchéité Toiture Terrasse & Cuvelage", formatFCFA(pEtancheite), `Ratio : ${RATIOS_2026.etancheite} FCFA/m² — ${sdpTotale} m²`],
     ];
-    if (pIncendie > 0) budgetTceRows.push(["5. Équipements Sécurité Incendie (Provision)", formatFCFA(pIncendie), "Provision obligatoire IGH/4e famille — à valider BET."]);
+    if (pIncendie > 0) budgetTceRows.push(["5. Équipements Sécurité Incendie (Provision)", formatFCFA(pIncendie), "Provision de sécurité — à valider avec les services compétents."]);
     budgetTceRows.push([`Provision Aléas & Marché (${formatPercent(tauxAleas)})`, formatFCFA(pAleas), `${formatPercent(tauxAleas)} — sous-total lots. Formule tracée.`]);
     budgetTceRows.push(["ENVELOPPE GLOBALE ESTIMATIVE DU PROJET", formatFCFA(pTotal), `Ratio moyen : env. ${formatFCFA(Math.round(pTotal / sdpTotale))} / m² de plancher`]);
 
@@ -642,15 +642,15 @@
 
     const etapesTeledac = [
       ["1. Bornage Contradictoire", "Géomètre-Expert Agréé (OGES)", "Plan de bornage régulier et scellement des bornes physiques."],
-      ["2. Plans Architecturaux Visés", "Architecte inscrit à l'ODAS", "Recours à l'architecte obligatoire pour la construction ou la modification de bâtiments (art. R.407, décret n° 2025-1194)."],
-      ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections de béton et armatures selon Eurocode 2."],
+      ["2. Plans Architecturaux Visés", "Architecte inscrit à l'ODAS", "Recours à l'architecte obligatoire pour le permis de construire officiel (Loi n° 2021-22 du 2 mars 2021)."],
+      ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections de béton et armatures selon méthodes de calcul génériques."],
       ["4. Dépôt Plateforme TELEDAC", "Direction de l'Urbanisme / Mairie", "Instruction administrative préalable — arrêté signé obligatoire avant ouverture de chantier (délai estimé selon commune)."],
-      ["5. Contrat & Clauses Code Civil", "Entreprise Générale / Tâcheron", "Imposer le contrat type avec retenue de garantie 5% et respect des 6 points d'arrêt."]
+      ["5. Contrat & Clauses Code Civil", "Entreprise Générale / Tâcheron", "Imposer le contrat type avec retenue de garantie 5% et respect des points d'arrêt techniques."]
     ];
 
     doc.autoTable(createTableOptions(
       currentY + TITLE_AFTER_GAP_MM,
-      [['Étape Administrative', 'Professionnel Compétent', 'Cadre Réglementaire (Loi 2023-20 & Décret 2025-1194)']],
+      [['Étape Administrative', 'Professionnel Compétent', 'Cadre Réglementaire (Législation Sénégalaise)']],
       etapesTeledac,
       {
         0: { cellWidth: 48, fontStyle: 'bold' },
@@ -682,7 +682,7 @@
       USABLE_WIDTH - 8
     );
     doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 11);
-    doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
+    doc.text(`Rapport émis le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc} — 16 Route de Mont-Rolland, Thiès, Sénégal`, MARGIN_LEFT + 4, currentY + 19);
   }
 
   // =========================================================================
@@ -1104,7 +1104,7 @@
       USABLE_WIDTH - 8
     );
     doc.text(disclaimerLines, MARGIN_LEFT + 4, currentY + 11);
-    doc.text(`Rapport émis à Dakar le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc}`, MARGIN_LEFT + 4, currentY + 19);
+    doc.text(`Rapport émis le ${currentDate} pour le compte exclusif de ${clientName}. Réf: ${refDoc} - 16 Route de Mont-Rolland, Thiès, Sénégal`, MARGIN_LEFT + 4, currentY + 19);
   }
 
   // =========================================================================
@@ -1712,11 +1712,11 @@ function renderAudit(doc, data, refDoc, currentDate) {
       doc.setFont(getFontFamily(doc), 'normal');
       doc.setFontSize(6.8);
       doc.setTextColor(148, 163, 184);
-      doc.text("ChantierSur.com � Bureau d'�tudes Num�rique Ind�pendant � Dakar, R�publique du S�n�gal.", MARGIN_LEFT, pageHeight - 11);
+      doc.text("ChantierSur.com \u2014 Bureau d'\u00E9tudes Num\u00E9rique Ind\u00E9pendant \u2014 16 Route de Mont-Rolland, Thi\u00E8s, S\u00E9n\u00E9gal.", MARGIN_LEFT, pageHeight - 11);
       if (service === '') {
-        doc.text("Document g�n�r� automatiquement � titre indicatif � ChantierSur.com � Bureau d'�tudes num�rique ind�pendant.", MARGIN_LEFT, pageHeight - 7);
+      doc.text("Document g\u00E9n\u00E9r\u00E9 automatiquement \u00E0 titre indicatif \u2014 ChantierSur.com \u2014 Bureau d'\u00E9tudes num\u00E9rique ind\u00E9pendant.", MARGIN_LEFT, pageHeight - 7);
       } else {
-        doc.text("Document g�n�r� automatiquement � titre indicatif � ChantierSur.com � Bureau d'�tudes num�rique ind�pendant.", MARGIN_LEFT, pageHeight - 7);
+      doc.text("Document g\u00E9n\u00E9r\u00E9 automatiquement \u00E0 titre indicatif \u2014 ChantierSur.com \u2014 Bureau d'\u00E9tudes num\u00E9rique ind\u00E9pendant.", MARGIN_LEFT, pageHeight - 7);
       }
 
       doc.setFont(getFontFamily(doc), 'bold');
