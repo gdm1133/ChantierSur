@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
-  <!-- CANARY-TARIFS-20261010 -->
+  <!-- CANARY-FORMS-FIX-20261011 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -370,15 +370,20 @@
             <p class="text-[11px] text-slate-500 font-medium mt-1">Ce numéro figurera sur le rapport officiel pour authentifier la propriété du dossier.</p>
           </div>
           
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Ville du chantier <span class="text-red-500">*</span></label>
               <input type="text" name="client_city" placeholder="Ex: Dakar, Thiès, Saly..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none" required>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface totale du projet (m²) <span class="text-red-500">*</span></label>
-              <input type="number" id="audit-surface" name="surface" min="20" placeholder="Ex: 250" value="200" oninput="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] font-bold focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
-              <p class="text-[11px] text-slate-500 font-medium mt-1">Pilote le tarif officiel selon la grille par surface.</p>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Superficie du terrain (m²) <span class="text-red-500">*</span></label>
+              <input type="number" id="audit-surface" name="surface" min="20" max="20000" placeholder="Ex: 250" value="200" oninput="window.updateAllPrices()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] font-bold focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <p class="text-[11px] text-slate-500 font-medium mt-1">Pilote le tarif par surface (&gt; 2 000 m² sur devis).</p>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface de plancher SDP (m²) <span class="text-red-500">*</span></label>
+              <input type="number" id="audit-sdp" name="sdp" min="10" max="20000" placeholder="Ex: 280" value="200" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] font-bold focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <p class="text-[11px] text-slate-500 font-medium mt-1">Utilisée pour les ratios au m² et calculs d'audit.</p>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
@@ -956,7 +961,10 @@
           }
         }
       }
-      window.scrollTo({ top: pane.offsetTop - 80, behavior: 'smooth' });
+      const formCard = pane.closest('.bg-white') || pane;
+      const rect = formCard.getBoundingClientRect();
+      const scrollTop = window.pageYOffset + rect.top - 30;
+      window.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' });
     };
 
     window.validateStep2AndContinue = function() {
@@ -1336,7 +1344,9 @@
           batiment: 'Bâtiment R+' + (fd.get('exact_levels') || '1'),
           niveaux: parseInt(fd.get('exact_levels'), 10) || 1,
           surface: parseFloat(fd.get('surface')) || 200,
-          sdp: 0,
+          surface_terrain: parseFloat(fd.get('surface')) || 200,
+          sdp: parseFloat(fd.get('sdp')) || 200,
+          surface_plancher: parseFloat(fd.get('sdp')) || 200,
           localisation: (fd.get('client_city') || '').trim(),
           entreprise: {
             nom: (fd.get('devis_company') || '').trim(),
@@ -1369,6 +1379,9 @@
         const projData = {
           service: 'audit',
           surface: parseFloat(fd.get('surface')) || 200,
+          surface_terrain: parseFloat(fd.get('surface')) || 200,
+          sdp: parseFloat(fd.get('sdp')) || 200,
+          surface_plancher: parseFloat(fd.get('sdp')) || 200,
           client_name: clientName,
           client_email: clientEmail,
           client_phone: rawPhone,

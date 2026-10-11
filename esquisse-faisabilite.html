@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
-  <!-- CANARY-TARIFS-20261010 -->
+  <!-- CANARY-FORMS-FIX-20261011 -->
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO & Open Graph -->
   <title>Esquisse & Faisabilité Technique | ChantierSur.com</title>
-  <meta name="description" content="Étude d'implantation, calcul de gabarit volumétrique et faisabilité technique conforme aux règles d'urbanisme sénégalaises. Chiffrage immédiat par niveaux.">
+  <meta name="description" content="Étude d'implantation, calcul de gabarit volumétrique et faisabilité technique conforme aux règles d'urbanisme sénégalaises. Chiffrage immédiat par surface.">
   <meta name="keywords" content="esquisse faisabilité sénégal, règles urbanisme dakar, gabarit prospect urbanisme, permis de construire dakar, bureau études sénégal">
   <meta name="author" content="ChantierSur Technologies SARL">
   
@@ -464,19 +464,6 @@
 
         <!-- ÉTAPE 3 : DONNÉES PERSONNELLES DU MAÎTRE D'OUVRAGE & PAIEMENT -->
         <div class="step-container step-3 hidden space-y-6">
-          <div class="bg-[#F0F9FF] border border-[#1B4F72] p-5 rounded-xl flex items-center justify-between">
-            <div>
-              <p class="text-xs uppercase font-bold text-[#0E2A47]">Total Prestation d'Étude Personnalisée</p>
-              <div class="flex items-baseline space-x-2 mt-0.5">
-                <span id="price-val-1" class="text-3xl font-black text-[#0E2A47]">174 000 FCFA</span>
-                <span id="price-converted-1" class="text-xs text-slate-600 font-bold">(≈ 265 €)</span>
-              </div>
-            </div>
-            <span class="text-xs font-bold bg-[#EAF0F6] text-[#0E2A47] px-3 py-1.5 rounded-lg border border-[#B8C9DB]">
-              Chiffrage exact par niveau
-            </span>
-          </div>
-
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nom & Prénom du Maître d'Ouvrage <span class="text-red-500">*</span></label>
@@ -535,11 +522,6 @@
                 <span>✉️ admin@chantiersur.com</span>
               </a>
             </div>
-          </div>
-
-          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex justify-between items-center">
-            <span class="text-xs uppercase font-bold text-slate-500">Montant total de l'esquisse :</span>
-            <span id="price-val-1-bottom" class="text-xl font-black text-[#0E2A47]">174 000 FCFA</span>
           </div>
 
           <div class="flex justify-between items-center pt-4">
@@ -903,7 +885,10 @@
           }
         }
       }
-      window.scrollTo({ top: pane.offsetTop - 80, behavior: 'smooth' });
+      const formCard = pane.closest('.bg-white') || pane;
+      const rect = formCard.getBoundingClientRect();
+      const scrollTop = window.pageYOffset + rect.top - 30;
+      window.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' });
     };
 
     // Paiement & Sauvegarde
