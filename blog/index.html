@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- CANARY-CORRECTIF-20261010 -->
+  <!-- CANARY-FINAL-20261010 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog Technique & Guides BTP Sénégal | ChantierSur</title>
@@ -29,19 +29,28 @@
 </head>
 <body class="min-h-screen flex flex-col bg-[#F8FAFC]">
 
-  <!-- TOPBAR RÉGLEMENTAIRE -->
+  <!-- TOPBAR RÉGLEMENTAIRE UNIFIÉE -->
   <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
-    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-      <div class="flex items-center space-x-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span class="font-medium text-slate-200">Plateforme d'Ingénierie & d'Audit BTP Indépendante</span>
-        <span class="text-slate-500">•</span>
-        <span class="text-slate-300">Conformité réglementaire & juridique</span>
+    <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+          Conformité juridique
+        </span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
       </div>
-      <div class="flex items-center space-x-4 text-slate-300">
-        <span>Dakar & Thiès, Sénégal</span>
-        <span class="text-slate-500">•</span>
-        <a href="mailto:admin@chantiersur.com" class="text-white hover:underline font-bold">admin@chantiersur.com</a>
+      <div class="flex items-center space-x-4">
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-slate-300 hover:text-white transition-colors font-bold">admin@chantiersur.com</a></span>
+        <div class="flex items-center space-x-2">
+          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
+          <select id="currency-select" onchange="window.updateAllPrices && window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+            <option value="XOF" selected>FCFA (XOF)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar US ($)</option>
+            <option value="CAD">Dollar Canadien ($ CAD)</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +66,8 @@
         <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-200">
           <a href="../app_privee.html#services-section" class="hover:text-white transition">Simulateur & Services</a>
           <a href="../a-propos.html" class="hover:text-white transition">Qui Sommes-Nous</a>
-          <a href="index.html" class="text-white border-b-2 border-white pb-1">Blog</a>
+          <a href="index.html" class="text-white border-b-2 border-white pb-1 font-bold">Blog</a>
+          <a href="../mentions-legales.html" class="hover:text-white transition">Mentions Légales</a>
         </nav>
         <div class="flex items-center space-x-4">
           <a href="../audit-devis.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all shadow-md">Lancer un Audit</a>
@@ -69,8 +79,9 @@
     </div>
     <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg">
       <a href="../app_privee.html#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a>
-      <a href="../a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
-      <a href="index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a>
+      <a href="../a-propos.html" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
+      <a href="index.html" onclick="toggleMobileMenu()" class="block text-white font-bold py-1">Blog</a>
+      <a href="../mentions-legales.html" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Mentions Légales</a>
       <a href="../audit-devis.html" class="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all">Lancer un Audit</a>
     </div>
   </header>

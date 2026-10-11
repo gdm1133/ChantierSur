@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- CANARY-CORRECTIF-20261010 -->
+  <!-- CANARY-FINAL-20261010 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Les 5 clauses que votre devis doit contenir avant de signer | ChantierSur</title>
@@ -94,24 +94,33 @@
 </head>
 <body class="min-h-screen flex flex-col bg-[#F8FAFC]">
 
-  <!-- TOPBAR RÉGLEMENTAIRE -->
+  <!-- TOPBAR RÉGLEMENTAIRE UNIFIÉE -->
   <div class="bg-[#0E2A47] border-b border-[#1B4F72] text-[11px] text-slate-300 py-2 px-4">
-    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-      <div class="flex items-center space-x-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span class="font-medium text-slate-200">Plateforme d'Ingénierie & d'Audit BTP Indépendante</span>
-        <span class="text-slate-500">•</span>
-        <span class="text-slate-300">Conformité réglementaire & juridique</span>
+    <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="inline-flex items-center text-emerald-400 font-semibold whitespace-nowrap">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+          Conformité juridique
+        </span>
+        <span class="hidden sm:inline">•</span>
+        <span class="whitespace-nowrap">bureau d'études numérique indépendant</span>
       </div>
-      <div class="flex items-center space-x-4 text-slate-300">
-        <span>Dakar & Thiès, Sénégal</span>
-        <span class="text-slate-500">•</span>
-        <a href="mailto:admin@chantiersur.com" class="text-white hover:underline font-bold">admin@chantiersur.com</a>
+      <div class="flex items-center space-x-4">
+        <span>Support : <a href="mailto:admin@chantiersur.com" class="text-slate-300 hover:text-white transition-colors font-bold">admin@chantiersur.com</a></span>
+        <div class="flex items-center space-x-2">
+          <label for="currency-select" class="text-slate-400 text-[11px]">Devise :</label>
+          <select id="currency-select" onchange="window.updateAllPrices && window.updateAllPrices()" class="bg-[#EAF0F6] border border-[#B8C9DB] text-[#0E2A47] font-bold text-xs rounded-lg px-2.5 py-1 outline-none cursor-pointer">
+            <option value="XOF" selected>FCFA (XOF)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar US ($)</option>
+            <option value="CAD">Dollar Canadien ($ CAD)</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- HEADER NAVIGATION -->
+  <!-- NAVIGATION HEADER -->
   <header class="bg-[#0E2A47] text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
@@ -122,7 +131,8 @@
         <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-200">
           <a href="../app_privee.html#services-section" class="hover:text-white transition">Simulateur & Services</a>
           <a href="../a-propos.html" class="hover:text-white transition">Qui Sommes-Nous</a>
-          <a href="index.html" class="text-white border-b-2 border-white pb-1">Blog</a>
+          <a href="index.html" class="text-white hover:text-[#B8C9DB] transition-colors font-bold">Blog</a>
+          <a href="../mentions-legales.html" class="hover:text-white transition">Mentions Légales</a>
         </nav>
         <div class="flex items-center space-x-4">
           <a href="../audit-devis.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all shadow-md">Lancer un Audit</a>
@@ -134,8 +144,9 @@
     </div>
     <div id="mobile-drawer" class="hidden md:hidden bg-[#0E2A47] border-t border-[#1B4F72] px-6 py-5 space-y-4 shadow-lg">
       <a href="../app_privee.html#services-section" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Simulateur & Services</a>
-      <a href="../a-propos.html" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
-      <a href="index.html" class="block text-slate-200 hover:text-white font-semibold py-1">Blog</a>
+      <a href="../a-propos.html" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Qui Sommes-Nous</a>
+      <a href="index.html" onclick="toggleMobileMenu()" class="block text-white font-bold py-1">Blog</a>
+      <a href="../mentions-legales.html" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-white font-semibold py-1">Mentions Légales</a>
       <a href="../audit-devis.html" class="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-bold bg-[#EAF0F6] text-[#0E2A47] hover:bg-white transition-all">Lancer un Audit</a>
     </div>
   </header>
@@ -143,7 +154,7 @@
   <!-- BREADCRUMBS -->
   <div class="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto flex items-center text-xs text-slate-500 space-x-2">
-      <a href="../index.html" class="hover:text-[#0E2A47]">Accueil</a>
+      <a href="../app_privee.html" class="hover:text-[#0E2A47]">Accueil</a>
       <span>/</span>
       <a href="index.html" class="hover:text-[#0E2A47]">Blog</a>
       <span>/</span>
@@ -405,45 +416,61 @@
     </div>
   </footer>
 
-  <!-- SOUS-PIED DE PAGE -->
+  <!-- SOUS-PIED DE PAGE INSTITUTIONNEL & LÉGAL -->
   <div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
     <div class="max-w-7xl mx-auto space-y-4">
+      
+      <!-- Ligne 1 : Badges Réglementaires & Sécurité -->
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/50 pb-4">
         <div class="flex flex-wrap items-center gap-4 text-[11px]">
+          <!-- Statut opérationnel -->
           <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span class="text-slate-300 font-medium">Système Opérationnel</span>
           </div>
+          
+          <!-- Badge Sécurité TLS -->
           <div class="flex items-center space-x-1.5 text-slate-400">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+            <svg class="w-3.5 h-3.5 text-[#B8C9DB]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
             <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
           </div>
+
+          <!-- Badge Bureau d'études -->
           <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
             <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-            <span>Bureau d'études numérique indépendant</span>
+            <span>bureau d'études numérique indépendant</span>
           </div>
         </div>
+
+        <!-- Partenaires & Protocoles Agréés -->
         <div class="flex items-center space-x-3 text-[11px] text-slate-400">
           <span>Paiements sécurisés : Wave, Orange Money, Visa</span>
         </div>
       </div>
+
+      <!-- Ligne 2 : Clause de Non-Substitut d'Architecte -->
       <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
         <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
       </p>
+
+      <!-- Ligne 3 : Copyright, Liens Légaux & Contact -->
       <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
         <div class="text-slate-400 text-center md:text-left">
           &copy; 2026 ChantierSur Technologies SARL. Tous droits réservés.
           <span class="hidden sm:inline text-slate-700">|</span>
           <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
         </div>
+
+        <!-- Liens Réglementaires -->
         <nav class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400">
           <a href="../mentions-legales.html" class="hover:text-white transition-colors">Mentions Légales</a>
           <span class="text-slate-600">•</span>
           <a href="index.html" class="hover:text-white transition-colors">Blog</a>
           <span class="text-slate-600">•</span>
-          <a href="mailto:admin@chantiersur.com" class="text-slate-300 hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
+          <a href="mailto:admin@chantiersur.com" class="text-[#B8C9DB] hover:text-white transition-colors font-medium">Support : admin@chantiersur.com</a>
         </nav>
       </div>
+
     </div>
   </div>
 
@@ -452,6 +479,10 @@
     window.toggleMobileMenu = function() {
       const drawer = document.getElementById('mobile-drawer');
       if (drawer) drawer.classList.toggle('hidden');
+    };
+
+    window.updateAllPrices = function() {
+      // Pour synchronisation globale
     };
 
     // Accordion FAQ toggle (Pure Vanilla JS, 100% accessible)
