@@ -799,7 +799,6 @@
       
       const priceResult = window.calculateServicePrice(1);
       const priceValEl = document.getElementById('price-val-1');
-      const priceValBottom = document.getElementById('price-val-1-bottom');
       const priceConvEl = document.getElementById('price-converted-1');
       const payBtn = document.getElementById('pay-btn-1');
       const surDevisNotice = document.getElementById('sur-devis-notice-1');
@@ -807,7 +806,6 @@
       if (priceResult === 'Sur devis') {
         const txt = 'Sur devis — contactez-nous';
         if (priceValEl) priceValEl.textContent = txt;
-        if (priceValBottom) priceValBottom.textContent = txt;
         if (priceConvEl) priceConvEl.textContent = '';
         if (payBtn) {
           payBtn.disabled = true;
@@ -819,7 +817,6 @@
         const priceXOF = priceResult;
         const formatted = priceXOF.toLocaleString('fr-FR') + ' FCFA';
         if (priceValEl) priceValEl.textContent = formatted;
-        if (priceValBottom) priceValBottom.textContent = formatted;
         
         if (priceConvEl) {
           if (activeCurrency === 'XOF') {
@@ -885,8 +882,8 @@
           }
         }
       }
-      const formContainer = document.getElementById('formulaire-esquisse') || pane.closest('section') || pane;
-      const targetY = formContainer.getBoundingClientRect().top + window.pageYOffset - 85;
+      const formContainer = pane.closest('.bg-white') || pane;
+      const targetY = formContainer.getBoundingClientRect().top + window.pageYOffset - 90;
       window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
 
@@ -1047,7 +1044,6 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action: 'test-checkout',
             item_name: `ChantierSur - Pack ${serviceKey.toUpperCase()}`,
             item_price: exactAmount,
             currency: 'XOF',
@@ -1103,6 +1099,51 @@
           </div>
         `;
         document.body.appendChild(forgedModal);
+        return;
+      }
+
+      const refParam = urlParams.get('ref');
+      if (refParam && !downloadToken) {
+        // Polling du statut de la commande suite au retour PayTech
+        const pollingModal = document.createElement('div');
+        pollingModal.id = 'paytech-polling-modal';
+        pollingModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
+        pollingModal.innerHTML = `
+          <div class="bg-white border-b-4 border-[#0E2A47] p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-4">
+            <div class="w-12 h-12 border-4 border-[#0E2A47] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <h3 class="text-lg font-bold text-[#0E2A47]">Vérification du paiement PayTech</h3>
+            <p class="text-xs text-slate-600">Confirmation de la transaction en cours auprès des serveurs PayTech...</p>
+          </div>
+        `;
+        document.body.appendChild(pollingModal);
+
+        let attempts = 0;
+        const maxAttempts = 15;
+        const checkInterval = setInterval(async () => {
+          attempts++;
+          try {
+            const res = await fetch(`/.netlify/functions/paytech?action=check-status&ref=${encodeURIComponent(refParam)}`);
+            const statusData = await res.json();
+            if (statusData && statusData.status === 'paid' && statusData.token) {
+              clearInterval(checkInterval);
+              pollingModal.remove();
+              window.location.href = `${window.location.origin}${window.location.pathname}?download_token=${encodeURIComponent(statusData.token)}&service=esquisse`;
+              return;
+            }
+          } catch (e) {}
+
+          if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            pollingModal.innerHTML = `
+              <div class="bg-white border-b-4 border-amber-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-4">
+                <div class="text-3xl text-amber-500">⏳</div>
+                <h3 class="text-lg font-bold text-[#0E2A47]">Validation en cours</h3>
+                <p class="text-xs text-slate-600">Votre paiement PayTech est en cours de validation par l'opérateur. Si votre compte a été débité, votre rapport sera téléchargeable dès confirmation IPN.</p>
+                <button onclick="window.location.reload()" class="px-5 py-2.5 bg-[#0E2A47] text-white rounded-xl text-xs font-bold">Réessayer la vérification</button>
+              </div>
+            `;
+          }
+        }, 2000);
         return;
       }
 

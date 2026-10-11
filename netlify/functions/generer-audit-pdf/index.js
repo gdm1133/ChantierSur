@@ -56,17 +56,17 @@ function categorizeLot(rawLot, designation) {
     return rLot.toUpperCase();
   }
 
-  // Classification intelligente par mots-clés
-  if (/fouille|terrassement|d[eé]blai|remblai|d[eé]capage|plateforme/.test(des)) return 'TERRASSEMENT';
-  if (/fondation|b[eé]ton|ferraillage|armature|semelle|longrine|poteau|poutre|dalle|chape.*b[eé]ton/.test(des)) return 'GROS ŒUVRE & STRUCTURE';
-  if (/ma[cç]onnerie|agglos|parpaing|brique|enduit|mur/.test(des)) return 'MAÇONNERIE';
-  if (/carrelage|fa[iï]ence|chape|plinthe|rev[eê]tement/.test(des)) return 'REVÊTEMENTS & CARRELAGE';
-  if (/peinture|badigeon|vernis|impression|acrylique/.test(des)) return 'PEINTURE';
-  if (/plomberie|sanitaire|wc|lavabo|[eé]vier|vidange|tuyau|pvc|fosse|puisard|robinet/.test(des)) return 'PLOMBERIE & ASSAINISSEMENT';
-  if (/([eé]lectricit[eé]|c[aâ]ble|disjoncteur|tableau|luminaire|prise|spot|gainage|interrupteur)/.test(des)) return 'ÉLECTRICITÉ';
-  if (/menuiserie|porte|fen[eê]tre|baie|ch[aâ]ssis|serrure|vitrage/.test(des)) return 'MENUISERIE';
-  if (/[eé]tanch[eé]it[eé]|forme de pente|roofing|derbigum|étanche/.test(des)) return 'ÉTANCHÉITÉ';
-  if (/charpente|toiture|couverture|bac alu|tuile/.test(des)) return 'CHARPENTE & TOITURE';
+  // Classification intelligente par mots-clés étendue (ne bascule jamais en Lot Général)
+  if (/fouille|terrassement|d[eé]blai|remblai|d[eé]capage|plateforme|[eé]vacuation.*gravois|compactage/.test(des)) return 'TERRASSEMENT';
+  if (/fondation|b[eé]ton|ferraillage|armature|semelle|longrine|poteau|poutre|dalle|radier|cha[iî]nage|coffrage|vibrage|acier|ha\d|treillis|b[eé]ton arm[eé]/.test(des)) return 'GROS ŒUVRE & STRUCTURE';
+  if (/ma[cç]onnerie|agglos|parpaing|brique|enduit|mur|cloison|cr[eé]pissage|jambage|linteau/.test(des)) return 'MAÇONNERIE & ÉLÉVATION';
+  if (/carrelage|fa[iï]ence|chape|plinthe|rev[eê]tement|marbre|gr[eè]s|mosa[iï]que/.test(des)) return 'REVÊTEMENTS & CARRELAGE';
+  if (/peinture|badigeon|vernis|impression|acrylique|vinylique|laque|pon[cç]age/.test(des)) return 'PEINTURE & FINITIONS';
+  if (/plomberie|sanitaire|wc|lavabo|[eé]vier|vidange|tuyau|pvc|fosse|puisard|robinet|mitigeur|regard|siphon|alimentation.*eau|[eé]vacuation/.test(des)) return 'PLOMBERIE & ASSAINISSEMENT';
+  if (/([eé]lectricit[eé]|c[aâ]ble|disjoncteur|tableau|luminaire|prise|spot|gainage|interrupteur|fil\s|terre|barrette)/.test(des)) return 'ÉLECTRICITÉ & COURANTS FAIBLES';
+  if (/menuiserie|porte|fen[eê]tre|baie|ch[aâ]ssis|serrure|vitrage|volet|alu|aluminium|ferronnerie|garde-corps/.test(des)) return 'MENUISERIE & SERRURERIE';
+  if (/[eé]tanch[eé]it[eé]|forme de pente|chape de pente|roofing|derbigum|[eé]tanche|imperm[eé]abilisation|sika|calandrite/.test(des)) return 'ÉTANCHÉITÉ';
+  if (/charpente|toiture|couverture|bac alu|tuile|panne|chevron|liteau|t[oô]le/.test(des)) return 'CHARPENTE & TOITURE';
 
   return 'SECOND ŒUVRE & DIVERS';
 }
@@ -111,6 +111,14 @@ exports.handler = async (event) => {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: "Rapport d'audit impossible : aucun poste chiffré n'a été fourni. Veuillez saisir les lignes du devis." })
+    };
+  }
+  const hasPositiveAmount = data.devis.lignes.some(l => (parseFloat(l.montantIndique) > 0 || parseFloat(l.pu) > 0));
+  if (!hasPositiveAmount) {
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: "Rapport d'audit impossible : aucun montant positif n'a été saisi sur le devis." })
     };
   }
 
@@ -431,16 +439,17 @@ exports.handler = async (event) => {
     currentPage.drawText('II. CONTRÔLE ARITHMÉTIQUE DÉTAILLÉ LIGNE PAR LIGNE', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
     currentY -= 16;
 
-    const colX = [40, 145, 265, 295, 335, 395, 455, 515];
+    const colX = [40, 125, 290, 318, 350, 405, 460, 515];
     const headers = ['Lot technique', 'Désignation', 'Qté', 'Unité', 'PU HT', 'Indiqué', 'Recalculé', 'Écart'];
     headers.forEach((h, i) => currentPage.drawText(h, { x: colX[i], y: currentY, size: 7, font: boldFont, color: COLOR_NAVY }));
     currentY -= 5;
-    currentPage.drawLine({ start: { x: 40, y: currentY }, end: { x: 555, y: currentY }, thickness: 1, color: COLOR_NAVY });
+    currentPage.drawLine({ start: { x: 40, y: currentY }, end: { x: 558, y: currentY }, thickness: 1, color: COLOR_NAVY });
     currentY -= 10;
 
     data.devis.lignes.forEach((l) => {
-      let lotLines = wrapText(l.lot || 'DIVERS', 98, regularFont, 6.8);
-      let desLines = wrapText(l.designation || '', 115, regularFont, 6.8);
+      let lotLines = wrapText(l.lot || 'DIVERS', 80, regularFont, 6.8);
+      const cleanDes = (l.designation || '').replace(/ép\.\s*(\d+)/gi, 'ép.\u00A0$1').replace(/(\d+)\s*(cm|mm|m²|m³|kg)/gi, '$1\u00A0$2');
+      let desLines = wrapText(cleanDes, 160, regularFont, 6.8);
       let maxLines = Math.max(lotLines.length, desLines.length);
       let reqSpace = (maxLines * 10) + 8;
       checkPageBreak(reqSpace);

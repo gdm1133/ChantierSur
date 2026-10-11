@@ -1,7 +1,7 @@
 // CANARY-UNIQUE-20261011
 // netlify/functions/paytech-ipn.js
 const crypto = require('crypto');
-const { createDownloadToken } = require('./token-security');
+const { createDownloadToken, recordOrderToken } = require('./token-security');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -35,11 +35,16 @@ exports.handler = async (event) => {
     }
 
     const service = customData.service || 'audit';
+    const refCommand = data.ref_command || customData.dossier || customData.ref_command || ('CS-' + Date.now());
+
     const token = createDownloadToken({
       ...customData,
-      dossier: data.ref_command || customData.dossier,
+      dossier: refCommand,
       montant_paye: data.item_price
     }, service);
+
+    // Enregistrement persistant de l'association commande -> jeton pour le retour client
+    recordOrderToken(refCommand, token, service);
 
     return {
       statusCode: 200,
@@ -47,6 +52,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         status: 'success',
         message: 'Paiement PayTech validé par IPN serveur',
+        ref: refCommand,
         token
       })
     };

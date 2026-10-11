@@ -1,6 +1,6 @@
 // CANARY-UNIQUE-20261011
 // netlify/functions/paytech.js
-const { createDownloadToken } = require('./token-security');
+const { createDownloadToken, getOrderToken } = require('./token-security');
 
 function getGridPrice(service, surface) {
   const s = parseFloat(surface) || 150;
@@ -23,6 +23,37 @@ function getGridPrice(service, surface) {
 }
 
 exports.handler = async (event) => {
+  // Support GET pour verification du statut d'une commande (polling du jeton apres validation IPN)
+  if (event.httpMethod === 'GET') {
+    const params = event.queryStringParameters || {};
+    if (params.action === 'check-status' && params.ref) {
+      const order = getOrderToken(params.ref);
+      if (order && order.token) {
+        return {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            success: 1,
+            status: 'paid',
+            token: order.token,
+            service: order.service
+          })
+        };
+      } else {
+        return {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            success: 0,
+            status: 'pending',
+            message: 'En attente de confirmation du paiement par IPN...'
+          })
+        };
+      }
+    }
+    return { statusCode: 400, body: 'Bad Request' };
+  }
+
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -37,7 +68,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 400,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: 'Projet > 2 000 m² : Prestation sur devis uniquement. Veuillez nous contacter directement.' })
+        body: JSON.stringify({ error: 'Projet > 2 000 m² : Prestation sur devis uniquement. Le paiement en ligne est désactivé.' })
       };
     }
 
@@ -47,7 +78,15 @@ exports.handler = async (event) => {
         return {
           statusCode: 400,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ error: 'Rapport d\'audit impossible : aucun poste chiffré n\'a été fourni.' })
+          body: JSON.stringify({ error: "Rapport d'audit impossible : aucun poste chiffré n'a été fourni." })
+        };
+      }
+      const hasPositiveLine = data.devis.lignes.some(l => (parseFloat(l.montantIndique) > 0 || parseFloat(l.pu) > 0));
+      if (!hasPositiveLine) {
+        return {
+          statusCode: 400,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: "Rapport d'audit impossible : toutes les lignes ont un montant nul." })
         };
       }
     } else {
@@ -55,17 +94,29 @@ exports.handler = async (event) => {
         return {
           statusCode: 400,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ error: 'Données de projet incomplètes pour l\'étude d\'esquisse.' })
+          body: JSON.stringify({ error: "Données de projet incomplètes pour l'étude d'esquisse." })
         };
       }
     }
 
-    const isTestMode = (process.env.PAYTECH_ENV || 'test') === 'test';
-    const hasApiKey = Boolean(process.env.PAYTECH_API_KEY && process.env.PAYTECH_API_SECRET);
-
-    // Si action de simulation/test validé en mode test sans argent réel
-    if (data.action === 'test-checkout' || (!hasApiKey && isTestMode)) {
-      // Générer le jeton de téléchargement sécurisé immédiatement (mode test actif)
+    // Gestion de l'action 'test-checkout' (B6 : INTERDITE EN PRODUCTION, sous secret de test)
+    if (data.action === 'test-checkout') {
+      const isProduction = (process.env.PAYTECH_ENV === 'production') || (process.env.NODE_ENV === 'production');
+      if (isProduction) {
+        return {
+          statusCode: 403,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: "L'action test-checkout est strictement interdite en environnement de production." })
+        };
+      }
+      const testSecret = process.env.TEST_SECRET || process.env.TOKEN_SECRET;
+      if (!data.test_secret || data.test_secret !== testSecret) {
+        return {
+          statusCode: 403,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: "Action test-checkout non autorisée : secret de test requis." })
+        };
+      }
       const token = createDownloadToken(data, service);
       return {
         statusCode: 200,
@@ -73,15 +124,37 @@ exports.handler = async (event) => {
         body: JSON.stringify({
           success: 1,
           mode: 'test',
-          message: 'Paiement test PayTech validé avec succès.',
           token,
           redirect_url: `/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?download_token=${token}`
         })
       };
     }
 
-    // Appel officiel PayTech.sn (test ou prod selon env)
-    const refCommand = 'CS-' + Date.now();
+    // FLUX OFFICIEL CHECKOUT PAYTECH.SN (mode test ou production)
+    const hasApiKey = Boolean(process.env.PAYTECH_API_KEY && process.env.PAYTECH_API_SECRET);
+    if (!hasApiKey) {
+      if (process.env.PAYTECH_ENV === 'production') {
+        return {
+          statusCode: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: "Configuration PayTech incomplète en production : clés d'API manquantes." })
+        };
+      }
+      // Mode bac à sable de test local (hors production)
+      const token = createDownloadToken(data, service);
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          success: 1,
+          mode: 'test_sandbox',
+          token,
+          redirect_url: `/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?download_token=${token}`
+        })
+      };
+    }
+
+    const refCommand = data.ref_command || ('CS-' + Date.now());
     const payload = {
       item_name: `ChantierSur — Étude ${service === 'audit' ? 'Audit Devis' : 'Esquisse & Faisabilité'}`,
       item_price: gridPrice,
@@ -93,6 +166,7 @@ exports.handler = async (event) => {
       success_url: `https://chantiersur.com/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?ref=${refCommand}`,
       cancel_url: `https://chantiersur.com/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?payment=cancel`,
       custom_field: JSON.stringify({
+        ...data,
         service,
         client_name: data.client_name,
         client_email: data.client_email,

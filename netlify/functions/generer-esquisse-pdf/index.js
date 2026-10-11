@@ -52,6 +52,8 @@ const COLOR_NAVY = rgb(14/255, 42/255, 71/255);    // #0E2A47
 const COLOR_AMBER = rgb(245/255, 158/255, 11/255);  // #F59E0B
 const COLOR_SLATE = rgb(148/255, 163/255, 184/255);
 const COLOR_GRAY = rgb(0.9, 0.9, 0.9);
+const COLOR_ROW_ALT = rgb(0.96, 0.98, 1.0);
+const COLOR_RED = rgb(192/255, 57/255, 43/255);
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
@@ -84,9 +86,11 @@ exports.handler = async (event) => {
   const surface = parseFloat(data.surface || data.projet?.surface || 0);
   const clientNom = (data.client && (data.client.nom || data.client.name))
     || data.client_name
-    || data.identification?.nom
+    || data.clientName
+    || data.clientNom
+    || (data.identification && (data.identification.client?.nom || data.identification.nom))
     || 'Maître d\'ouvrage';
-  const location = data.project_location || data.client_city || data.location || 'Sénégal';
+  const location = data.project_location || data.client_city || data.location || 'Dakar - Grand Dakar';
 
   if (!surface || surface <= 0) {
     return {
@@ -96,14 +100,76 @@ exports.handler = async (event) => {
     };
   }
 
-  const levels = parseInt(data.exact_levels || data.niveaux || data.levels || 1, 10);
-  const typology = data.project_typology || 'Villa individuelle / Immeuble résidentiel';
+  const levels = parseInt(data.exact_levels !== undefined ? data.exact_levels : (data.niveaux || data.levels || 1), 10);
+  const totalLevelsCount = levels + 1; // RDC + étages
+  const typology = data.project_typology || (data.building_usage === 'bureaux' ? 'Immeuble tertiaire / Bureaux' : (data.building_usage === 'mixte' ? 'Immeuble mixte commercial & résidentiel' : (data.building_usage === 'locatif' ? 'Immeuble d\'habitation collectif' : 'Villa individuelle résidentielle')));
   const pricePaid = getEsquissePrice(surface);
   const refStr = data.dossier || data.reference || ('CS-ESQ-' + Date.now());
   const auditDate = new Date().toLocaleDateString('fr-FR');
+  const streetWidth = parseFloat(data.street_width) || 12;
+  const facade1 = parseFloat(data.facade_width) || 10;
+  const facade2 = parseFloat(data.facade_width_2) || 0;
+  const parcelConfig = data.parcel_config || 'bande';
+  const neighbor = data.neighbor_status || 'vide';
+  const standing = data.standing || 'moyen';
+  const sanitation = data.sanitation_type || 'autonome';
+  const landStatus = data.land_status || 'Titre Foncier (TF)';
+  const lotNumber = (data.lot_number || '').trim() || 'Lot cadastral en cours';
 
-  // Surface de plancher estimative (SDP)
-  const estimatedSDP = Math.round(surface * (levels >= 1 ? 0.75 * (levels + 1) : 0.65));
+  // 1. CALCULS GABARIT & SDP COHÉRENTS (formule vérifiée : surface * 0.65 * totalLevels * 0.90)
+  const empriseSolMax = Math.round(surface * 0.65);
+  const espacesLibres = Math.round(surface * 0.35);
+  const sdpTotale = Math.round(surface * 0.65 * totalLevelsCount * 0.90);
+  const cosProjet = (sdpTotale / surface).toFixed(2).replace('.', ',');
+  const hauteurFaitage = (totalLevelsCount * 3.10 + 1.20).toFixed(1).replace('.', ',');
+  const reculAlignement = streetWidth >= 15 ? "4,00" : "3,00";
+  const hauteurMaxGabarit = (1.5 * (streetWidth + parseFloat(reculAlignement.replace(',', '.')))).toFixed(1).replace('.', ',');
+  const nPlacesStationnement = Math.max(1, Math.round(sdpTotale / 100));
+
+  // 2. DESCENTE DE CHARGES (Méthode générique aux états limites)
+  const surfaceInfluence = 16.0; // trame 4,00 m x 4,00 m
+  const gTotal = 7.0 * surfaceInfluence * totalLevelsCount; // kN
+  const qUnit = data.building_usage === 'bureaux' ? 2.5 : (data.building_usage === 'mixte' ? 2.0 : 1.5);
+  const qTotal = qUnit * surfaceInfluence * totalLevelsCount; // kN
+  const nSer = Math.round(gTotal + qTotal); // kN
+  const nUltime = Math.round((1.35 * gTotal) + (1.5 * qTotal)); // kN
+
+  // 3. PRÉ-DIMENSIONNEMENT DE LA SEMELLE ISOLÉE
+  let portanceSolBars = 1.8; // valeur moyenne courante au Sénégal
+  if (/almadies|ngor|ouakam|côti/i.test(location)) portanceSolBars = 1.5;
+  else if (/thiès|plateau/i.test(location)) portanceSolBars = 2.0;
+  const qAdmkNm2 = Math.round(portanceSolBars * 100);
+  const surfaceSemelleRequise = ((nSer * 1.05) / qAdmkNm2).toFixed(2);
+  const coteSemelleCarrer = (Math.ceil(Math.sqrt(parseFloat(surfaceSemelleRequise)) * 20) / 20).toFixed(2);
+  const epaisseurSemelle = Math.max(35, Math.round(((parseFloat(coteSemelleCarrer) * 100 - 30) / 4) + 5));
+  const enrobageAciers = /almadies|ngor|ouakam|mer|côti/i.test(location) ? "4,5 cm (Milieu marin agressif)" : "3,5 cm (Milieu standard)";
+  const modeFondation = "Semelles isolées solidarisées par un réseau rigide de longrines de redressement.";
+
+  // 4. RÉSEAUX, FLUIDES & CAPACITÉS
+  const occupantsEstimes = totalLevelsCount * (data.building_usage === 'unifamilial' ? 6 : (data.building_usage === 'locatif' ? 12 : 16));
+  const consoJournaliereLitres = occupantsEstimes * 150;
+  const bacheLitres = Math.round(consoJournaliereLitres * 2.5);
+  const surpresseurDesc = totalLevelsCount >= 3 ? "Groupe de surpression bi-pompe 1,5 kW avec réservoir à vessie" : "Groupe de surpression compact 0,75 kW avec régulation pressostat";
+  const kvaEstimes = Math.max(6, Math.round((sdpTotale * 35) / 1000));
+  const sectionCable = kvaEstimes > 18 ? "Câble cuivre 4×25 mm² armé" : (kvaEstimes > 9 ? "Câble cuivre 4×16 mm²" : "Câble cuivre 2×10 mm²");
+  const assainissementDesc = sanitation === 'autonome'
+    ? `Fosse septique toutes eaux (${Math.max(4, Math.round(occupantsEstimes * 0.4))} m³) + puisard filtrant étanche`
+    : "Raccordement réseau tout-à-l'égout public ONAS via regard siphoïde";
+
+  // 5. BUDGET MACRO-LOTS TCE (Valeurs 2026 au m² SDP)
+  const RATIOS_TCE = {
+    economique: { terrassement: 18000, grosOeuvre: 110000, secondOeuvre: 85000, etancheite: 15000 },
+    moyen: { terrassement: 22000, grosOeuvre: 135000, secondOeuvre: 115000, etancheite: 20000 },
+    haut: { terrassement: 28000, grosOeuvre: 165000, secondOeuvre: 165000, etancheite: 28000 }
+  }[standing] || { terrassement: 22000, grosOeuvre: 135000, secondOeuvre: 115000, etancheite: 20000 };
+
+  const pTerrassement = Math.round(sdpTotale * RATIOS_TCE.terrassement);
+  const pGrosOeuvre = Math.round(sdpTotale * RATIOS_TCE.grosOeuvre);
+  const pSecondOeuvre = Math.round(sdpTotale * RATIOS_TCE.secondOeuvre);
+  const pEtancheite = Math.round(sdpTotale * RATIOS_TCE.etancheite);
+  const tauxAleas = 0.07;
+  const pAleas = Math.round((pTerrassement + pGrosOeuvre + pSecondOeuvre + pEtancheite) * tauxAleas);
+  const pTotal = pTerrassement + pGrosOeuvre + pSecondOeuvre + pEtancheite + pAleas;
 
   try {
     const regularBytes = fs.readFileSync(findFile('DejaVuSans.ttf'));
@@ -158,204 +224,252 @@ exports.handler = async (event) => {
       return false;
     };
 
+    // Helper de tracé de tableau stylisé avec auto-wrap et gestion de saut de page
+    const drawTable = (headers, rows, colWidths, rightAlignedCols = []) => {
+      const startX = 40;
+      const tableWidth = colWidths.reduce((a, b) => a + b, 0);
+
+      // Calcul espace requis pour l'en-tête
+      checkPageBreak(30);
+
+      // En-tête
+      currentPage.drawRectangle({ x: startX, y: currentY - 18, width: tableWidth, height: 18, color: COLOR_NAVY });
+      let currentX = startX;
+      headers.forEach((h, i) => {
+        currentPage.drawText(h, { x: currentX + 6, y: currentY - 12, size: 7.2, font: boldFont, color: rgb(1,1,1) });
+        currentX += colWidths[i];
+      });
+      currentY -= 18;
+
+      // Lignes de données
+      rows.forEach((row, rIdx) => {
+        // Découpage du texte de chaque cellule
+        const wrappedCells = row.map((cellText, cIdx) => wrapText(String(cellText), colWidths[cIdx] - 12, cIdx === 0 ? boldFont : regularFont, 7.0));
+        const maxLines = Math.max(...wrappedCells.map(c => c.length), 1);
+        const rowHeight = (maxLines * 10) + 6;
+
+        checkPageBreak(rowHeight + 5);
+
+        // Fond alterné
+        if (rIdx % 2 === 1) {
+          currentPage.drawRectangle({ x: startX, y: currentY - rowHeight, width: tableWidth, height: rowHeight, color: COLOR_ROW_ALT });
+        }
+        currentPage.drawRectangle({ x: startX, y: currentY - rowHeight, width: tableWidth, height: rowHeight, borderColor: COLOR_GRAY, borderWidth: 0.5 });
+
+        let cellX = startX;
+        row.forEach((cellText, cIdx) => {
+          const lines = wrappedCells[cIdx];
+          const isRight = rightAlignedCols.includes(cIdx);
+          const cellFont = (cIdx === 0) ? boldFont : (isRight ? boldFont : regularFont);
+          const cellColor = (cIdx === 1 && isRight) ? COLOR_NAVY : rgb(0.15, 0.2, 0.25);
+
+          lines.forEach((lineText, lIdx) => {
+            let tx = cellX + 6;
+            if (isRight) {
+              const tw = cellFont.widthOfTextAtSize(lineText, 7.0);
+              tx = cellX + colWidths[cIdx] - tw - 6;
+            }
+            currentPage.drawText(lineText, {
+              x: tx,
+              y: currentY - 10 - (lIdx * 10),
+              size: 7.0,
+              font: cellFont,
+              color: cellColor
+            });
+          });
+          cellX += colWidths[cIdx];
+        });
+
+        currentY -= rowHeight;
+      });
+
+      currentY -= 12; // Espace après tableau
+    };
+
     currentY = drawHeader(currentPage, currentY, 0);
 
     // ==========================================
-    // 0. FICHE SYNTHÈSE DU PROJET
+    // 0. FICHE SYNTHÉTIQUE DU PROJET
     // ==========================================
-    const ficheHeight = 110;
+    const ficheHeight = 115;
+    checkPageBreak(ficheHeight + 20);
     currentPage.drawRectangle({ x: 40, y: currentY - ficheHeight, width: width - 80, height: ficheHeight, color: rgb(0.98,0.98,0.98), borderColor: COLOR_NAVY, borderWidth: 1.5 });
-    currentPage.drawText('0. FICHE SYNTHÉTIQUE DE L\'ÉTUDE D\'ESQUISSE', { x: 50, y: currentY - 18, size: 9.5, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText('0. FICHE SYNTHÉTIQUE DE L\'ÉTUDE D\'ESQUISSE & FAISABILITÉ', { x: 50, y: currentY - 18, size: 9.5, font: boldFont, color: COLOR_NAVY });
 
-    currentPage.drawText(`Réf. Dossier : ${refStr}   |   Date : ${auditDate}   |   Montant prestation : ${typeof pricePaid === 'number' ? fmtCfa(pricePaid) : pricePaid}`, { x: 50, y: currentY - 35, size: 8, font: regularFont });
-    currentPage.drawText(`Maître d'ouvrage : ${clientNom}   |   Localisation : ${location}`, { x: 50, y: currentY - 50, size: 8.5, font: boldFont, color: COLOR_NAVY });
-    currentPage.drawText(`Typologie de construction : ${typology}`, { x: 50, y: currentY - 65, size: 8, font: regularFont });
-    currentPage.drawText(`Superficie de la parcelle : ${surface} m²   |   Niveaux projetés : R+${levels}   |   SDP estimée : ~${estimatedSDP} m²`, { x: 50, y: currentY - 80, size: 8.5, font: boldFont, color: COLOR_NAVY });
-    currentPage.drawText(`Origine de l'émission : 16 Route de Mont-Rolland, Thiès, Sénégal`, { x: 50, y: currentY - 95, size: 7.5, font: regularFont, color: COLOR_SLATE });
+    currentPage.drawText(`Réf. Dossier : ${refStr}   |   Date : ${auditDate}   |   Montant prestation : ${typeof pricePaid === 'number' ? fmtCfa(pricePaid) : pricePaid}`, { x: 50, y: currentY - 36, size: 8, font: regularFont });
+    currentPage.drawText(`Maître d'Ouvrage : ${clientNom}   |   Localisation : ${location}`, { x: 50, y: currentY - 52, size: 8.5, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText(`Typologie : ${typology}   |   Statut Foncier : ${landStatus}`, { x: 50, y: currentY - 67, size: 8, font: regularFont });
+    currentPage.drawText(`Superficie Parcelle : ${surface} m²   |   Élévation : R+${levels} (${totalLevelsCount} niveaux)   |   SDP Estimée : ${sdpTotale} m²`, { x: 50, y: currentY - 82, size: 8.5, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText(`Origine de l'émission : 16 Route de Mont-Rolland, Thiès, Sénégal`, { x: 50, y: currentY - 98, size: 7.5, font: regularFont, color: COLOR_SLATE });
 
-    currentY -= (ficheHeight + 20);
-
-    // ==========================================
-    // I. ANALYSE FONCIÈRE, URBANISME & DROITS À BÂTIR
-    // ==========================================
-    checkPageBreak(130);
-    currentPage.drawText('I. ANALYSE FONCIÈRE, DROITS À BÂTIR & URBANISME SÉNÉGALAIS', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    const urbanText = [
-      "Vérification du statut juridique foncier : Avant tout engagement, s'assurer de la nature exacte du titre (Titre Foncier définitif, Bail emphytéotique de l'État, Droit de superficie, ou Délibération d'attribution communale). Un état de droits réels délivré par la conservation foncière compétente est indispensable.",
-      "Cadre juridique de référence : Loi n° 2021-22 du 2 mars 2021 (articles 28 et 31) régissant les règles fondamentales de la construction, la responsabilité des constructeurs et la régularité administrative des chantiers. Arrêt n° 28 de la Cour suprême du Sénégal du 18 avril 2018 consacrant l'obligation stricte de conformité contractuelle et la garantie des désordres.",
-      "Règles de prospect et servitudes de mitoyenneté : Les retraits minimaux réglementaires s'établissent couramment à 3,00 m par rapport aux limites parcellaires mitoyennes et à l'alignement de la voie publique selon la hauteur de façade (Réglementations d'urbanisme applicables dans les zones d'aménagement concerté et plans directeurs locaux).",
-      `Droits à bâtir sur la parcelle de ${surface} m² : Pour un gabarit R+${levels}, le Coefficient d'Occupation du Sol (COS) et le Coefficient d'Emprise au Sol (CES) prévisionnels doivent préserver un ratio d'espaces libres et de cours intérieures permettant un éclairage et une aération directs conformes aux normes d'hygiène et d'habitabilité.`
-    ];
-
-    urbanText.forEach(par => {
-      wrapText(par, width - 85, regularFont, 7.5).forEach(l => {
-        checkPageBreak(12);
-        currentPage.drawText(l, { x: 40, y: currentY, size: 7.5, font: regularFont });
-        currentY -= 10;
-      });
-      currentY -= 4;
-    });
-
-    currentY -= 14;
+    currentY -= (ficheHeight + 22);
 
     // ==========================================
-    // II. GÉOTECHNIQUE, SOL & RECOMMANDATIONS FONDATIONS
-    // ==========================================
-    checkPageBreak(130);
-    currentPage.drawText('II. GÉOTECHNIQUE, HYDROGÉOLOGIE & RECOMMANDATIONS DE FONDATIONS', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    const geotechText = [
-      `Contexte hydrogéologique de la zone (${location}) : Selon la situation géographique (littoral, zone des Niayes, plateau ou cuvettes), la profondeur de la nappe phréatique varie fortement au cours de l'année (remontées observées en période hivernale).`,
-      "Nature des sols rencontrés au Sénégal : Présence fréquente de sables côtiers fins à moyens, sables dunaires, marnes potentiellement gonflantes (bassin de Thiès) ou cuirasses latéritiques. Une étude de sol géotechnique de type mission G2 (sondages pressiométriques ou pénétrométriques) est obligatoire pour arrêter la contrainte admissible du sol (q_admissible).",
-      `Système de fondations préconisé pour R+${levels} : Semelles isolées en béton armé solidarisées par un réseau rigide de longrines de redressement et chaînages bas, garantissant l'absence de tassements différentiels. En cas de sols compressibles ou nappe affleurante, envisager un radier général nervuré étanche.`
-    ];
-
-    geotechText.forEach(par => {
-      wrapText(par, width - 85, regularFont, 7.5).forEach(l => {
-        checkPageBreak(12);
-        currentPage.drawText(l, { x: 40, y: currentY, size: 7.5, font: regularFont });
-        currentY -= 10;
-      });
-      currentY -= 4;
-    });
-
-    currentY -= 14;
-
-    // ==========================================
-    // III. STRUCTURE BÉTON ARMÉ & SPÉCIFICATIONS MATÉRIAUX
-    // ==========================================
-    checkPageBreak(130);
-    currentPage.drawText('III. STRUCTURE PORTEUSE & SPÉCIFICATIONS DES MATÉRIAUX', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    const structText = [
-      "Méthode de calcul générique : Dimensionnement de l'ossature poteaux-poutres-dalles aux états limites ultimes (ELU) et de service (ELS) selon les principes de l'art (formulations de calcul de type Eurocode 2 / règles reconnues de béton armé).",
-      "Qualité des bétons et ciments : Béton de structure dosé a minima à 350 kg/m³ de ciment classe 42.5 (CEM II/B-L 42.5 R ou équivalent). Ciment 32.5 formellement réservé aux mortiers de pose et enduits.",
-      "Aciers pour béton armé : Aciers à haute adhérence nuance FeE500 (limite élastique 500 MPa), façonnés sans pliures brutales. Respect strict des recouvrements minimaux (40 à 50 fois le diamètre de la barre).",
-      "Durabilité et enrobages : En zone côtière exposée aux embruns salins, l'enrobage minimal des armatures doit être de 4 à 5 cm pour prévenir l'éclatement du béton consécutif à l'oxydation des fers."
-    ];
-
-    structText.forEach(par => {
-      wrapText(par, width - 85, regularFont, 7.5).forEach(l => {
-        checkPageBreak(12);
-        currentPage.drawText(l, { x: 40, y: currentY, size: 7.5, font: regularFont });
-        currentY -= 10;
-      });
-      currentY -= 4;
-    });
-
-    currentY -= 14;
-
-    // ==========================================
-    // IV. RÉSEAUX, FLUIDES & ASSAINISSEMENT
-    // ==========================================
-    checkPageBreak(130);
-    currentPage.drawText('IV. RÉSEAUX HUMIDES, ÉLECTRICITÉ & ASSAINISSEMENT', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    const fluidsText = [
-      "Alimentation en eau potable : Raccordement au réseau de distribution publique (SEN'EAU). Prévoir une bâche de stockage tampon au sol (volume recommandé : 3 à 5 m³) couplée à un suppresseur automatique avec ballon de vessie pour pallier les baisses de pression du réseau urbain.",
-      "Assainissement des eaux usées & vannes : Si raccordement au réseau public de l'ONAS indisponible, réalisation d'une fosse septique toutes eaux à 3 compartiments dimensionnée selon le nombre d'occupants, suivie d'un puisard filtrant ou d'un lit d'épandage souterrain respectant une distance de sécurité > 15 m de tout point de puisage.",
-      "Alimentation électrique & mise à la terre : Raccordement au réseau basse tension Senelec. Réalisation d'une boucle à fond de fouille en cuivre nu 29 mm² garantissant une résistance de terre < 10 Ohms avec disjoncteur différentiel général de protection."
-    ];
-
-    fluidsText.forEach(par => {
-      wrapText(par, width - 85, regularFont, 7.5).forEach(l => {
-        checkPageBreak(12);
-        currentPage.drawText(l, { x: 40, y: currentY, size: 7.5, font: regularFont });
-        currentY -= 10;
-      });
-      currentY -= 4;
-    });
-
-    currentY -= 14;
-
-    // ==========================================
-    // V. CONCEPTION BIOCLIMATIQUE & CONFORT THERMIQUE
+    // I. CARTOUCHE FONCIER, URBANISME & DROITS À BÂTIR
     // ==========================================
     checkPageBreak(120);
-    currentPage.drawText('V. CONCEPTION BIOCLIMATIQUE ADAPTÉE AU CLIMAT SÉNÉGALAIS', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
+    currentPage.drawText('I. PROSPECT URBANISTIQUE, GABARIT & DROITS À BÂTIR SÉNÉGALAIS', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
 
-    const bioText = [
-      "Orientation optimale : Privilégier l'orientation des façades principales selon l'axe Nord-Sud pour limiter le rayonnement direct du soleil sahélien sur les parois vitrées.",
-      "Ventilation naturelle traversante : Disposer les ouvertures en vis-à-vis pour capter les flux d'Alizés maritimes dominants de direction Nord / Nord-Ouest, réduisant de 30 à 45% la facture énergétique de climatisation.",
-      "Protections solaires passives : Prévoir des débords de toit généreux (casquettes béton de 60 à 90 cm) ou des claustras en terre cuite sur les baies exposées au Sud et à l'Ouest. Utiliser des teintes claires à fort albédo sur la toiture-terrasse."
+    const gabaritHeaders = ['Indicateur d\'Urbanisme', 'Valeur Déterminée', 'Référence & Analyse Technique Prudentielle'];
+    const gabaritRows = [
+      ["Surface Totale Parcellaire", `${surface} m²`, "Superficie de base enregistrée au cadastre"],
+      ["COS Projet (SDP / Surface)", cosProjet, "Coefficient d'occupation des sols calculé sur la parcelle"],
+      ["Emprise au Sol (CES indicatif 0,65)", `${empriseSolMax} m²`, "Hypothèse de gabarit d'emprise maximale bâtie au sol"],
+      ["Espaces Libres d'Infiltration (35%)", `${espacesLibres} m²`, "Hypothèse de pleine terre préservée pour l'infiltration pluviale"],
+      ["Surface Développée de Plancher (SDP)", `${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (${totalLevelsCount} niveaux, hors trémies)`],
+      ["Hauteur Totale du Bâtiment Projeté", `${hauteurFaitage} m`, "Dalle supérieure + acrotère de toiture terrasse de 1,20 m"],
+      ["Largeur de la Voie Publique", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m selon gabarit de voirie`],
+      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit} mètres`, "Seuil indicatif calculé selon les règles de prospect de voirie"],
+      ["Places de Stationnement Indicatives", `${nPlacesStationnement} place(s)`, "Règle indicative de référence : 1 place par 100 m² de SDP utile"]
     ];
+    drawTable(gabaritHeaders, gabaritRows, [160, 100, 255], [1]);
 
-    bioText.forEach(par => {
-      wrapText(par, width - 85, regularFont, 7.5).forEach(l => {
-        checkPageBreak(12);
-        currentPage.drawText(l, { x: 40, y: currentY, size: 7.5, font: regularFont });
-        currentY -= 10;
-      });
-      currentY -= 4;
+    // ==========================================
+    // II. IMPLANTATION & MITOYENNETÉ
+    // ==========================================
+    checkPageBreak(100);
+    currentPage.drawText('II. CONTRAINTES D\'IMPLANTATION, MITOYENNETÉ & VOIRIE', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    let configDesc = "Parcelle en bande standard : façades latérales mitoyennes aveugles obligatoires.";
+    if (parcelConfig === 'angle') configDesc = `Parcelle d'angle (Façades ${facade1}m et ${facade2 || 12}m) : pan coupé recommandé au carrefour.`;
+    else if (parcelConfig === 'traversante') configDesc = "Parcelle traversante avec accès double sur voies opposées.";
+    else if (parcelConfig === 'isolee') configDesc = "Parcelle isolée : recul périmétrique d'au moins 2,50 m recommandé.";
+
+    const mitoyenHeaders = ['Paramètre Spatial', 'Situation Chantier', 'Prescription d\'Ingénierie Obligatoire'];
+    const mitoyenRows = [
+      ["Configuration & Façade", parcelConfig.toUpperCase(), configDesc],
+      ["Parcelles Voisines", neighbor === 'vide' ? "Terrains voisins nus" : "Constructions mitoyennes présentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-œuvre préalable." : "Constat d'huissier contradictoire obligatoire avant excavation."],
+      ["Puits de Jour & Aération", "Minimum 12 m² (Largeur ≥ 3,00 m)", "Aération et éclairage direct naturels conformes aux règles sanitaires."],
+      ["Évacuation Eaux Pluviales", "Égout intérieur à la parcelle", "Interdiction absolue de déversement sauvage sur la voie publique."]
+    ];
+    drawTable(mitoyenHeaders, mitoyenRows, [140, 140, 235], []);
+
+    // ==========================================
+    // III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU CENTRAL
+    // ==========================================
+    checkPageBreak(120);
+    currentPage.drawText('III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    const descenteHeaders = ['Paramètre de Descente de Charges', 'Valeur Calculée', 'Hypothèse & Méthode de Calcul Générique'];
+    const descenteRows = [
+      ["Surface d'Influence du Poteau Central", `${surfaceInfluence.toFixed(1).replace('.', ',')} m²`, "Trame structurelle courante 4,00 m × 4,00 m"],
+      ["Charges Permanentes Cumulées (G)", `${gTotal.toFixed(0)} kN (env. ${(gTotal / 9.81).toFixed(1).replace('.', ',')} T)`, "Planchers corps creux 16+4, chape, cloisons, poteaux et poutres"],
+      ["Charges d'Exploitation Cumulées (Q)", `${qTotal.toFixed(0)} kN (env. ${(qTotal / 9.81).toFixed(1).replace('.', ',')} T)`, `Pratique courante d'ingénierie selon usage : ${qUnit.toString().replace('.', ',')} kN/m² par niveau`],
+      ["Effort Normal Total de Service (N_ser)", `${nSer} kN (env. ${(nSer / 9.81).toFixed(1).replace('.', ',')} T)`, "N_ser = G + Q (Dimensionnement du sol sous semelle de fondation)"],
+      ["Effort Normal Total Ultime (N_u)", `${nUltime} kN (env. ${(nUltime / 9.81).toFixed(1).replace('.', ',')} T)`, "N_u = 1,35 G + 1,5 Q (Ferraillage des aciers de structure porteuse)"]
+    ];
+    drawTable(descenteHeaders, descenteRows, [160, 120, 235], [1]);
+
+    // ==========================================
+    // IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION
+    // ==========================================
+    checkPageBreak(130);
+    currentPage.drawText('IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    const semelleHeaders = ['Élément de Dimensionnement', 'Prescription Déterminée', 'Justification Technique de Sécurité'];
+    const semelleRows = [
+      ["Portance Admissible du Sol (q_adm)", `${portanceSolBars.toString().replace('.', ',')} bars (${qAdmkNm2} kN/m²)`, "Valeur indicative de zone — essai géotechnique obligatoire avant exécution."],
+      ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise.replace('.', ',')} m²`, "Formule d'équilibre de portance : S ≥ 1,05 × N_ser / q_adm"],
+      ["Dimensions Semelle Carrée (A × B)", `${coteSemelleCarrer.replace('.', ',')} m × ${coteSemelleCarrer.replace('.', ',')} m`, "Section d'assise au sol sous le poteau central le plus chargé"],
+      ["Épaisseur Minimale Semelle (H)", `${epaisseurSemelle} cm (d ≥ ${epaisseurSemelle - 5} cm)`, "Condition de rigidité : d ≥ (A - a)/4 pour écarter tout risque de poinçonnement"],
+      ["Enrobage Minimal des Armatures", enrobageAciers, "Protection durable des aciers contre l'oxydation en climat chaud et salin"],
+      ["Mode de Fondation Préconisé", modeFondation, "Système adapté pour prévenir les tassements différentiels de structure."]
+    ];
+    drawTable(semelleHeaders, semelleRows, [155, 125, 235], [1]);
+
+    // ==========================================
+    // V. RÉSERVE HYDRAULIQUE, PUISSANCE SENELEC & ASSAINISSEMENT
+    // ==========================================
+    checkPageBreak(120);
+    currentPage.drawText('V. RÉSERVE HYDRAULIQUE (SEN\'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    const fluidesHeaders = ['Poste Fluide & Énergie', 'Dimensionnement Calculé', 'Prescription Technique d\'Ingénierie'];
+    const fluidesRows = [
+      ["Bâche à Eau & Autonomie Coupure", `${bacheLitres.toLocaleString('fr-FR')} L (env. ${(bacheLitres / 1000).toFixed(1).replace('.', ',')} m³)`, "Réserve tampon 48h à 72h avec cuve étanche et groupe de pompage"],
+      ["Système de Pompage Recommandé", surpresseurDesc, "Distribution d'eau continue sous pression constante à tous les étages"],
+      ["Puissance Souscrite Senelec Cible", `${kvaEstimes} kVA (${kvaEstimes > 9 ? 'Triphasé 380V' : 'Monophasé 220V'})`, "Dimensionnement standard pour climatisation inverter et usages domestiques"],
+      ["Section Colonne Montante Électrique", sectionCable, "Ligne principale sécurisée limitant les chutes de tension sous 3%"],
+      ["Réseau d'Assainissement & Rejets", sanitation === 'autonome' ? "Assainissement Autonome" : "Réseau Public ONAS", assainissementDesc]
+    ];
+    drawTable(fluidesHeaders, fluidesRows, [155, 125, 235], [1]);
+
+    // ==========================================
+    // VI. CONCEPTION BIOCLIMATIQUE SAHÉLIENNE
+    // ==========================================
+    checkPageBreak(110);
+    currentPage.drawText('VI. CONCEPTION BIOCLIMATIQUE ADAPTÉE AU CLIMAT SÉNÉGALAIS', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    const bioclimHeaders = ['Axe de Conception Bioclimatique', 'Solution Technique Retenue', 'Impact Confort & Facture Énergétique'];
+    const bioclimRows = [
+      ["Orientation Solaire des Baies", "Façades Nord & Sud privilégiées", "Minimisation des rayonnements solaires directs sur les parois vitrées."],
+      ["Protections Solaires Passives", "Casquettes béton (60-90 cm) & Brise-soleil", "Ombrage permanent limitant les surchauffes en période estivale."],
+      ["Ventilation Naturelle Traversante", "Ouvrants opposés orientés Alizés", "Évacuation nocturne de l'air chaud par tirage thermique naturel."],
+      ["Inertie Thermique de l'Enveloppe", "Double cloison ou agglos pleins avec enduit", "Déphasage thermique d'au moins 6h pour atténuer les pics de chaleur."]
+    ];
+    drawTable(bioclimHeaders, bioclimRows, [150, 135, 230], []);
+
+    // ==========================================
+    // VII. ESTIMATION PRÉVISIONNELLE MACRO-LOTS TCE (2026)
+    // ==========================================
+    checkPageBreak(140);
+    currentPage.drawText('VII. ÉVALUATION FINANCIÈRE PRÉVISIONNELLE MACRO-LOTS TCE (VALEURS 2026)', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    const budgetHeaders = ['Macro-Lot Technique TCE', 'Montant Prévisionnel', 'Ratio de Référence au m² SDP'];
+    const budgetRows = [
+      ["1. Terrassements, Fouilles & Fondations", fmtCfa(pTerrassement), `Ratio : ${RATIOS_TCE.terrassement.toLocaleString('fr-FR')} FCFA/m² — ${sdpTotale} m² SDP`],
+      ["2. Superstructure Béton Armé & Maçonnerie", fmtCfa(pGrosOeuvre), `Ratio : ${RATIOS_TCE.grosOeuvre.toLocaleString('fr-FR')} FCFA/m² — ${sdpTotale} m² SDP`],
+      ["3. Second Œuvre, Fluides & Électricité", fmtCfa(pSecondOeuvre), `Ratio : ${RATIOS_TCE.secondOeuvre.toLocaleString('fr-FR')} FCFA/m² — ${sdpTotale} m² SDP`],
+      ["4. Étanchéité Toiture Terrasse & Acrotères", fmtCfa(pEtancheite), `Ratio : ${RATIOS_TCE.etancheite.toLocaleString('fr-FR')} FCFA/m² — ${sdpTotale} m² SDP`],
+      ["5. Provision Aléas & Imprévus (7%)", fmtCfa(pAleas), "Marge de sécurité technique standard sur marché de travaux"],
+      ["ENVELOPPE BUDGÉTAIRE TOTALE ESTIMATIVE", fmtCfa(pTotal), `Ratio moyen : env. ${fmtCfa(Math.round(pTotal / sdpTotale))}/m² SDP`]
+    ];
+    drawTable(budgetHeaders, budgetRows, [170, 115, 230], [1]);
+
+    // ==========================================
+    // VIII. FEUILLE DE ROUTE ADMINISTRATIVE : TELEDAC & PERMIS
+    // ==========================================
+    checkPageBreak(130);
+    currentPage.drawText('VIII. FEUILLE DE ROUTE ADMINISTRATIVE : PERMIS DE CONSTRUIRE & TELEDAC', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
+    currentY -= 15;
+
+    const teledacHeaders = ['Étape Administrative', 'Professionnel Compétent', 'Cadre Réglementaire & Bonnes Pratiques'];
+    const teledacRows = [
+      ["1. Bornage Contradictoire", "Géomètre-Expert Agréé (OGES)", "Établissement du plan de bornage régulier et scellement des bornes physiques."],
+      ["2. Conception Architecturale", "Architecte inscrit à l'ODAS", "Recours obligatoire à l'architecte pour le permis (Loi n° 2021-22 du 2 mars 2021)."],
+      ["3. Note de Calcul de Stabilité", "Bureau d'Études Techniques (BET)", "Justification des sections béton et armatures selon méthodes reconnues aux états limites."],
+      ["4. Dépôt Plateforme TELEDAC", "Direction de l'Urbanisme / Mairie", "Instruction dématérialisée préalable et délivrance de l'autorisation de construire."],
+      ["5. Marché & Points d'Arrêt", "Entreprise Générale / Maçon", "Retenue de garantie de 5% et respect des points d'arrêt (Arrêt n° 28 de la Cour suprême)."]
+    ];
+    drawTable(teledacHeaders, teledacRows, [140, 140, 235], []);
+
+    // ==========================================
+    // VISA TECHNIQUE ET AVERTISSEMENT LÉGAL
+    // ==========================================
+    const visaHeight = 48;
+    checkPageBreak(visaHeight + 15);
+    currentPage.drawRectangle({ x: 40, y: currentY - visaHeight, width: width - 80, height: visaHeight, color: COLOR_RED });
+    currentPage.drawRectangle({ x: 40, y: currentY - visaHeight, width: width - 80, height: visaHeight, borderColor: rgb(0.5, 0.1, 0.1), borderWidth: 1 });
+
+    currentPage.drawText("VISA TECHNIQUE DU BUREAU D'ÉTUDES INDÉPENDANT CHANTIERSUR.COM :", { x: 48, y: currentY - 14, size: 7.5, font: boldFont, color: rgb(1,1,1) });
+    const disclaimerLines = [
+      "Le présent livrable d'esquisse et de faisabilité constitue une analyse préliminaire indépendante d'ingénierie et d'urbanisme.",
+      "Il ne se substitue ni aux plans d'exécution architecturaux réglementaires visés par un architecte membre de l'ODAS pour l'obtention formelle",
+      "du permis de construire, ni à la mission de sondage géotechnique de sol (G2) obligatoire avant le coulage des fondations."
+    ];
+    let disY = currentY - 25;
+    disclaimerLines.forEach(l => {
+      currentPage.drawText(l, { x: 48, y: disY, size: 6.2, font: regularFont, color: rgb(1,1,1) });
+      disY -= 9;
     });
 
-    currentY -= 14;
-
-    // ==========================================
-    // VI. ESTIMATION PRÉVISIONNELLE DU BUDGET PAR LOTS
-    // ==========================================
-    checkPageBreak(160);
-    currentPage.drawText('VI. ESTIMATION BUDGÉTAIRE INDICATIVE PAR CORPS D\'ÉTAT', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    // Ratios métriques d'estimation au Sénégal pour R+levels
-    const coutM2Moyen = levels <= 1 ? 260000 : 310000;
-    const budgetTotalEstime = estimatedSDP * coutM2Moyen;
-
-    const lotsBudget = [
-      { lot: "01. Terrassement & Fondations (Infrastructures)", pct: 15, mnt: Math.round(budgetTotalEstime * 0.15) },
-      { lot: "02. Gros Œuvre, Élévations & Béton Armé (Superstructure)", pct: 38, mnt: Math.round(budgetTotalEstime * 0.38) },
-      { lot: "03. Étanchéité toiture terrasse & formes de pente", pct: 5, mnt: Math.round(budgetTotalEstime * 0.05) },
-      { lot: "04. Plomberie sanitaire, Évacuation & Réseaux", pct: 9, mnt: Math.round(budgetTotalEstime * 0.09) },
-      { lot: "05. Électricité, Éclairage & Courants faibles", pct: 8, mnt: Math.round(budgetTotalEstime * 0.08) },
-      { lot: "06. Menuiseries extérieures & serrurerie", pct: 9, mnt: Math.round(budgetTotalEstime * 0.09) },
-      { lot: "07. Revêtements carrelages & Faïences", pct: 10, mnt: Math.round(budgetTotalEstime * 0.10) },
-      { lot: "08. Peintures intérieures/extérieures & Finitions", pct: 6, mnt: Math.round(budgetTotalEstime * 0.06) }
-    ];
-
-    currentPage.drawText(`Budget global estimatif prévisionnel (SDP ~${estimatedSDP} m²) : ${fmtCfa(budgetTotalEstime)} HT (Ratio : ~${fmtCfa(coutM2Moyen)}/m² SDP)`, { x: 40, y: currentY, size: 8.5, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    lotsBudget.forEach(lb => {
-      checkPageBreak(14);
-      currentPage.drawText(`• ${lb.lot} :`, { x: 50, y: currentY, size: 7.5, font: regularFont });
-      currentPage.drawText(`${fmtCfa(lb.mnt)} (${lb.pct}%)`, { x: width - 180, y: currentY, size: 7.5, font: boldFont, color: COLOR_NAVY });
-      currentY -= 12;
-    });
-
-    currentY -= 14;
-
-    // ==========================================
-    // VII. FEUILLE DE ROUTE ADMINISTRATIVE : TELEDAC & PERMIS
-    // ==========================================
-    checkPageBreak(150);
-    currentPage.drawText('VII. FEUILLE DE ROUTE ADMINISTRATIVE & PROCÉDURE TELEDAC', { x: 40, y: currentY, size: 10, font: boldFont, color: COLOR_NAVY });
-    currentY -= 16;
-
-    const stepsTeledac = [
-      "1. Phase Étude Préliminaire : Réalisation du levé topographique par un géomètre agréé et réalisation de l'essai de sol géotechnique (G2).",
-      "2. Conception Architecturale & Ingénierie : Élaboration du dossier de plans par un architecte inscrit à l'Ordre des Architectes du Sénégal (ODAS) et plans de structure par un bureau d'études.",
-      "3. Dépôt dématérialisé sur la plateforme TELEDAC : Enregistrement de la demande de Permis de Construire avec pièces requises (Titre foncier ou acte notarié, Plan de situation, Plan de masse, Plans de coupes, Notice de sécurité incendie, Devis estimatif descriptif).",
-      "4. Instruction administrative : Examen par la commission de la Division Régionale de l'Urbanisme et de l'Habitat (DRUH) et avis technique des sapeurs-pompiers (BNSP) pour les ERP/IGH.",
-      "5. Délai légal d'instruction : Délai moyen de 40 jours ouvrés prévu par les textes pour la délivrance de l'arrêté d'autorisation de construire par l'autorité administrative compétente."
-    ];
-
-    stepsTeledac.forEach(st => {
-      wrapText(st, width - 85, regularFont, 7.5).forEach(l => {
-        checkPageBreak(12);
-        currentPage.drawText(l, { x: 40, y: currentY, size: 7.5, font: regularFont });
-        currentY -= 10;
-      });
-      currentY -= 4;
-    });
-
-    currentY -= 20;
+    currentY -= (visaHeight + 15);
 
     // Rendu global des pieds de page
     pages.forEach((p, idx) => drawFooter(p, idx));
