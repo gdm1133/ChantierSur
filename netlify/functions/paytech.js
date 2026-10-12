@@ -1,6 +1,6 @@
 // CANARY-UNIQUE-20261011
 // netlify/functions/paytech.js
-const { createDownloadToken, getOrderToken } = require('./token-security');
+const { createDownloadToken, getOrderToken, saveActiveDossier } = require('./token-security');
 
 function getGridPrice(service, surface) {
   const s = parseFloat(surface) || 150;
@@ -133,28 +133,18 @@ exports.handler = async (event) => {
     // FLUX OFFICIEL CHECKOUT PAYTECH.SN (mode test ou production)
     const hasApiKey = Boolean(process.env.PAYTECH_API_KEY && process.env.PAYTECH_API_SECRET);
     if (!hasApiKey) {
-      if (process.env.PAYTECH_ENV === 'production') {
-        return {
-          statusCode: 500,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ error: "Configuration PayTech incomplète en production : clés d'API manquantes." })
-        };
-      }
-      // Mode bac à sable de test local (hors production)
-      const token = createDownloadToken(data, service);
       return {
-        statusCode: 200,
+        statusCode: 500,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          success: 1,
-          mode: 'test_sandbox',
-          token,
-          redirect_url: `/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?download_token=${token}`
-        })
+        body: JSON.stringify({ error: "PayTech non configuré : clés d'API manquantes (PAYTECH_API_KEY, PAYTECH_API_SECRET requises)." })
       };
     }
 
     const refCommand = data.ref_command || ('CS-' + Date.now());
+
+    // Sauvegarde chiffrée immédiate du dossier complet côté serveur sous la référence
+    saveActiveDossier(refCommand, data, service);
+
     const payload = {
       item_name: `ChantierSur — Étude ${service === 'audit' ? 'Audit Devis' : 'Esquisse & Faisabilité'}`,
       item_price: gridPrice,
@@ -166,7 +156,6 @@ exports.handler = async (event) => {
       success_url: `https://chantiersur.com/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?ref=${refCommand}`,
       cancel_url: `https://chantiersur.com/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?payment=cancel`,
       custom_field: JSON.stringify({
-        ...data,
         service,
         client_name: data.client_name,
         client_email: data.client_email,

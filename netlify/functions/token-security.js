@@ -46,47 +46,106 @@ function saveJsonSafe(filePath, data) {
 }
 
 /**
- * Crée un jeton de téléchargement signé contenant le dossier chiffré
+ * Enregistre le dossier de manière chiffrée côté serveur sous une référence de commande
+ */
+function saveActiveDossier(ref, dossierData, service) {
+  if (!ref || !dossierData) return;
+  try {
+    const key = getSecret();
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    const serialized = JSON.stringify(dossierData || {});
+    let enc = cipher.update(serialized, 'utf8', 'base64url');
+    enc += cipher.final('base64url');
+
+    const record = {
+      enc,
+      iv: iv.toString('base64url'),
+      ref,
+      service: service || 'audit',
+      timestamp: Date.now()
+    };
+    memoryDossiers.set(ref, record);
+    const allDossiers = loadJsonSafe(DOSSIERS_FILE);
+    allDossiers[ref] = record;
+    saveJsonSafe(DOSSIERS_FILE, allDossiers);
+  } catch (e) {
+    console.error('Erreur sauvegarde dossier serveur:', e.message);
+  }
+}
+
+/**
+ * Récupère et déchiffre un dossier actif par sa référence
+ */
+function getActiveDossier(ref) {
+  if (!ref) return null;
+  let record = memoryDossiers.get(ref);
+  if (!record) {
+    const allDossiers = loadJsonSafe(DOSSIERS_FILE);
+    record = allDossiers[ref];
+  }
+  if (!record || !record.enc || !record.iv) return null;
+  try {
+    const key = getSecret();
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(record.iv, 'base64url'));
+    let decrypted = decipher.update(record.enc, 'base64url', 'utf8');
+    decrypted += decipher.final('utf8');
+    return JSON.parse(decrypted);
+  } catch (e) {
+    console.error('Erreur déchiffrement dossier actif:', e.message);
+    return null;
+  }
+}
+
+/**
+ * Crée un jeton de téléchargement signé LÉGER (B7)
+ * Le jeton ne contient QUE { service, ref, nonce, exp } + HMAC.
+ * Le dossier est conservé chiffré côté serveur dans le stockage persistant.
  */
 function createDownloadToken(dossierData, service) {
   const key = getSecret();
   const nonce = crypto.randomBytes(16).toString('hex');
   const exp = Date.now() + TOKEN_TTL_MS;
-  const ref = dossierData.dossier || dossierData.ref_command || dossierData.reference || ('CS-' + Date.now());
+  const ref = (dossierData && (dossierData.dossier || dossierData.ref_command || dossierData.reference)) || ('CS-' + Date.now());
 
-  // Chiffrement fort des données du dossier avec clé serveur (AES-256-CBC + IV aléatoire)
+  // 1. Sauvegarde chiffrée du dossier complet côté serveur
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
   const serialized = JSON.stringify(dossierData || {});
   let encrypted = cipher.update(serialized, 'utf8', 'base64url');
   encrypted += cipher.final('base64url');
 
+  const dossierRecord = {
+    enc: encrypted,
+    iv: iv.toString('base64url'),
+    service: service || 'audit',
+    ref,
+    exp,
+    timestamp: Date.now()
+  };
+
+  // 2. Jeton léger signé par HMAC-SHA256 (environ 150-180 caractères, compatible URL sans tronquage)
   const payload = {
     service: service || 'audit',
     ref,
-    clientNom: dossierData.client_name || (dossierData.client && (dossierData.client.nom || dossierData.client.name)) || (dossierData.identification && (dossierData.identification.client?.nom || dossierData.identification.nom)) || 'Maître d\'ouvrage',
-    clientEmail: dossierData.client_email || (dossierData.client && dossierData.client.email) || '',
-    surface: dossierData.surface || 0,
-    sdp: dossierData.sdp || 0,
     nonce,
-    exp,
-    iv: iv.toString('base64url'),
-    enc: encrypted
+    exp
   };
-
   const payloadStr = JSON.stringify(payload);
   const hmac = crypto.createHmac('sha256', key).update(payloadStr).digest('base64url');
   const token = Buffer.from(payloadStr).toString('base64url') + '.' + hmac;
 
+  // Lier le dossier au hash du jeton et à la référence
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  memoryDossiers.set(tokenHash, dossierRecord);
+  memoryDossiers.set(ref, dossierRecord);
+  const allDossiers = loadJsonSafe(DOSSIERS_FILE);
+  allDossiers[tokenHash] = dossierRecord;
+  allDossiers[ref] = dossierRecord;
+  saveJsonSafe(DOSSIERS_FILE, allDossiers);
+
   // Enregistrement persistant de l'association commande -> jeton
   recordOrderToken(ref, token, service);
-
-  // Sauvegarde persistante du dossier lié au jeton
-  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-  memoryDossiers.set(tokenHash, { enc: encrypted, iv: iv.toString('base64url'), exp });
-  const allDossiers = loadJsonSafe(DOSSIERS_FILE);
-  allDossiers[tokenHash] = { enc: encrypted, iv: iv.toString('base64url'), exp };
-  saveJsonSafe(DOSSIERS_FILE, allDossiers);
 
   return token;
 }
@@ -115,6 +174,7 @@ function getOrderToken(ref) {
 
 /**
  * Vérifie l'authenticité, la validité et l'usage unique du jeton
+ * Récupère le dossier côté serveur et purge après usage.
  */
 function verifyAndConsumeToken(token, expectedService) {
   if (!token || typeof token !== 'string') {
@@ -171,17 +231,20 @@ function verifyAndConsumeToken(token, expectedService) {
     return { valid: false, error: 'Jeton non valide pour ce type de document.' };
   }
 
-  // Déchiffrement sécurisé des données du dossier
+  // Récupération sécurisée du dossier depuis le stockage serveur persistant
   let dossierData = null;
-  try {
-    if (payload.enc && payload.iv) {
-      const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(payload.iv, 'base64url'));
-      let decrypted = decipher.update(payload.enc, 'base64url', 'utf8');
+  const allDossiers = loadJsonSafe(DOSSIERS_FILE);
+  const record = memoryDossiers.get(tokenHash) || memoryDossiers.get(payload.ref) || allDossiers[tokenHash] || allDossiers[payload.ref];
+
+  if (record && record.enc && record.iv) {
+    try {
+      const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(record.iv, 'base64url'));
+      let decrypted = decipher.update(record.enc, 'base64url', 'utf8');
       decrypted += decipher.final('utf8');
       dossierData = JSON.parse(decrypted);
+    } catch (e) {
+      console.error('Erreur déchiffrement dossier serveur:', e.message);
     }
-  } catch (e) {
-    console.error('Erreur déchiffrement dossier depuis jeton:', e.message);
   }
 
   // Consommation : marquage usage unique (mémoire + fichier persistant)
@@ -191,18 +254,19 @@ function verifyAndConsumeToken(token, expectedService) {
 
   // Purge du stockage temporaire des dossiers
   memoryDossiers.delete(tokenHash);
-  const allDossiers = loadJsonSafe(DOSSIERS_FILE);
-  if (allDossiers[tokenHash]) {
-    delete allDossiers[tokenHash];
-    saveJsonSafe(DOSSIERS_FILE, allDossiers);
-  }
+  if (payload.ref) memoryDossiers.delete(payload.ref);
+  if (allDossiers[tokenHash]) delete allDossiers[tokenHash];
+  if (payload.ref && allDossiers[payload.ref]) delete allDossiers[payload.ref];
+  saveJsonSafe(DOSSIERS_FILE, allDossiers);
 
-  return { valid: true, payload, dossierData };
+  return { valid: true, payload, dossierData, data: dossierData };
 }
 
 module.exports = {
   createDownloadToken,
   verifyAndConsumeToken,
   recordOrderToken,
-  getOrderToken
+  getOrderToken,
+  saveActiveDossier,
+  getActiveDossier
 };

@@ -303,13 +303,15 @@ exports.handler = async (event) => {
   try {
     const regularBytes = fs.readFileSync(findFile('DejaVuSans.ttf'));
     const boldBytes = fs.readFileSync(findFile('DejaVuSans-Bold.ttf'));
-    const logoBytes = fs.readFileSync(findFile('logo-a-sombre.png'));
+    const logoClairBytes = fs.readFileSync(findFile('logo-a-clair.png'));
+    const logoSombreBytes = fs.readFileSync(findFile('logo-a-sombre.png'));
 
     const pdfDoc = await PDFDocument.create();
     pdfDoc.registerFontkit(fontkit);
     const regularFont = await pdfDoc.embedFont(regularBytes);
     const boldFont = await pdfDoc.embedFont(boldBytes);
-    const logoImage = await pdfDoc.embedPng(logoBytes);
+    const logoClairImage = await pdfDoc.embedPng(logoClairBytes);
+    const logoSombreImage = await pdfDoc.embedPng(logoSombreBytes);
 
     let pages = [];
     let currentPage = pdfDoc.addPage([595, 842]);
@@ -325,7 +327,7 @@ exports.handler = async (event) => {
       // Logo officiel incorporé
       const logoW = 34;
       const logoH = 34;
-      page.drawImage(logoImage, {
+      page.drawImage(logoClairImage, {
         x: 40,
         y: height - 56,
         width: logoW,
@@ -355,6 +357,51 @@ exports.handler = async (event) => {
       return false;
     };
 
+    const drawAdviceBox = (title, items) => {
+      const startX = 40;
+      const boxWidth = width - 80;
+
+      let formattedLines = [];
+      items.forEach(it => {
+        const fullTxt = `• ${it.label} : ${it.text}`;
+        const lines = wrapText(fullTxt, boxWidth - 22, regularFont, 6.7);
+        formattedLines.push(...lines);
+      });
+
+      const boxHeight = 14 + (formattedLines.length * 8.5) + 6;
+      checkPageBreak(boxHeight + 10);
+
+      currentPage.drawRectangle({
+        x: startX,
+        y: currentY - boxHeight,
+        width: boxWidth,
+        height: boxHeight,
+        color: rgb(0.975, 0.985, 1.0),
+        borderColor: COLOR_NAVY,
+        borderWidth: 0.6
+      });
+
+      currentPage.drawText(title, {
+        x: startX + 8,
+        y: currentY - 10.5,
+        size: 7.2,
+        font: boldFont,
+        color: COLOR_NAVY
+      });
+
+      formattedLines.forEach((ln, idx) => {
+        currentPage.drawText(ln, {
+          x: startX + 8,
+          y: currentY - 20 - (idx * 8.5),
+          size: 6.7,
+          font: regularFont,
+          color: rgb(0.12, 0.18, 0.24)
+        });
+      });
+
+      currentY -= (boxHeight + 12);
+    };
+
     currentY = drawHeader(currentPage, currentY, 0);
 
     // ==========================================
@@ -377,6 +424,12 @@ exports.handler = async (event) => {
     currentPage.drawRectangle({ x: 40, y: currentY - execHeight, width: width - 80, height: execHeight, color: rgb(0.98,0.98,0.98), borderColor: verdictColor, borderWidth: 2 });
     currentPage.drawText('0. RÉSUMÉ EXÉCUTIF', { x: 50, y: currentY - 20, size: 9.5, font: boldFont, color: COLOR_NAVY });
     currentPage.drawText(verdictCode, { x: width - 260, y: currentY - 22, size: 12, font: boldFont, color: verdictColor });
+    currentPage.drawImage(logoSombreImage, {
+      x: width - 72,
+      y: currentY - 34,
+      width: 22,
+      height: 22
+    });
 
     currentPage.drawText(`Total HT Indiqué : ${fmtCfa(totalHTIndiqueDevis)}`, { x: 50, y: currentY - 40, size: 8.5, font: regularFont });
     currentPage.drawText(`Total HT Recalculé : ${fmtCfa(totalHTCalcule)}`, { x: 50, y: currentY - 55, size: 8.5, font: boldFont });
@@ -476,7 +529,32 @@ exports.handler = async (event) => {
       currentY -= (maxLines * 10) + 4;
     });
 
-    currentY -= 15;
+    currentY -= 12;
+
+    // Conseil personnalisé après Tableau II
+    let conseilLignes = [];
+    if (anomaliesArith.length > 0) {
+      conseilLignes.push({
+        label: "Écarts arithmétiques relevés",
+        text: `Ce devis comporte ${anomaliesArith.length} ligne(s) arithmétiquement erronée(s) représentant un surcoût indu de ${fmtCfa(sumEcartsPositifs)}. Exigez une réémission formelle du devis corrigé avant tout acompte.`
+      });
+    } else {
+      conseilLignes.push({
+        label: "Arithmétique conforme",
+        text: "Toutes les multiplications Quantité × Prix Unitaire déclarées sont conformes. Aucune erreur de calcul direct n'a été décelée."
+      });
+    }
+    if (forfaits.length > 0) {
+      conseilLignes.push({
+        label: "Opacité des forfaits",
+        text: `${forfaits.length} ligne(s) sont libellées en "Forfait" (${percNonVerifStr} du budget). Exigez un sous-détail BPU (Bordereau de Prix Unitaires) avec métrés précis pour éviter des contestations en cours d'exécution.`
+      });
+    }
+    conseilLignes.push({
+      label: "Action recommandée",
+      text: "Ne signez aucun devis comportant des arrondis arbitraires. Toute modification de métré sur chantier devra être consignée au préalable par écrit via un avenant d'attachement contradictoire."
+    });
+    drawAdviceBox("CONSEILS DE CONTRÔLE TECHNIQUE & ARITHMÉTIQUE (B7)", conseilLignes);
 
     // ==========================================
     // III. SOUS-TOTAUX & PRINCIPAUX POSTES
@@ -513,7 +591,26 @@ exports.handler = async (event) => {
     let topPctTotal = totalHTIndiqueDevis > 0 ? (topSum / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
     currentY -= 4;
     currentPage.drawText(`💡 Ces postes concentrent ${topPctTotal} de l'enveloppe globale : concentrez-y vos demandes de rabais et de vérification.`, { x: 40, y: currentY, size: 7.5, font: boldFont, color: COLOR_NAVY });
-    currentY -= 20;
+    currentY -= 16;
+
+    // Conseil personnalisé après Tableau III
+    let topLotNom = lotArray.length > 0 ? lotArray[0].nom : 'Gros Œuvre';
+    let topLotPct = lotArray.length > 0 && totalHTIndiqueDevis > 0 ? (lotArray[0].indique / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
+    let conseilLots = [
+      {
+        label: "Poste prépondérant (" + topLotNom + ")",
+        text: `Le lot ${topLotNom} représente à lui seul ${topLotPct} du montant total. C'est sur ce lot que doivent porter 80 % de vos efforts de contrôle (demande des fiches techniques des matériaux et bons de commande).`
+      },
+      {
+        label: "Approvisionnement & matériaux",
+        text: "Vérifiez que la fourniture du ciment (dosage 350 kg/m³ pour éléments porteurs) et des aciers (haute adhérence FeE500) est explicitement contractée à la charge de l'entrepreneur sans clause d'indexation unilatérale."
+      },
+      {
+        label: "Négociation ciblée",
+        text: `Sur les postes majeurs représentant ${topPctTotal} de l'enveloppe, sollicitez une remise globale de 5 % à 8 % en contrepartie d'un calendrier de paiement garanti par jalons constatés.`
+      }
+    ];
+    drawAdviceBox("CONSEILS DE NÉGOCIATION PAR LOT TECHNIQUE (B7)", conseilLots);
 
     // ==========================================
     // IV. SYNTHÈSE TOTAUX + FIABILITÉ + ENJEU
@@ -567,7 +664,24 @@ exports.handler = async (event) => {
     w1.forEach(l => { currentPage.drawText(l, { x: 50, y: enjY, size: 7.8, font: boldFont }); enjY -= 12; });
     w2.forEach(l => { currentPage.drawText(l, { x: 50, y: enjY, size: 7.8, font: boldFont }); enjY -= 12; });
     w3.forEach(l => { currentPage.drawText(l, { x: 50, y: enjY, size: 7.8, font: boldFont }); enjY -= 12; });
-    currentY -= (enjeuHeight + 20);
+    currentY -= (enjeuHeight + 16);
+
+    // Conseil personnalisé après Tableau IV
+    let conseilSynthese = [
+      {
+        label: "Ratio au m² SDP",
+        text: ratioM2 ? `Le ratio constaté de ${fmtCfa(ratioM2)}/m² de plancher se situe dans les standards du marché pour ce type d'ouvrage. Surveillez scrupuleusement la qualité d'exécution des finitions associées.` : `Superficie SDP non spécifiée : exigez de l'entrepreneur la ventilation du coût au m² habitable pour comparer aux références du secteur.`
+      },
+      {
+        label: "Maîtrise des risques financiers",
+        text: `Montant révisé recalculé : ${fmtCfa(totalTTCCalc)}. Bloquez impérativement 5 % en retenue de garantie légale jusqu'à la réception définitive (1 an après la réception provisoire).`
+      },
+      {
+        label: "Échelonnement des paiements",
+        text: "Proscrivez tout acompte à la commande supérieur à 20-30 %. Conditionnez chaque tranche suivante (fondations, élévation RDC, plancher haut, second œuvre) au constat contradictoire de l'avancement physique."
+      }
+    ];
+    drawAdviceBox("CONSEILS DE MAÎTRISE FINANCIÈRE & JALONS DE PAIEMENT (B7)", conseilSynthese);
 
     // ==========================================
     // V. TABLEAU DES CLAUSES CONTRACTUELLES
@@ -585,7 +699,24 @@ exports.handler = async (event) => {
       currentPage.drawText(tVal, { x: 230, y: currentY, size: 7.8, font: regularFont, color: tColor });
       currentY -= 12;
     });
-    currentY -= 18;
+    currentY -= 16;
+
+    // Conseil personnalisé après Tableau V
+    let conseilClauses = [
+      {
+        label: "Sécurisation contractuelle",
+        text: missingClausesCount > 0 ? `${missingClausesCount} clause(s) protectrice(s) manque(nt) au devis. Exigez l'annexion d'un Cahier des Clauses Particulières (CCP) reprenant l'ensemble des garanties requises avant signature.` : `L'ensemble des clauses contractuelles standard sont mentionnées au devis, conférant une sécurité juridique appréciable au marché.`
+      },
+      {
+        label: "Cadre légal sénégalais",
+        text: "Conformément à la Loi n° 2021-22 du 2 mars 2021 (art. 28 et 31) et à l'arrêt n° 28 de la Cour suprême du 18 avril 2018, la responsabilité des constructeurs s'applique de plein droit en cas de malfaçon ou inexécution."
+      },
+      {
+        label: "Pénalités & Assurances",
+        text: "Imposez une pénalité de retard contractuelle (1/1 000e du montant du marché par jour calendaire de retard) et exigez l'attestation d'assurance Tous Risques Chantier (TRC) en cours de validité."
+      }
+    ];
+    drawAdviceBox("CONSEILS JURIDIQUES & SÉCURISATION DU MARCHÉ (B7)", conseilClauses);
 
     // ==========================================
     // VI. DÉTAIL DES ANOMALIES & POINTS POSITIFS
