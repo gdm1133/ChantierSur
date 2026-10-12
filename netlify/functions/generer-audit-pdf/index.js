@@ -444,7 +444,7 @@ exports.handler = async (event) => {
     };
 
     const checkPageBreak = (requiredSpace) => {
-      if (currentY - requiredSpace < 38) {
+      if (currentY - requiredSpace < 65) {
         currentPage = pdfDoc.addPage([595, 842]);
         pages.push(currentPage);
         currentY = drawHeader(currentPage, currentY, pages.length - 1);
@@ -465,6 +465,7 @@ exports.handler = async (event) => {
       });
 
       const boxHeight = 13 + (formattedLines.length * itemLineHeight) + 6;
+      checkPageBreak(boxHeight + bottomMargin);
 
       currentPage.drawRectangle({
         x: startX,
@@ -616,6 +617,20 @@ exports.handler = async (event) => {
       const cleanDes = (l.designation || '').replace(/ép\.\s*(\d+)/gi, 'ép.\u00A0$1').replace(/(\d+)\s*(cm|mm|m²|m³|kg)/gi, '$1\u00A0$2');
       let desLines = wrapText(cleanDes, 150, regularFont, 6.8);
       let maxLines = Math.max(lotLines.length, desLines.length);
+      const rowHeight = (maxLines * 10.5) + 4.5;
+
+      if (currentY - rowHeight < 65) {
+        currentPage = pdfDoc.addPage([595, 842]);
+        pages.push(currentPage);
+        currentY = drawHeader(currentPage, currentY, pages.length - 1);
+
+        currentPage.drawText('II. CONTRÔLE ARITHMÉTIQUE DÉTAILLÉ LIGNE PAR LIGNE (SUITE)', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
+        currentY -= 15;
+        headers.forEach((h, i) => currentPage.drawText(h, { x: colX[i], y: currentY, size: 7, font: boldFont, color: COLOR_NAVY }));
+        currentY -= 5;
+        currentPage.drawLine({ start: { x: 40, y: currentY }, end: { x: 568, y: currentY }, thickness: 1, color: COLOR_NAVY });
+        currentY -= 11;
+      }
 
       lotLines.forEach((t, i) => currentPage.drawText(t, { x: colX[0], y: currentY - (i * 10), size: 6.8, font: regularFont }));
       desLines.forEach((t, i) => currentPage.drawText(t, { x: colX[1], y: currentY - (i * 10), size: 6.8, font: regularFont }));
@@ -636,10 +651,10 @@ exports.handler = async (event) => {
         const cEcart = l._ecart !== 0 ? COLOR_RED : COLOR_GREEN;
         currentPage.drawText(fmtCfa(l._ecart).replace(' FCFA', ''), { x: colX[7], y: currentY, size: 6.8, font: boldFont, color: cEcart });
       }
-      currentY -= (maxLines * 10.5) + 4.5;
+      currentY -= rowHeight;
     });
 
-    currentY -= 15;
+    currentY -= 12;
 
     // Conseil personnalisé après Tableau II
     let conseilLignes = [];
@@ -667,13 +682,10 @@ exports.handler = async (event) => {
     drawAdviceBox("CONSEILS DE CONTRÔLE TECHNIQUE & ARITHMÉTIQUE (B7)", conseilLignes, 8.8, 16);
 
     // ==========================================
-    // PAGE 2 : ANALYSE DES COÛTS & CLAUSES CONTRACTUELLES
-    // ==========================================
-    currentPage = pdfDoc.addPage([595, 842]);
-    pages.push(currentPage);
-    currentY = drawHeader(currentPage, currentY, pages.length - 1);
-
     // III. SOUS-TOTAUX & PRINCIPAUX POSTES
+    // ==========================================
+    checkPageBreak(180);
+
     currentPage.drawText('III. RÉPARTITION PAR LOT & PRINCIPAUX POSTES DE COÛT', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 15;
 
@@ -726,6 +738,8 @@ exports.handler = async (event) => {
     // ==========================================
     // IV. SYNTHÈSE TOTAUX + FIABILITÉ + ENJEU
     // ==========================================
+    checkPageBreak(270);
+
     currentPage.drawText('IV. SYNTHÈSE BUDGÉTAIRE, SCORE DE FIABILITÉ & ENJEU FINANCIER', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 14;
 
@@ -794,6 +808,8 @@ exports.handler = async (event) => {
     // ==========================================
     // V. TABLEAU DES CLAUSES CONTRACTUELLES
     // ==========================================
+    checkPageBreak(190);
+
     currentPage.drawText('V. CONTRÔLE DES 8 CLAUSES CONTRACTUELLES FONDAMENTALES', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 14;
 
@@ -825,18 +841,16 @@ exports.handler = async (event) => {
     drawAdviceBox("CONSEILS JURIDIQUES & SÉCURISATION DU MARCHÉ (B7)", conseilClauses, 7.6, 10);
 
     // ==========================================
-    // PAGE 3 : ANOMALIES, NÉGOCIATION, MÉTHODOLOGIE & VERDICT
-    // ==========================================
-    currentPage = pdfDoc.addPage([595, 842]);
-    pages.push(currentPage);
-    currentY = drawHeader(currentPage, currentY, pages.length - 1);
-
     // VI. DÉTAIL DES ANOMALIES & POINTS POSITIFS
+    // ==========================================
+    checkPageBreak(200);
+
     currentPage.drawText('VI. DÉTAIL DES ANOMALIES & POINTS POSITIFS', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 16;
 
     if (anomalies.length > 0) {
       anomalies.forEach(a => {
+        checkPageBreak(50);
         currentPage.drawText('• ' + a.titre, { x: 40, y: currentY, size: 8.5, font: boldFont, color: COLOR_NAVY });
         currentY -= 11;
         wrapText('Constat technique : ' + a.constat, 500, regularFont, 7.5).forEach(l => { currentPage.drawText(l, { x: 50, y: currentY, size: 7.5, font: regularFont }); currentY -= 9.5; });
@@ -846,6 +860,7 @@ exports.handler = async (event) => {
       });
     }
 
+    checkPageBreak(70);
     currentPage.drawText('Points positifs relevés sur le dossier :', { x: 40, y: currentY, size: 8.5, font: boldFont, color: COLOR_GREEN });
     currentY -= 14;
     let lignesExactes = data.devis.lignes.length - anomaliesArith.length - forfaits.length;
@@ -873,6 +888,8 @@ exports.handler = async (event) => {
     // ==========================================
     // VII. CHECKLIST & CONSEILS
     // ==========================================
+    checkPageBreak(180);
+
     currentPage.drawText('VII. CHECKLIST DE NÉGOCIATION AVANT ENGAGEMENT', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 14;
 
@@ -914,6 +931,8 @@ exports.handler = async (event) => {
     // ==========================================
     // VIII. MÉTHODOLOGIE & CADRE RÉGLEMENTAIRE
     // ==========================================
+    checkPageBreak(110);
+
     currentPage.drawText('VIII. MÉTHODOLOGIE D\'AUDIT & CADRE LÉGAL SÉNÉGALAIS', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 14;
     const methodText = [
@@ -945,6 +964,7 @@ exports.handler = async (event) => {
     let justifLines = wrapText('Motifs du verdict : ' + verdictJustif, width - 100, regularFont, 8.5);
 
     let verdictHeight = 45 + (justifLines.length * 12) + 12;
+    checkPageBreak(verdictHeight + 35);
 
     currentPage.drawRectangle({ x: 40, y: currentY - verdictHeight, width: width - 80, height: verdictHeight, color: rgb(0.98, 0.98, 0.98), borderColor: verdictColor, borderWidth: 2 });
     currentPage.drawText('IX. VERDICT FINAL DE LA CONTRE-EXPERTISE', { x: 50, y: currentY - 15, size: 9, font: boldFont, color: COLOR_NAVY });

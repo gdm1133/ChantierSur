@@ -264,6 +264,10 @@ exports.handler = async (event) => {
         const maxLines = Math.max(...wrappedCells.map(c => c.length), 1);
         const rowHeight = (maxLines * 10.0) + 6.5;
 
+        if (currentY - rowHeight < 65) {
+          forceNewPage();
+        }
+
         // Fond alterné
         if (rIdx % 2 === 1) {
           currentPage.drawRectangle({ x: startX, y: currentY - rowHeight, width: tableWidth, height: rowHeight, color: COLOR_ROW_ALT });
@@ -314,6 +318,10 @@ exports.handler = async (event) => {
       });
 
       const boxHeight = 15 + (formattedLines.length * 9.0) + 6;
+
+      if (currentY - boxHeight < 65) {
+        forceNewPage();
+      }
 
       currentPage.drawRectangle({
         x: startX,
