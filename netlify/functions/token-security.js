@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const zlib = require('zlib');
 
 const TOKEN_TTL_MS = 60 * 60 * 1000; // 1 heure
 
@@ -22,7 +23,7 @@ const ORDERS_FILE = path.join(TMP_DIR, 'chantiersur_paid_orders.json');
 const DOSSIERS_FILE = path.join(TMP_DIR, 'chantiersur_active_dossiers.json');
 
 // Cache mémoire
-const memoryUsedTokens = new Set();
+const memoryUsedTokens = new Map();
 const memoryOrders = new Map();
 const memoryDossiers = new Map();
 
@@ -55,21 +56,58 @@ function saveJsonSafe(filePath, data) {
 }
 
 /**
+ * Compacte, compresse et chiffre les données du dossier avec clé serveur (AES-256-GCM + Deflate)
+ * Produit une chaîne Base64URL autonome transportable sans risque de tronquage dans le jeton.
+ */
+function packDossier(dossierData, key) {
+  try {
+    if (!dossierData || typeof dossierData !== 'object') return null;
+    const jsonBuf = Buffer.from(JSON.stringify(dossierData), 'utf8');
+    const deflated = zlib.deflateRawSync(jsonBuf);
+    const iv = crypto.randomBytes(12);
+    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+    const enc = Buffer.concat([cipher.update(deflated), cipher.final()]);
+    const tag = cipher.getAuthTag();
+    return Buffer.concat([iv, tag, enc]).toString('base64url');
+  } catch (e) {
+    console.error('Erreur compression dossier:', e.message);
+    return null;
+  }
+}
+
+/**
+ * Déchiffre et décompresse un dossier empaqueté dans un jeton
+ */
+function unpackDossier(packedStr, key) {
+  try {
+    if (!packedStr || typeof packedStr !== 'string') return null;
+    const buf = Buffer.from(packedStr, 'base64url');
+    if (buf.length < 28) return null; // 12 iv + 16 tag + min 1 enc
+    const iv = buf.subarray(0, 12);
+    const tag = buf.subarray(12, 28);
+    const enc = buf.subarray(28);
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(tag);
+    const dec = Buffer.concat([decipher.update(enc), decipher.final()]);
+    const decomp = zlib.inflateRawSync(dec).toString('utf8');
+    return JSON.parse(decomp);
+  } catch (e) {
+    console.error('Erreur décompression dossier:', e.message);
+    return null;
+  }
+}
+
+/**
  * Enregistre le dossier de manière chiffrée côté serveur sous une référence de commande
  */
 function saveActiveDossier(ref, dossierData, service) {
   if (!ref || !dossierData) return;
   try {
     const key = getSecret();
-    const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    const serialized = JSON.stringify(dossierData || {});
-    let enc = cipher.update(serialized, 'utf8', 'base64url');
-    enc += cipher.final('base64url');
+    const packed = packDossier(dossierData, key);
 
     const record = {
-      enc,
-      iv: iv.toString('base64url'),
+      packed,
       ref,
       service: service || 'audit',
       timestamp: Date.now()
@@ -93,23 +131,28 @@ function getActiveDossier(ref) {
     const allDossiers = loadJsonSafe(DOSSIERS_FILE);
     record = allDossiers[ref];
   }
-  if (!record || !record.enc || !record.iv) return null;
-  try {
-    const key = getSecret();
-    const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(record.iv, 'base64url'));
-    let decrypted = decipher.update(record.enc, 'base64url', 'utf8');
-    decrypted += decipher.final('utf8');
-    return JSON.parse(decrypted);
-  } catch (e) {
-    console.error('Erreur déchiffrement dossier actif:', e.message);
-    return null;
+  if (!record) return null;
+  const key = getSecret();
+  if (record.packed) {
+    return unpackDossier(record.packed, key);
   }
+  if (record.enc && record.iv) {
+    try {
+      const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(record.iv, 'base64url'));
+      let decrypted = decipher.update(record.enc, 'base64url', 'utf8');
+      decrypted += decipher.final('utf8');
+      return JSON.parse(decrypted);
+    } catch (_) {
+      return null;
+    }
+  }
+  return null;
 }
 
 /**
- * Crée un jeton de téléchargement signé LÉGER (B7)
- * Le jeton ne contient QUE { service, ref, nonce, exp } + HMAC.
- * Le dossier est conservé chiffré côté serveur dans le stockage persistant.
+ * Crée un jeton de téléchargement signé AUTONOME & RÉSISTANT
+ * Le jeton transporte les données complètes chiffrées/compressées (AES-GCM + Deflate)
+ * garantissant un accès 100% garanti quel que soit le conteneur serverless ou le contexte mobile.
  */
 function createDownloadToken(dossierData, service) {
   const key = getSecret();
@@ -117,28 +160,19 @@ function createDownloadToken(dossierData, service) {
   const exp = Date.now() + TOKEN_TTL_MS;
   const ref = (dossierData && (dossierData.dossier || dossierData.ref_command || dossierData.reference)) || ('CS-' + Date.now());
 
-  // 1. Sauvegarde chiffrée du dossier complet côté serveur
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-  const serialized = JSON.stringify(dossierData || {});
-  let encrypted = cipher.update(serialized, 'utf8', 'base64url');
-  encrypted += cipher.final('base64url');
+  // 1. Chiffrement compact du dossier complet directement embarqué dans le jeton
+  const packedDossier = packDossier(dossierData, key);
 
-  const dossierRecord = {
-    enc: encrypted,
-    iv: iv.toString('base64url'),
-    service: service || 'audit',
-    ref,
-    exp,
-    timestamp: Date.now()
-  };
+  // 2. Sauvegarde résiliente locale (mémoire + tmp + blobs)
+  saveActiveDossier(ref, dossierData, service);
 
-  // 2. Jeton léger signé par HMAC-SHA256 (environ 150-180 caractères, compatible URL sans tronquage)
+  // 3. Jeton signé contenant les données chiffrées
   const payload = {
     service: service || 'audit',
     ref,
     nonce,
-    exp
+    exp,
+    d: packedDossier
   };
   const payloadStr = JSON.stringify(payload);
   const hmac = crypto.createHmac('sha256', key).update(payloadStr).digest('base64url');
@@ -146,21 +180,13 @@ function createDownloadToken(dossierData, service) {
 
   // Lier le dossier au hash du jeton et à la référence
   const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-  memoryDossiers.set(tokenHash, dossierRecord);
-  memoryDossiers.set(ref, dossierRecord);
-  const allDossiers = loadJsonSafe(DOSSIERS_FILE);
-  allDossiers[tokenHash] = dossierRecord;
-  allDossiers[ref] = dossierRecord;
-  saveJsonSafe(DOSSIERS_FILE, allDossiers);
-
-  // Enregistrement persistant de l'association commande -> jeton
   recordOrderToken(ref, token, service);
 
   return token;
 }
 
 /**
- * Enregistre la commande payée (utilisé par IPN PayTech)
+ * Enregistre la commande payée (utilisé par IPN PayTech et check-status)
  */
 function recordOrderToken(ref, token, service) {
   if (!ref || !token) return;
@@ -206,27 +232,26 @@ async function getOrderTokenAsync(ref) {
 }
 
 /**
- * Vérifie l'authenticité, la validité et l'usage unique du jeton
- * Récupère le dossier côté serveur et purge après usage.
+ * Vérifie l'authenticité, la validité et l'usage du jeton
+ * Récupère le dossier déchiffré à partir du jeton ou du stockage serveur.
+ * Tolérance multi-requêtes : autorise jusqu'à 5 téléchargements dans la fenêtre de validité
+ * pour éviter les rejets intempestifs sur mobile Safari (double requête HEAD/GET).
  */
 function verifyAndConsumeToken(token, expectedService) {
   if (!token || typeof token !== 'string') {
     return { valid: false, error: 'Jeton manquant ou invalide.' };
   }
 
-  // 1. Vérification usage unique (mémoire + fichier persistant)
   const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-  if (memoryUsedTokens.has(tokenHash)) {
-    return { valid: false, error: 'Ce lien de téléchargement a déjà été utilisé (lien expiré).' };
-  }
   const usedMap = loadJsonSafe(USED_TOKENS_FILE);
-  if (usedMap[tokenHash]) {
-    return { valid: false, error: 'Ce lien de téléchargement a déjà été utilisé (lien expiré).' };
+  const currentUses = memoryUsedTokens.get(tokenHash) || (usedMap[tokenHash]?.count || (usedMap[tokenHash] ? 1 : 0));
+  if (currentUses >= 5) {
+    return { valid: false, error: 'Ce lien de téléchargement a expiré (nombre maximal de téléchargements atteint).' };
   }
 
   const parts = token.split('.');
   if (parts.length !== 2) {
-    // Tolérance mode TEST pour session PayTech active (14 à 20 caractères alphanumériques)
+    // Tolérance mode TEST pour session PayTech active (14 à 24 caractères alphanumériques)
     if (/^[0-9a-z_-]{14,24}$/i.test(token) && (process.env.PAYTECH_ENV === 'test' || !process.env.PAYTECH_ENV)) {
       const order = getOrderToken(token) || getActiveDossier(token);
       return {
@@ -274,33 +299,34 @@ function verifyAndConsumeToken(token, expectedService) {
     return { valid: false, error: 'Jeton non valide pour ce type de document.' };
   }
 
-  // Récupération sécurisée du dossier depuis le stockage serveur persistant
+  // Récupération sécurisée du dossier
   let dossierData = null;
-  const allDossiers = loadJsonSafe(DOSSIERS_FILE);
-  const record = memoryDossiers.get(tokenHash) || memoryDossiers.get(payload.ref) || allDossiers[tokenHash] || allDossiers[payload.ref];
 
-  if (record && record.enc && record.iv) {
-    try {
-      const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(record.iv, 'base64url'));
-      let decrypted = decipher.update(record.enc, 'base64url', 'utf8');
-      decrypted += decipher.final('utf8');
-      dossierData = JSON.parse(decrypted);
-    } catch (e) {
-      console.error('Erreur déchiffrement dossier serveur:', e.message);
-    }
+  // Priorité 1 : Déchiffrement direct depuis le jeton (ZÉRO dépendance externe ou serveur)
+  if (payload.d) {
+    dossierData = unpackDossier(payload.d, key);
   }
 
-  // Consommation : marquage usage unique (mémoire + fichier persistant)
-  memoryUsedTokens.add(tokenHash);
-  usedMap[tokenHash] = Date.now();
-  saveJsonSafe(USED_TOKENS_FILE, usedMap);
+  // Priorité 2 : Rétrocompatibilité déchiffrement legacy AES-256-CBC
+  if (!dossierData && payload.enc && payload.iv) {
+    try {
+      const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(payload.iv, 'base64url'));
+      let decrypted = decipher.update(payload.enc, 'base64url', 'utf8');
+      decrypted += decipher.final('utf8');
+      dossierData = JSON.parse(decrypted);
+    } catch (_) {}
+  }
 
-  // Purge du stockage temporaire des dossiers
-  memoryDossiers.delete(tokenHash);
-  if (payload.ref) memoryDossiers.delete(payload.ref);
-  if (allDossiers[tokenHash]) delete allDossiers[tokenHash];
-  if (payload.ref && allDossiers[payload.ref]) delete allDossiers[payload.ref];
-  saveJsonSafe(DOSSIERS_FILE, allDossiers);
+  // Priorité 3 : Stockage serveur (mémoire / tmp / blobs)
+  if (!dossierData) {
+    dossierData = getActiveDossier(payload.ref) || getActiveDossier(tokenHash);
+  }
+
+  // Enregistrement de l'utilisation (compteur résilient)
+  const newCount = currentUses + 1;
+  memoryUsedTokens.set(tokenHash, newCount);
+  usedMap[tokenHash] = { count: newCount, timestamp: Date.now() };
+  saveJsonSafe(USED_TOKENS_FILE, usedMap);
 
   return { valid: true, payload, dossierData, data: dossierData };
 }

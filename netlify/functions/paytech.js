@@ -178,6 +178,10 @@ exports.handler = async (event) => {
     // Sauvegarde chiffrée immédiate du dossier complet côté serveur sous la référence
     saveActiveDossier(refCommand, data, service);
 
+    // Création préventive du jeton signé complet et autonome contenant tout le dossier
+    const downloadToken = createDownloadToken(data, service);
+    recordOrderToken(refCommand, downloadToken, service);
+
     let origin = 'https://chantiersur.com';
     if (data.origin && typeof data.origin === 'string' && data.origin.startsWith('http')) {
       origin = data.origin.replace(/\/+$/, '');
@@ -195,7 +199,7 @@ exports.handler = async (event) => {
       command_name: `Paiement ${service} (${surface} m²)`,
       env: process.env.PAYTECH_ENV || 'test',
       ipn_url: process.env.PAYTECH_IPN_URL || 'https://chantiersur.com/.netlify/functions/paytech-ipn',
-      success_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?ref=${refCommand}`,
+      success_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?download_token=${encodeURIComponent(downloadToken)}&ref=${refCommand}&service=${service}`,
       cancel_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?payment=cancel`,
       custom_field: JSON.stringify({
         service,
@@ -232,9 +236,10 @@ exports.handler = async (event) => {
     // Associer également le token de session PayTech au dossier actif pour tolérance
     if (result.token) {
       saveActiveDossier(result.token, data, service);
+      recordOrderToken(result.token, downloadToken, service);
     }
 
-    // NORMALISATION DU CHECKOUT RÉEL : ne pas exposer le token brut PayTech au frontend
+    // NORMALISATION DU CHECKOUT RÉEL : renvoyer également le jeton pour sauvegarde frontend locale préventive
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -242,7 +247,8 @@ exports.handler = async (event) => {
         success: 1,
         checkout: 'paytech',
         redirect_url: result.redirect_url || result.redirectUrl,
-        ref_command: refCommand
+        ref_command: refCommand,
+        token: downloadToken
       })
     };
   } catch (error) {

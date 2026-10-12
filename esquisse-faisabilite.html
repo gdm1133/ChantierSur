@@ -984,18 +984,18 @@
 
       const projectData = {
         service: serviceKey,
-        surface: parseFloat(fd.get('surface')) || 200,
-        exact_levels: parseInt(fd.get('exact_levels'), 10) || 1,
-        ceiling_height: parseFloat(fd.get('ceiling_height')) || 3.0,
-        facade_width: parseFloat(fd.get('facade_width')) || 10,
-        facade_width_2: parseFloat(fd.get('facade_width_2')) || 0,
-        street_width: parseFloat(fd.get('street_width')) || 12,
+        surface: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+        exact_levels: (fd.get('exact_levels') !== null && fd.get('exact_levels') !== '') ? parseInt(fd.get('exact_levels'), 10) : 1,
+        ceiling_height: fd.get('ceiling_height') ? parseFloat(fd.get('ceiling_height')) : 3.0,
+        facade_width: fd.get('facade_width') ? parseFloat(fd.get('facade_width')) : 10,
+        facade_width_2: fd.get('facade_width_2') ? parseFloat(fd.get('facade_width_2')) : 0,
+        street_width: fd.get('street_width') ? parseFloat(fd.get('street_width')) : 12,
         building_usage: fd.get('building_usage') || 'unifamilial',
         standing: fd.get('standing') || 'moyen',
         parcel_config: fd.get('parcel_config') || 'bande',
-        project_location: fd.get('project_location') || 'Dakar - Almadies / Ngor / Ouakam',
-        land_status: fd.get('land_status') || 'Titre Foncier (TF)',
-        lot_number: (fd.get('lot_number') || '').trim() || 'Non spécifié',
+        project_location: (fd.get('project_location') || '').trim() || 'Non fourni',
+        land_status: (fd.get('land_status') || '').trim() || 'Non fourni',
+        lot_number: (fd.get('lot_number') || '').trim() || 'Non fourni',
         sanitation_type: fd.get('sanitation_type') || 'autonome',
         neighbor_status: fd.get('neighbor_status') || 'vide',
         client_name: clientName,
@@ -1031,8 +1031,8 @@
             client_name: clientName,
             client_email: clientEmail,
             client_phone: `${prefixDigits}${rawPhone}`,
-            surface: parseFloat(fd.get('surface')) || 200,
-            project_location: fd.get('project_location') || 'Dakar',
+            surface: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+            project_location: (fd.get('project_location') || '').trim() || 'Non fourni',
             ...projectData
           })
         });
@@ -1144,23 +1144,7 @@
           if (saved) realData = JSON.parse(saved);
         } catch(e) {}
 
-        const finalData = (realData && realData.client_name) ? realData : {
-          service: 'esquisse',
-          surface: 200,
-          exact_levels: 1,
-          client_name: 'Dossier Esquisse Test',
-          client_email: 'client@chantiersur.com',
-          client_phone: '771234567',
-          phone_prefix: '+221',
-          project_location: 'Dakar - Almadies / Ngor / Ouakam',
-          land_status: 'Titre Foncier (TF)',
-          lot_number: 'TF 12.845/DP',
-          parcel_config: 'bande',
-          building_usage: 'unifamilial',
-          standing: 'moyen',
-          sanitation_type: 'autonome',
-          neighbor_status: 'vide'
-        };
+        const finalData = (realData && realData.client_name) ? realData : {};
 
         const modal = document.createElement('div');
         modal.id = 'pdf-success-modal';
@@ -1183,14 +1167,15 @@
         function triggerPDF() {
           const btn = document.getElementById('btn-force-download');
           if (btn) { btn.innerHTML = 'Édition du PDF en cours...'; btn.disabled = true; }
+          const payload = downloadToken
+            ? { download_token: downloadToken }
+            : (finalData || {});
+
           // Appel fonction Netlify generer-esquisse-pdf
           fetch('/.netlify/functions/generer-esquisse-pdf', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              ...finalData,
-              download_token: downloadToken
-            })
+            body: JSON.stringify(payload)
           }).then(response => {
             if (!response.ok) return response.text().then(t => { throw new Error(t); });
             return response.blob();

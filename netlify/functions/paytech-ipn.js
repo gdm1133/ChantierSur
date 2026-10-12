@@ -1,7 +1,7 @@
 // CANARY-UNIQUE-20261011
 // netlify/functions/paytech-ipn.js
 const crypto = require('crypto');
-const { createDownloadToken, recordOrderToken, getActiveDossier } = require('./token-security');
+const { createDownloadToken, recordOrderToken, getActiveDossier, getOrderToken } = require('./token-security');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -36,14 +36,20 @@ exports.handler = async (event) => {
 
     const service = customData.service || 'audit';
     const refCommand = data.ref_command || customData.dossier || customData.ref_command || ('CS-' + Date.now());
-    const savedDossier = getActiveDossier(refCommand) || {};
+    
+    // Récupérer le jeton complet déjà pré-généré à la commande si disponible
+    const existingOrder = getOrderToken(refCommand);
+    let token = existingOrder?.token;
 
-    const token = createDownloadToken({
-      ...savedDossier,
-      ...customData,
-      dossier: refCommand,
-      montant_paye: data.item_price
-    }, service);
+    if (!token) {
+      const savedDossier = getActiveDossier(refCommand) || {};
+      token = createDownloadToken({
+        ...savedDossier,
+        ...customData,
+        dossier: refCommand,
+        montant_paye: data.item_price
+      }, service);
+    }
 
     // Enregistrement persistant de l'association commande -> jeton pour le retour client
     recordOrderToken(refCommand, token, service);

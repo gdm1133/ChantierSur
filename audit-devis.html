@@ -1357,11 +1357,12 @@
           reference: (fd.get('devis_number') || '').trim(),
           date: (fd.get('devis_date') || '').trim(),
           batiment: 'Bâtiment R+' + (fd.get('exact_levels') || '1'),
-          niveaux: parseInt(fd.get('exact_levels'), 10) || 1,
-          surface: parseFloat(fd.get('surface')) || 200,
-          surface_terrain: parseFloat(fd.get('surface')) || 200,
-          sdp: parseFloat(fd.get('sdp')) || 200,
-          surface_plancher: parseFloat(fd.get('sdp')) || 200,
+          niveaux: (fd.get('exact_levels') !== null && fd.get('exact_levels') !== '') ? parseInt(fd.get('exact_levels'), 10) : 1,
+          exact_levels: (fd.get('exact_levels') !== null && fd.get('exact_levels') !== '') ? parseInt(fd.get('exact_levels'), 10) : 1,
+          surface: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+          surface_terrain: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+          sdp: fd.get('sdp') ? parseFloat(fd.get('sdp')) : undefined,
+          surface_plancher: fd.get('sdp') ? parseFloat(fd.get('sdp')) : undefined,
           localisation: (fd.get('client_city') || '').trim(),
           entreprise: {
             nom: (fd.get('devis_company') || '').trim(),
@@ -1393,10 +1394,11 @@
         localStorage.setItem('current_audit_dossier', currentDossierId);
         const projData = {
           service: 'audit',
-          surface: parseFloat(fd.get('surface')) || 200,
-          surface_terrain: parseFloat(fd.get('surface')) || 200,
-          sdp: parseFloat(fd.get('sdp')) || 200,
-          surface_plancher: parseFloat(fd.get('sdp')) || 200,
+          surface: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+          surface_terrain: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+          sdp: fd.get('sdp') ? parseFloat(fd.get('sdp')) : undefined,
+          surface_plancher: fd.get('sdp') ? parseFloat(fd.get('sdp')) : undefined,
+          exact_levels: (fd.get('exact_levels') !== null && fd.get('exact_levels') !== '') ? parseInt(fd.get('exact_levels'), 10) : 1,
           client_name: clientName,
           client_email: clientEmail,
           client_phone: rawPhone,
@@ -1429,8 +1431,9 @@
             client_name: clientName,
             client_email: clientEmail,
             client_phone: `${prefixDigits}${rawPhone}`,
-            surface: parseFloat(fd.get('surface')) || 200,
-            sdp: parseFloat(fd.get('sdp')) || 200,
+            surface: fd.get('surface') ? parseFloat(fd.get('surface')) : undefined,
+            sdp: fd.get('sdp') ? parseFloat(fd.get('sdp')) : undefined,
+            exact_levels: (fd.get('exact_levels') !== null && fd.get('exact_levels') !== '') ? parseInt(fd.get('exact_levels'), 10) : 1,
             devis: canonicalData.devis,
             identification: canonicalData.identification,
             totaux: canonicalData.totaux
@@ -1609,8 +1612,8 @@
           document.getElementById('btn-force-download').innerHTML = 'Génération en cours...';
           document.getElementById('btn-force-download').disabled = true;
           const payload = downloadToken 
-            ? { download_token: downloadToken, ...(auditState || {}) }
-            : { ...(auditState || {}), download_token: downloadToken };
+            ? { download_token: downloadToken }
+            : (auditState || {});
 
           fetch('/.netlify/functions/generer-audit-pdf', {
             method: 'POST',

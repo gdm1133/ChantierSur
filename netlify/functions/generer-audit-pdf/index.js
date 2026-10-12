@@ -149,7 +149,7 @@ exports.handler = async (event) => {
       };
     }
     if (tokenRes.dossierData) {
-      data = { ...tokenRes.dossierData, ...data };
+      data = { ...data, ...tokenRes.dossierData };
     }
   } else if (process.env.NODE_ENV === 'production' && !data.is_admin_preview) {
     return {
@@ -570,14 +570,14 @@ exports.handler = async (event) => {
     currentPage.drawText('I. IDENTIFICATION ET PÉRIMÈTRE DE L\'AUDIT', { x: 40, y: currentY, size: 9.8, font: boldFont, color: COLOR_NAVY });
     currentY -= 17;
 
-    const objText = data.identification?.objetDevis || data.devis_object || 'Construction BTP';
+    const objText = data.identification?.objetDevis || data.devis_object || data.objetDevis || 'Non fourni';
     // Résolution robuste du nom client
     const clientNom = (data.client && (data.client.nom || data.client.name))
       || (data.identification && (data.identification.client?.nom || data.identification.nom || data.identification.clientNom))
       || data.client_name
-      || 'Client';
-    const entNom = data.identification?.entrepriseNom || data.identification?.entreprise?.nom || data.company_name || 'Entreprise soumissionnaire';
-    const devisDate = data.devis?.date || data.devis_date || 'Non précisée';
+      || 'Non fourni';
+    const entNom = data.identification?.entrepriseNom || data.identification?.entreprise?.nom || data.company_name || 'Non fourni';
+    const devisDate = data.devis?.date || data.devis_date || 'Non fourni';
     const auditDate = new Date().toLocaleDateString('fr-FR');
     const refStr = data.dossier || data.reference || ('CS-AUDIT-' + Date.now());
 
@@ -587,7 +587,9 @@ exports.handler = async (event) => {
     currentY -= 14.5;
     currentPage.drawText(`Objet du devis : ${objText}   |   Date d'émission du devis : ${devisDate}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 14.5;
-    currentPage.drawText(`Surface de plancher (SDP) : ${surfaceSDP} m²   |   Niveaux : ${data.exact_levels || data.niveaux || 1}`, { x: 40, y: currentY, size: 8, font: boldFont, color: COLOR_NAVY });
+    const sdpDisplay = surfaceSDP > 0 ? `${surfaceSDP} m²` : 'Non fourni';
+    const niveauxDisplay = (data.exact_levels !== undefined && data.exact_levels !== null && data.exact_levels !== '') ? data.exact_levels : ((data.niveaux !== undefined && data.niveaux !== null && data.niveaux !== '') ? data.niveaux : 'Non fourni');
+    currentPage.drawText(`Surface de plancher (SDP) : ${sdpDisplay}   |   Niveaux : ${niveauxDisplay}`, { x: 40, y: currentY, size: 8, font: boldFont, color: COLOR_NAVY });
     currentY -= 14.5;
     currentPage.drawText(`Immatriculation entreprise : NINEA : ${ninea}   |   RCCM : ${rccm}`, { x: 40, y: currentY, size: 8, font: regularFont });
     currentY -= 14.5;

@@ -72,7 +72,7 @@ exports.handler = async (event) => {
       };
     }
     if (tokenRes.dossierData) {
-      data = { ...tokenRes.dossierData, ...data };
+      data = { ...data, ...tokenRes.dossierData };
     }
   } else if (process.env.NODE_ENV === 'production' && !data.is_admin_preview) {
     return {
@@ -91,8 +91,8 @@ exports.handler = async (event) => {
     };
   }
 
-  const surface = parseFloat(data.surface) || 200;
-  const levels = parseInt(data.exact_levels, 10) || 1;
+  const surface = parseFloat(data.surface);
+  const levels = (data.exact_levels !== undefined && data.exact_levels !== null && data.exact_levels !== '') ? parseInt(data.exact_levels, 10) : 1;
   const totalLevelsCount = levels + 1; // RDC + étages
   const ceilingHeight = parseFloat(data.ceiling_height) || 3.0;
   const facade1 = parseFloat(data.facade_width) || 10;
@@ -101,14 +101,14 @@ exports.handler = async (event) => {
   const usage = data.building_usage || 'unifamilial';
   const standing = data.standing || 'moyen';
   const parcelConfig = data.parcel_config || 'bande';
-  const location = data.project_location || 'Dakar';
-  const landStatus = data.land_status || 'Titre Foncier (TF)';
-  const lotNumber = data.lot_number || 'Non spécifié';
+  const location = data.project_location || 'Non fourni';
+  const landStatus = data.land_status || 'Non fourni';
+  const lotNumber = data.lot_number || 'Non fourni';
   const sanitation = data.sanitation_type || 'autonome';
   const neighbor = data.neighbor_status || 'vide';
-  const clientNom = data.client_name || 'Maître d\'Ouvrage';
-  const clientEmail = data.client_email || 'Non renseigné';
-  const clientPhone = data.client_phone ? `${data.phone_prefix || '+221'} ${data.client_phone}` : 'Non renseigné';
+  const clientNom = data.client_name || 'Non fourni';
+  const clientEmail = data.client_email || 'Non fourni';
+  const clientPhone = data.client_phone ? `${data.phone_prefix || '+221'} ${data.client_phone}` : 'Non fourni';
   const refStr = data.ref_command || data.dossier || ('CS-ESQ-' + Date.now().toString().slice(-6));
   const pricePaid = data.exact_amount || getEsquissePrice(surface);
   const auditDate = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
