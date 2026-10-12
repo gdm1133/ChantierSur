@@ -1580,7 +1580,8 @@
           }
         } catch(e) {}
         
-        if (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0) {
+        // Blocage local uniquement si pas de jeton PayTech et pas de données (mode test URL manuelle)
+        if (!downloadToken && (!auditState || !auditState.devis || !auditState.devis.lignes || auditState.devis.lignes.length === 0)) {
           const errModal = document.createElement('div');
           errModal.id = 'pdf-error-modal';
           errModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-[#0E2A47]/80 backdrop-blur-sm p-4';
@@ -1619,13 +1620,14 @@
         document.getElementById('btn-force-download').addEventListener('click', () => {
           document.getElementById('btn-force-download').innerHTML = 'Génération en cours...';
           document.getElementById('btn-force-download').disabled = true;
+          const payload = downloadToken 
+            ? { download_token: downloadToken, ...(auditState || {}) }
+            : { ...(auditState || {}), download_token: downloadToken };
+
           fetch('/.netlify/functions/generer-audit-pdf', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              ...auditState,
-              download_token: downloadToken
-            })
+            body: JSON.stringify(payload)
           }).then(response => {
             if (!response.ok) { return response.text().then(t => { throw new Error(t); }); }
             return response.blob();

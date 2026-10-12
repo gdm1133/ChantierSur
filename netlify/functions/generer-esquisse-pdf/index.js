@@ -150,7 +150,8 @@ exports.handler = async (event) => {
   const surfaceSemelleRequise = ((nSer * 1.05) / qAdmkNm2).toFixed(2); // +5% poids propre semelle
   const coteSemelleCarrer = Math.max(0.8, Math.ceil(Math.sqrt(parseFloat(surfaceSemelleRequise)) * 10) / 10).toFixed(2);
   const epaisseurSemelle = Math.max(25, Math.ceil(((parseFloat(coteSemelleCarrer) - 0.20) / 4) * 100)); // Condition de rigidité
-  const enrobageAciers = location.toLowerCase().includes('ngor') || location.toLowerCase().includes('almadies') ? "5 cm (Zone côtière / Embruns)" : "4 cm (Zone continentale)";
+  const enrobageAciersVal = location.toLowerCase().includes('ngor') || location.toLowerCase().includes('almadies') ? "5 cm" : "4 cm";
+  const enrobageAciers = `${enrobageAciersVal} (zone côtière et embruns)`;
   const modeFondation = levels <= 3 ? "Semelles isolées avec longrines de redressement et chaînage bas" : "Semelles filantes croisées ou radier général";
 
   // 4. RÉSEAUX, FLUIDES & ÉNERGIE
@@ -202,22 +203,32 @@ exports.handler = async (event) => {
     let currentY = height - 40;
 
     const drawHeader = (page, y, pageIndex) => {
+      // Bandeau haut bleu marine (#0E2A47) sans filet doré
       page.drawRectangle({ x: 0, y: height - 70, width: width, height: 70, color: COLOR_NAVY });
-      page.drawRectangle({ x: 0, y: height - 73, width: width, height: 3, color: COLOR_AMBER });
 
+      // Badge blanc officiel avec Monogramme C Navy (#0E2A47)
       const logoW = 34;
       const logoH = 34;
-      page.drawImage(logoClairImage, {
+      page.drawRectangle({
         x: 40,
         y: height - 56,
         width: logoW,
-        height: logoH
+        height: logoH,
+        color: rgb(1, 1, 1),
+        borderColor: rgb(0.85, 0.9, 0.95),
+        borderWidth: 0.8
+      });
+      page.drawImage(logoSombreImage, {
+        x: 43,
+        y: height - 53,
+        width: 28,
+        height: 28
       });
 
       page.drawText('ChantierSur.com', { x: 82, y: height - 34, size: 15, font: boldFont, color: rgb(1,1,1) });
       page.drawText("BUREAU D'ÉTUDES NUMÉRIQUE INDÉPENDANT", { x: 82, y: height - 46, size: 7.5, font: regularFont, color: COLOR_SLATE });
       page.drawText('ÉTUDE D\'ESQUISSE & FAISABILITÉ', { x: width - 215, y: height - 38, size: 9.5, font: boldFont, color: rgb(1,1,1) });
-      return height - 95;
+      return height - 118;
     };
 
     const drawFooter = (page, pageIndex) => {
@@ -286,7 +297,7 @@ exports.handler = async (event) => {
         currentY -= rowHeight;
       });
 
-      currentY -= 6;
+      currentY -= 14;
     };
 
     // Helper de bloc de conseils d'ingénierie personnalisés (B7)
@@ -331,7 +342,7 @@ exports.handler = async (event) => {
         });
       });
 
-      currentY -= (boxHeight + 12);
+      currentY -= (boxHeight + 14);
     };
 
     // =========================================================================
@@ -351,11 +362,11 @@ exports.handler = async (event) => {
     currentPage.drawText(`Superficie Parcelle : ${surface} m²   |   Élévation : R+${levels} (${totalLevelsCount} niveaux)   |   SDP Estimée : ${sdpTotale} m²`, { x: 50, y: currentY - 75, size: 8.2, font: boldFont, color: COLOR_NAVY });
     currentPage.drawText(`Émis à : 16 Route de Mont-Rolland, Thiès, Sénégal   |   Contact : ${clientPhone}`, { x: 50, y: currentY - 89, size: 7.2, font: regularFont, color: COLOR_SLATE });
 
-    currentY -= (ficheHeight + 16);
+    currentY -= (ficheHeight + 22);
 
     // I. PROSPECT URBANISTIQUE, GABARIT & DROITS À BÂTIR
     currentPage.drawText('I. PROSPECT URBANISTIQUE, GABARIT & DROITS À BÂTIR SÉNÉGALAIS', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const gabaritHeaders = ['Indicateur d\'Urbanisme', 'Valeur Déterminée', 'Référence & Analyse Technique Prudentielle'];
     const gabaritRows = [
@@ -377,9 +388,11 @@ exports.handler = async (event) => {
       { label: "Action recommandée", text: `Faire valider l'alignement précis de clôture par les services cadastraux avant tout coulage des semelles de clôture.` }
     ]);
 
+    currentY -= 28;
+
     // II. CONTRAINTES D'IMPLANTATION & MITOYENNETÉ
     currentPage.drawText('II. CONTRAINTES D\'IMPLANTATION, MITOYENNETÉ & VOIRIE', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     let configDesc = "Parcelle en bande standard : façades latérales mitoyennes aveugles obligatoires.";
     if (parcelConfig === 'angle') configDesc = `Parcelle d'angle (Façades ${facade1}m et ${facade2 || 12}m) : pan coupé recommandé au carrefour.`;
@@ -408,7 +421,7 @@ exports.handler = async (event) => {
 
     // III. DESCENTE DE CHARGES THÉORIQUE
     currentPage.drawText('III. DESCENTE DE CHARGES THÉORIQUE SUR LE POTEAU LE PLUS CHARGÉ', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const descenteHeaders = ['Paramètre de Descente de Charges', 'Valeur Calculée', 'Hypothèse & Méthode de Calcul Générique'];
     const descenteRows = [
@@ -426,9 +439,11 @@ exports.handler = async (event) => {
       { label: "Contrôle d'exécution", text: "Exiger les procès-verbaux d'écrasement d'éprouvettes béton à 7 et 28 jours (résistance caractéristique visée fck ≥ 25 MPa)." }
     ]);
 
+    currentY -= 32;
+
     // IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION
     currentPage.drawText('IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const semelleHeaders = ['Élément de Dimensionnement', 'Prescription Déterminée', 'Justification Technique de Sécurité'];
     const semelleRows = [
@@ -439,12 +454,12 @@ exports.handler = async (event) => {
       ["Enrobage Minimal des Armatures", enrobageAciers, "Protection durable des aciers contre l'oxydation en climat chaud et salin"],
       ["Mode de Fondation Préconisé", modeFondation, "Système adapté pour prévenir les tassements différentiels de structure."]
     ];
-    drawTable(semelleHeaders, semelleRows, [155, 120, 240], [1]);
+    drawTable(semelleHeaders, semelleRows, [160, 115, 240], [1]);
 
     drawAdviceBox("CONSEILS D'INGÉNIERIE & VIGILANCE — FONDATIONS & GÉOTECHNIQUE (B7)", [
       { label: "Assise de fondation", text: `Semelle isolée carrée proposée de ${coteSemelleCarrer} m × ${coteSemelleCarrer} m (épaisseur H=${epaisseurSemelle} cm) calculée pour une portance admise de ${portanceSolBars} bars à ${location}.` },
-      { label: "Aléas géotechniques", text: "En cas de découverte d'argiles gonflantes ou de nappe phréatique haute lors des fouilles, adapter la profondeur d'ancrage avec des longrines de redressement renforcées." },
-      { label: "Béton de propreté & enrobage", text: `Béton de propreté dosé à 150 kg/m³ de 5 cm obligatoire en fond de fouille + cales béton pour assurer ${enrobageAciers} d'enrobage minimal des armatures.` }
+      { label: "Aléas géotechniques", text: "En cas de découverte d'argiles gonflantes ou de nappe phréatique haute lors des fouilles, il convient d'adapter la profondeur d'ancrage en prévoyant des longrines de redressement renforcées et un cuvelage adapté." },
+      { label: "Béton de propreté & enrobage", text: `Béton de propreté dosé à 150 kg/m³ (épaisseur 5 cm) obligatoire en fond de fouille + cales béton pour assurer ${enrobageAciersVal} d'enrobage minimal des armatures.` }
     ]);
 
     // =========================================================================
@@ -454,7 +469,7 @@ exports.handler = async (event) => {
 
     // V. RÉSERVE HYDRAULIQUE & ÉNERGIE
     currentPage.drawText('V. RÉSERVE HYDRAULIQUE (SEN\'EAU), PUISSANCE (SENELEC) & ASSAINISSEMENT', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const fluidesHeaders = ['Poste Fluide & Énergie', 'Dimensionnement Calculé', 'Prescription Technique d\'Ingénierie'];
     const fluidesRows = [
@@ -469,12 +484,14 @@ exports.handler = async (event) => {
     drawAdviceBox("CONSEILS D'INGÉNIERIE & VIGILANCE — FLUIDES, EAU & ÉNERGIE (B7)", [
       { label: "Sécurisation en eau potable", text: `Bâche tampon de ${bacheLitres.toLocaleString('fr-FR')} L avec surpresseur à vitesse variable indispensable pour pallier les coupures récurrentes de distribution d'eau à ${location}.` },
       { label: "Sécurité électrique Senelec", text: `Puissance préconisée de ${kvaEstimes} kVA (${kvaEstimes > 9 ? 'raccordement triphasé 380V' : 'monophasé'}) avec câble de section ${sectionCable} pour limiter les chutes de tension sous 3%.` },
-      { label: "Assainissement durable", text: sanitation === 'autonome' ? "Fosse toutes eaux étanche ventilée avec filtre pouzzolane + puisard d'infiltration ou lit d'épandage dimensionné à la perméabilité du sol." : "Assainissement collectif : vérifier la côte altimétrique du collecteur ONAS de rue avant pose du clapet anti-retour obligatoire." }
+      { label: "Assainissement durable", text: sanitation === 'autonome' ? "Fosse toutes eaux étanche ventilée avec filtre pouzzolane + puisard d'infiltration ou lit d'épandage dimensionné à la perméabilité du sol récepteur." : "Assainissement collectif : vérifier la côte altimétrique du collecteur ONAS de rue avant pose du clapet anti-retour obligatoire." }
     ]);
+
+    currentY -= 36;
 
     // VI. CONCEPTION BIOCLIMATIQUE SAHÉLIENNE
     currentPage.drawText('VI. CONCEPTION BIOCLIMATIQUE ADAPTÉE AU CLIMAT SÉNÉGALAIS', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const bioclimHeaders = ['Axe de Conception Bioclimatique', 'Solution Technique Retenue', 'Impact Confort & Facture Énergétique'];
     const bioclimRows = [
@@ -497,7 +514,7 @@ exports.handler = async (event) => {
 
     // VII. ESTIMATION PRÉVISIONNELLE MACRO-LOTS TCE
     currentPage.drawText('VII. ÉVALUATION FINANCIÈRE PRÉVISIONNELLE MACRO-LOTS TCE (VALEURS 2026)', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const budgetHeaders = ['Macro-Lot Technique TCE', 'Montant Prévisionnel', 'Ratio de Référence au m² SDP'];
     const budgetRows = [
@@ -516,9 +533,11 @@ exports.handler = async (event) => {
       { label: "Réserve de trésorerie", text: `Conserver une provision de sécurité de 7 % (${fmtCfa(pAleas)}) dédiée aux raccordements concessionnaires (Senelec, SEN'EAU, ONAS) et aléas de sol.` }
     ]);
 
+    currentY -= 30;
+
     // VIII. FEUILLE DE ROUTE ADMINISTRATIVE : TELEDAC & PERMIS
     currentPage.drawText('VIII. FEUILLE DE ROUTE ADMINISTRATIVE : PERMIS DE CONSTRUIRE & TELEDAC', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
-    currentY -= 13;
+    currentY -= 16;
 
     const teledacHeaders = ['Étape Administrative', 'Professionnel Compétent', 'Cadre Réglementaire & Bonnes Pratiques'];
     const teledacRows = [
@@ -534,6 +553,8 @@ exports.handler = async (event) => {
       { label: "Conformité Loi n° 2021-22", text: "Conformément à la Loi n° 2021-22 du 2 mars 2021 (art. 28, 31), le recours à un architecte inscrit à l'ODAS est obligatoire pour l'établissement du dossier de permis de construire." },
       { label: "Sécurité contractuelle (Arrêt n° 28)", text: "Conformément à la jurisprudence de l'arrêt n° 28 de la Cour suprême du 18/04/2018, consigner une retenue de garantie de 5 % jusqu'à réception définitive et valider chaque point d'arrêt d'ingénierie avant coulage." }
     ]);
+
+    currentY -= 20;
 
     // VISA TECHNIQUE ET AVERTISSEMENT LÉGAL
     const visaHeight = 44;

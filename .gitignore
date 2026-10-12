@@ -12,3 +12,9 @@ update_pdf.py
 new_esquisse.js
 new_pagination.js
 .tools/
+node_modules/
+scratch/
+prompt_full.txt
+scratch_*.pdf
+pdf-lib.min.js
+fontkit.umd.min.js
