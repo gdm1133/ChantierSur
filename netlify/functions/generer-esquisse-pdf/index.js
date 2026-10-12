@@ -302,7 +302,7 @@ exports.handler = async (event) => {
       });
 
       // Espace de respiration régulier sous le tableau avant le bloc de conseils
-      currentY -= 12;
+      currentY -= 16;
     };
 
     // Helper de bloc de conseils d'ingénierie personnalisés (B7)
@@ -352,7 +352,7 @@ exports.handler = async (event) => {
       });
 
       // Espace de respiration régulier après le bloc de conseils
-      currentY -= (boxHeight + 14);
+      currentY -= (boxHeight + 16);
     };
 
     // =========================================================================
@@ -451,23 +451,33 @@ exports.handler = async (event) => {
 
     currentY -= 20;
 
-    // IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION
+    // IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE
     currentPage.drawText('IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
     currentY -= 16;
+
+    const isSemelleIsolee = levels <= 3;
+    const dimensionLabel = isSemelleIsolee ? "Dimensions Semelle Carrée (A × B)" : "Emprise d'Assise sous Poteau / Radier";
+    const dimensionVal = isSemelleIsolee ? `${coteSemelleCarrer.replace('.', ',')} m × ${coteSemelleCarrer.replace('.', ',')} m` : `${coteSemelleCarrer.replace('.', ',')} m × ${coteSemelleCarrer.replace('.', ',')} m (équiv.)`;
+    const dimensionJustif = isSemelleIsolee ? "Section d'assise au sol sous le poteau central le plus chargé" : "Surface d'assise continue justifiant le passage en semelles filantes ou radier";
+    const epaisseurLabel = isSemelleIsolee ? "Épaisseur Minimale Semelle (H)" : "Épaisseur Minimale Radier / Semelles";
 
     const semelleHeaders = ['Élément de Dimensionnement', 'Prescription Déterminée', 'Justification Technique de Sécurité'];
     const semelleRows = [
       ["Portance Admissible du Sol (q_adm)", `${portanceSolBars.toString().replace('.', ',')} bars (${qAdmkNm2} kN/m²)`, "Valeur indicative de zone — essai géotechnique obligatoire avant exécution."],
       ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise.replace('.', ',')} m²`, "Formule d'équilibre de portance : S >= 1,05 × N_ser / q_adm"],
-      ["Dimensions Semelle Carrée (A × B)", `${coteSemelleCarrer.replace('.', ',')} m × ${coteSemelleCarrer.replace('.', ',')} m`, "Section d'assise au sol sous le poteau central le plus chargé"],
-      ["Épaisseur Minimale Semelle (H)", `${epaisseurSemelle} cm (d >= ${epaisseurSemelle - 5} cm)`, "Condition de rigidité : d >= (A - a)/4 pour écarter tout risque de poinçonnement"],
+      [dimensionLabel, dimensionVal, dimensionJustif],
+      [epaisseurLabel, `${epaisseurSemelle} cm (d >= ${epaisseurSemelle - 5} cm)`, "Condition de rigidité : d >= (A - a)/4 pour écarter tout risque de poinçonnement"],
       ["Enrobage Minimal des Armatures", enrobageAciers, "Protection durable des aciers contre l'oxydation en climat chaud et salin"],
       ["Mode de Fondation Préconisé", modeFondation, "Système adapté pour prévenir les tassements différentiels de structure."]
     ];
     drawTable(semelleHeaders, semelleRows, [160, 115, 240], [1]);
 
+    const conseilAssiseTexte = isSemelleIsolee
+      ? `Semelle isolée carrée proposée de ${coteSemelleCarrer.replace('.', ',')} m × ${coteSemelleCarrer.replace('.', ',')} m (épaisseur H=${epaisseurSemelle} cm) calculée pour une portance admise de ${portanceSolBars.toString().replace('.', ',')} bars à ${location}, solidarisée par un réseau de longrines de redressement.`
+      : `Pour cette élévation R+${levels} (effort de service N_ser = ${nSer} kN), le mode préconisé requiert des semelles filantes croisées ou un radier général (épaisseur minimale ${epaisseurSemelle} cm) assurant une répartition continue des charges sans risque de tassement différentiel pour une portance de ${portanceSolBars.toString().replace('.', ',')} bars à ${location}.`;
+
     drawAdviceBox("CONSEILS D'INGÉNIERIE & VIGILANCE — FONDATIONS & GÉOTECHNIQUE (B7)", [
-      { label: "Assise de fondation", text: `Semelle isolée carrée proposée de ${coteSemelleCarrer} m × ${coteSemelleCarrer} m (épaisseur H=${epaisseurSemelle} cm) calculée pour une portance admise de ${portanceSolBars} bars à ${location}.` },
+      { label: "Assise de fondation", text: conseilAssiseTexte },
       { label: "Aléas géotechniques", text: "En cas de découverte d'argiles gonflantes ou de nappe phréatique haute lors des fouilles, il convient d'adapter la profondeur d'ancrage en prévoyant des longrines de redressement renforcées et un cuvelage adapté." },
       { label: "Béton de propreté & enrobage", text: `Béton de propreté dosé à 150 kg/m³ (épaisseur 5 cm) obligatoire en fond de fouille + cales béton pour assurer ${enrobageAciersVal} d'enrobage minimal des armatures.` }
     ]);
