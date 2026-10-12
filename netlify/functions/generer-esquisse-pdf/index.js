@@ -250,19 +250,19 @@ exports.handler = async (event) => {
       const tableWidth = colWidths.reduce((a, b) => a + b, 0);
 
       // En-tête
-      currentPage.drawRectangle({ x: startX, y: currentY - 17, width: tableWidth, height: 17, color: COLOR_NAVY });
+      currentPage.drawRectangle({ x: startX, y: currentY - 18, width: tableWidth, height: 18, color: COLOR_NAVY });
       let currentX = startX;
       headers.forEach((h, i) => {
-        currentPage.drawText(h, { x: currentX + 6, y: currentY - 11.5, size: 7.0, font: boldFont, color: rgb(1,1,1) });
+        currentPage.drawText(h, { x: currentX + 6, y: currentY - 12, size: 7.0, font: boldFont, color: rgb(1,1,1) });
         currentX += colWidths[i];
       });
-      currentY -= 17;
+      currentY -= 18;
 
       // Lignes de données
       rows.forEach((row, rIdx) => {
         const wrappedCells = row.map((cellText, cIdx) => wrapText(String(cellText), colWidths[cIdx] - 12, cIdx === 0 ? boldFont : regularFont, 6.7));
         const maxLines = Math.max(...wrappedCells.map(c => c.length), 1);
-        const rowHeight = (maxLines * 9.5) + 5.5;
+        const rowHeight = (maxLines * 10.0) + 6.5;
 
         // Fond alterné
         if (rIdx % 2 === 1) {
@@ -285,7 +285,7 @@ exports.handler = async (event) => {
             }
             currentPage.drawText(lineText, {
               x: tx,
-              y: currentY - 9.5 - (lIdx * 9.5),
+              y: currentY - 9.8 - (lIdx * 10.0),
               size: 6.7,
               font: cellFont,
               color: cellColor
@@ -297,7 +297,8 @@ exports.handler = async (event) => {
         currentY -= rowHeight;
       });
 
-      currentY -= 14;
+      // Espace de respiration régulier sous le tableau avant le bloc de conseils
+      currentY -= 12;
     };
 
     // Helper de bloc de conseils d'ingénierie personnalisés (B7)
@@ -312,7 +313,7 @@ exports.handler = async (event) => {
         formattedLines.push(...lines);
       });
 
-      const boxHeight = 14 + (formattedLines.length * 8.5) + 6;
+      const boxHeight = 15 + (formattedLines.length * 9.0) + 6;
 
       currentPage.drawRectangle({
         x: startX,
@@ -326,7 +327,7 @@ exports.handler = async (event) => {
 
       currentPage.drawText(title, {
         x: startX + 8,
-        y: currentY - 10.5,
+        y: currentY - 11,
         size: 7.2,
         font: boldFont,
         color: COLOR_NAVY
@@ -335,13 +336,14 @@ exports.handler = async (event) => {
       formattedLines.forEach((ln, idx) => {
         currentPage.drawText(ln, {
           x: startX + 8,
-          y: currentY - 20 - (idx * 8.5),
+          y: currentY - 21 - (idx * 9.0),
           size: 6.6,
           font: regularFont,
           color: rgb(0.12, 0.18, 0.24)
         });
       });
 
+      // Espace de respiration régulier après le bloc de conseils
       currentY -= (boxHeight + 14);
     };
 
@@ -377,7 +379,7 @@ exports.handler = async (event) => {
       ["Surface Développée de Plancher (SDP)", `${sdpTotale} m²`, `Somme des planchers utiles sur R+${levels} (${totalLevelsCount} niveaux)`],
       ["Hauteur Totale du Bâtiment Projeté", `${hauteurFaitage} m`, "Dalle supérieure + acrotère de toiture terrasse de 1,20 m"],
       ["Largeur de la Voie Publique", `${streetWidth} mètres`, `Retrait d'alignement estimé : ${reculAlignement} m selon gabarit de voirie`],
-      ["Prospect Maximal de Référence (H ≤ 1,5L)", `${hauteurMaxGabarit} mètres`, "Seuil indicatif calculé selon les règles de prospect de voirie"],
+      ["Prospect Maximal de Référence (H <= 1,5L)", `${hauteurMaxGabarit} mètres`, "Seuil indicatif calculé selon les règles de prospect de voirie"],
       ["Places de Stationnement Indicatives", `${nPlacesStationnement} place(s)`, "Règle indicative de référence : 1 place par 100 m² de SDP utile"]
     ];
     drawTable(gabaritHeaders, gabaritRows, [160, 95, 260], [1]);
@@ -403,7 +405,7 @@ exports.handler = async (event) => {
     const mitoyenRows = [
       ["Configuration & Façade", parcelConfig.toUpperCase(), configDesc],
       ["Parcelles Voisines", neighbor === 'vide' ? "Terrains voisins nus" : "Constructions mitoyennes présentes", neighbor === 'vide' ? "Terrassement direct sans reprise en sous-œuvre préalable." : "Constat d'huissier contradictoire obligatoire avant excavation."],
-      ["Puits de Jour & Aération", "Minimum 12 m² (Largeur ≥ 3,00 m)", "Aération et éclairage direct naturels conformes aux règles sanitaires."],
+      ["Puits de Jour & Aération", "Minimum 12 m² (Largeur >= 3,00 m)", "Aération et éclairage direct naturels conformes aux règles sanitaires."],
       ["Évacuation Eaux Pluviales", "Égout intérieur à la parcelle", "Interdiction absolue de déversement sauvage sur la voie publique."]
     ];
     drawTable(mitoyenHeaders, mitoyenRows, [140, 140, 235], []);
@@ -436,10 +438,10 @@ exports.handler = async (event) => {
     drawAdviceBox("CONSEILS D'INGÉNIERIE & VIGILANCE — STRUCTURE & DESCENTE DE CHARGES (B7)", [
       { label: "Charge axiale prévisionnelle", text: `L'effort de service N_ser calculé à ${nSer} kN (${(nSer / 9.81).toFixed(1)} T) et N_u à ${nUltime} kN (${(nUltime / 9.81).toFixed(1)} T) pour votre élévation R+${levels} imposent des poteaux béton d'au moins 20×20 cm ou 20×30 cm.` },
       { label: "Qualité des matériaux", text: "Béton armé dosé impérativement à 350 kg/m³ de ciment classe 42.5 gâché à l'eau douce potable (interdiction absolue d'eau de forage saumâtre ou de sable marin non dessalé)." },
-      { label: "Contrôle d'exécution", text: "Exiger les procès-verbaux d'écrasement d'éprouvettes béton à 7 et 28 jours (résistance caractéristique visée fck ≥ 25 MPa)." }
+      { label: "Contrôle d'exécution", text: "Exiger les procès-verbaux d'écrasement d'éprouvettes béton à 7 et 28 jours (résistance caractéristique visée fck >= 25 MPa)." }
     ]);
 
-    currentY -= 32;
+    currentY -= 20;
 
     // IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION
     currentPage.drawText('IV. PRÉ-DIMENSIONNEMENT DE LA SEMELLE DE FONDATION & DIAGNOSTIC GÉOTECHNIQUE', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
@@ -448,9 +450,9 @@ exports.handler = async (event) => {
     const semelleHeaders = ['Élément de Dimensionnement', 'Prescription Déterminée', 'Justification Technique de Sécurité'];
     const semelleRows = [
       ["Portance Admissible du Sol (q_adm)", `${portanceSolBars.toString().replace('.', ',')} bars (${qAdmkNm2} kN/m²)`, "Valeur indicative de zone — essai géotechnique obligatoire avant exécution."],
-      ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise.replace('.', ',')} m²`, "Formule d'équilibre de portance : S ≥ 1,05 × N_ser / q_adm"],
+      ["Surface Portante Minimale Requise (S)", `${surfaceSemelleRequise.replace('.', ',')} m²`, "Formule d'équilibre de portance : S >= 1,05 × N_ser / q_adm"],
       ["Dimensions Semelle Carrée (A × B)", `${coteSemelleCarrer.replace('.', ',')} m × ${coteSemelleCarrer.replace('.', ',')} m`, "Section d'assise au sol sous le poteau central le plus chargé"],
-      ["Épaisseur Minimale Semelle (H)", `${epaisseurSemelle} cm (d ≥ ${epaisseurSemelle - 5} cm)`, "Condition de rigidité : d ≥ (A - a)/4 pour écarter tout risque de poinçonnement"],
+      ["Épaisseur Minimale Semelle (H)", `${epaisseurSemelle} cm (d >= ${epaisseurSemelle - 5} cm)`, "Condition de rigidité : d >= (A - a)/4 pour écarter tout risque de poinçonnement"],
       ["Enrobage Minimal des Armatures", enrobageAciers, "Protection durable des aciers contre l'oxydation en climat chaud et salin"],
       ["Mode de Fondation Préconisé", modeFondation, "Système adapté pour prévenir les tassements différentiels de structure."]
     ];
@@ -487,7 +489,7 @@ exports.handler = async (event) => {
       { label: "Assainissement durable", text: sanitation === 'autonome' ? "Fosse toutes eaux étanche ventilée avec filtre pouzzolane + puisard d'infiltration ou lit d'épandage dimensionné à la perméabilité du sol récepteur." : "Assainissement collectif : vérifier la côte altimétrique du collecteur ONAS de rue avant pose du clapet anti-retour obligatoire." }
     ]);
 
-    currentY -= 36;
+    currentY -= 20;
 
     // VI. CONCEPTION BIOCLIMATIQUE SAHÉLIENNE
     currentPage.drawText('VI. CONCEPTION BIOCLIMATIQUE ADAPTÉE AU CLIMAT SÉNÉGALAIS', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
@@ -533,7 +535,7 @@ exports.handler = async (event) => {
       { label: "Réserve de trésorerie", text: `Conserver une provision de sécurité de 7 % (${fmtCfa(pAleas)}) dédiée aux raccordements concessionnaires (Senelec, SEN'EAU, ONAS) et aléas de sol.` }
     ]);
 
-    currentY -= 30;
+    currentY -= 18;
 
     // VIII. FEUILLE DE ROUTE ADMINISTRATIVE : TELEDAC & PERMIS
     currentPage.drawText('VIII. FEUILLE DE ROUTE ADMINISTRATIVE : PERMIS DE CONSTRUIRE & TELEDAC', { x: 40, y: currentY, size: 9.2, font: boldFont, color: COLOR_NAVY });
@@ -554,7 +556,7 @@ exports.handler = async (event) => {
       { label: "Sécurité contractuelle (Arrêt n° 28)", text: "Conformément à la jurisprudence de l'arrêt n° 28 de la Cour suprême du 18/04/2018, consigner une retenue de garantie de 5 % jusqu'à réception définitive et valider chaque point d'arrêt d'ingénierie avant coulage." }
     ]);
 
-    currentY -= 20;
+    currentY -= 14;
 
     // VISA TECHNIQUE ET AVERTISSEMENT LÉGAL
     const visaHeight = 44;

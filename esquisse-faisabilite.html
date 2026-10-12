@@ -314,11 +314,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Surface totale parcelle (m²) <span class="text-red-500">*</span></label>
-              <input type="number" name="surface" id="esquisse-surface" value="200" min="20" max="10000" oninput="window.updateAllPrices()" onchange="window.updateAllPrices()" placeholder="Ex: 200" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <input type="number" name="surface" id="esquisse-surface" min="20" max="10000" oninput="window.updateAllPrices()" onchange="window.updateAllPrices()" placeholder="Ex : 200" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] placeholder-slate-400 focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Façade principale sur rue (m) <span class="text-red-500">*</span></label>
-              <input type="number" name="facade_width" value="10" min="5" max="60" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <input type="number" name="facade_width" min="5" max="60" step="0.5" placeholder="Ex : 10" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] placeholder-slate-400 focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Nombre de niveaux (Élévation)</label>
@@ -351,7 +351,7 @@
             
             <div id="facade-2-container" class="hidden">
               <label class="block text-xs font-bold text-[#0E2A47] uppercase mb-2">2nde Façade sur rue (m)</label>
-              <input type="number" name="facade_width_2" id="facade_width_2" value="15" min="5" max="60" step="0.5" class="w-full bg-[#F0F9FF] border border-[#1B4F72] rounded-xl px-4 py-3 text-[#0E2A47] focus:border-[#0E2A47] outline-none transition-all">
+              <input type="number" name="facade_width_2" id="facade_width_2" min="5" max="60" step="0.5" placeholder="Ex : 15" class="w-full bg-[#F0F9FF] border border-[#1B4F72] rounded-xl px-4 py-3 text-[#0E2A47] placeholder-slate-400 focus:border-[#0E2A47] outline-none transition-all">
             </div>
 
             <div>
@@ -377,11 +377,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Largeur de la voie publique (m)</label>
-              <input type="number" name="street_width" value="12" min="6" max="50" step="0.5" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <input type="number" name="street_width" min="6" max="50" step="0.5" placeholder="Ex : 12" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] placeholder-slate-400 focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Hauteur sous plafond souhaitée (m)</label>
-              <input type="number" name="ceiling_height" value="3.0" min="2.6" max="4.5" step="0.1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
+              <input type="number" name="ceiling_height" min="2.6" max="4.5" step="0.1" placeholder="Ex : 3.0" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-[#0E2A47] placeholder-slate-400 focus:bg-white focus:border-[#0E2A47] outline-none transition-all" required>
             </div>
           </div>
 
@@ -642,45 +642,15 @@
   <div class="bg-[#060B16] text-slate-400 text-xs border-t border-slate-800/80 py-6 px-4">
     <div class="max-w-7xl mx-auto space-y-4">
       
-      <!-- Ligne 1 : Badges Réglementaires & Sécurité -->
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/50 pb-4">
-        <div class="flex flex-wrap items-center gap-4 text-[11px]">
-          <!-- Statut opérationnel -->
-          <div class="flex items-center space-x-1.5 bg-[#0E2A47]/80 px-2.5 py-1 rounded-full border border-slate-800">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="text-slate-300 font-medium">Système Opérationnel</span>
-          </div>
-          
-          <!-- Badge Sécurité TLS -->
-          <div class="flex items-center space-x-1.5 text-slate-400">
-            <svg class="w-3.5 h-3.5 text-[#B8C9DB]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-            <span>Chiffrement Bancaire TLS 1.3 / 256-bit</span>
-          </div>
-
-          <!-- Badge Bureau d'études -->
-          <div class="hidden sm:flex items-center space-x-1.5 text-slate-400">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-            <span>bureau d'études numérique indépendant</span>
-          </div>
-        </div>
-
-        <!-- Partenaires & Protocoles Agréés -->
-        <div class="flex items-center space-x-3 text-[11px] text-slate-400">
-          <span>Paiements sécurisés : Wave, Orange Money, Visa</span>
-        </div>
-      </div>
-
-      <!-- Ligne 2 : Clause de Non-Substitut d'Architecte -->
+      <!-- Clause de Non-Substitut d'Architecte -->
       <p class="text-[10.5px] leading-relaxed text-slate-400 text-justify">
         <strong class="text-slate-300">Avertissement légal :</strong> ChantierSur.com est une plateforme technologique indépendante d'ingénierie, d'aide à la décision technique et de prédimensionnement structurel. Outil automatisé d'aide à la décision — sans certification. Les métrés, calculs et estimations financières générés ne constituent pas un plan d'architecture pour permis de construire et ne dispensent pas des visas obligatoires dévolus par la loi aux architectes inscrits à l'ODAS et aux bureaux de contrôle technique agréés pour les dépôts administratifs officiels.
       </p>
 
-      <!-- Ligne 3 : Copyright, Liens Légaux & Contact -->
-      <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
+      <!-- Copyright, Liens Légaux & Contact -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 pt-2 text-[11px] border-t border-slate-800/50">
         <div class="text-slate-400 text-center md:text-left">
           &copy; 2026 ChantierSur Technologies SARL. Tous droits réservés.
-          <span class="hidden sm:inline text-slate-700">|</span>
-          <span class="text-slate-400">Plateforme éditée au Sénégal & propulsée par Netlify Cloud.</span>
         </div>
 
         <!-- Liens Réglementaires -->
@@ -774,15 +744,18 @@
         const pane = document.getElementById('pane-' + paneId) || document.getElementById('pane-1');
         if (pane) {
           const fd = new FormData(pane);
-          surface = parseFloat(fd.get('surface'));
-          if (isNaN(surface)) {
+          surface = fd.get('surface');
+          if (surface === null || surface === undefined || surface === '') {
             const input = pane.querySelector('input[name="surface"]');
-            if (input) surface = parseFloat(input.value);
+            if (input) surface = input.value;
           }
         }
       }
+      if (surface === undefined || surface === null || String(surface).trim() === '') {
+        return null; // Cas "vide" : pas de prix calculé sur du vide
+      }
       surface = parseFloat(surface);
-      if (isNaN(surface) || surface <= 0) surface = 150; // Palier de base par défaut
+      if (isNaN(surface) || surface <= 0) return null;
 
       if (surface <= 150) return 149000;
       if (surface <= 300) return 174000;
@@ -803,7 +776,12 @@
       const payBtn = document.getElementById('pay-btn-1');
       const surDevisNotice = document.getElementById('sur-devis-notice-1');
       
-      if (priceResult === 'Sur devis') {
+      if (priceResult === null) {
+        const txt = '— FCFA';
+        if (priceValEl) priceValEl.textContent = txt;
+        if (priceConvEl) priceConvEl.textContent = '(Saisissez la surface)';
+        if (surDevisNotice) surDevisNotice.classList.add('hidden');
+      } else if (priceResult === 'Sur devis') {
         const txt = 'Sur devis — contactez-nous';
         if (priceValEl) priceValEl.textContent = txt;
         if (priceConvEl) priceConvEl.textContent = '';

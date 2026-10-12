@@ -48,22 +48,76 @@ function getAuditPrice(surface) {
   return 'Sur devis';
 }
 
+function normalizeLotLabel(raw) {
+  if (!raw) return 'SECOND ŒUVRE & DIVERS';
+  let s = String(raw).trim().replace(/^[-—\s]+/, '').toUpperCase();
+
+  // Mappages directs stricts
+  if (/^GROS\s*O?EUVRE(\s*&\s*STRUCTURE)?$/i.test(s)) {
+    return s.includes('STRUCTURE') ? 'GROS ŒUVRE & STRUCTURE' : 'GROS ŒUVRE';
+  }
+  if (/^REV[EÊ]TEMENTS?(\s*&\s*CARRELAGE)?$/i.test(s)) {
+    return s.includes('CARRELAGE') ? 'REVÊTEMENTS & CARRELAGE' : 'REVÊTEMENTS';
+  }
+  if (/^[EÉ]LECTRICIT[EÉ](\s*(\/|&)\s*FLUIDES)?$/i.test(s)) {
+    return s.includes('FLUIDE') ? 'ÉLECTRICITÉ & FLUIDES' : (s.includes('COURANT') ? 'ÉLECTRICITÉ & COURANTS FAIBLES' : 'ÉLECTRICITÉ');
+  }
+  if (/^MA[CÇ]ONNERIE(\s*&\s*[EÉ]L[EÉ]VATION)?$/i.test(s)) {
+    return (s.includes('ÉLÉVATION') || s.includes('ELEVATION')) ? 'MAÇONNERIE & ÉLÉVATION' : 'MAÇONNERIE';
+  }
+  if (/^[EÉ]TANCH[EÉ]IT[EÉ]$/i.test(s)) return 'ÉTANCHÉITÉ';
+  if (/^TERRASSEMENT$/i.test(s)) return 'TERRASSEMENT';
+  if (/^PLOMBERIE(\s*(\/|&)\s*SANITAIRE)?$/i.test(s)) {
+    return s.includes('SANITAIRE') ? 'PLOMBERIE & SANITAIRE' : (s.includes('ASSAINISSEMENT') ? 'PLOMBERIE & ASSAINISSEMENT' : 'PLOMBERIE');
+  }
+  if (/^MENUISERIE(\s*M[EÉ]TALLIQUE|\s*&\s*SERRURERIE)?$/i.test(s)) {
+    return s.includes('TALLIQUE') ? 'MENUISERIE MÉTALLIQUE' : (s.includes('SERRURERIE') ? 'MENUISERIE & SERRURERIE' : 'MENUISERIE');
+  }
+  if (/^PEINTURE(\s*&\s*FINITIONS)?$/i.test(s)) return 'PEINTURE & FINITIONS';
+  if (/^CHARPENTE(\s*&\s*TOITURE)?$/i.test(s)) return 'CHARPENTE & TOITURE';
+  if (/^SECOND\s*O?EUVRE(\s*&\s*DIVERS)?$/i.test(s)) return 'SECOND ŒUVRE & DIVERS';
+
+  // Remplacement UTF-8 pour tous libellés composés ou personnalisés
+  s = s.replace(/\bGROS\s+OEUVRE\b/g, 'GROS ŒUVRE')
+       .replace(/\bSECOND\s+OEUVRE\b/g, 'SECOND ŒUVRE')
+       .replace(/\bOEUVRE\b/g, 'ŒUVRE')
+       .replace(/\bELECTRICITE\b/g, 'ÉLECTRICITÉ')
+       .replace(/\bELECTRIQUE\b/g, 'ÉLECTRIQUE')
+       .replace(/\bREVETEMENT\b/g, 'REVÊTEMENT')
+       .replace(/\bREVETEMENTS\b/g, 'REVÊTEMENTS')
+       .replace(/\bMACONNERIE\b/g, 'MAÇONNERIE')
+       .replace(/\bELEVATION\b/g, 'ÉLÉVATION')
+       .replace(/\bETANCHEITE\b/g, 'ÉTANCHÉITÉ')
+       .replace(/\bMETALLIQUE\b/g, 'MÉTALLIQUE')
+       .replace(/\bGENERAL\b/g, 'GÉNÉRAL')
+       .replace(/\bGENERALE\b/g, 'GÉNÉRALE')
+       .replace(/\bEVACUATION\b/g, 'ÉVACUATION')
+       .replace(/\bAERATION\b/g, 'AÉRATION')
+       .replace(/\bEQUIPEMENT\b/g, 'ÉQUIPEMENT')
+       .replace(/\bEQUIPEMENTS\b/g, 'ÉQUIPEMENTS')
+       .replace(/\bBATIMENT\b/g, 'BÂTIMENT')
+       .replace(/\bAMENAGEMENT\b/g, 'AMÉNAGEMENT')
+       .replace(/\bAMENAGEMENTS\b/g, 'AMÉNAGEMENTS');
+
+  return s;
+}
+
 function categorizeLot(rawLot, designation) {
   const des = (designation || '').toLowerCase();
   const rLot = (rawLot || '').trim().replace(/^[-—\s]+/, '');
 
   if (rLot && rLot.toUpperCase() !== 'LOT GÉNÉRAL' && rLot.toUpperCase() !== 'SANS LOT PRÉCISÉ' && rLot !== '-') {
-    return rLot.toUpperCase();
+    return normalizeLotLabel(rLot);
   }
 
   // Classification intelligente par mots-clés étendue (ne bascule jamais en Lot Général)
   if (/fouille|terrassement|d[eé]blai|remblai|d[eé]capage|plateforme|[eé]vacuation.*gravois|compactage/.test(des)) return 'TERRASSEMENT';
-  if (/fondation|b[eé]ton|ferraillage|armature|semelle|longrine|poteau|poutre|dalle|radier|cha[iî]nage|coffrage|vibrage|acier|ha\d|treillis|b[eé]ton arm[eé]/.test(des)) return 'GROS ŒUVRE & STRUCTURE';
+  if (/fondation|b[eé]ton|ferraillage|armature|semelle|longrine|poteau|poutre|dalle|radier|cha[iî]nage|coffrage|vibrage|acier|ha\d|treillis|b[eé]ton arm[eé]/.test(des)) return 'GROS ŒUVRE';
   if (/ma[cç]onnerie|agglos|parpaing|brique|enduit|mur|cloison|cr[eé]pissage|jambage|linteau/.test(des)) return 'MAÇONNERIE & ÉLÉVATION';
-  if (/carrelage|fa[iï]ence|chape|plinthe|rev[eê]tement|marbre|gr[eè]s|mosa[iï]que/.test(des)) return 'REVÊTEMENTS & CARRELAGE';
+  if (/carrelage|fa[iï]ence|chape|plinthe|rev[eê]tement|marbre|gr[eè]s|mosa[iï]que/.test(des)) return 'REVÊTEMENTS';
   if (/peinture|badigeon|vernis|impression|acrylique|vinylique|laque|pon[cç]age/.test(des)) return 'PEINTURE & FINITIONS';
   if (/plomberie|sanitaire|wc|lavabo|[eé]vier|vidange|tuyau|pvc|fosse|puisard|robinet|mitigeur|regard|siphon|alimentation.*eau|[eé]vacuation/.test(des)) return 'PLOMBERIE & ASSAINISSEMENT';
-  if (/([eé]lectricit[eé]|c[aâ]ble|disjoncteur|tableau|luminaire|prise|spot|gainage|interrupteur|fil\s|terre|barrette)/.test(des)) return 'ÉLECTRICITÉ & COURANTS FAIBLES';
+  if (/([eé]lectricit[eé]|c[aâ]ble|disjoncteur|tableau|luminaire|prise|spot|gainage|interrupteur|fil\s|terre|barrette)/.test(des)) return 'ÉLECTRICITÉ';
   if (/menuiserie|porte|fen[eê]tre|baie|ch[aâ]ssis|serrure|vitrage|volet|alu|aluminium|ferronnerie|garde-corps/.test(des)) return 'MENUISERIE & SERRURERIE';
   if (/[eé]tanch[eé]it[eé]|forme de pente|chape de pente|roofing|derbigum|[eé]tanche|imperm[eé]abilisation|sika|calandrite/.test(des)) return 'ÉTANCHÉITÉ';
   if (/charpente|toiture|couverture|bac alu|tuile|panne|chevron|liteau|t[oô]le/.test(des)) return 'CHARPENTE & TOITURE';
@@ -181,6 +235,39 @@ exports.handler = async (event) => {
   const isRatioAbnormal = ratioM2 !== null && ratioM2 > 1000000;
   const prixEtude = getAuditPrice(surfaceTerrain);
 
+  // Source unique de vérité pour NINEA et RCCM (affichage ET détection)
+  const rawNinea = (data.identification && (data.identification.ninea || data.identification.entreprise?.ninea))
+    || (data.entreprise && (data.entreprise.ninea || data.entreprise.identification?.ninea))
+    || (data.devis && (data.devis.ninea || data.devis.entreprise?.ninea))
+    || data.ninea
+    || data.entreprise_ninea
+    || data.company_ninea
+    || data.devis_ninea
+    || '';
+
+  const rawRccm = (data.identification && (data.identification.rccm || data.identification.entreprise?.rccm))
+    || (data.entreprise && (data.entreprise.rccm || data.entreprise.identification?.rccm))
+    || (data.devis && (data.devis.rccm || data.devis.entreprise?.rccm))
+    || data.rccm
+    || data.entreprise_rccm
+    || data.company_rccm
+    || data.devis_rccm
+    || '';
+
+  const cleanNinea = String(rawNinea || '').trim();
+  const cleanRccm = String(rawRccm || '').trim();
+
+  const isPlaceholderVal = (v) => !v || ['non fourni', 'non mentionné', 'non precise', 'non précisé', 'n/a', '-', 'null', 'undefined'].includes(v.toLowerCase());
+
+  const hasNinea = !isPlaceholderVal(cleanNinea);
+  const hasRccm = !isPlaceholderVal(cleanRccm);
+
+  const ninea = hasNinea ? cleanNinea : 'Non fourni';
+  const rccm = hasRccm ? cleanRccm : 'Non fourni';
+
+  // L'anomalie « Identification Légale Incomplète » ne se lève que si NINEA et RCCM sont vraiment absents de toutes les sources
+  const hasLegalId = hasNinea || hasRccm;
+
   // ANOMALIES & ACTIONS
   let anomalies = [];
   let causesBloquantes = [];
@@ -221,7 +308,7 @@ exports.handler = async (event) => {
     }
   }
 
-  if (!data.identification?.ninea && !data.identification?.rccm && !data.identification?.entreprise?.ninea) {
+  if (!hasLegalId) {
     anomalies.push({
       titre: 'Identification Légale Incomplète',
       constat: 'Le NINEA et le RCCM de l\'entreprise soumissionnaire ne sont pas mentionnés.',
@@ -492,8 +579,6 @@ exports.handler = async (event) => {
     const entNom = data.identification?.entrepriseNom || data.identification?.entreprise?.nom || data.company_name || 'Entreprise soumissionnaire';
     const devisDate = data.devis?.date || data.devis_date || 'Non précisée';
     const auditDate = new Date().toLocaleDateString('fr-FR');
-    const ninea = data.identification?.ninea || data.identification?.entreprise?.ninea || data.ninea || 'Non fourni';
-    const rccm = data.identification?.rccm || data.identification?.entreprise?.rccm || data.rccm || 'Non fourni';
     const refStr = data.dossier || data.reference || ('CS-AUDIT-' + Date.now());
 
     currentPage.drawText(`Référence du dossier : ${refStr}   |   Date d'audit : ${auditDate}   |   Tarif de l'étude : ${typeof prixEtude === 'number' ? fmtCfa(prixEtude) : prixEtude}`, { x: 40, y: currentY, size: 8, font: regularFont });
