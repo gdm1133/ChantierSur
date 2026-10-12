@@ -183,13 +183,22 @@ exports.handler = async (event) => {
     recordOrderToken(refCommand, downloadToken, service);
 
     let origin = 'https://chantiersur.com';
-    if (data.origin && typeof data.origin === 'string' && data.origin.startsWith('http')) {
+    if (data.origin && typeof data.origin === 'string' && (data.origin.startsWith('https://') || data.origin.startsWith('http://'))) {
       origin = data.origin.replace(/\/+$/, '');
-    } else if (event.headers && event.headers.origin) {
-      origin = event.headers.origin;
+    } else if (event.headers && event.headers.origin && (event.headers.origin.startsWith('https://') || event.headers.origin.startsWith('http://'))) {
+      origin = event.headers.origin.replace(/\/+$/, '');
     } else if (event.headers && event.headers.referer) {
       try { origin = new URL(event.headers.referer).origin; } catch(_) {}
     }
+    // En production ou si le nom d'hôte inclut chantiersur.com, forcer strictement https://chantiersur.com
+    if (process.env.PAYTECH_ENV === 'production' || process.env.NODE_ENV === 'production' || origin.includes('chantiersur.com')) {
+      origin = 'https://chantiersur.com';
+    }
+
+    const pagePath = service === 'audit' ? 'audit-devis.html' : 'esquisse-faisabilite.html';
+    const successUrl = `${origin}/${pagePath}?ref=${encodeURIComponent(refCommand)}`;
+    const cancelUrl = `${origin}/${pagePath}?payment=cancel`;
+    const ipnUrl = process.env.PAYTECH_IPN_URL || 'https://chantiersur.com/.netlify/functions/paytech-ipn';
 
     const payload = {
       item_name: `ChantierSur — Étude ${service === 'audit' ? 'Audit Devis' : 'Esquisse & Faisabilité'}`,
@@ -198,9 +207,13 @@ exports.handler = async (event) => {
       ref_command: refCommand,
       command_name: `Paiement ${service} (${surface} m²)`,
       env: process.env.PAYTECH_ENV || 'test',
-      ipn_url: process.env.PAYTECH_IPN_URL || 'https://chantiersur.com/.netlify/functions/paytech-ipn',
-      success_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?download_token=${encodeURIComponent(downloadToken)}&ref=${refCommand}&service=${service}`,
-      cancel_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?payment=cancel`,
+      ipn_url: ipnUrl,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      // Alias pour compatibilité exhaustive avec PayTech et passerelles partenaires (Wave, Orange Money)
+      ipnUrl: ipnUrl,
+      successRedirectUrl: successUrl,
+      cancelRedirectUrl: cancelUrl,
       custom_field: JSON.stringify({
         service,
         client_name: data.client_name,

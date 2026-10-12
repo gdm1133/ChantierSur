@@ -438,7 +438,7 @@ exports.handler = async (event) => {
 
     const drawFooter = (page, pageIndex) => {
       page.drawRectangle({ x: 40, y: 35, width: width - 80, height: 0.8, color: COLOR_GRAY });
-      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — 16 Route de Mont-Rolland, Thiès, Sénégal.", { x: 40, y: 24, size: 6.8, font: regularFont, color: COLOR_SLATE });
+      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — Contact : admin@chantiersur.com", { x: 40, y: 24, size: 6.8, font: regularFont, color: COLOR_SLATE });
       page.drawText("Audit d'ingénierie et contre-expertise contractuelle — Document délivré au maître d'ouvrage.", { x: 40, y: 14, size: 6.8, font: boldFont, color: COLOR_NAVY });
       page.drawText(`Page ${pageIndex + 1} sur ${pages.length}`, { x: width - 85, y: 19, size: 7.5, font: boldFont, color: COLOR_NAVY });
     };
@@ -581,7 +581,7 @@ exports.handler = async (event) => {
     const auditDate = new Date().toLocaleDateString('fr-FR');
     const refStr = data.dossier || data.reference || ('CS-AUDIT-' + Date.now());
 
-    currentPage.drawText(`Référence du dossier : ${refStr}   |   Date d'audit : ${auditDate}   |   Tarif de l'étude : ${typeof prixEtude === 'number' ? fmtCfa(prixEtude) : prixEtude}`, { x: 40, y: currentY, size: 8, font: regularFont });
+    currentPage.drawText(`Référence du dossier : ${refStr}   |   Date d'audit : ${auditDate}   |   Tarif de l'étude : ${typeof prixEtude === 'number' ? fmtCfa(prixEtude) : prixEtude}   |   Contact : admin@chantiersur.com`, { x: 40, y: currentY, size: 7.6, font: regularFont });
     currentY -= 14.5;
     currentPage.drawText(`Maître d'ouvrage (Client) : ${clientNom}   |   Entreprise auditée : ${entNom}`, { x: 40, y: currentY, size: 8, font: boldFont, color: COLOR_NAVY });
     currentY -= 14.5;

@@ -233,7 +233,7 @@ exports.handler = async (event) => {
 
     const drawFooter = (page, pageIndex) => {
       page.drawRectangle({ x: 40, y: 35, width: width - 80, height: 0.8, color: COLOR_GRAY });
-      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — 16 Route de Mont-Rolland, Thiès, Sénégal.", { x: 40, y: 24, size: 6.8, font: regularFont, color: COLOR_SLATE });
+      page.drawText("ChantierSur.com — Bureau d'études Numérique Indépendant — Contact : admin@chantiersur.com", { x: 40, y: 24, size: 6.8, font: regularFont, color: COLOR_SLATE });
       page.drawText("Étude d'ingénierie préliminaire & cadrage technique indépendant — Usage exclusif du demandeur.", { x: 40, y: 14, size: 6.8, font: boldFont, color: COLOR_NAVY });
       page.drawText(`Page ${pageIndex + 1} sur 4`, { x: width - 85, y: 19, size: 7.5, font: boldFont, color: COLOR_NAVY });
     };
@@ -362,7 +362,7 @@ exports.handler = async (event) => {
     currentPage.drawText(`Maître d'Ouvrage : ${clientNom}   |   Localisation : ${location}`, { x: 50, y: currentY - 47, size: 8.2, font: boldFont, color: COLOR_NAVY });
     currentPage.drawText(`Typologie : ${usage.toUpperCase()} (${standing.toUpperCase()})   |   Statut Foncier : ${landStatus} (Lot : ${lotNumber})`, { x: 50, y: currentY - 61, size: 7.8, font: regularFont });
     currentPage.drawText(`Superficie Parcelle : ${surface} m²   |   Élévation : R+${levels} (${totalLevelsCount} niveaux)   |   SDP Estimée : ${sdpTotale} m²`, { x: 50, y: currentY - 75, size: 8.2, font: boldFont, color: COLOR_NAVY });
-    currentPage.drawText(`Émis à : 16 Route de Mont-Rolland, Thiès, Sénégal   |   Contact : ${clientPhone}`, { x: 50, y: currentY - 89, size: 7.2, font: regularFont, color: COLOR_SLATE });
+    currentPage.drawText('Émis à : 16 Route de Mont-Rolland, Thiès, Sénégal   |   Contact : admin@chantiersur.com', { x: 50, y: currentY - 89, size: 7.2, font: regularFont, color: COLOR_SLATE });
 
     currentY -= (ficheHeight + 22);
 
