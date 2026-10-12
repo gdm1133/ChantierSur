@@ -294,10 +294,10 @@ exports.handler = async (event) => {
   let hasBloquant = causesBloquantes.length > 0 || Math.abs(ecartGlobalHT) > 100000 || cAcompte > 30;
   let hasMajeur = anomaliesArith.length > 0 || anomalies.length > 2;
 
-  let verdictCode = "🟢 CONFORME";
+  let verdictCode = "CONFORME";
   let verdictColor = COLOR_GREEN;
-  if (hasBloquant) { verdictCode = "🔴 NE PAS SIGNER EN L'ÉTAT"; verdictColor = COLOR_RED; }
-  else if (hasMajeur) { verdictCode = "🟡 À CLARIFIER AVANT SIGNATURE"; verdictColor = COLOR_AMBER; }
+  if (hasBloquant) { verdictCode = "NE PAS SIGNER EN L'ÉTAT"; verdictColor = COLOR_RED; }
+  else if (hasMajeur) { verdictCode = "À CLARIFIER AVANT SIGNATURE"; verdictColor = COLOR_AMBER; }
 
   // CRÉATION DU DOCUMENT PDF
   try {
@@ -590,7 +590,7 @@ exports.handler = async (event) => {
 
     let topPctTotal = totalHTIndiqueDevis > 0 ? (topSum / totalHTIndiqueDevis * 100).toFixed(1).replace('.', ',') + ' %' : '0 %';
     currentY -= 4;
-    currentPage.drawText(`💡 Ces postes concentrent ${topPctTotal} de l'enveloppe globale : concentrez-y vos demandes de rabais et de vérification.`, { x: 40, y: currentY, size: 7.5, font: boldFont, color: COLOR_NAVY });
+    currentPage.drawText(`Note stratégique : Ces postes concentrent ${topPctTotal} de l'enveloppe globale : concentrez-y vos demandes de rabais et de vérification.`, { x: 40, y: currentY, size: 7.5, font: boldFont, color: COLOR_NAVY });
     currentY -= 16;
 
     // Conseil personnalisé après Tableau III
