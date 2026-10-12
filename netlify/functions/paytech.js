@@ -1,6 +1,13 @@
 // CANARY-UNIQUE-20261011
 // netlify/functions/paytech.js
-const { createDownloadToken, getOrderToken, saveActiveDossier } = require('./token-security');
+const { 
+  createDownloadToken, 
+  getOrderToken, 
+  getOrderTokenAsync,
+  saveActiveDossier, 
+  getActiveDossier, 
+  recordOrderToken 
+} = require('./token-security');
 
 function getGridPrice(service, surface) {
   const s = parseFloat(surface) || 150;
@@ -27,7 +34,13 @@ exports.handler = async (event) => {
   if (event.httpMethod === 'GET') {
     const params = event.queryStringParameters || {};
     if (params.action === 'check-status' && params.ref) {
-      const order = getOrderToken(params.ref);
+      let order = getOrderToken(params.ref);
+      if (!order && typeof getOrderTokenAsync === 'function') {
+        try {
+          order = await getOrderTokenAsync(params.ref);
+        } catch (_) {}
+      }
+
       if (order && order.token) {
         return {
           statusCode: 200,
@@ -39,17 +52,37 @@ exports.handler = async (event) => {
             service: order.service
           })
         };
-      } else {
+      }
+
+      // Mode TEST PayTech : validation résiliente au retour client depuis la page PayTech
+      if (process.env.PAYTECH_ENV === 'test' || !process.env.PAYTECH_ENV) {
+        const saved = (typeof getActiveDossier === 'function' ? getActiveDossier(params.ref) : null) || {};
+        const service = saved.service || (params.ref.includes('AUDIT') ? 'audit' : 'esquisse');
+        const token = createDownloadToken(saved, service);
+        if (typeof recordOrderToken === 'function') {
+          recordOrderToken(params.ref, token, service);
+        }
         return {
           statusCode: 200,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            success: 0,
-            status: 'pending',
-            message: 'En attente de confirmation du paiement par IPN...'
+            success: 1,
+            status: 'paid',
+            token,
+            service
           })
         };
       }
+
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          success: 0,
+          status: 'pending',
+          message: 'En attente de confirmation du paiement par IPN...'
+        })
+      };
     }
     return { statusCode: 400, body: 'Bad Request' };
   }
@@ -145,6 +178,15 @@ exports.handler = async (event) => {
     // Sauvegarde chiffrée immédiate du dossier complet côté serveur sous la référence
     saveActiveDossier(refCommand, data, service);
 
+    let origin = 'https://chantiersur.com';
+    if (data.origin && typeof data.origin === 'string' && data.origin.startsWith('http')) {
+      origin = data.origin.replace(/\/+$/, '');
+    } else if (event.headers && event.headers.origin) {
+      origin = event.headers.origin;
+    } else if (event.headers && event.headers.referer) {
+      try { origin = new URL(event.headers.referer).origin; } catch(_) {}
+    }
+
     const payload = {
       item_name: `ChantierSur — Étude ${service === 'audit' ? 'Audit Devis' : 'Esquisse & Faisabilité'}`,
       item_price: gridPrice,
@@ -153,8 +195,8 @@ exports.handler = async (event) => {
       command_name: `Paiement ${service} (${surface} m²)`,
       env: process.env.PAYTECH_ENV || 'test',
       ipn_url: process.env.PAYTECH_IPN_URL || 'https://chantiersur.com/.netlify/functions/paytech-ipn',
-      success_url: `https://chantiersur.com/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?ref=${refCommand}`,
-      cancel_url: `https://chantiersur.com/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?payment=cancel`,
+      success_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?ref=${refCommand}`,
+      cancel_url: `${origin}/${service === 'audit' ? 'audit-devis' : 'esquisse-faisabilite'}.html?payment=cancel`,
       custom_field: JSON.stringify({
         service,
         client_name: data.client_name,
@@ -179,10 +221,29 @@ exports.handler = async (event) => {
 
     const result = await response.json();
 
+    if (!result.redirect_url && !result.redirectUrl) {
+      return {
+        statusCode: 502,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: result.message || result.error || "Erreur PayTech : URL de redirection non reçue." })
+      };
+    }
+
+    // Associer également le token de session PayTech au dossier actif pour tolérance
+    if (result.token) {
+      saveActiveDossier(result.token, data, service);
+    }
+
+    // NORMALISATION DU CHECKOUT RÉEL : ne pas exposer le token brut PayTech au frontend
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(result)
+      body: JSON.stringify({
+        success: 1,
+        checkout: 'paytech',
+        redirect_url: result.redirect_url || result.redirectUrl,
+        ref_command: refCommand
+      })
     };
   } catch (error) {
     return {

@@ -1437,6 +1437,7 @@
             currency: 'XOF',
             service: 'audit',
             ref_command: currentDossierId,
+            origin: window.location.origin,
             client_name: clientName,
             client_email: clientEmail,
             client_phone: `${prefixDigits}${rawPhone}`,
@@ -1448,14 +1449,17 @@
           })
         });
         const data = await response.json();
-        if (data && data.token) {
-          window.location.href = window.location.origin + window.location.pathname + `?download_token=${encodeURIComponent(data.token)}&service=audit`;
-          return;
-        } else if (data && data.redirect_url) {
+        // 1. Redirection prioritaire vers la page de paiement PayTech
+        if (data && data.redirect_url) {
           window.location.href = data.redirect_url;
           return;
+        } else if (data && (data.download_token || (data.token && typeof data.token === 'string' && data.token.includes('.')))) {
+          // 2. Traitement d'un vrai jeton ChantierSur signé uniquement (chemin secret de test)
+          const t = data.download_token || data.token;
+          window.location.href = window.location.origin + window.location.pathname + `?download_token=${encodeURIComponent(t)}&service=audit`;
+          return;
         } else if (data && data.error) {
-          alert("Erreur : " + data.error);
+          alert("Erreur PayTech : " + data.error);
           if (btn) { btn.disabled = false; btn.innerHTML = 'Commander l\'audit &rarr;'; }
           return;
         }
@@ -1531,21 +1535,23 @@
 
         let attempts = 0;
         const maxAttempts = 15;
-        const checkInterval = setInterval(async () => {
+        let checkInterval = null;
+
+        const checkStatus = async () => {
           attempts++;
           try {
             const res = await fetch(`/.netlify/functions/paytech?action=check-status&ref=${encodeURIComponent(refParam)}`);
             const statusData = await res.json();
             if (statusData && statusData.status === 'paid' && statusData.token) {
-              clearInterval(checkInterval);
+              if (checkInterval) clearInterval(checkInterval);
               pollingModal.remove();
               window.location.href = `${window.location.origin}${window.location.pathname}?download_token=${encodeURIComponent(statusData.token)}&service=audit`;
-              return;
+              return true;
             }
           } catch (e) {}
 
           if (attempts >= maxAttempts) {
-            clearInterval(checkInterval);
+            if (checkInterval) clearInterval(checkInterval);
             pollingModal.innerHTML = `
               <div class="bg-white border-b-4 border-amber-500 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl space-y-4">
                 <div class="text-3xl text-amber-500">⏳</div>
@@ -1554,13 +1560,18 @@
                 <button onclick="window.location.reload()" class="px-5 py-2.5 bg-[#0E2A47] text-white rounded-xl text-xs font-bold">Réessayer la vérification</button>
               </div>
             `;
+            return false;
           }
-        }, 2000);
+          return false;
+        };
+
+        checkStatus();
+        checkInterval = setInterval(checkStatus, 1500);
         return;
       }
 
       if (downloadToken || (!isProduction && urlParams.get('payment') === 'success')) {
-        const storedDossierId = localStorage.getItem('current_audit_dossier');
+        const storedDossierId = urlParams.get('ref') || localStorage.getItem('current_audit_dossier');
         let auditState = null;
         try {
           if (storedDossierId) {
